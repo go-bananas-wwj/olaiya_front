@@ -8,6 +8,7 @@ from sqlalchemy import func, or_, select
 from sqlalchemy.orm import Session
 
 from .db import SessionLocal, init_db
+from .models.evidence import Evidence
 from .models.ingredient import EfficacyAssertion, Ingredient
 from .models.product import Product, ProductClaim, ProductIngredient
 
@@ -41,8 +42,25 @@ def _assertion_dict(a: EfficacyAssertion) -> dict:
     }
 
 
+@app.get("/api/stats")
+def stats(db: Session = Depends(get_db)):
+    """全库统计：前端首页/页脚的规模展示。"""
+    return {
+        "products": db.query(Product).count(),
+        "brands": db.query(func.count(func.distinct(Product.brand))).scalar(),
+        "ingredients": db.query(Ingredient).count(),
+        "ingredients_with_evidence": db.query(
+            func.count(func.distinct(EfficacyAssertion.ingredient_id))).scalar(),
+        "product_ingredients": db.query(ProductIngredient).count(),
+        "claims": db.query(ProductClaim).count(),
+        "assertions": db.query(EfficacyAssertion).count(),
+        "evidence": db.query(Evidence).count(),
+    }
+
+
 @app.get("/api/ingredients")
-def list_ingredients(q: str | None = None, db: Session = Depends(get_db)):
+def list_ingredients(q: str | None = None, has_evidence: str | None = None,
+                     db: Session = Depends(get_db)):
     stmt = select(Ingredient).order_by(Ingredient.id)
     if q:
         like = f"%{q}%"
@@ -50,8 +68,17 @@ def list_ingredients(q: str | None = None, db: Session = Depends(get_db)):
             or_(Ingredient.cn_name.like(like), Ingredient.inci_name.like(like))
         ).order_by(Ingredient.id)
     rows = db.execute(stmt).scalars().all()
-    return [{"id": i.id, "inci_name": i.inci_name, "cn_name": i.cn_name, "cas_no": i.cas_no}
-            for i in rows]
+    out = []
+    for i in rows:
+        # 断言计数：has_evidence 过滤与 assertion_count 字段共用
+        cnt = db.query(EfficacyAssertion).filter_by(ingredient_id=i.id).count()
+        if has_evidence == "true" and cnt == 0:
+            continue
+        if has_evidence == "false" and cnt > 0:
+            continue
+        out.append({"id": i.id, "inci_name": i.inci_name, "cn_name": i.cn_name,
+                    "cas_no": i.cas_no, "assertion_count": cnt})
+    return out
 
 
 @app.get("/api/ingredients/{ingredient_id}")
@@ -62,6 +89,17 @@ def ingredient_detail(ingredient_id: int, db: Session = Depends(get_db)):
     assertions = (db.query(EfficacyAssertion)
                   .filter_by(ingredient_id=ing.id)
                   .order_by(EfficacyAssertion.id).all())
+    # 含该成分的产品（经 ProductIngredient 关联去重，按产品 id 排序）
+    links = (db.query(ProductIngredient)
+             .filter_by(ingredient_id=ing.id)
+             .order_by(ProductIngredient.product_id).all())
+    products = []
+    seen_product_ids = set()
+    for l in links:
+        if l.product_id in seen_product_ids:
+            continue
+        seen_product_ids.add(l.product_id)
+        products.append({"id": l.product.id, "name": l.product.name, "brand": l.product.brand})
     return {
         "id": ing.id,
         "inci_name": ing.inci_name,
@@ -76,6 +114,7 @@ def ingredient_detail(ingredient_id: int, db: Session = Depends(get_db)):
             "sccs_limit": ing.sccs_limit,
         },
         "assertions": [_assertion_dict(a) for a in assertions],
+        "products": products,
     }
 
 
@@ -93,23 +132,33 @@ def _claim_dict(c: ProductClaim) -> dict:
 
 
 @app.get("/api/products")
-def list_products(q: str | None = None, db: Session = Depends(get_db)):
-    stmt = select(Product).order_by(Product.brand, Product.id)
+def list_products(q: str | None = None, brand: str | None = None,
+                  has_claims: str | None = None, limit: int = 0,
+                  db: Session = Depends(get_db)):
+    stmt = select(Product)
     if q:
         like = f"%{q}%"
-        stmt = (select(Product)
-                .where(or_(Product.name.like(like), Product.brand.like(like)))
-                .order_by(Product.brand, Product.id))
+        stmt = stmt.where(or_(Product.name.like(like), Product.brand.like(like)))
+    if brand:
+        stmt = stmt.where(Product.brand == brand)  # 品牌精确匹配
+    stmt = stmt.order_by(Product.brand, Product.id)
     rows = db.execute(stmt).scalars().all()
     out = []
     for p in rows:
         claim_count = db.query(ProductClaim).filter_by(product_id=p.id).count()
+        # 按是否存在功效宣称过滤
+        if has_claims == "true" and claim_count == 0:
+            continue
+        if has_claims == "false" and claim_count > 0:
+            continue
         ing_count = db.query(ProductIngredient).filter_by(product_id=p.id).count()
         out.append({
             "id": p.id, "name": p.name, "brand": p.brand,
             "nmpa_id": p.nmpa_id, "claim_count": claim_count,
             "ingredient_count": ing_count,
         })
+    if limit > 0:  # 0 = 不限
+        out = out[:limit]
     return out
 
 
@@ -124,6 +173,10 @@ def product_detail(product_id: int, db: Session = Depends(get_db)):
     claims = (db.query(ProductClaim)
               .filter_by(product_id=p.id)
               .order_by(ProductClaim.id).all())
+    # 有功效断言的成分 id 集合：前端据此标记「有证据的成分」
+    ids_with_evidence = {
+        row[0] for row in db.query(EfficacyAssertion.ingredient_id).distinct().all()
+    }
     return {
         "id": p.id,
         "name": p.name,
@@ -133,12 +186,14 @@ def product_detail(product_id: int, db: Session = Depends(get_db)):
         "price_current": p.price_current,
         "note": p.note,
         "ingredients": [{
+            "ingredient_id": l.ingredient_id,
             "cn_name": l.ingredient.cn_name,
             "inci_name": l.ingredient.inci_name,
             "position": l.position,
             "safety_risk": l.safety_risk,
             "is_active": l.is_active,
             "purpose": l.purpose,
+            "has_evidence": l.ingredient_id in ids_with_evidence,
         } for l in links],
         "claims": [_claim_dict(c) for c in claims],
     }
