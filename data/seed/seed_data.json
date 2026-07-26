@@ -1,0 +1,109 @@
+{
+  "evidence": [
+    {
+      "type": "paper",
+      "title": "The effect of niacinamide on reducing cutaneous pigmentation and suppression of melanosome transfer",
+      "source": "British Journal of Dermatology, 2002;147(1):20-31",
+      "year": 2002,
+      "url": "https://pubmed.ncbi.nlm.nih.gov/12100180/",
+      "excerpt": "5% niacinamide moisturizer significantly decreased hyperpigmentation; niacinamide inhibited melanosome transfer from melanocytes to keratinocytes in vitro."
+    },
+    {
+      "type": "paper",
+      "title": "Improvement of naturally aged skin with vitamin A (retinol)",
+      "source": "Archives of Dermatology, 2007;143(5):606-612",
+      "year": 2007,
+      "url": "https://pubmed.ncbi.nlm.nih.gov/17515510/",
+      "excerpt": "Topical 0.4% retinol applied up to 12 weeks significantly improved fine wrinkling associated with natural aging."
+    },
+    {
+      "type": "paper",
+      "title": "Topical L-ascorbic acid: percutaneous absorption studies",
+      "source": "Dermatologic Surgery, 2001;27(2):137-142",
+      "year": 2001,
+      "url": "https://pubmed.ncbi.nlm.nih.gov/11207686/",
+      "excerpt": "L-ascorbic acid must be formulated at pH below 3.5 for optimal percutaneous absorption; 20% was the maximum concentration for skin absorption."
+    },
+    {
+      "type": "paper",
+      "title": "Efficacy of cream-based novel formulations of hyaluronic acid of different molecular weights in anti-wrinkle treatment",
+      "source": "Journal of Drugs in Dermatology, 2011;10(9):990-1000",
+      "year": 2011,
+      "url": "https://pubmed.ncbi.nlm.nih.gov/22052267/",
+      "excerpt": "Creams containing 0.1% hyaluronic acid of various molecular weights significantly improved skin hydration and elasticity."
+    },
+    {
+      "type": "regulation",
+      "title": "化妆品安全技术规范（2015年版）表4 化妆品准用防腐剂",
+      "source": "国家食品药品监督管理总局",
+      "year": 2015,
+      "url": "https://www.nmpa.gov.cn/directory/web/nmpa/images/MjAxNcTqtdoyNji6xbmruOa4vbz+LnBkZg==.pdf",
+      "excerpt": "苯氧乙醇（Phenoxyethanol）为化妆品准用防腐剂，最大允许使用浓度 1.0%。"
+    }
+  ],
+  "ingredients": [
+    {
+      "inci_name": "NIACINAMIDE", "cn_name": "烟酰胺", "cas_no": "98-92-0",
+      "assertions": [
+        {"efficacy": "美白（抑制黑素小体转运）",
+         "evidence_title": "The effect of niacinamide on reducing cutaneous pigmentation and suppression of melanosome transfer",
+         "effective_conc_low": 2.0, "effective_conc_high": 5.0,
+         "note": "临床试验常用浓度 2%-5%"}
+      ]
+    },
+    {
+      "inci_name": "RETINOL", "cn_name": "视黄醇", "cas_no": "68-26-8",
+      "assertions": [
+        {"efficacy": "抗皱（改善自然老化皮肤细纹）",
+         "evidence_title": "Improvement of naturally aged skin with vitamin A (retinol)",
+         "effective_conc_low": 0.1, "effective_conc_high": 0.4,
+         "note": "研究浓度 0.4%；使用建议从低浓度起步"}
+      ]
+    },
+    {
+      "inci_name": "ASCORBIC ACID", "cn_name": "抗坏血酸（维生素C）", "cas_no": "50-81-7",
+      "assertions": [
+        {"efficacy": "抗氧化/美白提亮",
+         "evidence_title": "Topical L-ascorbic acid: percutaneous absorption studies",
+         "effective_conc_low": 8.0, "effective_conc_high": 20.0,
+         "note": "透皮吸收需配方 pH<3.5；浓度超过 20% 吸收率不再提升"}
+      ]
+    },
+    {
+      "inci_name": "HYALURONIC ACID", "cn_name": "透明质酸", "cas_no": "9004-61-9",
+      "assertions": [
+        {"efficacy": "保湿",
+         "evidence_title": "Efficacy of cream-based novel formulations of hyaluronic acid of different molecular weights in anti-wrinkle treatment",
+         "effective_conc_low": 0.1, "effective_conc_high": 0.5,
+         "note": "0.1% 即可显著改善皮肤水合"}
+      ]
+    },
+    {
+      "inci_name": "PHENOXYETHANOL", "cn_name": "苯氧乙醇", "cas_no": "122-99-6",
+      "legal_cap": 1.0,
+      "assertions": []
+    }
+  ],
+  "products": [
+    {
+      "name": "维生素CE复合修护精华液（CE Ferulic）",
+      "brand": "修丽可 SkinCeuticals",
+      "category": "精华",
+      "nmpa_id": null,
+      "price_current": 1490.0,
+      "note": "校准锚点：品牌公布 15% 抗坏血酸 + 1% 生育酚 + 0.5% 阿魏酸",
+      "ingredients": ["WATER", "ETHOXYDIGLYCOL", "ASCORBIC ACID", "GLYCERIN", "PROPYLENE GLYCOL", "LAURETH-23", "PHENOXYETHANOL", "TOCOPHEROL", "TRIETHANOLAMINE", "FERULIC ACID", "PANTHENOL", "SODIUM HYALURONATE"],
+      "trace_ingredients": []
+    },
+    {
+      "name": "烟酰胺10%+锌1%精华（Niacinamide 10% + Zinc 1%）",
+      "brand": "The Ordinary",
+      "category": "精华",
+      "nmpa_id": null,
+      "price_current": 89.0,
+      "note": "校准锚点：品牌公布 10% 烟酰胺 + 1% PCA锌",
+      "ingredients": ["WATER", "NIACINAMIDE", "PENTYLENE GLYCOL", "ZINC PCA", "DIMETHYL ISOSORBIDE", "TAMARINDUS INDICA SEED GUM", "XANTHAN GUM", "ISOCETETH-20", "ETHOXYDIGLYCOL", "PHENOXYETHANOL", "CHLORPHENESIN"],
+      "trace_ingredients": []
+    }
+  ]
+}
