@@ -1,0 +1,60 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .card {
+    @apply bg-card rounded-card shadow-card p-6 md:p-7 mb-5;
+  }
+  .card-title {
+    @apply text-base font-bold mb-4 flex items-center gap-2;
+  }
+  .card-title::before {
+    content: '';
+    @apply w-1 h-4 rounded-sm bg-brand inline-block flex-shrink-0;
+  }
+  .badge {
+    @apply inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium whitespace-nowrap;
+  }
+  .badge-brand {
+    @apply badge bg-brand-soft text-brand;
+  }
+  .badge-ok {
+    @apply badge bg-ok-soft text-ok;
+  }
+  .badge-warn {
+    @apply badge bg-warn-soft text-warn;
+  }
+  .badge-muted {
+    @apply badge bg-[#f1f0f6] text-ink-3;
+  }
+  .notice {
+    @apply bg-warn-soft text-warn rounded-[10px] px-4 py-2.5 text-xs leading-relaxed mb-4;
+  }
+  .input {
+    @apply w-full px-3.5 py-2 border border-line rounded-[10px] text-sm outline-none bg-bg
+      focus:border-brand focus:bg-card transition-colors;
+  }
+  .btn-page {
+    @apply px-4 py-2 rounded-[10px] text-sm font-medium text-ink-2 hover:bg-brand-soft hover:text-brand transition-colors;
+  }
+  .btn-page-active {
+    @apply bg-brand-soft text-brand;
+  }
+  .th {
+    @apply text-left text-ink-3 font-semibold text-xs px-2.5 py-2 border-b-2 border-line whitespace-nowrap;
+  }
+  .td {
+    @apply px-2.5 py-2 border-b border-line text-sm align-top;
+  }
+  .kv-label {
+    @apply text-ink-3 text-xs mb-0.5;
+  }
+  .kv-value {
+    @apply text-ink text-[13px] break-all;
+  }
+}
+
+body {
+  @apply bg-bg text-ink leading-relaxed;
+}
