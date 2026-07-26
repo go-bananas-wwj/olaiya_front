@@ -26,7 +26,9 @@ class ProductIngredient(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     product_id: Mapped[int] = mapped_column(ForeignKey("products.id"), index=True)
     ingredient_id: Mapped[int] = mapped_column(ForeignKey("ingredients.id"), index=True)
-    position: Mapped[int] = mapped_column()  # 成分表位次（1-based，降序）；微量段内顺序无意义
+    # 成分表位次（1-based，备案降序）；微量段内顺序无意义。
+    # NULL = 顺序未知（部分数据源的成分为拼音排序，不得伪造位次）
+    position: Mapped[int | None] = mapped_column(nullable=True)
     is_trace: Mapped[bool] = mapped_column(default=False)  # 是否"其他微量成分"段（≤0.1%）
     # —— 浓度区间推断结果（%），由计划 02 的推断引擎填充 ——
     conc_low: Mapped[float | None] = mapped_column(Float, nullable=True)
@@ -35,6 +37,26 @@ class ProductIngredient(Base):
 
     product = relationship("Product")
     ingredient = relationship("Ingredient")
+
+
+class ProductClaim(Base):
+    """产品功效宣称（NMPA「功效宣称依据摘要」镜像）——核验 Agent 的核验对象。"""
+
+    __tablename__ = "product_claims"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    product_id: Mapped[int] = mapped_column(ForeignKey("products.id"), index=True)
+    claim: Mapped[str] = mapped_column(String(100))  # 宣称功效：修护/保湿/抗皱...
+    # 评价类别：人体功效评价试验/消费者使用测试/研究数据/文献资料/实验室试验
+    eval_category: Mapped[str | None] = mapped_column(String(50), nullable=True)
+    method_name: Mapped[str | None] = mapped_column(String(300), nullable=True)
+    method_source: Mapped[str | None] = mapped_column(String(300), nullable=True)
+    metric: Mapped[str | None] = mapped_column(String(200), nullable=True)  # 功效判定指标
+    test_period: Mapped[str | None] = mapped_column(String(100), nullable=True)
+    result_summary: Mapped[str | None] = mapped_column(Text, nullable=True)  # 试验结果简述
+    institution: Mapped[str | None] = mapped_column(String(300), nullable=True)  # 评价机构
+
+    product = relationship("Product")
 
 
 class PricePoint(Base):
