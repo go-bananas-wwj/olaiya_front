@@ -50,10 +50,12 @@ def load_product(session: Session, data: dict) -> Product:
         session.flush()
     product.nmpa_id = data.get("nmpa_id") or product.nmpa_id
     reg = data.get("registration") or {}
+    # 结构化字段入库列，note 只留功效描述（前端不再反解 note）
+    product.registrant = reg.get("registrant") or product.registrant
+    product.filing_date = reg.get("filing_date") or product.filing_date
+    product.source_url = (data.get("source") or {}).get("url") or product.source_url
     effs = "、".join(data.get("efficacies") or [])
-    product.note = (f"功效: {effs}；备案人: {reg.get('registrant')}；"
-                    f"备案日期: {reg.get('filing_date')}；"
-                    f"来源: {data['source']['url']}（镜像 NMPA 公示，成分表为拼音序）")
+    product.note = f"功效: {effs}（镜像 NMPA 公示，成分表为拼音序）" if effs else product.note
 
     # 成分关联：已有则跳过（幂等），position=None（顺序未知）
     if not session.query(ProductIngredient).filter_by(product_id=product.id).count():

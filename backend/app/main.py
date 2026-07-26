@@ -183,6 +183,9 @@ def product_detail(product_id: int, db: Session = Depends(get_db)):
         "brand": p.brand,
         "category": p.category,
         "nmpa_id": p.nmpa_id,
+        "registrant": p.registrant,
+        "filing_date": p.filing_date,
+        "source_url": p.source_url,
         "price_current": p.price_current,
         "note": p.note,
         "ingredients": [{

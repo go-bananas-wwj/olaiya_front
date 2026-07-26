@@ -16,6 +16,9 @@ class Product(Base):
     brand: Mapped[str] = mapped_column(String(200), index=True)
     category: Mapped[str | None] = mapped_column(String(100), nullable=True)
     nmpa_id: Mapped[str | None] = mapped_column(String(100), unique=True, nullable=True)  # 备案编号
+    registrant: Mapped[str | None] = mapped_column(String(300), nullable=True)   # 备案人
+    filing_date: Mapped[str | None] = mapped_column(String(20), nullable=True)   # 备案日期（源站字符串原样存）
+    source_url: Mapped[str | None] = mapped_column(String(500), nullable=True)   # 备案数据来源页
     price_current: Mapped[float | None] = mapped_column(Float, nullable=True)  # 人民币元，人工采样
     note: Mapped[str | None] = mapped_column(Text, nullable=True)  # 如"品牌公布 15%VC+1%VE"
 

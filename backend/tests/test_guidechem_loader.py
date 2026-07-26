@@ -35,6 +35,10 @@ def test_load_product_full(session):
     session.commit()
     assert p.nmpa_id == "国妆网备进字（沪）2024002318"
     assert p.brand == "修丽可"
+    # 结构化备案字段直接入库列，不依赖 note 反解
+    assert p.registrant == "欧莱雅（中国）有限公司"
+    assert p.filing_date == "2024-04-03"
+    assert p.source_url == "https://china.guidechem.com/datacenter/hzpdetails-x.html"
     links = (session.query(ProductIngredient).filter_by(product_id=p.id)
              .order_by(ProductIngredient.id).all())
     assert len(links) == 3

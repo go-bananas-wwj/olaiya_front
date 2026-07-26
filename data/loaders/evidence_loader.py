@@ -47,6 +47,9 @@ def _merge_cn_stub(session: Session, canonical: Ingredient) -> int:
             moved += 1
         else:
             session.delete(link)
+    # 防御：stub 上若挂有断言，一并迁移，避免删除时 FK 报错
+    for a in session.query(EfficacyAssertion).filter_by(ingredient_id=stub.id).all():
+        a.ingredient_id = canonical.id
     session.delete(stub)
     session.flush()
     return moved

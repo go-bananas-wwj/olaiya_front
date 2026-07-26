@@ -3,17 +3,6 @@ import { api } from '../api'
 import { useFetch, Loading, LoadError } from '../components/common'
 import ClaimCard from '../components/ClaimCard'
 
-// note 字段解析："功效: …；备案人: …；备案日期: …；来源: URL（…）"
-function parseNote(note) {
-  const out = {}
-  if (!note) return out
-  const m1 = note.match(/功效: ([^；]*)/); if (m1) out.efficacies = m1[1]
-  const m2 = note.match(/备案人: ([^；]*)/); if (m2) out.registrant = m2[1]
-  const m3 = note.match(/备案日期: ([^；]*)/); if (m3) out.filingDate = m3[1]
-  const m4 = note.match(/来源: (https?:\S+?)（/); if (m4) out.sourceUrl = m4[1]
-  return out
-}
-
 export default function ProductDetail() {
   const { id } = useParams()
   const { data: p, loading, error } = useFetch(() => api.product(id), [id])
@@ -21,11 +10,12 @@ export default function ProductDetail() {
   if (loading) return <div className="card"><Loading /></div>
   if (error) return <div className="card"><LoadError error={error} /></div>
 
-  const meta = parseNote(p.note)
+  // 备案人/备案日期/来源为后端结构化字段；note 仅含功效描述，提取功效词
+  const effMatch = (p.note || '').match(/功效: ([^（；]*)/)
   const kv = [
-    meta.registrant && meta.registrant !== 'None' && ['备案人', meta.registrant],
-    meta.filingDate && meta.filingDate !== 'None' && ['备案日期', meta.filingDate],
-    meta.efficacies && ['宣称功效', meta.efficacies],
+    p.registrant && ['备案人', p.registrant],
+    p.filing_date && ['备案日期', p.filing_date],
+    effMatch && ['宣称功效', effMatch[1]],
     p.price_current != null && ['参考价（人工采样）', `¥${p.price_current}`],
   ].filter(Boolean)
 
@@ -50,11 +40,11 @@ export default function ProductDetail() {
             ))}
           </div>
         )}
-        {meta.sourceUrl && (
+        {p.source_url && (
           <div className="text-xs text-ink-3 mt-4 break-all">
             备案数据来源：
-            <a href={meta.sourceUrl} target="_blank" rel="noreferrer" className="text-brand hover:underline">
-              {meta.sourceUrl}
+            <a href={p.source_url} target="_blank" rel="noreferrer" className="text-brand hover:underline">
+              {p.source_url}
             </a>
             （NMPA 公示镜像）
           </div>
