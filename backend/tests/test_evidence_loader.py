@@ -67,3 +67,24 @@ def test_load_research_idempotent(session):
     assert stats2["evidence"] == 0 and stats2["assertions"] == 0
     assert session.query(EfficacyAssertion).count() == 1
     assert session.query(Ingredient).filter_by(inci_name="积雪草提取物").count() == 1
+
+
+def test_merge_migrates_stub_assertions(session):
+    """stub 上预先挂有断言时，合并必须把断言迁移到正式成分，不得随 stub 删除。"""
+    from app.models.evidence import Evidence, EvidenceType
+
+    stub = Ingredient(inci_name="烟酰胺", cn_name="烟酰胺")
+    ev = Evidence(type=EvidenceType.PAPER, title="临时证据", source="某期刊", year=2020,
+                  url="https://example.com/x")
+    session.add_all([stub, ev])
+    session.flush()
+    session.add(EfficacyAssertion(ingredient_id=stub.id, efficacy="临时功效", evidence_id=ev.id))
+    session.commit()
+
+    load_research(session, RESEARCH)
+    session.commit()
+    canonical = session.query(Ingredient).filter_by(inci_name="NIACINAMIDE").one()
+    assert session.query(Ingredient).filter_by(inci_name="烟酰胺").count() == 0
+    moved = (session.query(EfficacyAssertion)
+             .filter_by(ingredient_id=canonical.id, efficacy="临时功效").one())
+    assert moved.evidence.title == "临时证据"
