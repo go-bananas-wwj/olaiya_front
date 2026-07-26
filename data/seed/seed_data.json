@@ -81,7 +81,12 @@
     {
       "inci_name": "PHENOXYETHANOL", "cn_name": "苯氧乙醇", "cas_no": "122-99-6",
       "legal_cap": 1.0,
-      "assertions": []
+      "assertions": [
+        {"efficacy": "防腐（准用防腐剂）",
+         "evidence_title": "化妆品安全技术规范（2015年版）表4 化妆品准用防腐剂",
+         "effective_conc_low": null, "effective_conc_high": 1.0,
+         "note": "法定最大允许使用浓度 1.0%（法规限值，非功效起效浓度）"}
+      ]
     }
   ],
   "products": [

@@ -97,8 +97,26 @@ def load_research(session: Session, data: dict) -> dict:
     return stats
 
 
+def sweep_all(session: Session) -> int:
+    """终扫：把库里所有正式成分（inci_name != cn_name）的中文 stub 合并一遍。
+
+    幂等，可在任意加载完成后重复执行；返回合并的关联总数。
+    """
+    moved = 0
+    canonicals = session.query(Ingredient).filter(Ingredient.inci_name != Ingredient.cn_name).all()
+    for ing in canonicals:
+        moved += _merge_cn_stub(session, ing)
+    return moved
+
+
 def main() -> None:
     init_db()
+    if sys.argv[1:] and sys.argv[1] == "--sweep":
+        with SessionLocal() as s:
+            moved = sweep_all(s)
+            s.commit()
+        print(f"终扫完成：合并 {moved} 条产品-成分关联")
+        return
     total = {"ingredients": 0, "evidence": 0, "assertions": 0, "merged_links": 0}
     with SessionLocal() as s:
         for path in sys.argv[1:]:

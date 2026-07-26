@@ -21,7 +21,13 @@ RAW_ROOT = Path(__file__).resolve().parents[1] / "raw" / "guidechem"
 
 def _get_or_create_ingredient(session: Session, cn_name: str) -> Ingredient:
     """中文名成分 get-or-create（INCI 英文名后续用成分词典回补）。"""
-    ing = session.query(Ingredient).filter_by(inci_name=cn_name).one_or_none()
+    # 先按中文名命中正式成分（INCI 英文条目），避免与证据库双头；
+    # 找不到再按 stub 形式（inci_name==中文名）查找，最后才建 stub
+    ing = (session.query(Ingredient)
+           .filter(Ingredient.cn_name == cn_name)
+           .order_by(Ingredient.id).first())
+    if ing is None:
+        ing = session.query(Ingredient).filter_by(inci_name=cn_name).one_or_none()
     if ing is None:
         ing = Ingredient(inci_name=cn_name, cn_name=cn_name)
         session.add(ing)
