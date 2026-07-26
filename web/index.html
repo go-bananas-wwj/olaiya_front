@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>成分真言 · 真实产品备案数据可视化</title>
+<style>
+  :root {
+    --bg: #f6f5fa;
+    --card: #ffffff;
+    --ink: #1c1a2e;
+    --ink-2: #5a5670;
+    --ink-3: #9a96b0;
+    --brand: #6d4bd8;
+    --brand-soft: #efeaff;
+    --green: #0e9f6e;
+    --green-soft: #e3f6ee;
+    --amber: #b7791f;
+    --amber-soft: #fdf3e0;
+    --line: #e8e6f0;
+    --shadow: 0 1px 3px rgba(28,26,46,.06), 0 8px 24px rgba(28,26,46,.06);
+    --radius: 14px;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
+    background: var(--bg); color: var(--ink); line-height: 1.6;
+  }
+  /* ===== 顶栏 ===== */
+  header {
+    background: linear-gradient(135deg, #2a1f4d 0%, #4b3587 60%, #6d4bd8 100%);
+    color: #fff; padding: 28px 32px 24px;
+  }
+  header h1 { font-size: 24px; letter-spacing: 1px; display: flex; align-items: center; gap: 12px; }
+  header h1 .logo {
+    width: 34px; height: 34px; border-radius: 10px; background: rgba(255,255,255,.16);
+    display: inline-flex; align-items: center; justify-content: center; font-size: 18px;
+  }
+  header p { margin-top: 8px; color: #cfc6f0; font-size: 13px; max-width: 900px; }
+  .source-chain {
+    display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; font-size: 12px;
+  }
+  .source-chain span {
+    background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.18);
+    padding: 4px 12px; border-radius: 999px;
+  }
+  .source-chain b { color: #ffd98a; font-weight: 600; }
+  /* ===== 布局 ===== */
+  .layout { display: flex; gap: 24px; padding: 24px 32px; max-width: 1440px; margin: 0 auto; align-items: flex-start; }
+  /* ===== 产品列表 ===== */
+  .sidebar {
+    width: 360px; flex-shrink: 0; background: var(--card); border-radius: var(--radius);
+    box-shadow: var(--shadow); overflow: hidden; position: sticky; top: 20px;
+    max-height: calc(100vh - 40px); display: flex; flex-direction: column;
+  }
+  .sidebar .search {
+    padding: 14px 16px; border-bottom: 1px solid var(--line);
+  }
+  .sidebar input {
+    width: 100%; padding: 9px 14px; border: 1px solid var(--line); border-radius: 10px;
+    font-size: 14px; outline: none; background: var(--bg);
+  }
+  .sidebar input:focus { border-color: var(--brand); background: #fff; }
+  .product-list { overflow-y: auto; flex: 1; }
+  .brand-group { padding: 10px 16px 4px; font-size: 12px; color: var(--ink-3); font-weight: 600; letter-spacing: 1px; }
+  .product-item { padding: 12px 16px; cursor: pointer; border-left: 3px solid transparent; transition: background .15s; }
+  .product-item:hover { background: var(--brand-soft); }
+  .product-item.active { background: var(--brand-soft); border-left-color: var(--brand); }
+  .product-item .pname { font-size: 14px; font-weight: 600; line-height: 1.4; }
+  .product-item .pmeta { font-size: 12px; color: var(--ink-3); margin-top: 3px; display: flex; gap: 8px; flex-wrap: wrap; }
+  .pill { padding: 1px 8px; border-radius: 999px; font-size: 11px; }
+  .pill.claim { background: var(--green-soft); color: var(--green); }
+  .pill.noclaim { background: #f1f0f6; color: var(--ink-3); }
+  /* ===== 详情区 ===== */
+  .detail { flex: 1; min-width: 0; }
+  .empty {
+    background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow);
+    padding: 80px 40px; text-align: center; color: var(--ink-3); font-size: 15px;
+  }
+  .card { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 24px 28px; margin-bottom: 20px; }
+  .card h2 { font-size: 16px; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+  .card h2::before { content: ""; width: 4px; height: 16px; border-radius: 2px; background: var(--brand); }
+  .prod-title { font-size: 22px; font-weight: 700; }
+  .prod-sub { color: var(--ink-2); font-size: 13px; margin-top: 6px; display: flex; gap: 14px; flex-wrap: wrap; }
+  .kv-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 12px 24px; margin-top: 16px; }
+  .kv { font-size: 13px; }
+  .kv .k { color: var(--ink-3); font-size: 12px; margin-bottom: 2px; }
+  .kv .v { color: var(--ink); word-break: break-all; }
+  /* 宣称卡片 */
+  .claim-card {
+    border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; margin-bottom: 14px;
+    transition: box-shadow .15s;
+  }
+  .claim-card:hover { box-shadow: var(--shadow); }
+  .claim-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .claim-name {
+    font-size: 15px; font-weight: 700; background: var(--brand-soft); color: var(--brand);
+    padding: 3px 14px; border-radius: 999px;
+  }
+  .claim-type { font-size: 12px; color: var(--amber); background: var(--amber-soft); padding: 3px 10px; border-radius: 999px; }
+  .claim-body { margin-top: 12px; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 8px 24px; font-size: 13px; }
+  .claim-body .k { color: var(--ink-3); font-size: 12px; }
+  .claim-result {
+    grid-column: 1 / -1; background: var(--bg); border-radius: 10px; padding: 10px 14px;
+    color: var(--ink-2); font-size: 13px;
+  }
+  .claim-src {
+    margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--line);
+    font-size: 12px; color: var(--ink-3); display: flex; gap: 6px; align-items: center; flex-wrap: wrap;
+  }
+  .claim-src b { color: var(--green); font-weight: 600; }
+  /* 成分表 */
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th { text-align: left; color: var(--ink-3); font-weight: 600; font-size: 12px; padding: 8px 10px; border-bottom: 2px solid var(--line); }
+  td { padding: 8px 10px; border-bottom: 1px solid var(--line); }
+  tr:hover td { background: var(--bg); }
+  .tag-active { color: var(--green); font-weight: 600; }
+  .tag-no { color: var(--ink-3); }
+  .risk { font-variant-numeric: tabular-nums; }
+  /* 提示条 */
+  .notice {
+    background: var(--amber-soft); color: var(--amber); border-radius: 10px;
+    padding: 10px 16px; font-size: 12px; margin-bottom: 20px; line-height: 1.7;
+  }
+  .src-foot { font-size: 12px; color: var(--ink-3); margin-top: 14px; word-break: break-all; }
+  .src-foot a { color: var(--brand); text-decoration: none; }
+  .src-foot a:hover { text-decoration: underline; }
+  .loading { padding: 40px; text-align: center; color: var(--ink-3); }
+  @media (max-width: 900px) {
+    .layout { flex-direction: column; padding: 16px; }
+    .sidebar { width: 100%; position: static; max-height: 320px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1><span class="logo">真</span>成分真言 · 真实产品备案数据可视化</h1>
+  <p>以下产品全部采集自国家药监局（NMPA）备案公示数据的镜像站，每个产品的「功效宣称依据」即企业依法向监管部门公示的《功效宣称依据摘要》。点击左侧产品查看详情。</p>
+  <div class="source-chain">
+    <span>数据链路：<b>NMPA 备案公示</b> → 盖德化工网镜像采集 → 本地证据库 → 本页面 API</span>
+    <span>产品 <b id="stat-products">-</b> 个</span>
+    <span>功效宣称 <b id="stat-claims">-</b> 条</span>
+    <span>成分关联 <b id="stat-ingredients">-</b> 条</span>
+  </div>
+</header>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="search"><input id="search" placeholder="搜索产品名 / 品牌…"></div>
+    <div class="product-list" id="product-list"><div class="loading">加载中…</div></div>
+  </aside>
+  <main class="detail" id="detail">
+    <div class="empty">← 选择一个产品，查看它的备案信息与功效宣称依据</div>
+  </main>
+</div>
+
+<script>
+const $ = (s) => document.querySelector(s);
+let products = [];
+
+function escapeHtml(s) {
+  if (s == null) return "";
+  return String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+}
+
+// note 字段解析："功效: …；备案人: …；备案日期: …；来源: URL（…）"
+function parseNote(note) {
+  const out = {};
+  if (!note) return out;
+  const m1 = note.match(/功效: ([^；]*)/);   if (m1) out.efficacies = m1[1];
+  const m2 = note.match(/备案人: ([^；]*)/);  if (m2) out.registrant = m2[1];
+  const m3 = note.match(/备案日期: ([^；]*)/); if (m3) out.filingDate = m3[1];
+  const m4 = note.match(/来源: (https?:\S+?)（/); if (m4) out.sourceUrl = m4[1];
+  return out;
+}
+
+async function loadProducts(q) {
+  const url = q ? `/api/products?q=${encodeURIComponent(q)}` : "/api/products";
+  const res = await fetch(url);
+  return res.json();
+}
+
+function renderList(list) {
+  const el = $("#product-list");
+  if (!list.length) { el.innerHTML = '<div class="loading">无匹配产品</div>'; return; }
+  let html = "", lastBrand = null;
+  for (const p of list) {
+    if (p.brand !== lastBrand) {
+      html += `<div class="brand-group">${escapeHtml(p.brand)}</div>`;
+      lastBrand = p.brand;
+    }
+    const claimPill = p.claim_count > 0
+      ? `<span class="pill claim">宣称依据 ${p.claim_count}</span>`
+      : `<span class="pill noclaim">无宣称摘要</span>`;
+    html += `
+      <div class="product-item" data-id="${p.id}">
+        <div class="pname">${escapeHtml(p.name)}</div>
+        <div class="pmeta">${claimPill}<span>成分 ${p.ingredient_count}</span></div>
+      </div>`;
+  }
+  el.innerHTML = html;
+  el.querySelectorAll(".product-item").forEach(item => {
+    item.addEventListener("click", () => {
+      el.querySelectorAll(".active").forEach(a => a.classList.remove("active"));
+      item.classList.add("active");
+      showDetail(item.dataset.id);
+    });
+  });
+}
+
+function claimCard(c, nmpaId) {
+  const type = c.eval_category
+    ? `<span class="claim-type">${escapeHtml(c.eval_category)}</span>` : "";
+  const row = (k, v) => v ? `<div><div class="k">${k}</div><div>${escapeHtml(v)}</div></div>` : "";
+  return `
+    <div class="claim-card">
+      <div class="claim-head"><span class="claim-name">【${escapeHtml(c.claim)}】</span>${type}</div>
+      <div class="claim-body">
+        ${row("评价方法", c.method_name)}
+        ${row("方法来源", c.method_source)}
+        ${row("功效判定指标", c.metric)}
+        ${row("试验起止日期", c.test_period && !c.test_period.startsWith("1970") ? c.test_period : "")}
+        ${c.result_summary ? `<div class="claim-result"><div class="k">试验结果简述</div>${escapeHtml(c.result_summary)}</div>` : ""}
+      </div>
+      <div class="claim-src">
+        出处：<b>NMPA《功效宣称依据摘要》</b>（备案号 ${escapeHtml(nmpaId || "—")}）
+        ${c.institution ? `· 评价机构：${escapeHtml(c.institution)}` : ""}
+      </div>
+    </div>`;
+}
+
+async function showDetail(id) {
+  const box = $("#detail");
+  box.innerHTML = '<div class="card loading">加载中…</div>';
+  const p = await (await fetch(`/api/products/${id}`)).json();
+  const meta = parseNote(p.note);
+
+  const claimsHtml = p.claims.length
+    ? p.claims.map(c => claimCard(c, p.nmpa_id)).join("")
+    : `<div class="notice">该产品备案页未公示《功效宣称依据摘要》（可能属 2021 年前备案或清洁/物理遮盖等法定免公布情形）——「查不到摘要」本身也是核验信号。</div>`;
+
+  const ingRows = p.ingredients.map(i => `
+    <tr>
+      <td>${escapeHtml(i.cn_name)}</td>
+      <td class="risk">${escapeHtml(i.safety_risk ?? "—")}</td>
+      <td>${i.is_active ? '<span class="tag-active">活性</span>' : '<span class="tag-no">—</span>'}</td>
+      <td>${escapeHtml(i.purpose ?? "—")}</td>
+    </tr>`).join("");
+
+  box.innerHTML = `
+    <div class="card">
+      <div class="prod-title">${escapeHtml(p.name)}</div>
+      <div class="prod-sub">
+        <span>品牌：<b>${escapeHtml(p.brand)}</b></span>
+        ${p.nmpa_id ? `<span>备案号：<b>${escapeHtml(p.nmpa_id)}</b></span>` : ""}
+        ${p.category ? `<span>类别：${escapeHtml(p.category)}</span>` : ""}
+      </div>
+      <div class="kv-grid">
+        ${meta.registrant && meta.registrant !== "None" ? `<div class="kv"><div class="k">备案人</div><div class="v">${escapeHtml(meta.registrant)}</div></div>` : ""}
+        ${meta.filingDate && meta.filingDate !== "None" ? `<div class="kv"><div class="k">备案日期</div><div class="v">${escapeHtml(meta.filingDate)}</div></div>` : ""}
+        ${meta.efficacies ? `<div class="kv"><div class="k">宣称功效</div><div class="v">${escapeHtml(meta.efficacies)}</div></div>` : ""}
+        ${p.price_current ? `<div class="kv"><div class="k">参考价（人工采样）</div><div class="v">¥${p.price_current}</div></div>` : ""}
+      </div>
+      ${meta.sourceUrl ? `<div class="src-foot">备案数据来源：<a href="${meta.sourceUrl}" target="_blank" rel="noopener">${meta.sourceUrl}</a>（NMPA 公示镜像）</div>` : ""}
+    </div>
+
+    <div class="card">
+      <h2>功效宣称依据（${p.claims.length} 条）</h2>
+      ${claimsHtml}
+    </div>
+
+    <div class="card">
+      <h2>产品成分表（${p.ingredients.length} 种）</h2>
+      <div class="notice">注：镜像源成分为拼音排序，非备案降序位次；备案降序成分表待 BEBD 数据源补充。「安全风险/活性/使用目的」为镜像站标注列。</div>
+      <table>
+        <thead><tr><th>成分名称</th><th>安全风险</th><th>活性成分</th><th>使用目的</th></tr></thead>
+        <tbody>${ingRows}</tbody>
+      </table>
+    </div>`;
+}
+
+// 初始化
+(async () => {
+  products = await loadProducts();
+  renderList(products);
+  $("#stat-products").textContent = products.length;
+  $("#stat-claims").textContent = products.reduce((s, p) => s + p.claim_count, 0);
+  $("#stat-ingredients").textContent = products.reduce((s, p) => s + p.ingredient_count, 0);
+  let timer;
+  $("#search").addEventListener("input", (e) => {
+    clearTimeout(timer);
+    timer = setTimeout(async () => renderList(await loadProducts(e.target.value.trim())), 250);
+  });
+})();
+</script>
+</body>
+</html>

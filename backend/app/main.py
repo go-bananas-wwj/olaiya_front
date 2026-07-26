@@ -3,11 +3,13 @@ PYTHONPATH=backend .venv/bin/python -m uvicorn app.main:app --reload --port 8000
 """
 
 from fastapi import Depends, FastAPI, HTTPException
-from sqlalchemy import or_, select
+from fastapi.staticfiles import StaticFiles
+from sqlalchemy import func, or_, select
 from sqlalchemy.orm import Session
 
 from .db import SessionLocal, init_db
 from .models.ingredient import EfficacyAssertion, Ingredient
+from .models.product import Product, ProductClaim, ProductIngredient
 
 app = FastAPI(title="成分真言 API", version="0.1.0")
 
@@ -75,3 +77,72 @@ def ingredient_detail(ingredient_id: int, db: Session = Depends(get_db)):
         },
         "assertions": [_assertion_dict(a) for a in assertions],
     }
+
+
+def _claim_dict(c: ProductClaim) -> dict:
+    return {
+        "claim": c.claim,
+        "eval_category": c.eval_category,
+        "method_name": c.method_name,
+        "method_source": c.method_source,
+        "metric": c.metric,
+        "test_period": c.test_period,
+        "result_summary": c.result_summary,
+        "institution": c.institution,
+    }
+
+
+@app.get("/api/products")
+def list_products(q: str | None = None, db: Session = Depends(get_db)):
+    stmt = select(Product).order_by(Product.brand, Product.id)
+    if q:
+        like = f"%{q}%"
+        stmt = (select(Product)
+                .where(or_(Product.name.like(like), Product.brand.like(like)))
+                .order_by(Product.brand, Product.id))
+    rows = db.execute(stmt).scalars().all()
+    out = []
+    for p in rows:
+        claim_count = db.query(ProductClaim).filter_by(product_id=p.id).count()
+        ing_count = db.query(ProductIngredient).filter_by(product_id=p.id).count()
+        out.append({
+            "id": p.id, "name": p.name, "brand": p.brand,
+            "nmpa_id": p.nmpa_id, "claim_count": claim_count,
+            "ingredient_count": ing_count,
+        })
+    return out
+
+
+@app.get("/api/products/{product_id}")
+def product_detail(product_id: int, db: Session = Depends(get_db)):
+    p = db.get(Product, product_id)
+    if p is None:
+        raise HTTPException(status_code=404, detail="产品不存在")
+    links = (db.query(ProductIngredient)
+             .filter_by(product_id=p.id)
+             .order_by(ProductIngredient.id).all())
+    claims = (db.query(ProductClaim)
+              .filter_by(product_id=p.id)
+              .order_by(ProductClaim.id).all())
+    return {
+        "id": p.id,
+        "name": p.name,
+        "brand": p.brand,
+        "category": p.category,
+        "nmpa_id": p.nmpa_id,
+        "price_current": p.price_current,
+        "note": p.note,
+        "ingredients": [{
+            "cn_name": l.ingredient.cn_name,
+            "inci_name": l.ingredient.inci_name,
+            "position": l.position,
+            "safety_risk": l.safety_risk,
+            "is_active": l.is_active,
+            "purpose": l.purpose,
+        } for l in links],
+        "claims": [_claim_dict(c) for c in claims],
+    }
+
+
+# 静态前端（/web 目录，纯静态页，数据全部经 /api 获取）
+app.mount("/", StaticFiles(directory="web", html=True), name="web")

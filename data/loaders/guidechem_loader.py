@@ -54,7 +54,10 @@ def load_product(session: Session, data: dict) -> Product:
         for item in data.get("ingredients", []):
             ing = _get_or_create_ingredient(session, item["name"])
             session.add(ProductIngredient(product_id=product.id, ingredient_id=ing.id,
-                                          position=None, is_trace=False))
+                                          position=None, is_trace=False,
+                                          safety_risk=item.get("safety_risk"),
+                                          is_active=item.get("is_active"),
+                                          purpose=item.get("purpose")))
 
     # 宣称：按四元组幂等
     for c in data.get("claims", []):

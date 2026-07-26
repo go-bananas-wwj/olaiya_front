@@ -34,6 +34,10 @@ class ProductIngredient(Base):
     conc_low: Mapped[float | None] = mapped_column(Float, nullable=True)
     conc_high: Mapped[float | None] = mapped_column(Float, nullable=True)
     conc_confidence: Mapped[float | None] = mapped_column(Float, nullable=True)
+    # —— 来源侧成分属性（盖德镜像的展示列，随产品成分表采集） ——
+    safety_risk: Mapped[str | None] = mapped_column(String(20), nullable=True)  # 安全风险（如 "2-4"）
+    is_active: Mapped[bool | None] = mapped_column(nullable=True)               # 是否活性成分
+    purpose: Mapped[str | None] = mapped_column(String(200), nullable=True)     # 使用目的（如 "保湿剂;抗氧化剂"）
 
     product = relationship("Product")
     ingredient = relationship("Ingredient")
