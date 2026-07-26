@@ -264,8 +264,13 @@ def collect_brand(page, brand: str, pages: int, limit: int) -> dict:
         if data is None or (not data["ingredients"] and not data["claims"]):
             _log_failure(brand, url, reason)
             stats["failed"] += 1
+            stats["consecutive_failures"] = stats.get("consecutive_failures", 0) + 1
             print(f"  ✗ {name.strip()} 重试后仍失败，已记入 _failures.jsonl")
+            if stats["consecutive_failures"] >= 3:  # 连续失败=已被限流，快速止损
+                print(f"  ⛔ 连续 {stats['consecutive_failures']} 次失败，疑似被限流，中止本品牌（下波再采）")
+                break
             continue
+        stats["consecutive_failures"] = 0
         # 原始 HTML 一并存档，解析器迭代后可离线重放，不必重新采集
         (out_dir / f"{pid}.html").write_text(raw, encoding="utf-8")
         data["source"] = {"site": "china.guidechem.com", "url": url,
