@@ -4,8 +4,10 @@
 注意：
 - 盖德镜像 NMPA 公示数据，但成分表是拼音排序，不是备案降序（position 语义不可用，入库时置 NULL）。
 - 礼貌采集：串行 + 固定延时，单 context 复用挑战 cookie。
-运行：/tmp/pwenv/bin/python data/tools/collect_guidechem.py --brand 修丽可 --limit 5
+运行：/tmp/pwenv/bin/python data/tools/collect_guidechem.py --brand 修丽可 --pages 2 --limit 12
+      /tmp/pwenv/bin/python data/tools/collect_guidechem.py --brand-file data/tools/brands.txt --pages 3 --limit 0
 输出：data/raw/guidechem/{关键词}/{详情页id}.json（原始解析结果，git 忽略）
+      data/raw/guidechem/_failures.jsonl（重试后仍失败的产品记录）
 """
 
 import argparse
@@ -191,50 +193,121 @@ def parse_detail(raw_html: str, lines: list[str]) -> dict:
     return data
 
 
+def _log_failure(brand: str, url: str, reason: str) -> None:
+    """把采集失败的产品追加到 _failures.jsonl（一行一个 JSON）。"""
+    OUT_ROOT.mkdir(parents=True, exist_ok=True)
+    with (OUT_ROOT / "_failures.jsonl").open("a", encoding="utf-8") as f:
+        f.write(json.dumps({"brand": brand, "url": url, "reason": reason},
+                           ensure_ascii=False) + "\n")
+
+
+def _fetch_search_links(page, brand: str, pages: int) -> list[tuple[str, str]]:
+    """采集前 pages 页搜索结果（每页约 10 个），按详情页路径去重。"""
+    from urllib.parse import quote
+    links: list[tuple[str, str]] = []
+    seen: set[str] = set()
+    for pg in range(1, pages + 1):
+        page_links: list[tuple[str, str]] = []
+        for attempt in range(3):  # 反爬偶发空结果，重试
+            page.goto(f"{BASE}/datacenter/hzp_keys-{quote(brand)}-p{pg}.html", timeout=60000)
+            time.sleep(6 + attempt * 4)
+            page_links = parse_search(page.content())
+            if page_links:
+                break
+            print(f"[{brand}] 第 {pg} 页第 {attempt + 1} 次搜索无结果，重试…")
+        if not page_links:
+            print(f"[{brand}] 第 {pg} 页无结果，停止翻页")
+            break
+        for path, name in page_links:
+            if path not in seen:
+                seen.add(path)
+                links.append((path, name))
+    return links
+
+
+def collect_brand(page, brand: str, pages: int, limit: int) -> dict:
+    """采集单个品牌：分页搜索 → 逐个详情页解析（失败重试）→ 落盘。返回计数。"""
+    out_dir = OUT_ROOT / brand
+    out_dir.mkdir(parents=True, exist_ok=True)
+
+    links = _fetch_search_links(page, brand, pages)
+    target = pages * 10 if limit == 0 else min(pages * 10, limit)
+    todo = links[:target]
+    print(f"[{brand}] 搜索命中 {len(links)} 个产品，本次采集 {len(todo)} 个")
+
+    stats = {"hits": len(links), "new": 0, "skipped": 0, "failed": 0}
+    for path, name in todo:
+        pid = re.search(r"hzpdetails-(.+)\.html", path).group(1)
+        out_file = out_dir / f"{pid}.json"
+        if out_file.exists():  # 断点续采：已采集过的直接跳过
+            stats["skipped"] += 1
+            print(f"  跳过（已存在）: {name.strip()}")
+            continue
+        url = BASE + path
+        data, raw, reason = None, "", ""
+        delay = PAGE_DELAY
+        for attempt in range(3):  # 首次 + 最多 2 次重试，每次多等 5 秒
+            try:
+                page.goto(url, timeout=60000)
+                time.sleep(delay)
+                raw = page.content()
+                data = parse_detail(raw, text_lines(raw))
+            except Exception as exc:  # 页面加载异常同样按失败处理并重试
+                data, reason = None, f"页面加载异常: {exc!r}"
+            else:
+                if data["ingredients"] or data["claims"]:
+                    break
+                reason = "成分与宣称均为 0，疑似反爬拦截或解析失效"
+            if attempt < 2:
+                delay += 5
+                print(f"  ⚠ {name.strip()} 第 {attempt + 1} 次为空/异常，{delay:.0f}s 后重试…")
+        if data is None or (not data["ingredients"] and not data["claims"]):
+            _log_failure(brand, url, reason)
+            stats["failed"] += 1
+            print(f"  ✗ {name.strip()} 重试后仍失败，已记入 _failures.jsonl")
+            continue
+        # 原始 HTML 一并存档，解析器迭代后可离线重放，不必重新采集
+        (out_dir / f"{pid}.html").write_text(raw, encoding="utf-8")
+        data["source"] = {"site": "china.guidechem.com", "url": url,
+                          "collected_at": time.strftime("%Y-%m-%d %H:%M:%S"),
+                          "note": "镜像 NMPA 公示数据；成分表为拼音排序，非备案降序"}
+        data["search_brand"] = brand
+        out_file.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
+        stats["new"] += 1
+        print(f"  ✓ {data['name']} | 备案号 {data['nmpa_id']} | "
+              f"成分 {len(data['ingredients'])} | 宣称 {len(data['claims'])}")
+    return stats
+
+
 def main() -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--brand", required=True, help="搜索关键词（品牌名）")
-    ap.add_argument("--limit", type=int, default=5, help="最多采集几个产品")
+    ap.add_argument("--brand", help="搜索关键词（品牌名）")
+    ap.add_argument("--brand-file", help="品牌清单文件，每行一个关键词，逐个品牌采集")
+    ap.add_argument("--pages", type=int, default=1, help="每个品牌采集前几页搜索结果（每页 10 个）")
+    ap.add_argument("--limit", type=int, default=5,
+                    help="每个品牌最多采集几个产品；0 表示不限（采 pages×10 个）")
     args = ap.parse_args()
 
-    out_dir = OUT_ROOT / args.brand
-    out_dir.mkdir(parents=True, exist_ok=True)
+    brands = [args.brand] if args.brand else []
+    if args.brand_file:
+        brands += [l.strip() for l in Path(args.brand_file).read_text(encoding="utf-8").splitlines()
+                   if l.strip()]
+    if not brands:
+        ap.error("--brand 与 --brand-file 至少给一个")
 
     with sync_playwright() as p:
         browser = p.chromium.launch(headless=True, args=["--no-sandbox", "--disable-dev-shm-usage"])
         ctx = browser.new_context(user_agent=UA, viewport={"width": 1366, "height": 900}, locale="zh-CN")
         page = ctx.new_page()
 
-        from urllib.parse import quote
-        links = []
-        for attempt in range(3):  # 反爬偶发空结果，重试
-            page.goto(f"{BASE}/datacenter/hzp_keys-{quote(args.brand)}-p1.html", timeout=60000)
-            time.sleep(6 + attempt * 4)
-            links = parse_search(page.content())
-            if links:
-                break
-            print(f"[{args.brand}] 第 {attempt + 1} 次搜索无结果，重试…")
-        print(f"[{args.brand}] 搜索命中 {len(links)} 个产品，采集前 {args.limit} 个")
-
-        for path, name in links[: args.limit]:
-            pid = re.search(r"hzpdetails-(.+)\.html", path).group(1)
-            out_file = out_dir / f"{pid}.json"
-            if out_file.exists():
-                print(f"  跳过（已存在）: {name.strip()}")
+        for brand in brands:
+            try:
+                stats = collect_brand(page, brand, args.pages, args.limit)
+            except Exception as exc:  # 单品牌异常不中断整个任务
+                print(f"[{brand}] 采集异常中断：{exc!r}")
                 continue
-            page.goto(BASE + path, timeout=60000)
-            time.sleep(PAGE_DELAY)
-            raw = page.content()
-            # 原始 HTML 一并存档，解析器迭代后可离线重放，不必重新采集
-            (out_dir / f"{pid}.html").write_text(raw, encoding="utf-8")
-            data = parse_detail(raw, text_lines(raw))
-            data["source"] = {"site": "china.guidechem.com", "url": BASE + path,
-                              "collected_at": time.strftime("%Y-%m-%d %H:%M:%S"),
-                              "note": "镜像 NMPA 公示数据；成分表为拼音排序，非备案降序"}
-            data["search_brand"] = args.brand
-            out_file.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
-            print(f"  ✓ {data['name']} | 备案号 {data['nmpa_id']} | "
-                  f"成分 {len(data['ingredients'])} | 宣称 {len(data['claims'])}")
+            print(f"[{brand}] 汇总：命中 {stats['hits']} | 新采 {stats['new']} | "
+                  f"跳过 {stats['skipped']} | 失败 {stats['failed']}")
         browser.close()
 
 

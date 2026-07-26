@@ -1,0 +1,438 @@
+{
+  "ingredients": [
+    {
+      "cn_name": "生育酚（维生素E）",
+      "inci_name": "TOCOPHEROL",
+      "cas_no": "10191-41-0",
+      "assertions": [
+        {
+          "efficacy": "美白（减少紫外线诱导的色素沉着）",
+          "evidence": {
+            "type": "paper",
+            "title": "Effects of topical and oral vitamin E on pigmentation and skin cancer induced by ultraviolet irradiation in Skh:2 hairless mice",
+            "source": "Nutr Cancer, 2000;38(1):87-97",
+            "year": 2000,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/11341050/",
+            "excerpt": "无毛色素小鼠每周3次UVB照射，外用5% RRR-α-生育酚（或5%生育酚琥珀酸酯、口服生育酚醋酸酯）显著减轻UV诱导的急性及慢性皮肤损伤，表现为炎症和色素沉着减少、皮肤肿瘤发生更晚且更少；局部外用后皮肤及脂肪组织中维生素E浓度升高。"
+          },
+          "effective_conc_low": 5.0,
+          "effective_conc_high": 5.0,
+          "note": "动物实验（Skh:2小鼠），外用5%浓度；人体美白证据有限，主要作为抗氧化辅助成分。"
+        },
+        {
+          "efficacy": "光防护（提高最小红斑量，抗氧化）",
+          "evidence": {
+            "type": "paper",
+            "title": "Protective effect against sunburn of combined systemic ascorbic acid (vitamin C) and d-alpha-tocopherol (vitamin E)",
+            "source": "J Am Acad Dermatol, 1998;38(1):45-8",
+            "year": 1998,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/9448204/",
+            "excerpt": "双盲安慰剂对照人体试验：10名受试者每日口服2g抗坏血酸+1000 IU d-α-生育酚，8天后最小红斑量（MED）中位数由80升至96.5 mJ/cm²（p<0.01），而安慰剂组下降；提示口服维生素C+E联用可减轻晒伤反应。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "口服（系统性）证据而非外用；1000 IU/日维生素E与2g维生素C联用，单独维生素E效果不及联用。"
+        }
+      ]
+    },
+    {
+      "cn_name": "泛醇",
+      "inci_name": "PANTHENOL",
+      "cas_no": "81-13-0",
+      "assertions": [
+        {
+          "efficacy": "保湿（改善皮肤水合、降低经皮水分流失）",
+          "evidence": {
+            "type": "paper",
+            "title": "Skin moisturizing effects of panthenol-based formulations",
+            "source": "J Cosmet Sci, 2011;62(4):361-70",
+            "year": 2011,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/21982351/",
+            "excerpt": "健康受试者前臂每日使用含0.5%、1.0%或5.0%泛醇的配方，15与30天后检测：1.0%和5.0%泛醇配方在30天后显著降低TEWL；SLES洗脱后2小时即见TEWL显著下降。结论：1.0%泛醇即可改善配方的屏障保护作用。"
+          },
+          "effective_conc_low": 1.0,
+          "effective_conc_high": 5.0,
+          "note": "人体前臂试验；0.5%未达显著，1%起效。"
+        },
+        {
+          "efficacy": "屏障修护（防护化学刺激）",
+          "evidence": {
+            "type": "paper",
+            "title": "Efficacy of dexpanthenol in skin protection against irritation: a double-blind, placebo-controlled study",
+            "source": "Contact Dermatitis, 2003;49(2):80-4",
+            "year": 2003,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/14641355/",
+            "excerpt": "随机双盲安慰剂对照：25名健康志愿者前臂每日2次使用含5%右旋泛醇的护手膏，第15-22天叠加2% SLS刺激；泛醇处理侧在角质层含水量（corneometry）上显著优于安慰剂侧，刺激性接触性皮炎症状更轻。"
+          },
+          "effective_conc_low": 5.0,
+          "effective_conc_high": 5.0,
+          "note": "人体双盲对照试验，5%右旋泛醇（dexpanthenol）。"
+        }
+      ]
+    },
+    {
+      "cn_name": "角鲨烷",
+      "inci_name": "SQUALANE",
+      "cas_no": "111-01-3",
+      "assertions": [
+        {
+          "efficacy": "保湿（润肤与皮肤水合作用）",
+          "evidence": {
+            "type": "paper",
+            "title": "Biological importance and applications of squalene and squalane",
+            "source": "Adv Food Nutr Res, 2012;65:223-33",
+            "year": 2012,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/22361190/",
+            "excerpt": "综述：角鲨烯是人皮脂主要成分之一（约占13%），角鲨烷为其饱和衍生物；多项动物及体外研究报告了二者的抗氧化、皮肤水合（skin hydrating）与润肤（emollient）活性，被认为在营养与化妆品应用中具有潜力。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "综述性证据，缺乏角鲨烷单一成分的人体随机对照试验；其润肤作用主要基于其与皮脂的相似性及封闭性。"
+        },
+        {
+          "efficacy": "抗氧化（淬灭单线态氧、保护皮脂免于过氧化）",
+          "evidence": {
+            "type": "paper",
+            "title": "Biological and pharmacological activities of squalene and related compounds: potential uses in cosmetic dermatology",
+            "source": "Molecules, 2009;14(1):540-54",
+            "year": 2009,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/19169201/",
+            "excerpt": "综述：角鲨烯是皮肤表面多不饱和脂质的主要成分，作为润肤剂和抗氧化剂对皮肤有益，可淬灭单线态氧、保护皮肤表面免于UV等引起的脂质过氧化；角鲨烷作为其稳定（饱和）形式广泛用于外用载体。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "综述性证据；抗氧化数据主要来自角鲨烯，角鲨烷因饱和结构更稳定、不易氧化，作为润肤剂安全性更好。"
+        }
+      ]
+    },
+    {
+      "cn_name": "神经酰胺NP",
+      "inci_name": "CERAMIDE NP",
+      "cas_no": "100403-19-8",
+      "assertions": [
+        {
+          "efficacy": "屏障修护（改善特应性皮炎屏障功能）",
+          "evidence": {
+            "type": "paper",
+            "title": "Ceramide-dominant barrier repair lipids alleviate childhood atopic dermatitis: changes in barrier function provide a sensitive indicator of disease activity",
+            "source": "J Am Acad Dermatol, 2002;47(2):198-208",
+            "year": 2002,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/12140465/",
+            "excerpt": "24名顽固型儿童特应性皮炎患者在原治疗基础上以神经酰胺为主的生理性脂质屏障修护润肤剂替代原保湿剂：22/24名患儿3周内SCORAD显著改善并持续至20周；TEWL随SCORAD下降而降低，电镜可见板层膜结构恢复。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "人体开放试验；为神经酰胺主导的复配生理脂质（神经酰胺:胆固醇:游离脂肪酸）配方，非单一神经酰胺NP归因。"
+        },
+        {
+          "efficacy": "屏障修护（修复实验性屏障损伤）",
+          "evidence": {
+            "type": "paper",
+            "title": "Effect of a lipid-rich emollient containing ceramide 3 in experimentally induced skin barrier dysfunction",
+            "source": "Contact Dermatitis, 2002;46(6):331-8",
+            "year": 2002,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/12190621/",
+            "excerpt": "人体两种屏障损伤模型（胶带剥脱、0.2% SDS斑贴）：含神经酰胺3（即Ceramide NP）的润肤剂在胶带剥脱模型第4天显著降低红斑评分、TEWL及增殖细胞比例（p<0.03，对比未处理侧）。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "人体在体试验；Ceramide 3为Ceramide NP旧称；文中未披露配方中神经酰胺3的具体浓度。"
+        },
+        {
+          "efficacy": "屏障结构基础（角质层脂质组成与功能综述）",
+          "evidence": {
+            "type": "paper",
+            "title": "Ceramides and skin function",
+            "source": "Am J Clin Dermatol, 2003;4(2):107-29",
+            "year": 2003,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/12553851/",
+            "excerpt": "综述：神经酰胺是角质层细胞间板层脂质的主要成分，与胆固醇、游离脂肪酸近似等摩尔共存，对维持皮肤水渗透屏障至关重要；屏障受损的皮肤病多伴神经酰胺总量下降，补充与皮肤相同的脂质（尤其神经酰胺）可改善受损皮肤状态。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "机制综述；支持神经酰胺类成分作为屏障修护剂的生物学基础。"
+        }
+      ]
+    },
+    {
+      "cn_name": "水杨酸",
+      "inci_name": "SALICYLIC ACID",
+      "cas_no": "69-72-7",
+      "assertions": [
+        {
+          "efficacy": "祛痘（化学剥脱治疗痤疮）",
+          "evidence": {
+            "type": "paper",
+            "title": "Salicylic acid peels for the treatment of acne vulgaris in Asian patients",
+            "source": "Dermatol Surg, 2003;29(12):1196-9",
+            "year": 2003,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/14725662/",
+            "excerpt": "35名韩国痤疮患者每2周1次30%水杨酸剥脱共12周：炎性与非炎性皮损计数随疗程显著下降，Cunliffe痤疮分级显著改善，耐受性良好；角质层含水量、皮脂、pH、TEWL较基线无改变。"
+          },
+          "effective_conc_low": 30.0,
+          "effective_conc_high": 30.0,
+          "note": "30%为医疗机构刷酸浓度，非驻留型化妆品浓度；开放试验无对照组。"
+        },
+        {
+          "efficacy": "祛痘（2%超分子水杨酸对照过氧化苯甲酰/阿达帕林）",
+          "evidence": {
+            "type": "paper",
+            "title": "Efficacy and safety of 2% supramolecular salicylic acid compared with 5% benzoyl peroxide/0.1% adapalene in the acne treatment: a randomized, split-face, open-label, single-center study",
+            "source": "Cutan Ocul Toxicol, 2019;38(1):48-54",
+            "year": 2019,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/30173582/",
+            "excerpt": "31名轻中度痤疮患者半脸随机对照28天：2%超分子水杨酸在减少丘疹/脓疱（47.9% vs 49.8%）、非炎性皮损（43.1% vs 42.7%）及总皮损（44.1% vs 45.6%）方面与5% BPO+0.1%阿达帕林疗效相当（均p>0.05），且不影响皮肤屏障（水合、TEWL）。"
+          },
+          "effective_conc_low": 2.0,
+          "effective_conc_high": 2.0,
+          "note": "人体半脸随机对照试验；2%为驻留型产品可达浓度。"
+        },
+        {
+          "efficacy": "角质调理/美白辅助（剥脱机制与适应症综述）",
+          "evidence": {
+            "type": "paper",
+            "title": "Salicylic acid as a peeling agent: a comprehensive review",
+            "source": "Clin Cosmet Investig Dermatol, 2015;8:455-61",
+            "year": 2015,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/26347269/",
+            "excerpt": "综述：水杨酸具溶粉刺（comedolytic）作用，其剥脱机制为解离细胞间连接（desmolytic）而非溶解角蛋白；作为剥脱剂的适应症包括痤疮、黄褐斑、光损伤、雀斑及日光性黑子，在Fitzpatrick I-III及V-VI型皮肤中的疗效与安全性均有文献记录。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "机制与适应症综述。"
+        }
+      ]
+    },
+    {
+      "cn_name": "羟丙基四氢吡喃三醇（玻色因）",
+      "inci_name": "HYDROXYPROPYL TETRAHYDROPYRANTRIOL",
+      "cas_no": "439685-79-7",
+      "assertions": [
+        {
+          "efficacy": "抗老（促进糖胺聚糖合成，支持上皮修复）",
+          "evidence": {
+            "type": "paper",
+            "title": "Exogenous addition of a C-xylopyranoside derivative stimulates keratinocyte dermatan sulfate synthesis and promotes migration",
+            "source": "PLoS One, 2011;6(10):e25480",
+            "year": 2011,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/21998662/",
+            "excerpt": "体外研究：C-木糖苷（C-β-D-xylopyranoside-2-hydroxy-propane，即玻色因/Pro-Xylane）作为糖胺聚糖（GAG）合成启动子，使人角质形成细胞总硫酸化GAG分泌大幅增加（以硫酸皮肤素DS为主），并增强FGF-10依赖的细胞迁移与增殖，提示其可通过启动DS合成促进上皮修复。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "体外细胞研究（部分受欧莱雅资助）；GAG（如透明质酸、硫酸皮肤素）是真皮保水与支撑的关键基质。"
+        },
+        {
+          "efficacy": "抗老（改变真皮模型中GAG的表达与结构）",
+          "evidence": {
+            "type": "paper",
+            "title": "A New C-Xyloside induces modifications of GAG expression, structure and functional properties",
+            "source": "PLoS One, 2012;7(10):e47933",
+            "year": 2012,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/23110134/",
+            "excerpt": "体外重建真皮组织模型：C-木糖苷显著增强GAG链合成，并改变其结构（更短链长、O-硫酸化增加、艾杜糖醛酸含量与分布改变），所诱导GAG为硫酸软骨素/硫酸皮肤素（CS/DS）；研究指出其在皮肤稳态/再生模型中显示有益作用。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "体外重建皮肤模型（部分受欧莱雅资助）。"
+        },
+        {
+          "efficacy": "抗老/保湿（临床提升皮肤透明质酸含量与I型胶原表达）",
+          "evidence": {
+            "type": "paper",
+            "title": "Clinical Evaluation of a Multi-Modal Facial Serum That Addresses Hyaluronic Acid Levels in Skin",
+            "source": "J Drugs Dermatol, 2017;16(9):884-890",
+            "year": 2017,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/28915283/",
+            "excerpt": "59名轻中度光损伤女性12周临床研究：含Proxylane（C-木糖苷）、透明质酸、紫米提取物和甘草酸二钾的面部精华使所有面部皮肤属性、角质层含水量（12周）及TEWL（12周）显著改善；活检显示4周后皮肤透明质酸含量显著增加，12周后透明质酸合酶2及I型胶原（COL1A1）基因表达显著上调。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "人体临床研究；配方为复合精华（Proxylane+HA+植物提取物），效果不能单独归因于玻色因；摘要未披露各成分浓度。"
+        }
+      ]
+    },
+    {
+      "cn_name": "凝血酸（传明酸）",
+      "inci_name": "TRANEXAMIC ACID",
+      "cas_no": "1197-18-8",
+      "assertions": [
+        {
+          "efficacy": "美白（改善黄褐斑，临床+组织学证据）",
+          "evidence": {
+            "type": "paper",
+            "title": "Effect of tranexamic acid on melasma: a clinical trial with histological evaluation",
+            "source": "J Eur Acad Dermatol Venereol, 2013;27(8):1035-9",
+            "year": 2013,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/22329442/",
+            "excerpt": "25名黄褐斑女性口服氨甲环酸片（每日3次，每次2片）并每日2次外用氨甲环酸制剂共8周：22名完成者皮损黑色素指数（MI）显著下降；组织学显示表皮色素沉着、血管数量及肥大细胞计数显著减少，提示其同时逆转黄褐斑相关的真皮改变。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "口服+外用联合干预，外用制剂浓度摘要未披露；开放试验无对照组。"
+        },
+        {
+          "efficacy": "美白（2%外用改善黄褐斑并下调ET-1）",
+          "evidence": {
+            "type": "paper",
+            "title": "Efficacy and possible mechanisms of topical tranexamic acid in melasma",
+            "source": "Clin Exp Dermatol, 2016;41(5):480-5",
+            "year": 2016,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/27135282/",
+            "excerpt": "23名黄褐斑患者全脸外用2%氨甲环酸制剂12周：22/23名mMASI显著改善，L*值升高、a*值下降；Fontana-Masson染色显示表皮黑色素含量显著减少，CD31阳性血管及VEGF表达趋于下降，内皮素ET-1下调——提示抑制ET-1是其作用机制之一。"
+          },
+          "effective_conc_low": 2.0,
+          "effective_conc_high": 2.0,
+          "note": "人体试验（资生堂参与）；2%为化妆品可及浓度。"
+        },
+        {
+          "efficacy": "美白（5%外用RCT：有效但与基质相比无显著优势）",
+          "evidence": {
+            "type": "paper",
+            "title": "Topical 5% tranexamic acid for the treatment of melasma in Asians: a double-blind randomized controlled clinical trial",
+            "source": "J Cosmet Laser Ther, 2012;14(3):150-4",
+            "year": 2012,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/22506692/",
+            "excerpt": "23名亚洲双侧表皮型黄褐斑女性半脸双盲随机对照12周：78.2%患者黑色素指数下降，MASI评分两侧均显著降低；但5%氨甲环酸凝胶的淡斑效果与其基质相比无统计学差异（p>0.05），且用药侧红斑显著（p<0.05）。"
+          },
+          "effective_conc_low": 5.0,
+          "effective_conc_high": 5.0,
+          "note": "阴性/中性结果RCT，如实收录：提示5%外用传明酸的增量效果存疑，基质保湿防晒本身亦有贡献。"
+        }
+      ]
+    },
+    {
+      "cn_name": "四氢甲基嘧啶羧酸（依克多因）",
+      "inci_name": "ECTOIN",
+      "cas_no": "96702-03-3",
+      "assertions": [
+        {
+          "efficacy": "保湿/抗老（2%人体RCT改善水合与皮肤老化参数）",
+          "evidence": {
+            "type": "paper",
+            "title": "In vivo assessment of Ectoin: a randomized, vehicle-controlled clinical trial",
+            "source": "Skin Pharmacol Physiol, 2007;20(4):211-8",
+            "year": 2007,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/17519560/",
+            "excerpt": "单中心随机双盲基质对照人体试验：104名健康女性受试者，2%依克多因乳液对比基质及未处理对照，检测保湿性能及皮肤表面结构、弹性等老化参数；统计学评估显示受试者对依克多因处理在施用感和功效上均呈总体偏好，全程无副作用。"
+          },
+          "effective_conc_low": 2.0,
+          "effective_conc_high": 2.0,
+          "note": "人体随机双盲基质对照试验，2%浓度。"
+        },
+        {
+          "efficacy": "抗老（防护UVA诱导的光老化损伤）",
+          "evidence": {
+            "type": "paper",
+            "title": "Ectoin: an effective natural substance to prevent UVA-induced premature photoaging",
+            "source": "Skin Pharmacol Physiol, 2004;17(5):232-7",
+            "year": 2004,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/15452409/",
+            "excerpt": "体外研究（UVA应激模型+细胞培养）：依克多因可在多个细胞层面阻止UVA诱导的损伤，包括抑制第二信使释放、转录因子AP-2激活、ICAM-1表达及线粒体DNA突变，从而对抗UVA诱导的加速皮肤老化。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "体外细胞研究（德国默克研发部门）。"
+        },
+        {
+          "efficacy": "屏障修护（改善轻中度特应性皮炎，人体RCT）",
+          "evidence": {
+            "type": "paper",
+            "title": "Ectoine-containing cream in the treatment of mild to moderate atopic dermatitis: a randomised, comparator-controlled, intra-individual double-blind, multi-center trial",
+            "source": "Skin Pharmacol Physiol, 2014;27(2):57-65",
+            "year": 2014,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/23949258/",
+            "excerpt": "65名轻中度特应性皮炎患者随机、自身对照、双盲多中心试验：含依克多因乳膏（EHK02-01）与非甾体抗炎对照乳膏对称皮损每日2次共28天；依克多因乳膏耐受性极佳，疗效与对照产品相当（局部SCORAD、IGA及瘙痒评估）。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "人体随机对照多中心试验；摘要未披露依克多因浓度。"
+        }
+      ]
+    },
+    {
+      "cn_name": "霍霍巴籽油",
+      "inci_name": "SIMMONDSIA CHINENSIS (JOJOBA) SEED OIL",
+      "cas_no": "61789-91-1",
+      "assertions": [
+        {
+          "efficacy": "屏障修护（体外促进皮肤细胞伤口愈合与I型胶原合成）",
+          "evidence": {
+            "type": "paper",
+            "title": "Wound healing properties of jojoba liquid wax: an in vitro study",
+            "source": "J Ethnopharmacol, 2011;134(2):443-9",
+            "year": 2011,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/21211559/",
+            "excerpt": "体外研究（HaCaT角质形成细胞与人真皮成纤维细胞）：霍霍巴液态蜡细胞毒性极低，划痕实验显示其显著加速两类细胞的伤口闭合（依赖Ca²⁺及PI3K-Akt-mTOR、p38/ERK1/2 MAPK通路），并刺激成纤维细胞I型胶原合成。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "体外细胞研究，未涉及人体外用浓度。"
+        },
+        {
+          "efficacy": "祛痘（黏土-霍霍巴油面膜减少皮损，观察性试验）",
+          "evidence": {
+            "type": "paper",
+            "title": "Clay jojoba oil facial mask for lesioned skin and mild acne--results of a prospective, observational pilot study",
+            "source": "Forsch Komplementmed, 2012;19(2):75-9",
+            "year": 2012,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/22585103/",
+            "excerpt": "194名痤疮倾向/轻度痤疮参与者前瞻性开放观察：每周2-3次使用黏土-霍霍巴油面膜6周，总皮损数平均减少54%；脓疱、丘疹、囊肿、粉刺中位计数均显著下降（分别减少49.4%、57.3%、68.6%、39.1%），DLQI评分由5.0降至2.1。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "开放观察性先导研究，无对照组；面膜为黏土+霍霍巴油复合，效果不能单独归因于霍霍巴油。"
+        },
+        {
+          "efficacy": "保湿/抗炎（皮肤科应用综述）",
+          "evidence": {
+            "type": "paper",
+            "title": "Jojoba in dermatology: a succinct review",
+            "source": "G Ital Dermatol Venereol, 2013;148(6):687-91",
+            "year": 2013,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/24442052/",
+            "excerpt": "综述：霍霍巴籽油为长链醇与脂肪酸的蜡酯，文献提示其具抗炎作用，可用于皮肤感染、皮肤老化及伤口愈合等多种皮肤状况，并在化妆品配方（防晒、保湿剂）中发挥作用，还可促进外用药物的透皮吸收。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "叙述性综述，证据等级较低。"
+        }
+      ]
+    },
+    {
+      "cn_name": "牛油果树果脂",
+      "inci_name": "BUTYROSPERMUM PARKII (SHEA) BUTTER",
+      "cas_no": "194043-92-0",
+      "assertions": [
+        {
+          "efficacy": "抗炎（抑制巨噬细胞炎症通路）",
+          "evidence": {
+            "type": "paper",
+            "title": "Anti-inflammatory effects of shea butter through inhibition of iNOS, COX-2, and cytokines via the Nf-κB pathway in LPS-activated J774 macrophage cells",
+            "source": "J Complement Integr Med, 2012;9:Article 4",
+            "year": 2012,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/22499721/",
+            "excerpt": "体外研究（LPS激活的小鼠J774巨噬细胞）：乳木果脂甲醇提取物剂量依赖性降低LPS诱导的一氧化氮、TNF-α、IL-1β、IL-12水平，抑制iNOS与COX-2表达，并抑制IκB磷酸化与NF-κB核转位——从分子层面解释了乳木果脂传统抗炎用途。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "体外细胞研究（甲醇提取物），非外用人体证据。"
+        },
+        {
+          "efficacy": "抗炎（三萜酯类成分的动物在体抗炎活性）",
+          "evidence": {
+            "type": "paper",
+            "title": "Anti-inflammatory and chemopreventive effects of triterpene cinnamates and acetates from shea fat",
+            "source": "J Oleo Sci, 2010;59(6):273-80",
+            "year": 2010,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/20484832/",
+            "excerpt": "从乳木果脂中分离的8种三萜醋酸酯与肉桂酸酯在小鼠TPA诱导耳部炎症模型中均显示显著抗炎活性（ID50 0.15-0.75 μmol/耳），其中肉桂酸羽扇豆醇酯活性最强（ID50 0.15 μmol/耳），并在角叉菜胶诱导的大鼠足跖水肿及两阶段皮肤致癌模型中有效；乳木果脂富含此类三萜。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "动物在体研究；活性成分为乳木果脂不皂化物中的三萜酯，支持其舒缓抗炎定位。"
+        }
+      ]
+    }
+  ]
+}

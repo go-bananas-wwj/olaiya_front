@@ -1,0 +1,326 @@
+{
+  "ingredients": [
+    {
+      "cn_name": "甘草酸二钾",
+      "inci_name": "DIPOTASSIUM GLYCYRRHIZATE",
+      "cas_no": "68797-35-3",
+      "assertions": [
+        {
+          "efficacy": "舒缓",
+          "evidence": {
+            "type": "paper",
+            "title": "The treatment of atopic dermatitis with licorice gel",
+            "source": "J Dermatolog Treat, 2003;14(3):153-7",
+            "year": 2003,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/14522625/",
+            "excerpt": "双盲对照临床试验（每组30例特应性皮炎患者，疗程2周）：以甘草酸（glycyrrhizinic acid，提取物中含量20.3%）标定的1%与2%甘草凝胶外用，2%组在红斑、水肿、瘙痒评分改善上显著优于1%组及基质组（p<0.05）。"
+          },
+          "effective_conc_low": 1.0,
+          "effective_conc_high": 2.0,
+          "note": "活性物为甘草酸（glycyrrhizin），甘草酸二钾为其二钾盐，证据为同活性物的制剂临床，非DPG单体直接试验"
+        }
+      ]
+    },
+    {
+      "cn_name": "红没药醇",
+      "inci_name": "BISABOLOL",
+      "cas_no": "515-69-5",
+      "assertions": [
+        {
+          "efficacy": "舒缓",
+          "evidence": {
+            "type": "paper",
+            "title": "α-(-)-bisabolol reduces pro-inflammatory cytokine production and ameliorates skin inflammation",
+            "source": "Curr Pharm Biotechnol, 2014;15(2):173-81",
+            "year": 2014,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/24894548/",
+            "excerpt": "体外（LPS/TPA诱导的巨噬细胞）显著抑制TNF-α、IL-6生成；小鼠TPA耳肿胀模型中，外用α-(-)-红没药醇剂量依赖性抑制耳厚度、耳重、脂质过氧化及组织病理损伤；体内外毒性评价显示外用安全。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "细胞与小鼠模型证据，外用剂量以mg计，摘要未给出化妆品常用百分比浓度"
+        }
+      ]
+    },
+    {
+      "cn_name": "尿囊素",
+      "inci_name": "ALLANTOIN",
+      "cas_no": "97-59-6",
+      "assertions": [
+        {
+          "efficacy": "修护",
+          "evidence": {
+            "type": "paper",
+            "title": "Effectiveness and Safety of an Overnight Patch Containing Allium cepa Extract and Allantoin for Post-Dermatologic Surgery Scars",
+            "source": "Aesthetic Plast Surg, 2018;42(4):1144-1150",
+            "year": 2018,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/29948103/",
+            "excerpt": "125例受试者个体内随机、观察者盲对照研究：含洋葱提取物与尿囊素的夜间贴敷剂用于术后疤痕12-24周，第6、24周观察者POSAS评分改善显著优于未处理疤痕（p<0.001与p=0.001），安全性良好。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "复方产品（尿囊素+洋葱提取物），非尿囊素单体证据；摘要未给出尿囊素具体浓度"
+        },
+        {
+          "efficacy": "修护",
+          "evidence": {
+            "type": "paper",
+            "title": "Effect of allium cepa-allantoin-pentaglycan gel on skin hypertrophic scars: clinical and video-capillaroscopic results of an open-label, controlled, nonrandomized clinical trial",
+            "source": "Dermatol Surg, 2010;36(9):1439-44",
+            "year": 2010,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/20626444/",
+            "excerpt": "30例增生性疤痕/瘢痕疙瘩患者开放对照试验：含尿囊素、洋葱提取物与pentaglycan的凝胶每日两次外用24周，治疗组红斑及视频毛细血管镜下新生血管标志显著改善，皮损总体好转，对照组无变化。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "复方凝胶，开放非随机对照设计，证据强度中等"
+        }
+      ]
+    },
+    {
+      "cn_name": "PCA锌",
+      "inci_name": "ZINC PCA",
+      "cas_no": null,
+      "assertions": [
+        {
+          "efficacy": "控油祛痘",
+          "evidence": {
+            "type": "paper",
+            "title": "Efficacy and Tolerability of Topical Nicotinamide Plus Antibacterial Adhesive Agents and Zinc-Pyrrolidone Carboxylic Acid Versus Placebo as an Adjuvant Treatment for Moderate Acne Vulgaris in Indonesia: A Multicenter, Double-blind, Randomized, Controlled Trial",
+            "source": "J Clin Aesthet Dermatol, 2020;13(7):27-31",
+            "year": 2020,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/32983333/",
+            "excerpt": "多中心双盲随机对照试验：含烟酰胺、抗菌粘附剂与PCA锌（zinc-PCA）的外用制剂作为中度痤疮辅助治疗，与安慰剂相比疗效更好、耐受性良好，非炎性皮损减少更明显。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "复方制剂（锌PCA与烟酰胺等复配），无法归因于锌PCA单体的浓度-效应"
+        },
+        {
+          "efficacy": "舒缓",
+          "evidence": {
+            "type": "paper",
+            "title": "Clinical and instrumental evaluation of a new topical non-corticosteroid antifungal/anti-inflammatory/antiseborrheic combination cream for the treatment of mild-to-moderate facial seborrheic dermatitis",
+            "source": "Clin Cosmet Investig Dermatol, 2019;12:103-108",
+            "year": 2019,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/30774406/",
+            "excerpt": "20例轻中度面部脂溢性皮炎开放试验：含吡罗克酮乙醇胺、硬脂醇甘草亭酸酯与PCA锌的非激素面霜每日两次外用60天，90%患者IGA改善，脱屑、红斑与瘙痒显著减轻，耐受性良好。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "复方制剂，开放标签无对照；锌PCA在其中承担控油/抗炎角色"
+        }
+      ]
+    },
+    {
+      "cn_name": "辛酰水杨酸",
+      "inci_name": "CAPRYLOYL SALICYLIC ACID",
+      "cas_no": "78418-01-6",
+      "assertions": [
+        {
+          "efficacy": "焕肤",
+          "evidence": {
+            "type": "paper",
+            "title": "Clinical tolerance and efficacy of capryloyl salicylic acid peel compared to a glycolic acid peel in subjects with fine lines/wrinkles and hyperpigmented skin",
+            "source": "J Cosmet Dermatol, 2008;7(4):259-62",
+            "year": 2008,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/19146601/",
+            "excerpt": "50名35-60岁女性半脸随机对照：5-10%辛酰水杨酸（LHA）换肤对比20-50%甘醇酸换肤，每2周一次共12周；LHA侧41%受试者细纹显著改善、46%色素沉着显著改善，总体安全且效果不亚于高浓度甘醇酸。"
+          },
+          "effective_conc_low": 5.0,
+          "effective_conc_high": 10.0,
+          "note": "换肤（专业操作）浓度，驻留型化妆品中LHA常用浓度远低于此"
+        },
+        {
+          "efficacy": "控油祛痘",
+          "evidence": {
+            "type": "paper",
+            "title": "Comparison of clindamycin 1% and benzoyl peroxide 5% gel to a novel composition containing salicylic acid, capryloyl salicylic acid, HEPES, glycolic acid, citric acid, and dioic acid in the treatment of acne vulgaris",
+            "source": "J Drugs Dermatol, 2013;12(3):266-9",
+            "year": 2013,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/23545907/",
+            "excerpt": "半脸对照试验：含水杨酸、辛酰水杨酸、HEPES、甘醇酸、柠檬酸与二酸的复配制剂治疗痤疮，与1%克林霉素+5%过氧化苯甲酰凝胶（BenzaClin）相比耐受性与疗效相当。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "复方制剂对比处方药，摘要未给出各酸单体浓度"
+        }
+      ]
+    },
+    {
+      "cn_name": "甘醇酸",
+      "inci_name": "GLYCOLIC ACID",
+      "cas_no": "79-14-1",
+      "assertions": [
+        {
+          "efficacy": "焕肤",
+          "evidence": {
+            "type": "paper",
+            "title": "Clinical improvement of photoaged skin with 50% glycolic acid. A double-blind vehicle-controlled study",
+            "source": "Dermatol Surg, 1996;22(5):455-60",
+            "year": 1996,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/8634809/",
+            "excerpt": "41名志愿者双盲基质对照：50%甘醇酸每周一次、每次5分钟共4周，显著改善皮肤粗糙、细纹、日光性角化，组织学示角质层变薄、颗粒层增强、表皮增厚，部分标本真皮胶原增厚。"
+          },
+          "effective_conc_low": 50.0,
+          "effective_conc_high": 50.0,
+          "note": "诊所操作的高浓度换肤浓度，非驻留型化妆品浓度"
+        },
+        {
+          "efficacy": "控油祛痘",
+          "evidence": {
+            "type": "paper",
+            "title": "Glycolic acid peels versus amino fruit acid peels for acne",
+            "source": "J Cosmet Laser Ther, 2010;12(5):242-5",
+            "year": 2010,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/20825257/",
+            "excerpt": "24例痤疮患者单盲随机半脸对照：甘醇酸换肤与氨基果酸换肤各12次（每2周一次，6个月，浓度梯度递增），甘醇酸组非炎性皮损第1个月起、炎性皮损第5-6个月显著减少（p<0.05）。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "摘要未给出具体换肤浓度（由低至高梯度递增）"
+        }
+      ]
+    },
+    {
+      "cn_name": "乳酸",
+      "inci_name": "LACTIC ACID",
+      "cas_no": "50-21-5",
+      "assertions": [
+        {
+          "efficacy": "屏障",
+          "evidence": {
+            "type": "paper",
+            "title": "Clinical and non-invasive evaluation of 12% ammonium lactate emulsion for the treatment of dry skin in atopic and non-atopic subjects",
+            "source": "Acta Derm Venereol, 1992;72(1):28-33",
+            "year": 1992,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/1350137/",
+            "excerpt": "12%乳酸铵乳液用于特应性与非特应性皮肤干燥患者，15天后干燥、脱屑、瘙痒评分显著下降；无创检测示角质层电容、皮肤表面脂质、延展性与紧致度显著增加，屏障功能（TEWL）与表面纹理改善。"
+          },
+          "effective_conc_low": 12.0,
+          "effective_conc_high": 12.0,
+          "note": "活性物为乳酸铵（ammonium lactate），为乳酸的铵盐制剂"
+        },
+        {
+          "efficacy": "焕肤",
+          "evidence": {
+            "type": "paper",
+            "title": "Effects of alpha-hydroxy acids on photoaged skin: a pilot clinical, histologic, and ultrastructural study",
+            "source": "J Am Acad Dermatol, 1996;34(2 Pt 1):187-95",
+            "year": 1996,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/8642081/",
+            "excerpt": "随机对照：含25%甘醇酸、乳酸或柠檬酸的乳液涂于一侧前臂、对侧用安慰剂，平均6个月；AHA处理使皮肤厚度增加约25%，表皮增厚，乳头真皮层黏多糖增加、弹力纤维与胶原密度改善，无炎症。"
+          },
+          "effective_conc_low": 25.0,
+          "effective_conc_high": 25.0,
+          "note": "同一研究覆盖甘醇酸/乳酸/柠檬酸三种AHA，为26周长周期外用试验"
+        }
+      ]
+    },
+    {
+      "cn_name": "二裂酵母发酵产物溶胞产物",
+      "inci_name": "BIFIDA FERMENT LYSATE",
+      "cas_no": null,
+      "assertions": [
+        {
+          "efficacy": "舒缓",
+          "evidence": {
+            "type": "paper",
+            "title": "Bifidobacterium longum lysate, a new ingredient for reactive skin",
+            "source": "Exp Dermatol, 2010;19(8):e1-8",
+            "year": 2010,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/19624730/",
+            "excerpt": "随机双盲安慰剂对照：66名敏感性皮肤女性外用含10%长双歧杆菌溶胞产物面霜每日两次共2个月，乳酸刺痛试验显示皮肤敏感性显著下降；体外0.3-1%溶胞产物显著抑制辣椒素诱导的神经元CGRP释放。"
+          },
+          "effective_conc_low": 10.0,
+          "effective_conc_high": 10.0,
+          "note": "临床为10%添加量；体外神经模型起效浓度0.3-1%"
+        },
+        {
+          "efficacy": "屏障",
+          "evidence": {
+            "type": "paper",
+            "title": "Bifidobacterium longum lysate, a new ingredient for reactive skin",
+            "source": "Exp Dermatol, 2010;19(8):e1-8",
+            "year": 2010,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/19624730/",
+            "excerpt": "同一RCT中，10%溶胞产物面霜组胶带剥脱破坏屏障所需的剥脱次数显著增加（屏障抵抗力增强），皮肤干燥在第29天起显著减少；离体皮肤模型显示血管扩张、水肿、肥大细胞脱颗粒与TNF-α释放均下降。"
+          },
+          "effective_conc_low": 10.0,
+          "effective_conc_high": 10.0,
+          "note": "与'舒缓'条目同源（Guéniche 2010），侧重屏障修护终点"
+        }
+      ]
+    },
+    {
+      "cn_name": "马齿苋提取物",
+      "inci_name": "PORTULACA OLERACEA EXTRACT",
+      "cas_no": null,
+      "assertions": [
+        {
+          "efficacy": "舒缓",
+          "evidence": {
+            "type": "paper",
+            "title": "Assessment of the efficacy of a new complex antisensitive skin cream",
+            "source": "J Cosmet Dermatol, 2018;17(6):1101-1107",
+            "year": 2018,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/29356277/",
+            "excerpt": "20名敏感性皮肤志愿者随机双盲半脸对照28天：含云南马齿苋提取物、青刺果油、β-葡聚糖与透明质酸钠的复方霜较基线显著改善干燥、粗糙与红斑临床评分，皮肤含水量与纹理参数显著改善，耐受良好。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "复方抗敏霜，马齿苋为组分之一；摘要未给出提取物单体浓度"
+        },
+        {
+          "efficacy": "舒缓",
+          "evidence": {
+            "type": "paper",
+            "title": "Efficacy and safety of purslane (Portulaca oleracea) for mild to moderate chronic hand eczema; A randomized, double-blind, placebo-controlled clinical trial",
+            "source": "Explore (NY), 2024;20(3):401-410",
+            "year": 2024,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/37872023/",
+            "excerpt": "70例轻中度慢性手部湿疹随机双盲安慰剂对照：口服标准化马齿苋提取物糖浆4周（配合外用凡士林），皲裂、瘙痒、干燥及总分较安慰剂显著下降（p<0.05），不良反应轻中度。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "口服给药证据（非外用），用于支持抗炎/舒缓方向，外推至外用需谨慎"
+        }
+      ]
+    },
+    {
+      "cn_name": "油橄榄叶提取物",
+      "inci_name": "OLEA EUROPAEA (OLIVE) LEAF EXTRACT",
+      "cas_no": null,
+      "assertions": [
+        {
+          "efficacy": "屏障",
+          "evidence": {
+            "type": "paper",
+            "title": "Efficacy of olive leaf extract-containing cream for facial rejuvenation: A pilot study",
+            "source": "J Cosmet Dermatol, 2020;19(7):1662-1666",
+            "year": 2020,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/32333467/",
+            "excerpt": "36名光老化受试者前瞻性试验：含油橄榄叶提取物（含橄榄苦苷等酚类）面霜每日两次外用2个月，TEWL显著下降（P=.007，停用1个月后仍维持）、皮肤含水量显著上升（P=.004），皱纹各随访点均显著改善。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "商品化面霜（SUPERHEAL O-Live Cream），摘要未给出提取物百分比浓度"
+        },
+        {
+          "efficacy": "修护",
+          "evidence": {
+            "type": "paper",
+            "title": "Comparative Study of the Efficacy of EHO-85, a Hydrogel Containing Olive Tree (Olea europaea) Leaf Extract, in Skin Wound Healing",
+            "source": "Int J Mol Sci, 2023;24(17):13328",
+            "year": 2023,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/37686133/",
+            "excerpt": "大鼠皮肤创面模型：含油橄榄叶提取物的水凝胶EHO-85与积雪草、透明质酸、右旋泛醇制剂对比，EHO-85促进上皮化、降低血管增生；第14天炎症更轻、细胞外基质胶原更多（再生组织成熟度更高），愈合效果不劣于或优于常规临床用品。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "动物模型证据；作者另有人群溃疡愈合数据作为转化依据"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,256 @@
+{
+  "ingredients": [
+    {
+      "cn_name": "腺苷",
+      "inci_name": "ADENOSINE",
+      "cas_no": "58-61-7",
+      "assertions": [
+        {
+          "efficacy": "抗皱",
+          "evidence": {
+            "type": "paper",
+            "title": "Evaluation of anti-wrinkle efficacy of adenosine-containing products using the FOITS technique",
+            "source": "Int J Cosmet Sci, 2006;28(6):447-451",
+            "year": 2006,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/18489289/",
+            "excerpt": "双盲随机安慰剂对照研究，126 名 45-65 岁女性受试者每日两次使用含腺苷的乳膏或可溶膜，2 个月后经 FOITS 光学皮肤轮廓分析证实眼周鱼尾纹和眉间纹的皮肤平滑度显著改善，第 3 周即起效。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "摘要未披露配方中腺苷的具体浓度"
+        }
+      ]
+    },
+    {
+      "cn_name": "咖啡因",
+      "inci_name": "CAFFEINE",
+      "cas_no": "58-08-2",
+      "assertions": [
+        {
+          "efficacy": "光防护/抗光致癌",
+          "evidence": {
+            "type": "paper",
+            "title": "Caffeine and caffeine sodium benzoate have a sunscreen effect, enhance UVB-induced apoptosis, and inhibit UVB-induced skin carcinogenesis in SKH-1 mice",
+            "source": "Carcinogenesis, 2007;28(1):199-206",
+            "year": 2007,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/16864596/",
+            "excerpt": "SKH-1 无毛小鼠实验：外用咖啡因在 UVB 照射前 0.5 小时涂抹可减少胸腺嘧啶二聚体形成和晒伤（防晒效应），照射后涂抹可使 UVB 诱导的凋亡增强 2-3 倍，并显著抑制 UVB 诱导的皮肤肿瘤形成与生长。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "小鼠动物实验数据，非人体临床试验"
+        }
+      ]
+    },
+    {
+      "cn_name": "积雪草提取物",
+      "inci_name": "CENTELLA ASIATICA EXTRACT",
+      "cas_no": "84696-21-9",
+      "assertions": [
+        {
+          "efficacy": "保湿修护/抗炎",
+          "evidence": {
+            "type": "paper",
+            "title": "Moisturizing and Antiinflammatory Properties of Cosmetic Formulations Containing Centella asiatica Extract",
+            "source": "Indian J Pharm Sci, 2016;78(1):27-33",
+            "year": 2016,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/27168678/",
+            "excerpt": "25 名志愿者前臂每日两次涂抹含 2.5% 或 5% 积雪草提取物的乳剂/水凝胶，4 周后角质层含水量提升、经皮水分流失（TEWL）下降；在烟酸甲酯诱导的皮肤微炎症模型中表现出体内抗炎活性。"
+          },
+          "effective_conc_low": 2.5,
+          "effective_conc_high": 5.0,
+          "note": null
+        }
+      ]
+    },
+    {
+      "cn_name": "光果甘草根提取物（光甘草定）",
+      "inci_name": "GLYCYRRHIZA GLABRA (LICORICE) ROOT EXTRACT",
+      "cas_no": "84775-66-6",
+      "assertions": [
+        {
+          "efficacy": "美白/抗炎",
+          "evidence": {
+            "type": "paper",
+            "title": "The inhibitory effect of glabridin from licorice extracts on melanogenesis and inflammation",
+            "source": "Pigment Cell Res, 1998;11(6):355-361",
+            "year": 1998,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/9870547/",
+            "excerpt": "光甘草定在 0.1-1.0 µg/mL 无细胞毒浓度下抑制 B16 黑素瘤细胞酪氨酸酶活性（特异抑制 T1/T3 同工酶）；豚鼠外用 0.5% 光甘草定可抑制 UVB 诱导的色素沉着与红斑，并在体外抑制超氧阴离子生成和环氧合酶活性。"
+          },
+          "effective_conc_low": 0.5,
+          "effective_conc_high": 0.5,
+          "note": "0.5% 为豚鼠外用实验浓度；提取物中光甘草定含量因原料规格差异较大"
+        }
+      ]
+    },
+    {
+      "cn_name": "苯乙基间苯二酚（377）",
+      "inci_name": "PHENYLETHYL RESORCINOL",
+      "cas_no": "85-27-8",
+      "assertions": [
+        {
+          "efficacy": "美白",
+          "evidence": {
+            "type": "paper",
+            "title": "p44/42 MAPK signaling is a prime target activated by phenylethyl resorcinol in its anti-melanogenic action",
+            "source": "Phytomedicine, 2019;58:152877",
+            "year": 2019,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/30849679/",
+            "excerpt": "在 B16F10 黑素瘤细胞与人表皮黑素细胞中，苯乙基间苯二酚同时降低黑素含量与酪氨酸酶活性，并直接抑制无细胞体系中的酪氨酸酶；其抗黑素生成作用由 p44/42 MAPK（ERK1/2）通路激活介导，被 MEK 抑制剂 PD98059 逆转。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "体外机制研究，未给出配方起效浓度"
+        },
+        {
+          "efficacy": "美白",
+          "evidence": {
+            "type": "paper",
+            "title": "Phenylethyl resorcinol smartLipids for skin brightening - Increased loading & chemical stability",
+            "source": "Eur J Pharm Sci, 2019;137:104992",
+            "year": 2019,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/31302211/",
+            "excerpt": "论文明确记载苯乙基间苯二酚（PER）为高效酪氨酸酶抑制剂，0.5% 浓度即已有临床证实的美白有效性；研究并解决了其见光易降解变红的配方稳定性难题。"
+          },
+          "effective_conc_low": 0.5,
+          "effective_conc_high": 0.5,
+          "note": "0.5% 为文献引述的临床有效浓度"
+        }
+      ]
+    },
+    {
+      "cn_name": "抗坏血酸葡糖苷",
+      "inci_name": "ASCORBYL GLUCOSIDE",
+      "cas_no": "129499-78-1",
+      "assertions": [
+        {
+          "efficacy": "抗氧化",
+          "evidence": {
+            "type": "paper",
+            "title": "Ascorbic acid 2-glucoside: An ascorbic acid pro-drug with longer-term antioxidant efficacy in skin",
+            "source": "Int J Cosmet Sci, 2021;43(6):691-702",
+            "year": 2021,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/34679221/",
+            "excerpt": "人体皮肤外植体与重建表皮模型实验：1.8% AA2G 在生理 pH 配方中被皮肤完全代谢为抗坏血酸并持续释放，其抗氧化保护效果（MDA/SOD/过氧化氢酶三项指标）与 15% 抗坏血酸相当，且化学稳定性显著优于抗坏血酸。"
+          },
+          "effective_conc_low": 1.8,
+          "effective_conc_high": 1.8,
+          "note": null
+        },
+        {
+          "efficacy": "促胶原合成",
+          "evidence": {
+            "type": "paper",
+            "title": "Comparison of ascorbic acid and ascorbic acid 2-O-alpha-glucoside on the cytotoxicity and bioavailability to low density cultures of fibroblasts",
+            "source": "Biochem Pharmacol, 1992;44(11):2191-2197",
+            "year": 1992,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/1472084/",
+            "excerpt": "成纤维细胞培养实验：AA-2G 可被细胞内 α-葡萄糖苷酶水解为抗坏血酸加以利用，在低密度培养下不表现抗坏血酸的细胞毒性，并在中高密度培养中有效促进胶原合成。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "体外细胞实验"
+        }
+      ]
+    },
+    {
+      "cn_name": "熊果苷",
+      "inci_name": "ARBUTIN",
+      "cas_no": "497-76-7",
+      "assertions": [
+        {
+          "efficacy": "美白",
+          "evidence": {
+            "type": "paper",
+            "title": "Arbutin: mechanism of its depigmenting action in human melanocyte culture",
+            "source": "J Pharmacol Exp Ther, 1996;276(2):765-769",
+            "year": 1996,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/8632348/",
+            "excerpt": "人黑素细胞培养研究：熊果苷在无细胞毒浓度下抑制黑素小体酪氨酸酶活性，显著减少真黑素生成；动力学分析证实其为可逆的酪氨酸酶竞争性抑制剂（竞争 L-酪氨酸结合位点），不影响酪氨酸酶 mRNA 表达。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "体外人黑素细胞研究，未给出配方百分比浓度"
+        }
+      ]
+    },
+    {
+      "cn_name": "乙酰基六肽-8（阿基瑞林）",
+      "inci_name": "ACETYL HEXAPEPTIDE-8",
+      "cas_no": "616204-22-9",
+      "assertions": [
+        {
+          "efficacy": "抗皱",
+          "evidence": {
+            "type": "paper",
+            "title": "A synthetic hexapeptide (Argireline) with antiwrinkle activity",
+            "source": "Int J Cosmet Sci, 2002;24(5):303-310",
+            "year": 2002,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/18498523/",
+            "excerpt": "阿基瑞林模拟肉毒杆菌素 N 端、竞争性抑制 SNARE 复合体组装从而抑制儿茶酚胺释放；健康女性志愿者面部皮肤硅模分析显示，含 10% 阿基瑞林的乳膏使用 30 天后皱纹深度降低约 30%。"
+          },
+          "effective_conc_low": 10.0,
+          "effective_conc_high": 10.0,
+          "note": "10% 为 Argireline 溶液（原料液）添加量"
+        }
+      ]
+    },
+    {
+      "cn_name": "视黄醇棕榈酸酯",
+      "inci_name": "RETINYL PALMITATE",
+      "cas_no": "79-81-2",
+      "assertions": [
+        {
+          "efficacy": "抗光老化/修护",
+          "evidence": {
+            "type": "paper",
+            "title": "Efficacy and mechanism of retinyl palmitate against UVB-induced skin photoaging",
+            "source": "Front Pharmacol, 2023;14:1278838",
+            "year": 2023,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/37927602/",
+            "excerpt": "细胞与动物实验：视黄醇棕榈酸酯减少 UVB 诱导的胶原降解与皮肤细胞凋亡，促进细胞迁移与损伤修复，显著降低 UVB 诱导的 IL-6、IL-1β、TNF-α 表达并上调 I 型胶原；机制涉及抑制炎症反应、促胶原合成与抗凋亡多通路。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "体外细胞及动物实验，未给出化妆品配方起效浓度"
+        }
+      ]
+    },
+    {
+      "cn_name": "麦角硫因",
+      "inci_name": "ERGOTHIONEINE",
+      "cas_no": "497-30-3",
+      "assertions": [
+        {
+          "efficacy": "抗光老化",
+          "evidence": {
+            "type": "paper",
+            "title": "The Antiaging Activity of Ergothioneine in UVA-Irradiated Human Dermal Fibroblasts via the Inhibition of the AP-1 Pathway and the Activation of Nrf2-Mediated Antioxidant Genes",
+            "source": "Oxid Med Cell Longev, 2020;2020:2576823",
+            "year": 2020,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/32104530/",
+            "excerpt": "人皮肤成纤维细胞实验：0.125-0.5 µM 亚微摩尔浓度的麦角硫因抑制 UVA 诱导的 AP-1（c-Fos/c-Jun）核转位与 MMP-1 激活、阻止 I 型前胶原降解，同时通过 Nrf2/ARE 通路上调 HO-1、NQO-1、γ-GCLC 并提升谷胱甘肽水平。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "体外实验浓度为 0.125-0.5 µM，无法直接换算为配方百分比"
+        },
+        {
+          "efficacy": "抗氧化",
+          "evidence": {
+            "type": "paper",
+            "title": "Ergothioneine Protects Against UV-Induced Oxidative Stress Through the PI3K/AKT/Nrf2 Signaling Pathway",
+            "source": "Clin Cosmet Investig Dermatol, 2024;17:1309-1319",
+            "year": 2024,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/38854850/",
+            "excerpt": "UV 诱导的皮肤细胞氧化应激模型中，麦角硫因通过 PI3K/Akt/Nrf2 信号通路减轻氧化损伤、保护细胞免受 UV 引起的损伤或死亡，提示其作为皮肤抗氧化保护成分的价值。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": null
+        }
+      ]
+    }
+  ]
+}
