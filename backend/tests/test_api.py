@@ -11,7 +11,8 @@ def client(session):
     session.commit()
     app.dependency_overrides[get_db] = lambda: session
     try:
-        yield TestClient(app)
+        with TestClient(app) as c:
+            yield c
     finally:
         app.dependency_overrides.clear()
 

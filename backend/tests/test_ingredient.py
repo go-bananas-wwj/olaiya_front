@@ -45,3 +45,14 @@ def test_assertion_links_evidence(session):
     got = session.query(EfficacyAssertion).one()
     assert got.evidence.title == "某论文"
     assert got.ingredient.inci_name == "RETINOL"
+
+
+def test_assertion_rejects_dangling_evidence(session):
+    """铁律补全：指向不存在证据的 evidence_id 必须被拒（外键约束生效）。"""
+    ing = Ingredient(inci_name="DUMMY", cn_name="dummy")
+    session.add(ing)
+    session.commit()
+    session.add(EfficacyAssertion(ingredient_id=ing.id, efficacy="测试", evidence_id=99999))
+    with pytest.raises(IntegrityError):
+        session.commit()
+    session.rollback()
