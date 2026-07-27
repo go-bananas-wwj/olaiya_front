@@ -12,6 +12,7 @@
 
 import argparse
 import json
+import os
 import re
 import time
 from pathlib import Path
@@ -19,10 +20,60 @@ from pathlib import Path
 from playwright.sync_api import sync_playwright
 
 BASE = "https://china.guidechem.com"
+PROXY_SERVER = "http://127.0.0.1:7891"  # 本机 mihomo/Clash 混合端口
 OUT_ROOT = Path(__file__).resolve().parents[1] / "raw" / "guidechem"
 UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36")
 PAGE_DELAY = 4.0  # 每页间隔秒数，礼貌采集
+
+# ---- 代理节点轮换（本机 mihomo 控制端；CFZ_ROTATE=off 禁用） ----
+MIHOMO_API = "http://127.0.0.1:9091"
+MIHOMO_SECRET = "a9fb1657dc3b17e1"
+MIHOMO_GROUP = "主代理"
+_ROTATE_STATE = {"nodes": [], "idx": 0, "failed_once": False}
+
+
+def _mihomo(path: str, method: str = "GET", body: dict | None = None) -> dict | None:
+    import urllib.request
+    from urllib.parse import quote
+    url = f"{MIHOMO_API}{quote(path, safe='/:')}"
+    req = urllib.request.Request(url, method=method)
+    req.add_header("Authorization", f"Bearer {MIHOMO_SECRET}")
+    data = None
+    if body is not None:
+        data = json.dumps(body).encode("utf-8")
+        req.add_header("Content-Type", "application/json")
+    try:
+        with urllib.request.urlopen(req, data=data, timeout=10) as resp:
+            return json.loads(resp.read().decode("utf-8")) if resp.length else {}
+    except Exception:
+        return None
+
+
+def rotate_proxy() -> str | None:
+    """被限流时切换到代理组的下一个节点，返回新节点名；失败返回 None。"""
+    if os.environ.get("CFZ_ROTATE", "").lower() == "off":
+        return None
+    st = _ROTATE_STATE
+    if not st["nodes"]:
+        info = _mihomo(f"/proxies/{MIHOMO_GROUP}")
+        if not info or not info.get("all"):
+            return None
+        current = info.get("now")
+        nodes = [n for n in info["all"] if n != current and "套餐" not in n]
+        if current and current in info["all"]:
+            st["idx"] = 0
+        st["nodes"] = nodes
+        st["idx"] = 0
+    for _ in range(len(st["nodes"])):
+        node = st["nodes"][st["idx"] % len(st["nodes"])]
+        st["idx"] += 1
+        r = _mihomo(f"/proxies/{MIHOMO_GROUP}", method="PUT", body={"name": node})
+        if r is not None:
+            time.sleep(2)
+            print(f"  🌐 代理出口已切换（{node}）")
+            return node
+    return None
 
 
 def text_lines(raw_html: str) -> list[str]:
@@ -266,8 +317,13 @@ def collect_brand(page, brand: str, pages: int, limit: int) -> dict:
             stats["failed"] += 1
             stats["consecutive_failures"] = stats.get("consecutive_failures", 0) + 1
             print(f"  ✗ {name.strip()} 重试后仍失败，已记入 _failures.jsonl")
-            if stats["consecutive_failures"] >= 3:  # 连续失败=已被限流，快速止损
-                print(f"  ⛔ 连续 {stats['consecutive_failures']} 次失败，疑似被限流，中止本品牌（下波再采）")
+            if stats["consecutive_failures"] >= 3:  # 连续失败=已被限流
+                node = rotate_proxy()
+                if node:
+                    print(f"  🔄 已切换代理节点 → {node}，继续采集")
+                    stats["consecutive_failures"] = 0
+                    continue
+                print(f"  ⛔ 连续 {stats['consecutive_failures']} 次失败且无法换节点，中止本品牌（下波再采）")
                 break
             continue
         stats["consecutive_failures"] = 0
@@ -301,7 +357,10 @@ def main() -> None:
         ap.error("--brand 与 --brand-file 至少给一个")
 
     with sync_playwright() as p:
-        browser = p.chromium.launch(headless=True, args=["--no-sandbox", "--disable-dev-shm-usage"])
+        # 经本地代理出口采集（直连 IP 曾被目标站封禁；CFZ_PROXY=off 可禁用代理）
+        proxy = None if os.environ.get("CFZ_PROXY", "").lower() == "off" else {"server": PROXY_SERVER}
+        browser = p.chromium.launch(headless=True, args=["--no-sandbox", "--disable-dev-shm-usage"],
+                                    proxy=proxy)
         ctx = browser.new_context(user_agent=UA, viewport={"width": 1366, "height": 900}, locale="zh-CN")
         page = ctx.new_page()
 
