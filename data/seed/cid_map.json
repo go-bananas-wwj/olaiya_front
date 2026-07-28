@@ -1,0 +1,293 @@
+{
+  "ACETYL HEXAPEPTIDE-8": {
+    "cid": 71587772,
+    "matched_by": "cas",
+    "mw": "887.0",
+    "pubchem_title": "Acetyl hexapeptide-3",
+    "status": "ok",
+    "tpsa": 472,
+    "xlogp": -5.2
+  },
+  "ADENOSINE": {
+    "cid": 60961,
+    "matched_by": "cas",
+    "mw": "267.24",
+    "pubchem_title": "Adenosine",
+    "status": "ok",
+    "tpsa": 140,
+    "xlogp": -1.1
+  },
+  "ALLANTOIN": {
+    "cid": 204,
+    "matched_by": "cas",
+    "mw": "158.12",
+    "pubchem_title": "Allantoin",
+    "status": "ok",
+    "tpsa": 113,
+    "xlogp": -2.2
+  },
+  "ARBUTIN": {
+    "cid": 440936,
+    "matched_by": "cas",
+    "mw": "272.25",
+    "pubchem_title": "Arbutin",
+    "status": "ok",
+    "tpsa": 120,
+    "xlogp": -0.7
+  },
+  "ASCORBIC ACID": {
+    "cid": 54670067,
+    "matched_by": "cas",
+    "mw": "176.12",
+    "pubchem_title": "L-Ascorbic Acid",
+    "status": "ok",
+    "tpsa": 107,
+    "xlogp": -1.6
+  },
+  "ASCORBYL GLUCOSIDE": {
+    "cid": 54693473,
+    "matched_by": "cas",
+    "mw": "338.26",
+    "pubchem_title": "L-Ascorbic acid 2-glucoside",
+    "status": "ok",
+    "tpsa": 186,
+    "xlogp": -3.1
+  },
+  "BIFIDA FERMENT LYSATE": {
+    "cid": null,
+    "matched_by": null,
+    "note": "名称含「FERMENT」，混合物/提取物，无单一 CID",
+    "status": "no_single_cid"
+  },
+  "BISABOLOL": {
+    "cid": 1549992,
+    "matched_by": "cas",
+    "mw": "222.37",
+    "pubchem_title": "Bisabolol",
+    "status": "ok",
+    "tpsa": 20.2,
+    "xlogp": 3.8
+  },
+  "BUTYROSPERMUM PARKII (SHEA) BUTTER": {
+    "cid": null,
+    "matched_by": null,
+    "note": "名称含「BUTTER」，混合物/提取物，无单一 CID",
+    "status": "no_single_cid"
+  },
+  "CAFFEINE": {
+    "cid": 2519,
+    "matched_by": "cas",
+    "mw": "194.19",
+    "pubchem_title": "Caffeine",
+    "status": "ok",
+    "tpsa": 58.4,
+    "xlogp": -0.1
+  },
+  "CAPRYLOYL SALICYLIC ACID": {
+    "cid": 9838158,
+    "matched_by": "cas",
+    "mw": "264.32",
+    "pubchem_title": "n-Octanoyl-5-salicylic acid",
+    "status": "ok",
+    "tpsa": 74.6,
+    "xlogp": 5.2
+  },
+  "CENTELLA ASIATICA EXTRACT": {
+    "cid": null,
+    "matched_by": null,
+    "note": "名称含「EXTRACT」，混合物/提取物，无单一 CID",
+    "status": "no_single_cid"
+  },
+  "CERAMIDE NP": {
+    "cid": 74945544,
+    "matched_by": "cas",
+    "mw": "582.0",
+    "pubchem_title": "Ceramides",
+    "status": "ok",
+    "tpsa": 89.8,
+    "xlogp": 12.4
+  },
+  "DIPOTASSIUM GLYCYRRHIZATE": {
+    "cid": 656852,
+    "matched_by": "cas",
+    "mw": "899.1",
+    "pubchem_title": "Dipotassium Glycyrrhizinate",
+    "status": "ok",
+    "tpsa": 273,
+    "xlogp": null
+  },
+  "ECTOIN": {
+    "cid": 126041,
+    "matched_by": "cas",
+    "mw": "142.16",
+    "pubchem_title": "Ectoine",
+    "status": "ok",
+    "tpsa": 61.7,
+    "xlogp": -0.8
+  },
+  "ERGOTHIONEINE": {
+    "cid": 5351619,
+    "matched_by": "cas",
+    "mw": "229.30",
+    "pubchem_title": "Ergothioneine",
+    "status": "ok",
+    "tpsa": 96.3,
+    "xlogp": 0.3
+  },
+  "GLYCOLIC ACID": {
+    "cid": 757,
+    "matched_by": "cas",
+    "mw": "76.05",
+    "pubchem_title": "Glycolic Acid",
+    "status": "ok",
+    "tpsa": 57.5,
+    "xlogp": -1.1
+  },
+  "GLYCYRRHIZA GLABRA (LICORICE) ROOT EXTRACT": {
+    "cid": null,
+    "matched_by": null,
+    "note": "名称含「EXTRACT」，混合物/提取物，无单一 CID",
+    "status": "no_single_cid"
+  },
+  "HYALURONIC ACID": {
+    "cid": null,
+    "matched_by": null,
+    "note": "聚合物/混合物（显式名单），无单一 CID",
+    "status": "no_single_cid"
+  },
+  "HYDROXYPROPYL TETRAHYDROPYRANTRIOL": {
+    "cid": 16666733,
+    "matched_by": "cas",
+    "mw": "192.21",
+    "pubchem_title": "C-beta-D-xylopyranoside-2-hydroxypropane",
+    "status": "ok",
+    "tpsa": 90.2,
+    "xlogp": -1.8
+  },
+  "LACTIC ACID": {
+    "cid": 612,
+    "matched_by": "cas",
+    "mw": "90.08",
+    "pubchem_title": "Lactic Acid",
+    "status": "ok",
+    "tpsa": 57.5,
+    "xlogp": -0.7
+  },
+  "NIACINAMIDE": {
+    "cid": 936,
+    "matched_by": "cas",
+    "mw": "122.12",
+    "pubchem_title": "Nicotinamide",
+    "status": "ok",
+    "tpsa": 56,
+    "xlogp": -0.4
+  },
+  "OLEA EUROPAEA (OLIVE) LEAF EXTRACT": {
+    "cid": null,
+    "matched_by": null,
+    "note": "名称含「EXTRACT」，混合物/提取物，无单一 CID",
+    "status": "no_single_cid"
+  },
+  "PANTHENOL": {
+    "cid": 131204,
+    "matched_by": "cas",
+    "mw": "205.25",
+    "pubchem_title": "Dexpanthenol",
+    "status": "ok",
+    "tpsa": 89.8,
+    "xlogp": -0.9
+  },
+  "PHENOXYETHANOL": {
+    "cid": 31236,
+    "matched_by": "cas",
+    "mw": "138.16",
+    "pubchem_title": "Phenoxyethanol",
+    "status": "ok",
+    "tpsa": 29.5,
+    "xlogp": 1.2
+  },
+  "PHENYLETHYL RESORCINOL": {
+    "cid": 11171903,
+    "matched_by": "cas",
+    "mw": "214.26",
+    "pubchem_title": "4-(1-Phenylethyl)-1,3-benzenediol",
+    "status": "ok",
+    "tpsa": 40.5,
+    "xlogp": 3.5
+  },
+  "PORTULACA OLERACEA EXTRACT": {
+    "cid": null,
+    "matched_by": null,
+    "note": "名称含「EXTRACT」，混合物/提取物，无单一 CID",
+    "status": "no_single_cid"
+  },
+  "RETINOL": {
+    "cid": 445354,
+    "matched_by": "cas",
+    "mw": "286.5",
+    "pubchem_title": "Retinol",
+    "status": "ok",
+    "tpsa": 20.2,
+    "xlogp": 5.7
+  },
+  "RETINYL PALMITATE": {
+    "cid": 5280531,
+    "matched_by": "cas",
+    "mw": "524.9",
+    "pubchem_title": "Retinol Palmitate",
+    "status": "ok",
+    "tpsa": 26.3,
+    "xlogp": 13.6
+  },
+  "SALICYLIC ACID": {
+    "cid": 338,
+    "matched_by": "cas",
+    "mw": "138.12",
+    "pubchem_title": "Salicylic Acid",
+    "status": "ok",
+    "tpsa": 57.5,
+    "xlogp": 2.3
+  },
+  "SIMMONDSIA CHINENSIS (JOJOBA) SEED OIL": {
+    "cid": null,
+    "matched_by": null,
+    "note": "名称含「OIL」，混合物/提取物，无单一 CID",
+    "status": "no_single_cid"
+  },
+  "SQUALANE": {
+    "cid": 8089,
+    "matched_by": "cas",
+    "mw": "422.8",
+    "pubchem_title": "Squalane",
+    "status": "ok",
+    "tpsa": 0,
+    "xlogp": 14.7
+  },
+  "TOCOPHEROL": {
+    "cid": 2116,
+    "matched_by": "cas",
+    "mw": "430.7",
+    "pubchem_title": "DL-alpha-Tocopherol",
+    "status": "ok",
+    "tpsa": 29.5,
+    "xlogp": 10.7
+  },
+  "TRANEXAMIC ACID": {
+    "cid": 5526,
+    "matched_by": "cas",
+    "mw": "157.21",
+    "pubchem_title": "4-(Aminomethyl)cyclohexanecarboxylic acid",
+    "status": "ok",
+    "tpsa": 63.3,
+    "xlogp": -2
+  },
+  "ZINC PCA": {
+    "cid": 11602214,
+    "matched_by": "inci",
+    "mw": "321.6",
+    "pubchem_title": "Zinc pidolate",
+    "status": "ok",
+    "tpsa": 138,
+    "xlogp": null
+  }
+}

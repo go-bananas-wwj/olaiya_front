@@ -1,0 +1,263 @@
+{
+  "ingredients": [
+    {
+      "cn_name": "曲酸",
+      "inci_name": "KOJIC ACID",
+      "cas_no": "501-30-4",
+      "assertions": [
+        {
+          "efficacy": "美白淡斑（抑制酪氨酸酶）",
+          "evidence": {
+            "type": "paper",
+            "title": "Kojic Acid vis-a-vis its Combinations with Hydroquinone and Betamethasone Valerate in Melasma: A Randomized, Single Blind, Comparative Study of Efficacy and Safety",
+            "source": "Indian J Dermatol, 2013;58(4):281-5",
+            "year": 2013,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/23918998/",
+            "excerpt": "80例黄褐斑患者随机分四组的单盲对照试验，12周后1%曲酸单用组MASI评分显著下降；曲酸1%+氢醌2%联合组疗效最优，提示曲酸与氢醌有协同脱色作用。"
+          },
+          "effective_conc_low": 1.0,
+          "effective_conc_high": null,
+          "note": "随机对照人体试验（单盲）；1%浓度单用有效，与氢醌联用为复方方案"
+        }
+      ]
+    },
+    {
+      "cn_name": "壬二酸",
+      "inci_name": "AZELAIC ACID",
+      "cas_no": "123-99-9",
+      "assertions": [
+        {
+          "efficacy": "祛痘（抗菌抗炎+调节角化）",
+          "evidence": {
+            "type": "paper",
+            "title": "Clinical studies of 20% azelaic acid cream in the treatment of acne vulgaris. Comparison with vehicle and topical tretinoin",
+            "source": "Acta Derm Venereol Suppl (Stockh), 1989;143:35-9",
+            "year": 1989,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/2528257/",
+            "excerpt": "两项对照研究：92例中度炎性痤疮双盲试验中20%壬二酸显著优于基质；289例粉刺型痤疮单盲试验中20%壬二酸减少粉刺数与0.05%维A酸相当，且局部刺激更少。"
+          },
+          "effective_conc_low": 20.0,
+          "effective_conc_high": null,
+          "note": "人体对照临床试验（双盲+单盲），处方级20%浓度证据最充分"
+        },
+        {
+          "efficacy": "美白淡斑（黄褐斑）",
+          "evidence": {
+            "type": "paper",
+            "title": "The treatment of melasma. 20% azelaic acid versus 4% hydroquinone cream",
+            "source": "Int J Dermatol, 1991;30(12):893-5",
+            "year": 1991,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/1816137/",
+            "excerpt": "329例女性黄褐斑患者的24周双盲多中心随机试验：20%壬二酸联合广谱防晒获65%良好/优效结果，与4%氢醌疗效无显著差异，且未见致敏或外源性褐黄病等严重不良反应。"
+          },
+          "effective_conc_low": 20.0,
+          "effective_conc_high": null,
+          "note": "随机双盲多中心人体试验，与4%氢醌头对头"
+        }
+      ]
+    },
+    {
+      "cn_name": "鞣花酸",
+      "inci_name": "ELLAGIC ACID",
+      "cas_no": "476-66-4",
+      "assertions": [
+        {
+          "efficacy": "美白（抑制酪氨酸酶、抑制UV色素沉着）",
+          "evidence": {
+            "type": "paper",
+            "title": "In vitro and in vivo evaluation of ellagic acid on melanogenesis inhibition",
+            "source": "Int J Cosmet Sci, 2000;22(4):291-303",
+            "year": 2000,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/18503416/",
+            "excerpt": "体外证实鞣花酸通过螯合酪氨酸酶活性中心的铜离子抑制酶活；棕色豚鼠UV照射模型中，局部外用1%鞣花酸6周显著抑制紫外线诱导的皮肤色素沉着。"
+          },
+          "effective_conc_low": 1.0,
+          "effective_conc_high": null,
+          "note": "弱证据：体外（蘑菇酪氨酸酶/B16细胞）+动物（豚鼠UV模型），无人体美白临床"
+        },
+        {
+          "efficacy": "美白（抑制酪氨酸酶、抑制UV色素沉着）",
+          "evidence": {
+            "type": "paper",
+            "title": "Inhibitory effect of an ellagic acid-rich pomegranate extract on tyrosinase activity and ultraviolet-induced pigmentation",
+            "source": "Biosci Biotechnol Biochem, 2005;69(12):2368-73",
+            "year": 2005,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/16377895/",
+            "excerpt": "富含鞣花酸的石榴提取物（含90%鞣花酸）在体外抑制酪氨酸酶活性，并在豚鼠UV诱导色素沉着模型中抑制皮肤色素加深。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "弱证据：体外+动物；且为鞣花酸富集提取物（非单体），可归因于鞣花酸但属提取物证据"
+        }
+      ]
+    },
+    {
+      "cn_name": "过氧化苯甲酰",
+      "inci_name": "BENZOYL PEROXIDE",
+      "cas_no": "94-36-0",
+      "assertions": [
+        {
+          "efficacy": "祛痘（杀灭痤疮丙酸杆菌、抗炎）",
+          "evidence": {
+            "type": "paper",
+            "title": "Comparing 2.5%, 5%, and 10% benzoyl peroxide on inflammatory acne vulgaris",
+            "source": "Int J Dermatol, 1986;25(10):664-7",
+            "year": 1986,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/2948929/",
+            "excerpt": "3项双盲研究共153例轻中度痤疮患者：2.5%过氧化苯甲酰凝胶减少炎性皮损（丘疹脓疱）的疗效与5%、10%相当且优于基质，刺激反应少于10%组；用药2周后痤疮丙酸杆菌数量和皮脂游离脂肪酸比例显著下降。"
+          },
+          "effective_conc_low": 2.5,
+          "effective_conc_high": 5.0,
+          "note": "随机双盲人体试验；经典剂量学研究，证明低浓度2.5%即达疗效平台"
+        }
+      ]
+    },
+    {
+      "cn_name": "硫磺",
+      "inci_name": "SULFUR",
+      "cas_no": "7704-34-9",
+      "assertions": [
+        {
+          "efficacy": "祛痘（角质溶解+抑菌）",
+          "evidence": {
+            "type": "paper",
+            "title": "The use of sodium sulfacetamide 10%-sulfur 5% emollient foam in the treatment of acne vulgaris",
+            "source": "J Clin Aesthet Dermatol, 2009;2(8):26-9",
+            "year": 2009,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/20729951/",
+            "excerpt": "病例系列：磺胺醋酰钠10%-硫磺5%润肤泡沫单用或联用治疗寻常痤疮，8周内炎性及粉刺性皮损明显减少；该组合自20世纪50年代起用于痤疮、玫瑰痤疮和脂溢性皮炎。"
+          },
+          "effective_conc_low": 5.0,
+          "effective_conc_high": null,
+          "note": "弱证据：病例系列（无对照组）；且为磺胺醋酰钠+硫磺复方，无法归因于硫磺单药"
+        }
+      ]
+    },
+    {
+      "cn_name": "羟基频哪酮视黄酸酯",
+      "inci_name": "HYDROXYPINACOLONE RETINOATE",
+      "cas_no": null,
+      "assertions": [
+        {
+          "efficacy": "祛痘（维A类调节角化、减少粉刺）",
+          "evidence": {
+            "type": "paper",
+            "title": "Treatment of mild to moderate acne with a fixed combination of hydroxypinacolone retinoate, retinol glycospheres and papain glycospheres",
+            "source": "G Ital Dermatol Venereol, 2015;150(2):143-7",
+            "year": 2015,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/25876142/",
+            "excerpt": "多中心临床试验：含HPR、视黄醇糖球和木瓜蛋白酶糖球的固定复方治疗98例轻中度痤疮12周，皮损总数平均减少40.8%，仅15.3%患者出现局部不适，耐受性良好。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "弱证据：复方（HPR+视黄醇+木瓜蛋白酶）且为开放试验，无法归因于HPR单成分；HPR具体浓度未披露"
+        },
+        {
+          "efficacy": "祛痘维持（防复发）",
+          "evidence": {
+            "type": "paper",
+            "title": "Efficacy and safety of a 12-month treatment with a combination of hydroxypinacolone retinoate and retinol glycospheres as maintenance therapy in acne patients after oral isotretinoin",
+            "source": "G Ital Dermatol Venereol, 2017;152(1):13-17",
+            "year": 2017,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/26889724/",
+            "excerpt": "口服异维A酸疗程结束后的痤疮患者使用HPR+视黄醇糖球复方维持12个月，可显著降低痤疮复发率，安全性和耐受性良好。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "弱证据：复方开放试验，HPR浓度未披露；证据方向为维持防复发而非急性期治疗"
+        }
+      ]
+    },
+    {
+      "cn_name": "茶树油",
+      "inci_name": "MELALEUCA ALTERNIFOLIA (TEA TREE) LEAF OIL",
+      "cas_no": "68647-73-4",
+      "assertions": [
+        {
+          "efficacy": "祛痘（抗菌抗炎）",
+          "evidence": {
+            "type": "paper",
+            "title": "A comparative study of tea-tree oil versus benzoylperoxide in the treatment of acne",
+            "source": "Med J Aust, 1990;153(8):455-8",
+            "year": 1990,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/2145499/",
+            "excerpt": "单盲随机对照试验：124例轻中度痤疮患者，5%茶树油凝胶与5%过氧化苯甲酰凝胶均显著改善炎性和非炎性皮损；茶树油起效较慢，但皮肤干燥、刺痛等副作用显著更少。"
+          },
+          "effective_conc_low": 5.0,
+          "effective_conc_high": null,
+          "note": "随机对照人体试验（单盲），与5%BPO头对头的经典研究"
+        },
+        {
+          "efficacy": "祛痘（抗菌抗炎）",
+          "evidence": {
+            "type": "paper",
+            "title": "The efficacy of 5% topical tea tree oil gel in mild to moderate acne vulgaris: a randomized, double-blind placebo-controlled study",
+            "source": "Indian J Dermatol Venereol Leprol, 2007;73(1):22-5",
+            "year": 2007,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/17314442/",
+            "excerpt": "60例轻中度痤疮患者随机双盲安慰剂对照试验：5%茶树油凝胶组6周后痤疮严重指数（ASI）和总皮损数较安慰剂组显著改善，疗效约为安慰剂的3.5倍。"
+          },
+          "effective_conc_low": 5.0,
+          "effective_conc_high": null,
+          "note": "随机双盲安慰剂对照人体试验"
+        }
+      ]
+    },
+    {
+      "cn_name": "金缕梅提取物",
+      "inci_name": "HAMAMELIS VIRGINIANA (WITCH HAZEL) EXTRACT",
+      "cas_no": "84696-19-5",
+      "assertions": [
+        {
+          "efficacy": "舒缓抗炎（抑制日晒红斑）",
+          "evidence": {
+            "type": "paper",
+            "title": "Anti-inflammatory effect of hamamelis lotion in a UVB erythema test",
+            "source": "Dermatology, 1998;196(3):316-22",
+            "year": 1998,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/9621139/",
+            "excerpt": "人体UVB红斑模型（双盲随机）：含10%金缕梅蒸馏液的晒后乳液显著抑制UVB诱导的红斑，证实其局部抗炎作用，支持UV红斑试验用于评价外用抗炎功效。"
+          },
+          "effective_conc_low": 10.0,
+          "effective_conc_high": null,
+          "note": "人体UVB红斑模型试验；终点为抗炎舒缓而非痤疮/美白，金缕梅蒸馏液（含少量单宁）非浓缩提取物"
+        },
+        {
+          "efficacy": "舒缓抗炎",
+          "evidence": {
+            "type": "paper",
+            "title": "Anti-inflammatory efficacy of topical preparations with 10% hamamelis distillate in a UV erythema test",
+            "source": "Skin Pharmacol Appl Skin Physiol, 2002;15(2):125-32",
+            "year": 2002,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/11867970/",
+            "excerpt": "人体UV红斑模型：三种含10%金缕梅蒸馏液的制剂均显著抑制UV诱导红斑，抗炎效果弱于氢化可的松制剂，证实金缕梅蒸馏液外用具有可重复的抗炎活性。"
+          },
+          "effective_conc_low": 10.0,
+          "effective_conc_high": null,
+          "note": "人体UV红斑模型；10%为蒸馏液配方浓度，抗炎强度弱于糖皮质激素"
+        }
+      ]
+    },
+    {
+      "cn_name": "乙酰化透明质酸钠",
+      "inci_name": "SODIUM ACETYLATED HYALURONATE",
+      "cas_no": null,
+      "assertions": [
+        {
+          "efficacy": "保湿抗皱（抑制MMP、保护胶原、即刻充盈）",
+          "evidence": {
+            "type": "paper",
+            "title": "The anti-wrinkles properties of sodium acetylated hyaluronate",
+            "source": "J Cosmet Dermatol, 2022;21(7):2749-2762",
+            "year": 2022,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/34708918/",
+            "excerpt": "特定分子量（15 kDa）与乙酰化度的乙酰化透明质酸钠：体外抑制成纤维细胞MMP表达与释放、保护I型胶原；临床试验中0.2%乳霜6小时即刻减少鱼尾纹，0.1%乳霜连用2个月改善鼻唇沟皱纹数量与肤质。"
+          },
+          "effective_conc_low": 0.1,
+          "effective_conc_high": 0.2,
+          "note": "人体临床（对照乳霜）+体外机制证据；为特定分子量乙酰化HA原料的研究，抗皱终点为主，保湿为伴随机制"
+        }
+      ]
+    }
+  ]
+}

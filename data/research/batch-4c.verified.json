@@ -1,0 +1,256 @@
+{
+  "ingredients": [
+    {
+      "cn_name": "铜三肽-1",
+      "inci_name": "COPPER TRIPEPTIDE-1",
+      "cas_no": null,
+      "assertions": [
+        {
+          "efficacy": "抗皱（促组织重塑、刺激胶原与糖胺聚糖合成）",
+          "evidence": {
+            "type": "paper",
+            "title": "The human tri-peptide GHK and tissue remodeling",
+            "source": "J Biomater Sci Polym Ed, 2008;19(8):969-88",
+            "year": 2008,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/18644225/",
+            "excerpt": "综述：人血浆三肽 GHK 及其铜复合物 GHK-Cu 在皮肤创面愈合与组织重塑中的作用，可刺激胶原、糖胺聚糖合成并调节金属蛋白酶；文中汇总其外用抗皱与紧致皮肤的实验依据。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "综述文献，汇总体外与人体小样本研究；该领域多项面部试验为原料商主导，样本量小"
+        },
+        {
+          "efficacy": "促胶原合成（成纤维细胞）",
+          "evidence": {
+            "type": "paper",
+            "title": "Stimulation of collagen synthesis in fibroblast cultures by the tripeptide-copper complex glycyl-L-histidyl-L-lysine-Cu2+",
+            "source": "FEBS Lett, 1988;238(2):343-6",
+            "year": 1988,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/3169264/",
+            "excerpt": "体外人成纤维细胞培养实验：GHK-Cu 在纳摩尔级浓度下刺激胶原合成增加，是其抗老机制的经典体外证据。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "体外研究（弱证据）；起效浓度为纳摩尔级但为细胞培养条件，不可直接换算外用配方浓度"
+        }
+      ]
+    },
+    {
+      "cn_name": "棕榈酰五肽-4",
+      "inci_name": "PALMITOYL PENTAPEPTIDE-4",
+      "cas_no": "214047-00-4",
+      "assertions": [
+        {
+          "efficacy": "抗皱（改善光老化面部细纹与皱纹）",
+          "evidence": {
+            "type": "paper",
+            "title": "Topical palmitoyl pentapeptide provides improvement in photoaged human facial skin",
+            "source": "Int J Cosmet Sci, 2005;27(3):155-60",
+            "year": 2005,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/18492182/",
+            "excerpt": "93 名白人女性双盲安慰剂对照分脸试验，12 周外用含 3 ppm 棕榈酰五肽（pal-KTTKS）制剂，专家评分与图像分析显示皱纹/细纹显著改善，改善幅度与 700 ppm 视黄醇相当且无刺激。"
+          },
+          "effective_conc_low": 0.0003,
+          "effective_conc_high": null,
+          "note": "ppm 级起效（3 ppm = 0.0003%）；双盲分脸人体试验，研究由原料商（宝洁/Sederma 体系）相关团队完成"
+        },
+        {
+          "efficacy": "促细胞外基质合成（信号肽机制）",
+          "evidence": {
+            "type": "paper",
+            "title": "A pentapeptide from type I procollagen promotes extracellular matrix production",
+            "source": "J Biol Chem, 1993;268(14):9941-4",
+            "year": 1993,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/8486721/",
+            "excerpt": "体外成纤维细胞实验：I 型前胶原来源的五肽 KTTKS 以反馈调节方式促进胶原、弹性蛋白等细胞外基质合成，是 Matrixyl（棕榈酰-KTTKS）的机制源头研究。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "体外机制研究（弱证据）；未棕榈酰化母肽实验，棕榈酰化主要改善透皮性"
+        }
+      ]
+    },
+    {
+      "cn_name": "寡肽-1",
+      "inci_name": "OLIGOPEPTIDE-1",
+      "cas_no": null,
+      "assertions": [
+        {
+          "efficacy": "修护（促进上皮再生与创面愈合）",
+          "evidence": {
+            "type": "paper",
+            "title": "Enhancement of wound healing by topical treatment with epidermal growth factor",
+            "source": "N Engl J Med, 1989;321(2):76-9",
+            "year": 1989,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/2659995/",
+            "excerpt": "12 名烧伤供皮区创面人体随机对照试验：外用重组人表皮生长因子（rhEGF，10 μg/mL 磺胺嘧啶银霜）显著加速创面上皮再生与愈合。"
+          },
+          "effective_conc_low": 0.001,
+          "effective_conc_high": null,
+          "note": "人体 RCT（药品级创面模型）；寡肽-1 即重组人 EGF（sh-Oligopeptide-1）；10 μg/mL ≈ 10 ppm = 0.001%；药品语境，化妆品禁用暗示疗效"
+        }
+      ]
+    },
+    {
+      "cn_name": "胶原",
+      "inci_name": "COLLAGEN",
+      "cas_no": "9007-34-5",
+      "assertions": [
+        {
+          "efficacy": "改善皮肤弹性（口服胶原肽）",
+          "evidence": {
+            "type": "paper",
+            "title": "Oral supplementation of specific collagen peptides has beneficial effects on human skin physiology: a double-blind, placebo-controlled study",
+            "source": "Skin Pharmacol Physiol, 2014;27(1):47-55",
+            "year": 2014,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/23949208/",
+            "excerpt": "69 名 35-55 岁女性双盲安慰剂对照试验：每日口服 2.5 g 或 5 g 胶原肽 8 周，皮肤弹性较安慰剂组显著改善，停药 4 周后效应仍部分维持。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "口服研究（弱证据，不能外推外用）；外用胶原为大分子，主要起成膜保湿作用，缺乏透皮与功效人体证据"
+        }
+      ]
+    },
+    {
+      "cn_name": "燕麦仁提取物",
+      "inci_name": "AVENA SATIVA (OAT) KERNEL EXTRACT",
+      "cas_no": "84012-26-0",
+      "assertions": [
+        {
+          "efficacy": "屏障修护与保湿（改善干燥受损皮肤）",
+          "evidence": {
+            "type": "paper",
+            "title": "Colloidal Oatmeal (Avena Sativa) Improves Skin Barrier Through Multi-Therapy Activity",
+            "source": "J Drugs Dermatol, 2016;15(6):684-90",
+            "year": 2016,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/27272074/",
+            "excerpt": "含人体临床部分：轻中度干燥皮肤受试者外用 1% 胶体燕麦霜 2 周，显著改善皮肤干燥、屏障功能（经皮失水）与粗糙度；并附体外基因表达与抗炎机制实验。"
+          },
+          "effective_conc_low": 1.0,
+          "effective_conc_high": null,
+          "note": "人体临床（1% 胶体燕麦霜）+ 体外机制；原料商资助研究"
+        },
+        {
+          "efficacy": "舒缓抗炎（止痒）",
+          "evidence": {
+            "type": "paper",
+            "title": "Anti-inflammatory activities of colloidal oatmeal (Avena sativa) contribute to the effectiveness of oats in treatment of itch associated with dry, irritated skin",
+            "source": "J Drugs Dermatol, 2015;14(1):43-8",
+            "year": 2015,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/25607907/",
+            "excerpt": "体外角质形成细胞实验：胶体燕麦抑制炎症细胞因子释放与 NF-κB 相关通路，解释其在干燥瘙痒皮肤中的止痒舒缓作用。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "体外研究（弱证据）；胶体燕麦为美国 FDA OTC 皮肤保护剂专论认可成分（临床综述见 PMID 17373175）"
+        }
+      ]
+    },
+    {
+      "cn_name": "德国洋甘菊提取物",
+      "inci_name": "CHAMOMILLA RECUTITA (MATRICARIA) FLOWER EXTRACT",
+      "cas_no": "84082-60-0",
+      "assertions": [
+        {
+          "efficacy": "舒缓（改善特应性湿疹症状）",
+          "evidence": {
+            "type": "paper",
+            "title": "Proof of efficacy of Kamillosan(R) cream in atopic eczema",
+            "source": "Eur J Med Res, 2000;5(4):171-5",
+            "year": 2000,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/10799352/",
+            "excerpt": "72 例特应性湿疹患者随机（部分盲法）对照试验：含德国洋甘菊提取物的 Kamillosan 霜 2 周治疗，改善瘙痒、红斑与脱屑，疗效优于 0.5% 氢化可的松对照且耐受性良好。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "人体随机对照试验（市售成品制剂，含标准化洋甘菊提取物）；样本量中等"
+        },
+        {
+          "efficacy": "抗炎舒缓（活性成分机制）",
+          "evidence": {
+            "type": "paper",
+            "title": "Chamomile: A herbal medicine of the past with bright future",
+            "source": "Mol Med Rep, 2010;3(6):895-901",
+            "year": 2010,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/21132119/",
+            "excerpt": "综述：德国洋甘菊含母菊薁（chamazulene）、α-红没药醇与芹菜素等活性成分，具抗炎、抗刺激与轻度抗菌活性，支持其外用舒缓用途。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "综述文献；机制证据多来自体外与动物实验"
+        }
+      ]
+    },
+    {
+      "cn_name": "茶叶提取物",
+      "inci_name": "CAMELLIA SINENSIS LEAF EXTRACT",
+      "cas_no": "84650-60-2",
+      "assertions": [
+        {
+          "efficacy": "抗氧化/抗光损伤（减轻 UVB 诱导的红斑与炎症）",
+          "evidence": {
+            "type": "paper",
+            "title": "Polyphenolic antioxidant (-)-epigallocatechin-3-gallate from green tea reduces UVB-induced inflammatory responses and infiltration of leukocytes in human skin",
+            "source": "Photochem Photobiol, 1999;69(2):148-53",
+            "year": 1999,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/10048310/",
+            "excerpt": "人体志愿者皮肤实验：UVB 照射前外用绿茶主效成分 EGCG，显著减轻 UVB 诱导的红斑反应与白细胞浸润，提示局部抗氧化抗炎作用。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "人体皮肤 UV 模型（非日常化妆品使用场景）；EGCG 单体实验，茶叶提取物中 EGCG 含量因原料而异"
+        },
+        {
+          "efficacy": "光防护（减少紫外线所致皮肤损伤）",
+          "evidence": {
+            "type": "paper",
+            "title": "Cutaneous photoprotection from ultraviolet injury by green tea polyphenols",
+            "source": "J Am Acad Dermatol, 2001;44(3):425-32",
+            "year": 2001,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/11209110/",
+            "excerpt": "人体实验：外用绿茶多酚提取物可剂量依赖性地减少紫外线诱导的红斑、晒伤细胞形成与 DNA 损伤，并抑制朗格汉斯细胞耗竭。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "人体 UV 模型研究；属辅助光防护，不能替代防晒剂"
+        }
+      ]
+    },
+    {
+      "cn_name": "葡萄籽提取物",
+      "inci_name": "VITIS VINIFERA (GRAPE) SEED EXTRACT",
+      "cas_no": "84929-27-1",
+      "assertions": [
+        {
+          "efficacy": "美白淡斑（改善黄褐斑）",
+          "evidence": {
+            "type": "paper",
+            "title": "Oral intake of proanthocyanidin-rich extract from grape seeds improves chloasma",
+            "source": "Phytother Res, 2004;18(11):895-9",
+            "year": 2004,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/15597304/",
+            "excerpt": "开放试验：12 名黄褐斑女性口服富原花青素葡萄籽提取物 6 个月，多数受试者黄褐斑面积与色素沉着有改善；最佳效果见于前 6 个月。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "口服 + 开放试验（弱证据，无安慰剂对照，样本仅 12 例）；不能外推外用"
+        },
+        {
+          "efficacy": "抗氧化/抗光损伤（抑制 UVB 氧化应激）",
+          "evidence": {
+            "type": "paper",
+            "title": "Dietary grape seed proanthocyanidins inhibit UVB-induced oxidative stress and activation of mitogen-activated protein kinases and nuclear factor-kappaB signaling in in vivo SKH-1 hairless mice",
+            "source": "Mol Cancer Ther, 2007;6(3):995-1005",
+            "year": 2007,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/17363493/",
+            "excerpt": "SKH-1 无毛小鼠体内实验：膳食葡萄籽原花青素抑制 UVB 诱导的皮肤氧化应激及 MAPK、NF-κB 信号活化，提示抗光损伤潜力。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "动物 + 口服研究（弱证据）；外用人体功效证据缺乏"
+        }
+      ]
+    }
+  ]
+}

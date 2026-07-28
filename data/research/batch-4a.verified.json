@@ -1,0 +1,228 @@
+{
+  "ingredients": [
+    {
+      "cn_name": "补骨脂酚",
+      "inci_name": "BAKUCHIOL",
+      "cas_no": "10309-37-2",
+      "assertions": [
+        {
+          "efficacy": "抗皱（类视黄醇作用，耐受性优于视黄醇）",
+          "evidence": {
+            "type": "paper",
+            "title": "Prospective, randomized, double-blind assessment of topical bakuchiol and retinol for facial photoageing",
+            "source": "Br J Dermatol, 2019;180(2):289-296",
+            "year": 2019,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/29947134/",
+            "excerpt": "44名受试者随机双盲12周：0.5%补骨脂酚乳膏每日两次与0.5%视黄醇乳膏每日一次比较，两者改善光老化（皱纹表面积、色素沉着）效果相当，但补骨脂酚组脱屑、刺痛等刺激显著更少。"
+          },
+          "effective_conc_low": 0.5,
+          "effective_conc_high": 0.5,
+          "note": "随机双盲人体对照试验（以视黄醇为阳性对照，n=44，12周），证据等级高"
+        },
+        {
+          "efficacy": "改善光老化（类视黄醇基因表达调控）",
+          "evidence": {
+            "type": "paper",
+            "title": "Bakuchiol: a retinol-like functional compound revealed by gene expression profiling and clinically proven to have anti-aging effects",
+            "source": "Int J Cosmet Sci, 2014;36(3):221-230",
+            "year": 2014,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/24471735/",
+            "excerpt": "基因表达谱显示补骨脂酚与视黄醇调控模式相似（调节视黄醇结合与代谢基因、胶原及细胞外基质相关基因）；含0.5%补骨脂酚的保湿霜16周人体试用显著改善细纹/皱纹、色素沉着、弹性与紧致度。"
+          },
+          "effective_conc_low": 0.5,
+          "effective_conc_high": 0.5,
+          "note": "体外基因表达研究 + 人体开放试用（无安慰剂对照），机制+临床双重证据"
+        }
+      ]
+    },
+    {
+      "cn_name": "阿魏酸",
+      "inci_name": "FERULIC ACID",
+      "cas_no": "1135-24-6",
+      "assertions": [
+        {
+          "efficacy": "光防护抗氧化（稳定维生素C/E并使光防护效果倍增）",
+          "evidence": {
+            "type": "paper",
+            "title": "Ferulic acid stabilizes a solution of vitamins C and E and doubles its photoprotection of skin",
+            "source": "J Invest Dermatol, 2005;125(4):826-832",
+            "year": 2005,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/16185284/",
+            "excerpt": "在15% L-抗坏血酸+1% α-生育酚溶液中加入0.5%阿魏酸，既提高配方化学稳定性，又将人体皮肤的光防护从约4倍提升至约8倍（以红斑和晒伤细胞形成衡量）。"
+          },
+          "effective_conc_low": 0.5,
+          "effective_conc_high": 0.5,
+          "note": "人体皮肤局部外用光防护实验；为复方组合（15%VC+1%VE+0.5%阿魏酸），非阿魏酸单成分证据"
+        }
+      ]
+    },
+    {
+      "cn_name": "白藜芦醇",
+      "inci_name": "RESVERATROL",
+      "cas_no": "501-36-0",
+      "assertions": [
+        {
+          "efficacy": "抗皱（减少可见皱纹）",
+          "evidence": {
+            "type": "paper",
+            "title": "Trans-resveratrol reduces visible signs of skin ageing in healthy adult females over 40: an 8-week randomized placebo-controlled trial",
+            "source": "Front Aging, 2025",
+            "year": 2025,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/41488277/",
+            "excerpt": "122名40岁以上健康女性完成8周双盲随机安慰剂对照试验：1.5%反式白藜芦醇面霜每日两次外用（联合75mg口服组皱纹评分较双安慰剂组显著降低）；外用组U区皮脂水平升高，产品安全性良好。"
+          },
+          "effective_conc_low": 1.5,
+          "effective_conc_high": 1.5,
+          "note": "随机双盲安慰剂对照人体试验（四组设计：口服/外用/联合/双安慰剂）；显著抗皱效果见于口服+外用联合组，单外用组主要改善皮脂，解读时需注意"
+        },
+        {
+          "efficacy": "改善轻中度光损伤（紧致度、肤色、弹性）",
+          "evidence": {
+            "type": "paper",
+            "title": "Evaluation of efficacy and tolerance of a nighttime topical antioxidant containing resveratrol, baicalin, and vitamin E for treatment of mild to moderately photodamaged skin",
+            "source": "J Drugs Dermatol, 2014;13(12)",
+            "year": 2014,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/25607790/",
+            "excerpt": "含白藜芦醇、黄芩苷和维生素E的夜间抗氧化配方用于轻中度光损伤皮肤，临床评估显示皮肤紧致度、光泽、弹性等光损伤指标改善，耐受性良好。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "弱证据：复方配方（白藜芦醇+黄芩苷+维生素E），无法归因于白藜芦醇单成分；文献未明确单成分浓度"
+        }
+      ]
+    },
+    {
+      "cn_name": "谷胱甘肽",
+      "inci_name": "GLUTATHIONE",
+      "cas_no": "70-18-8",
+      "assertions": [
+        {
+          "efficacy": "美白提亮（降低黑色素指数）并改善皮肤状态",
+          "evidence": {
+            "type": "paper",
+            "title": "Skin-whitening and skin-condition-improving effects of topical oxidized glutathione: a double-blind and placebo-controlled clinical trial in healthy women",
+            "source": "Clin Cosmet Investig Dermatol, 2014;7:267-274",
+            "year": 2014,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/25378941/",
+            "excerpt": "30名30-50岁健康女性半脸随机双盲安慰剂对照：2%氧化型谷胱甘肽（GSSG）乳液每日两次外用10周，黑色素指数较安慰剂侧显著下降，角质层含水量、光滑度、皱纹形成等多项肤质指标同步改善，无不良反应。"
+          },
+          "effective_conc_low": 2.0,
+          "effective_conc_high": 2.0,
+          "note": "随机双盲半脸安慰剂对照人体试验（n=30，10周）；样本量较小"
+        }
+      ]
+    },
+    {
+      "cn_name": "虾青素",
+      "inci_name": "ASTAXANTHIN",
+      "cas_no": "472-61-7",
+      "assertions": [
+        {
+          "efficacy": "抗光老化（改善皱纹与皮肤弹性）",
+          "evidence": {
+            "type": "paper",
+            "title": "Protective effects of astaxanthin on skin deterioration",
+            "source": "J Clin Biochem Nutr, 2017;61(1):33-39",
+            "year": 2017,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/28751807/",
+            "excerpt": "65名健康女性16周随机双盲安慰剂对照：口服虾青素6mg/天，安慰剂组随环境变化出现皱纹加深与弹性下降，虾青素组皱纹和弹性参数显著维持，并抑制IL-1α等炎症因子升高。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "弱证据（就外用而言）：口服补充试验（6mg/天），非外用；随机双盲安慰剂对照设计本身质量较高"
+        }
+      ]
+    },
+    {
+      "cn_name": "辅酶Q10",
+      "inci_name": "UBIQUINONE",
+      "cas_no": "303-98-0",
+      "assertions": [
+        {
+          "efficacy": "抗氧化（提升皮肤自身Q10水平、降低氧化应激）",
+          "evidence": {
+            "type": "paper",
+            "title": "Topical treatment with coenzyme Q10-containing formulas improves skin's Q10 level and provides antioxidative effects",
+            "source": "Biofactors, 2015;41(6):383-390",
+            "year": 2015,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/26648450/",
+            "excerpt": "73名志愿者人体试验：含Q10配方外用后皮肤表面及活性表皮层的Q10水平显著升高，角质形成细胞耗氧量增加（细胞能量代谢提升）、自由基水平下降，证实外用Q10可穿透角质层发挥抗氧化作用。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "人体外用试验（n=73）；文献未在摘要层面给出统一有效浓度"
+        },
+        {
+          "efficacy": "抗皱（减少眼周皱纹）与抗氧化赋能",
+          "evidence": {
+            "type": "paper",
+            "title": "Coenzyme Q10, a cutaneous antioxidant and energizer",
+            "source": "Biofactors, 1999;9(2-4):371-378",
+            "year": 1999,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/10416055/",
+            "excerpt": "证实Q10可穿透至活性表皮并降低氧化（弱光子发射测定）；抑制UVA诱导的人真皮成纤维细胞胶原酶表达；人体长期外用改善眼周皱纹。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "人体外用 + 体外细胞实验组合证据；较早的经典研究，部分实验为体外（成纤维细胞）"
+        }
+      ]
+    },
+    {
+      "cn_name": "艾地苯醌",
+      "inci_name": "HYDROXYDECYL UBIQUINONE",
+      "cas_no": "58186-27-9",
+      "assertions": [
+        {
+          "efficacy": "改善光损伤（细纹/皱纹、皮肤粗糙干燥）",
+          "evidence": {
+            "type": "paper",
+            "title": "Clinical efficacy assessment in photodamaged skin of 0.5% and 1.0% idebenone",
+            "source": "J Cosmet Dermatol, 2005;4(3):167-173",
+            "year": 2005,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/17129261/",
+            "excerpt": "41名30-65岁中度光损伤女性随机双盲（盲标）6周试验：0.5%与1.0%艾地苯醌乳液每日两次外用；1.0%组皮肤粗糙/干燥改善26%、细纹/皱纹减少29%、光损伤总体评估改善37%；0.5%组亦有较温和改善。"
+          },
+          "effective_conc_low": 0.5,
+          "effective_conc_high": 1.0,
+          "note": "随机盲标人体试验（n=41，6周）；非载体对照设计（0.5%与1.0%两剂量互相比较）"
+        },
+        {
+          "efficacy": "抗氧化（综合抗氧化保护能力优于多种常见抗氧化剂）",
+          "evidence": {
+            "type": "paper",
+            "title": "Idebenone: a new antioxidant - Part I. Relative assessment of oxidative stress protection capacity compared to commonly known antioxidants",
+            "source": "J Cosmet Dermatol, 2005;4(1):10-17",
+            "year": 2005,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/17134415/",
+            "excerpt": "通过五项生化与细胞生物学氧化应激测试比较：艾地苯醌综合抗氧化保护评分（95）高于α-生育酚（80）、激动素（68）、泛醌（55）、抗坏血酸（52）和α-硫辛酸（41），并能抑制活体皮肤晒伤细胞形成。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "弱证据：体外/生化比较实验为主（含晒伤细胞活体皮肤模型），非人体功效试验"
+        }
+      ]
+    },
+    {
+      "cn_name": "超氧化物歧化酶",
+      "inci_name": "SUPEROXIDE DISMUTASE",
+      "cas_no": "9054-89-1",
+      "assertions": [
+        {
+          "efficacy": "抗氧化防御（光老化皮肤中SOD等抗氧化酶耗竭与蛋白氧化相关）",
+          "evidence": {
+            "type": "paper",
+            "title": "Photoaging is associated with protein oxidation in human skin in vivo",
+            "source": "J Invest Dermatol, 2002;118(4):618-625",
+            "year": 2002,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/11918707/",
+            "excerpt": "人体皮肤活检与紫外线照射实验：光老化部位及急性重复UV照射后皮肤中过氧化氢酶、铜锌SOD与锰SOD表达下降，蛋白羰基化（氧化损伤标志）显著增加，为补充抗氧化酶防御提供机制依据。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "弱证据：人体皮肤活检/UV照射机制观察性研究，非外用SOD功效干预试验；外用SOD的人体功效证据目前缺乏，该成分功效主张应保守表述"
+        }
+      ]
+    }
+  ]
+}
