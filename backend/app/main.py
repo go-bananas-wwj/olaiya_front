@@ -223,5 +223,8 @@ def product_concentration(product_id: int, db: Session = Depends(get_db)):
     return {"product_id": product_id, "inferred": True, "estimates": estimates}
 
 
+# 高保真首页原型（lab/hero-demo 构建产物）挂在 /lab
+app.mount("/lab", StaticFiles(directory="lab/hero-demo/dist", html=True), name="lab")
+
 # 静态前端（/web 目录，纯静态页，数据全部经 /api 获取）
 app.mount("/", StaticFiles(directory="web", html=True), name="web")
