@@ -211,7 +211,8 @@ def product_concentration(product_id: int, db: Session = Depends(get_db)):
 
     浓度为模型估计值（推断引擎按位次/先验约束采样的 p5/p95 区间），非实测；
     dose.verdict 为估计区间与文献起效浓度的相对关系（effective/insufficient/
-    uncertain/unknown）。无官方降序成分表的产品未推断，返回 inferred=false。
+    uncertain/unknown/trace_level，trace_level 表示微量线以下 ppm 级可能起效、依赖原料披露）。
+    无官方降序成分表的产品未推断，返回 inferred=false。
     """
     p = db.get(Product, product_id)
     if p is None:

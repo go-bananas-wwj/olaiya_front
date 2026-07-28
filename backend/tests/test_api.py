@@ -208,7 +208,7 @@ def test_concentration_inferred_structure(client, session):
         assert isinstance(e["dose"], list)
         for d in e["dose"]:
             assert set(d) == {"efficacy", "eff_low", "eff_high", "verdict"}
-            assert d["verdict"] in {"effective", "insufficient", "uncertain", "unknown"}
+            assert d["verdict"] in {"effective", "insufficient", "uncertain", "unknown", "trace_level"}
     # 位次 1 是水（估计区间最高）
     assert estimates[0]["inci_name"] == "WATER"
 

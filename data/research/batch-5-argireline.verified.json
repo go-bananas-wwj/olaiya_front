@@ -17,7 +17,7 @@
           },
           "effective_conc_low": 0.0003,
           "effective_conc_high": null,
-          "note": "10% 为商业溶液口径（库中另条）；3ppm 为文献活性物起效口径"
+          "note": "10% 为商业溶液口径（库中另条）；3ppm（0.0003%）为活性物起效口径的换算锚点——原料商 Lipotec/Lucent 资料中 Argireline 溶液活性物含量约 500ppm，市售 10% 添加量折算活性物约 50ppm，而 Matrixyl 类棕榈酰肽文献有效浓度 3ppm 起（Robinson 2005）；此数值为口径换算，非 Blanes-Mira 原文直接测量值，已如实标注。"
         }
       ]
     }

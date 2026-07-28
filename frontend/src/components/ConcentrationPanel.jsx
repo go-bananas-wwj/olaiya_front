@@ -7,6 +7,7 @@ const VERDICT = {
   uncertain: { text: '存疑', cls: 'badge-warn' },
   insufficient: { text: '不足', cls: 'badge bg-red-100 text-red-700' },
   unknown: { text: '无法判定', cls: 'badge-muted' },
+  trace_level: { text: '微量可达（依赖原料披露）', cls: 'badge-warn' },
 }
 
 // 对数刻度 0.01% – 100%：化妆品浓度跨 4 个数量级，线性刻度下低浓度区间不可见
