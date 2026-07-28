@@ -1,0 +1,5 @@
+# 权重文件不进 git（保留目录结构与 README/.gitkeep）
+*
+!.gitignore
+!.gitkeep
+!README.md
