@@ -19,7 +19,7 @@ import { easeInOut } from '../sequence.js'
 const FAR_POS = new THREE.Vector3(0, 5.5, 17)
 const FAR_LOOK = new THREE.Vector3(0, 1.9, -1)
 const HERO_POS = new THREE.Vector3(0, 1.4, 6.05)
-const HERO_LOOK = new THREE.Vector3(-0.55, 1.18, 0)
+const HERO_LOOK = new THREE.Vector3(-0.1, 1.18, 0)
 const P1_S = (() => {
   const q = new URLSearchParams(window.location.search).get('p1')
   const v = q ? parseFloat(q) : NaN

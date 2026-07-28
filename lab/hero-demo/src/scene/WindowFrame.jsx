@@ -58,20 +58,21 @@ export default function WindowFrame() {
 
   return (
     <group>
-      {/* outer frame */}
+      {/* outer frame — rails oversized so every joint overlaps, no gaps */}
       <Rail size={[W + T, T, D]} position={[cx, O.y1 + T / 2 - 0.02, z]} wood={wood} />
       <Rail size={[W + T, T, D]} position={[cx, O.y0 - T / 2 + 0.02, z]} wood={wood} />
-      <Rail size={[T, H, D]} position={[O.x0 + T / 2 - 0.02, cy, z]} wood={wood} />
-      <Rail size={[T, H, D]} position={[O.x1 - T / 2 + 0.02, cy, z]} wood={wood} />
+      <Rail size={[T, H + 0.2, D]} position={[O.x0 + T / 2 - 0.02, cy, z]} wood={wood} />
+      <Rail size={[T, H + 0.2, D]} position={[O.x1 - T / 2 + 0.02, cy, z]} wood={wood} />
       {/* sill */}
       <Rail size={[W + T + 0.16, 0.08, D + 0.1]} position={[cx, O.y0 - T - 0.02, z + 0.02]} wood={wood} />
 
-      {/* fixed muntins for the right half (left half is the open casement) */}
-      <Rail size={[railT, H - T, D * 0.7]} position={[cx + W / 4 - 0.02, cy, z]} wood={wood} />
-      <Rail size={[W / 2 - T, railT, D * 0.7]} position={[cx + W / 4, cy, z]} wood={wood} />
+      {/* fixed muntins for the right half (left half is the open casement);
+          lengths overshoot into frame/stile so no light leaks through joints */}
+      <Rail size={[railT, H - T + 0.16, D * 0.7]} position={[cx + W / 4 - 0.02, cy, z]} wood={wood} />
+      <Rail size={[W / 2 - T + 0.16, railT, D * 0.7]} position={[cx + W / 4, cy, z]} wood={wood} />
 
       {/* center stile the casement closes against */}
-      <Rail size={[T * 0.8, H, D]} position={[cx, cy, z]} wood={wood} />
+      <Rail size={[T * 0.8, H + 0.2, D]} position={[cx, cy, z]} wood={wood} />
 
       {/* open casement: hinge at left jamb, swung ~35° into the room */}
       <group position={[O.x0 + 0.02, cy, z]} rotation={[0, 0.61, 0]}>
@@ -81,8 +82,8 @@ export default function WindowFrame() {
           <Rail size={[caseW + railT, railT, 0.09]} position={[0, -caseH / 2, 0]} wood={wood} />
           <Rail size={[railT, caseH, 0.09]} position={[caseW / 2, 0, 0]} wood={wood} />
           <Rail size={[railT, caseH, 0.09]} position={[-caseW / 2, 0, 0]} wood={wood} />
-          {/* casement cross muntin */}
-          <Rail size={[caseW, railT * 0.7, 0.07]} position={[0, 0, 0]} wood={wood} />
+          {/* casement cross muntin (ends buried in the stiles) */}
+          <Rail size={[caseW + 0.05, railT * 0.7, 0.07]} position={[0, 0, 0]} wood={wood} />
           {/* glass with a soft diagonal sheen */}
           <mesh position={[0, 0, -0.01]}>
             <planeGeometry args={[caseW - 0.04, caseH - 0.04]} />
