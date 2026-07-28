@@ -10,7 +10,7 @@ function makeWoodTexture() {
   c.height = 512
   const g = c.getContext('2d')
 
-  g.fillStyle = '#f2e7d8'
+  g.fillStyle = '#f4e3cf'
   g.fillRect(0, 0, 1024, 512)
 
   // long wavy grain streaks

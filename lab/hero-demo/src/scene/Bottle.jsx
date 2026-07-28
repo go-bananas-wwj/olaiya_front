@@ -136,7 +136,7 @@ export default function Bottle() {
 
   return (
     <group>
-      {/* liquid (opaque toon; depthWrite off so orbs/swirl inside pass depth) */}
+      {/* liquid (opaque toon; depthWrite off so orbs/bubbles inside pass depth) */}
       <mesh geometry={liquidGeo} renderOrder={1}>
         <meshToonMaterial color="#ff9ec2" gradientMap={toonGradient} depthWrite={false} />
       </mesh>
@@ -147,23 +147,49 @@ export default function Bottle() {
         <meshToonMaterial color="#ffc9dd" gradientMap={toonGradient} depthWrite={false} />
       </mesh>
 
-      {/* glowing surface */}
+      {/* liquid surface: same-family pink with a soft rim (no hard white
+          ring), plus one faint highlight spot (<=35%) for the window light */}
       <mesh position={[0, 1.162, 0]} rotation={[-Math.PI / 2, 0, 0]} renderOrder={2}>
         <circleGeometry args={[0.575, 64]} />
-        <meshBasicMaterial color={new THREE.Color(1.18, 1.02, 1.12)} toneMapped={false} depthWrite={false} />
+        <shaderMaterial
+          transparent
+          depthWrite={false}
+          uniforms={{
+            uC: { value: new THREE.Color('#ffc4d9') },
+          }}
+          vertexShader={/* glsl */ `
+            varying vec2 vUv;
+            void main() {
+              vUv = uv;
+              gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+            }
+          `}
+          fragmentShader={/* glsl */ `
+            varying vec2 vUv;
+            uniform vec3 uC;
+            void main() {
+              vec2 p = vUv - 0.5;
+              float r = length(p) * 2.0;                 // 0 center -> 1 rim
+              float body = smoothstep(1.0, 0.72, r);      // soft rim, no hard edge
+              vec3 col = uC;
+              // faint window-light highlight, opacity capped ~0.33
+              float hl = exp(-dot(p - vec2(0.10, 0.06), p - vec2(0.10, 0.06)) * 38.0);
+              col = mix(col, vec3(1.0), hl * 0.85);
+              float a = body * 0.94;
+              a = max(a, hl * 0.33);
+              gl_FragColor = vec4(col, a);
+              #include <tonemapping_fragment>
+              #include <colorspace_fragment>
+            }
+          `}
+        />
       </mesh>
 
-      {/* tilted swirl band inside the liquid */}
-      <mesh position={[0, 0.6, 0]} rotation={[Math.PI / 2 + 0.22, 0, 0.15]} renderOrder={3}>
-        <torusGeometry args={[0.46, 0.05, 16, 96]} />
-        <meshToonMaterial color="#ffd6e6" gradientMap={toonGradient} depthTest={false} depthWrite={false} />
-      </mesh>
-
-      {/* rising bubbles */}
+      {/* rising bubbles: low-presence translucent dots, no ring/band decor */}
       {BUBBLES.map((b, i) => (
         <mesh key={i} ref={(el) => (bubbleRefs.current[i] = el)} renderOrder={3.5}>
           <sphereGeometry args={[b.r, 16, 16]} />
-          <meshBasicMaterial color={new THREE.Color(1.25, 1.12, 1.2)} toneMapped={false} depthTest={false} depthWrite={false} />
+          <meshBasicMaterial color="#ffe8f2" transparent opacity={0.45} depthTest={false} depthWrite={false} />
         </mesh>
       ))}
 

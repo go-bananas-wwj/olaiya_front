@@ -3,10 +3,12 @@ import { Canvas, useFrame } from '@react-three/fiber'
 import { ContactShadows, Float } from '@react-three/drei'
 import { Bloom, EffectComposer, Vignette } from '@react-three/postprocessing'
 import PearlBackdrop from './scene/PearlBackdrop.jsx'
+import Wall from './scene/Wall.jsx'
+import WindowFrame from './scene/WindowFrame.jsx'
+import WindowLight from './scene/WindowLight.jsx'
 import Bottle from './scene/Bottle.jsx'
 import Stars from './scene/Stars.jsx'
 import Particles from './scene/Particles.jsx'
-import Clouds from './scene/Clouds.jsx'
 import Table from './scene/Table.jsx'
 import Mist from './scene/Mist.jsx'
 import Rig from './scene/Rig.jsx'
@@ -227,17 +229,20 @@ export default function App() {
           if (e.type === 'click') closeCard()
         }}
       >
-        <color attach="background" args={['#f3ede6']} />
-        <PearlBackdrop />
+        <color attach="background" args={['#e8ddd2']} />
+        <Wall />
+        <WindowFrame />
+        <WindowLight />
         <Mist />
-        <Clouds />
         <Particles />
         <Table />
 
-        <hemisphereLight args={['#fff0f5', '#e8d8cf', 0.85]} />
-        <directionalLight position={[4, 6, 4]} intensity={1.0} color="#fff2e8" />
+        <hemisphereLight args={['#fff0f5', '#e8d8cf', 0.7]} />
+        {/* key light from the window direction: rose backlight + rim on the bottle */}
+        <directionalLight position={[1.5, 3.2, -2.2]} intensity={1.15} color="#ffe0e6" />
         <directionalLight position={[-5, 2.5, -3]} intensity={0.55} color="#f0a8c4" />
-        <directionalLight position={[-3, 1, 4]} intensity={0.3} color="#c9bce8" />
+        <directionalLight position={[-3, 1, 4]} intensity={0.32} color="#d8cce8" />
+        <pointLight position={[0.7, 1.8, -2.6]} intensity={0.5} distance={9} color="#ffd9c9" />
         <pointLight position={[0, -1.5, 2.5]} intensity={0.25} color="#ffe6d6" />
 
         <Float speed={1.2} rotationIntensity={0.08} floatIntensity={0.15} floatingRange={[-0.02, 0.02]}>
