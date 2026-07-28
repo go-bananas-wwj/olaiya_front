@@ -2,6 +2,7 @@ import { Link, useParams } from 'react-router-dom'
 import { api } from '../api'
 import { useFetch, Loading, LoadError } from '../components/common'
 import ClaimCard from '../components/ClaimCard'
+import ConcentrationPanel from '../components/ConcentrationPanel'
 
 export default function ProductDetail() {
   const { id } = useParams()
@@ -62,6 +63,8 @@ export default function ProductDetail() {
           p.claims.map((c, i) => <ClaimCard key={i} claim={c} nmpaId={p.nmpa_id} />)
         )}
       </div>
+
+      <ConcentrationPanel productId={id} />
 
       <div className="card">
         <h2 className="card-title">产品成分表（{p.ingredients.length} 种）</h2>

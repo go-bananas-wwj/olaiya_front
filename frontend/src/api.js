@@ -21,6 +21,7 @@ export const api = {
   stats: () => get('/api/stats'),
   products: (params) => get('/api/products', params), // q / brand / has_claims / limit
   product: (id) => get(`/api/products/${id}`),
+  productConcentration: (id) => get(`/api/products/${id}/concentration`),
   ingredients: (params) => get('/api/ingredients', params), // q / has_evidence
   ingredient: (id) => get(`/api/ingredients/${id}`),
 }
