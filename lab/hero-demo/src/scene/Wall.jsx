@@ -196,13 +196,13 @@ export default function Wall() {
   return (
     <group>
       {/* backstop: plaster-colored plane far behind everything */}
-      <mesh position={[0, 2.5, -4.3]}>
+      <mesh position={[0, 2.5, -4.7]}>
         <planeGeometry args={[30, 16]} />
         <meshBasicMaterial color="#e8ddd2" />
       </mesh>
 
       {/* sky visible through the opening */}
-      <mesh position={[cx, cy, -4.0]}>
+      <mesh position={[cx, cy, -4.45]}>
         <planeGeometry args={[5.6, 3.6]} />
         <shaderMaterial
           ref={skyMat}
@@ -214,7 +214,7 @@ export default function Wall() {
 
       {/* distant bokeh outside */}
       {BOKEH_OUT.map((b, i) => (
-        <mesh key={`bo${i}`} ref={(el) => (bokehRefs.current[i] = el)} position={[b.x, b.y, -3.95]}>
+        <mesh key={`bo${i}`} ref={(el) => (bokehRefs.current[i] = el)} position={[b.x, b.y, -4.1]}>
           <circleGeometry args={[b.r, 24]} />
           <meshBasicMaterial color={b.c} transparent opacity={b.o} depthWrite={false} />
         </mesh>
@@ -222,7 +222,7 @@ export default function Wall() {
 
       {/* chubby clouds drifting past the window */}
       {CLOUDS_OUT.map((c, i) => (
-        <group key={`c${i}`} ref={(el) => (cloudRefs.current[i] = el)} position={[c.x, c.y, -3.9]} scale={c.s}>
+        <group key={`c${i}`} ref={(el) => (cloudRefs.current[i] = el)} position={[c.x, c.y, -4.25]} scale={c.s}>
           {c.blobs.map(([bx, by, br], j) => (
             <mesh key={j} geometry={sphereGeo} position={[bx, by, 0]} scale={br}>
               <meshBasicMaterial color="#fef7fb" />

@@ -77,11 +77,13 @@ export default function WindowFrame() {
       {/* open casement: hinge at left jamb, swung ~35° into the room */}
       <group position={[O.x0 + 0.02, cy, z]} rotation={[0, 0.61, 0]}>
         <group position={[caseW / 2 + railT / 2, 0, 0]}>
-          {/* casement frame rails */}
+          {/* casement frame rails — verticals run long so every corner
+              embeds; no caps, no back slab (the old gray box read as a
+              flat gray panel through the glass) */}
           <Rail size={[caseW + railT, railT, 0.09]} position={[0, caseH / 2, 0]} wood={wood} />
           <Rail size={[caseW + railT, railT, 0.09]} position={[0, -caseH / 2, 0]} wood={wood} />
-          <Rail size={[railT, caseH, 0.09]} position={[caseW / 2, 0, 0]} wood={wood} />
-          <Rail size={[railT, caseH, 0.09]} position={[-caseW / 2, 0, 0]} wood={wood} />
+          <Rail size={[railT, caseH + 0.05, 0.09]} position={[caseW / 2, 0, 0]} wood={wood} />
+          <Rail size={[railT, caseH + 0.05, 0.09]} position={[-caseW / 2, 0, 0]} wood={wood} />
           {/* casement cross muntin (ends buried in the stiles) */}
           <Rail size={[caseW + 0.05, railT * 0.7, 0.07]} position={[0, 0, 0]} wood={wood} />
           {/* glass with a soft diagonal sheen */}
@@ -94,11 +96,6 @@ export default function WindowFrame() {
             <meshBasicMaterial color="#ffffff" transparent opacity={0.08} depthWrite={false} side={THREE.DoubleSide} />
           </mesh>
         </group>
-        {/* outline for the swung casement so its silhouette reads */}
-        <mesh position={[caseW / 2 + railT / 2, 0, -0.05]}>
-          <boxGeometry args={[caseW + railT + 0.03, caseH + railT + 0.03, 0.02]} />
-          <meshBasicMaterial color="#8a5a6a" side={THREE.BackSide} transparent opacity={0.9} />
-        </mesh>
       </group>
     </group>
   )
