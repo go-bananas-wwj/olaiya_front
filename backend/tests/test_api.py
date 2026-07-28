@@ -7,6 +7,7 @@ from app.models.evidence import Evidence
 from app.models.ingredient import EfficacyAssertion, Ingredient
 from app.models.product import Product, ProductClaim, ProductIngredient
 from data.loaders.seed_loader import load_seed
+from data.tools.run_inference import run_inference
 
 
 @pytest.fixture()
@@ -182,3 +183,70 @@ def test_product_detail_ingredient_evidence_flags(client, session):
         expected = (session.query(EfficacyAssertion)
                     .filter_by(ingredient_id=i["ingredient_id"]).count()) > 0
         assert i["has_evidence"] == expected
+
+
+# —— 计划 02 Task 4：浓度推断结果 + 剂量达标判定 ——
+
+
+def test_concentration_inferred_structure(client, session):
+    """跑过推断的 seed 产品：inferred=true，estimates 结构完整（浓度为模型估计值）。"""
+    run_inference(session)
+    products = client.get("/api/products").json()
+    ce = [p for p in products if "CE" in p["name"]][0]
+    r = client.get(f"/api/products/{ce['id']}/concentration")
+    assert r.status_code == 200
+    body = r.json()
+    assert body["product_id"] == ce["id"]
+    assert body["inferred"] is True
+    estimates = body["estimates"]
+    assert len(estimates) == 12  # CE 全部位次成分均有估计区间
+    for e in estimates:
+        assert set(e) == {"ingredient_id", "inci_name", "cn_name", "low", "high",
+                          "confidence", "disclosed_conc", "dose"}
+        assert 0.0 <= e["low"] <= e["high"] <= 100.0
+        assert 0.0 <= e["confidence"] <= 1.0
+        assert isinstance(e["dose"], list)
+        for d in e["dose"]:
+            assert set(d) == {"efficacy", "eff_low", "eff_high", "verdict"}
+            assert d["verdict"] in {"effective", "insufficient", "uncertain", "unknown"}
+    # 位次 1 是水（估计区间最高）
+    assert estimates[0]["inci_name"] == "WATER"
+
+
+def test_concentration_niacinamide_dose_effective(client, session):
+    """The Ordinary 烟酰胺估计约 10% >> 文献起效 2%，判定为 effective。"""
+    run_inference(session)
+    products = client.get("/api/products").json()
+    ordinary = [p for p in products if p["brand"] == "The Ordinary"][0]
+    body = client.get(f"/api/products/{ordinary['id']}/concentration").json()
+    assert body["inferred"] is True
+    nia = [e for e in body["estimates"] if e["inci_name"] == "NIACINAMIDE"]
+    assert len(nia) == 1
+    nia = nia[0]
+    assert nia["cn_name"] == "烟酰胺"
+    assert nia["disclosed_conc"] == 10.0  # 品牌披露锚点原样带出
+    assert nia["dose"], "烟酰胺有文献起效浓度断言，必须输出剂量判定"
+    d = nia["dose"][0]
+    assert d["efficacy"] == "美白（抑制黑素小体转运）"
+    assert d["eff_low"] == 2.0 and d["eff_high"] == 5.0
+    assert d["verdict"] == "effective"
+
+
+def test_concentration_no_position_product(client, session):
+    """无位次成分表的产品：200 + inferred=false，不输出估计。"""
+    ing = session.query(Ingredient).filter_by(inci_name="NIACINAMIDE").one()
+    p = Product(name="无位次测试产品", brand="TEST")
+    session.add(p)
+    session.flush()
+    session.add(ProductIngredient(product_id=p.id, ingredient_id=ing.id, position=None))
+    session.commit()
+    r = client.get(f"/api/products/{p.id}/concentration")
+    assert r.status_code == 200
+    assert r.json() == {"product_id": p.id, "inferred": False,
+                        "reason": "无官方降序成分表，未推断"}
+
+
+def test_concentration_product_not_found(client):
+    r = client.get("/api/products/999999/concentration")
+    assert r.status_code == 404
+    assert r.json()["detail"] == "产品不存在"

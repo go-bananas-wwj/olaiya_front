@@ -11,6 +11,7 @@ from .db import SessionLocal, init_db
 from .models.evidence import Evidence
 from .models.ingredient import EfficacyAssertion, Ingredient
 from .models.product import Product, ProductClaim, ProductIngredient
+from .services.dosecheck import dose_verdicts
 
 app = FastAPI(title="成分真言 API", version="0.1.0")
 
@@ -200,6 +201,24 @@ def product_detail(product_id: int, db: Session = Depends(get_db)):
         } for l in links],
         "claims": [_claim_dict(c) for c in claims],
     }
+
+
+@app.get("/api/products/{product_id}/concentration")
+def product_concentration(product_id: int, db: Session = Depends(get_db)):
+    """浓度推断结果 + 剂量达标判定。
+
+    浓度为模型估计值（推断引擎按位次/先验约束采样的 p5/p95 区间），非实测；
+    dose.verdict 为估计区间与文献起效浓度的相对关系（effective/insufficient/
+    uncertain/unknown）。无官方降序成分表的产品未推断，返回 inferred=false。
+    """
+    p = db.get(Product, product_id)
+    if p is None:
+        raise HTTPException(status_code=404, detail="产品不存在")
+    estimates = dose_verdicts(db, product_id)
+    if estimates is None:
+        return {"product_id": product_id, "inferred": False,
+                "reason": "无官方降序成分表，未推断"}
+    return {"product_id": product_id, "inferred": True, "estimates": estimates}
 
 
 # 静态前端（/web 目录，纯静态页，数据全部经 /api 获取）
