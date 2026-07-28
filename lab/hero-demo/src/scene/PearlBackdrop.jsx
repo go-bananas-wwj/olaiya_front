@@ -10,9 +10,9 @@ const vertexShader = /* glsl */ `
   }
 `
 
-// Pearlescent mesh-gradient backdrop: mother-of-pearl base with slow
-// drifting iridescent blobs + animated film grain. Palette is authored in
-// sRGB then converted to linear so the composer's output transform is exact.
+// Fairytale sky: pearl -> soft pink -> pale lavender vertical gradient, slow
+// iridescent blobs, two gentle diagonal light shafts, animated film grain.
+// Authored in linear space; tonemapping/colorspace chunks keep the pipeline.
 const fragmentShader = /* glsl */ `
   varying vec2 vUv;
   uniform float uTime;
@@ -22,34 +22,44 @@ const fragmentShader = /* glsl */ `
     return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453123);
   }
 
+  float shaft(vec2 p, float ang, float off, float w) {
+    vec2 d = vec2(cos(ang), sin(ang));
+    float x = dot(p, vec2(-d.y, d.x)) + off;
+    return smoothstep(w, 0.0, abs(x));
+  }
+
   void main() {
     vec2 uv = vUv;
     vec2 p = (uv - 0.5) * vec2(uAspect, 1.0);
-
-    // linear-space palette
-    vec3 base = vec3(0.894, 0.845, 0.793);   // #f3ede6 mother-of-pearl
-    vec3 pink = vec3(0.902, 0.539, 0.674);   // #f4c2d7
-    vec3 teal = vec3(0.539, 0.728, 0.668);   // #c2ded6
-    vec3 lav  = vec3(0.683, 0.587, 0.870);   // #d8caf0
-    vec3 gold = vec3(0.854, 0.643, 0.551);   // soft champagne-rose
-
     float t = uTime;
 
-    vec2 c1 = vec2( 0.42 + 0.26 * sin(t * 0.110 + 0.0),  0.14 + 0.20 * cos(t * 0.130 + 1.7));
-    vec2 c2 = vec2(-0.38 + 0.24 * sin(t * 0.090 + 2.3),  0.22 + 0.18 * sin(t * 0.120 + 0.4));
-    vec2 c3 = vec2( 0.06 + 0.28 * cos(t * 0.070 + 4.0), -0.24 + 0.16 * sin(t * 0.100 + 2.9));
-    vec2 c4 = vec2(-0.24 + 0.20 * cos(t * 0.080 + 1.1), -0.02 + 0.22 * cos(t * 0.060 + 5.2));
+    // sky gradient (linear space): #f3ede6 -> #fadfe9 -> #e6dbf7
+    vec3 bot = vec3(0.894, 0.845, 0.793);
+    vec3 mid = vec3(0.955, 0.733, 0.815);
+    vec3 top = vec3(0.793, 0.708, 0.928);
+    vec3 col = mix(bot, mid, smoothstep(0.0, 0.55, uv.y));
+    col = mix(col, top, smoothstep(0.45, 1.02, uv.y));
 
-    float b1 = exp(-pow(length(p - c1), 2.0) * 2.6);
-    float b2 = exp(-pow(length(p - c2), 2.0) * 3.0);
-    float b3 = exp(-pow(length(p - c3), 2.0) * 2.4);
-    float b4 = exp(-pow(length(p - c4), 2.0) * 3.6);
+    // soft iridescent blobs
+    vec3 pink = vec3(0.902, 0.539, 0.674);
+    vec3 teal = vec3(0.539, 0.728, 0.668);
+    vec3 lav  = vec3(0.683, 0.587, 0.870);
 
-    vec3 col = base;
-    col = mix(col, pink, b1 * 0.62);
-    col = mix(col, teal, b2 * 0.58);
-    col = mix(col, lav,  b3 * 0.55);
-    col = mix(col, gold, b4 * 0.38);
+    vec2 c1 = vec2( 0.40 + 0.24 * sin(t * 0.110 + 0.0),  0.12 + 0.18 * cos(t * 0.130 + 1.7));
+    vec2 c2 = vec2(-0.36 + 0.22 * sin(t * 0.090 + 2.3),  0.20 + 0.16 * sin(t * 0.120 + 0.4));
+    vec2 c3 = vec2( 0.05 + 0.26 * cos(t * 0.070 + 4.0), -0.22 + 0.15 * sin(t * 0.100 + 2.9));
+
+    float b1 = exp(-pow(length(p - c1), 2.0) * 2.0);
+    float b2 = exp(-pow(length(p - c2), 2.0) * 2.4);
+    float b3 = exp(-pow(length(p - c3), 2.0) * 1.8);
+
+    col = mix(col, pink, b1 * 0.35);
+    col = mix(col, teal, b2 * 0.28);
+    col = mix(col, lav,  b3 * 0.30);
+
+    // dreamy light shafts
+    col += vec3(1.0, 0.97, 0.94) * shaft(p, 0.55, 0.35 + sin(t * 0.050) * 0.25, 0.30) * 0.10;
+    col += vec3(1.0, 0.97, 0.94) * shaft(p, 0.55, -0.45 + sin(t * 0.038 + 2.0) * 0.18, 0.16) * 0.07;
 
     // animated film grain
     float g = hash(uv * vec2(1548.0, 967.0) + fract(t * 0.731) * 11.17);
@@ -83,7 +93,6 @@ export default function PearlBackdrop() {
   )
 
   useFrame((state) => {
-    // glue the backdrop to the camera so parallax never reveals an edge
     group.current.position.copy(camera.position)
     group.current.quaternion.copy(camera.quaternion)
     mat.current.uniforms.uTime.value = state.clock.elapsedTime

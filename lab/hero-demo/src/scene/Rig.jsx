@@ -1,7 +1,7 @@
 import { useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
 
-const BASE_POS = new THREE.Vector3(0, 1.32, 6.15)
+const BASE_POS = new THREE.Vector3(0, 1.4, 6.05)
 const BASE_LOOK = new THREE.Vector3(-0.55, 1.18, 0)
 
 // Gentle mouse parallax: damped drift around the base pose.

@@ -1,71 +1,173 @@
-import { useMemo, useRef } from 'react'
+import { useMemo, useRef, useState } from 'react'
 import { useFrame } from '@react-three/fiber'
 import { Html } from '@react-three/drei'
 import * as THREE from 'three'
+import { toonGradient } from './toon.jsx'
+import { INGREDIENTS, ORBIT } from '../ingredients.js'
 
-// Ingredient "stars": emissive orbs sized like their concentration, drifting
-// inside the liquid with individual phases. VC is the hero (15%).
-const STARS = [
-  { id: 'vc', r: 0.11, color: [2.6, 2.05, 2.2], y: 0.86, ax: 0.30, az: 0.26, ay: 0.16, fx: 0.21, fz: 0.17, fy: 0.26, p: 0.0 },
-  { r: 0.082, color: [2.3, 1.8, 2.0], y: 0.62, ax: 0.26, az: 0.24, ay: 0.13, fx: 0.26, fz: 0.22, fy: 0.19, p: 1.3 },
-  { r: 0.072, color: [2.4, 2.35, 2.4], y: 1.12, ax: 0.28, az: 0.22, ay: 0.10, fx: 0.19, fz: 0.24, fy: 0.22, p: 2.1 },
-  { r: 0.064, color: [2.2, 1.7, 1.95], y: 0.40, ax: 0.22, az: 0.26, ay: 0.12, fx: 0.30, fz: 0.20, fy: 0.25, p: 3.4 },
-  { r: 0.056, color: [2.45, 2.3, 2.35], y: 1.02, ax: 0.25, az: 0.27, ay: 0.14, fx: 0.23, fz: 0.28, fy: 0.17, p: 4.2 },
-  { r: 0.050, color: [2.15, 1.65, 1.9], y: 0.76, ax: 0.27, az: 0.21, ay: 0.15, fx: 0.28, fz: 0.25, fy: 0.21, p: 5.1 },
-  { r: 0.044, color: [2.35, 2.3, 2.4], y: 1.22, ax: 0.20, az: 0.23, ay: 0.08, fx: 0.32, fz: 0.27, fy: 0.24, p: 5.9 },
-  { r: 0.040, color: [2.1, 1.6, 1.85], y: 0.28, ax: 0.23, az: 0.20, ay: 0.09, fx: 0.25, fz: 0.30, fy: 0.28, p: 2.7 },
+// Ingredient orbs: one signature color + micro-shape each. Hover scales the
+// orb 1.3x and pops a cartoon name tag; click opens the evidence card (state
+// lifted to App). Raycast targets are fat invisible proxy spheres so hits are
+// forgiving while the orbs drift.
+
+function sparkleGeometry() {
+  const s = new THREE.Shape()
+  s.moveTo(0, 1)
+  s.quadraticCurveTo(0.14, 0.14, 1, 0)
+  s.quadraticCurveTo(0.14, -0.14, 0, -1)
+  s.quadraticCurveTo(-0.14, -0.14, -1, 0)
+  s.quadraticCurveTo(-0.14, 0.14, 0, 1)
+  return new THREE.ShapeGeometry(s, 8)
+}
+
+const MINIS = [
+  { r: 0.055, color: '#ffc9dd', y: 0.52, ax: 0.34, az: 0.28, ay: 0.12, fx: 0.3, fz: 0.24, fy: 0.2, p: 2.7 },
+  { r: 0.05, color: '#cdeed6', y: 0.86, ax: 0.3, az: 0.3, ay: 0.14, fx: 0.24, fz: 0.29, fy: 0.17, p: 4.9 },
+  { r: 0.045, color: '#e8dff7', y: 0.36, ax: 0.36, az: 0.24, ay: 0.1, fx: 0.27, fz: 0.21, fy: 0.24, p: 1.1 },
 ]
 
-export default function Stars() {
-  const refs = useRef([])
-
-  const materials = useMemo(
+function OrbCore({ ing }) {
+  const geo = useMemo(
     () =>
-      STARS.map((s) => {
-        // depthTest off: the liquid is opaque (must be, to enter the
-        // refraction buffer), so stars draw over it to stay visible inside
-        const m = new THREE.MeshBasicMaterial({ toneMapped: false, depthTest: false })
-        m.color = new THREE.Color(...s.color)
-        return m
-      }),
-    []
+      ing.shape === 'crystal'
+        ? new THREE.IcosahedronGeometry(ing.r, 0)
+        : new THREE.SphereGeometry(ing.r, 32, 32),
+    [ing]
   )
+  return (
+    <mesh geometry={geo} renderOrder={8}>
+      <meshToonMaterial
+        color={ing.color}
+        gradientMap={toonGradient}
+        emissive={ing.color}
+        emissiveIntensity={ing.id === 'vc' ? 1.3 : 1.1}
+      />
+    </mesh>
+  )
+}
 
-  useFrame((state) => {
+export default function Stars({ onSelect, selectedId }) {
+  const [hoveredId, setHoveredId] = useState(null)
+  const groupRefs = useRef({})
+  const miniRefs = useRef([])
+  const sparkRef = useRef()
+  const ringRef = useRef()
+  const v = useMemo(() => new THREE.Vector3(), [])
+  const sparkGeo = useMemo(() => sparkleGeometry(), [])
+  const glintGeo = useMemo(() => sparkleGeometry(), [])
+
+  useFrame((state, dt) => {
     const t = state.clock.elapsedTime
-    STARS.forEach((s, i) => {
-      const m = refs.current[i]
-      if (!m) return
-      m.position.set(
-        s.ax * Math.sin(t * s.fx + s.p),
-        s.y + s.ay * Math.sin(t * s.fy + s.p * 1.7),
-        s.az * Math.cos(t * s.fz + s.p * 0.6)
+    if (typeof window !== 'undefined') window.__orbScreen = window.__orbScreen || {}
+
+    INGREDIENTS.forEach((ing) => {
+      const o = ORBIT[ing.id]
+      const g = groupRefs.current[ing.id]
+      if (!g || !o) return
+      g.position.set(
+        o.ax * Math.sin(t * o.fx + o.p),
+        o.y + o.ay * Math.sin(t * o.fy + o.p * 1.7),
+        o.az * Math.cos(t * o.fz + o.p * 0.6)
+      )
+      const target = hoveredId === ing.id ? 1.3 : selectedId === ing.id ? 1.15 : 1
+      const s = THREE.MathUtils.damp(g.scale.x, target, 9, dt)
+      g.scale.setScalar(s)
+
+      v.setFromMatrixPosition(g.matrixWorld).project(state.camera)
+      window.__orbScreen[ing.id] = [
+        Math.round((v.x * 0.5 + 0.5) * state.size.width),
+        Math.round((-v.y * 0.5 + 0.5) * state.size.height),
+      ]
+    })
+
+    MINIS.forEach((m, i) => {
+      const g = miniRefs.current[i]
+      if (!g) return
+      g.position.set(
+        m.ax * Math.sin(t * m.fx + m.p),
+        m.y + m.ay * Math.sin(t * m.fy + m.p * 1.7),
+        m.az * Math.cos(t * m.fz + m.p * 0.6)
       )
     })
+
+    if (sparkRef.current) {
+      sparkRef.current.rotation.z = t * 0.9
+      const p = 1 + Math.sin(t * 2.2) * 0.12
+      sparkRef.current.scale.setScalar(0.17 * p)
+    }
+    if (ringRef.current) ringRef.current.rotation.z = Math.sin(t * 0.6) * 0.35
   })
 
   return (
     <group>
-      {STARS.map((s, i) => (
-        <mesh
-          key={s.id || i}
-          ref={(el) => (refs.current[i] = el)}
-          material={materials[i]}
-          renderOrder={5}
+      {INGREDIENTS.map((ing) => (
+        <group
+          key={ing.id}
+          ref={(el) => (groupRefs.current[ing.id] = el)}
+          onPointerOver={(e) => {
+            e.stopPropagation()
+            setHoveredId(ing.id)
+            document.body.style.cursor = 'pointer'
+          }}
+          onPointerOut={() => {
+            setHoveredId((h) => (h === ing.id ? null : h))
+            document.body.style.cursor = 'auto'
+          }}
+          onClick={(e) => {
+            e.stopPropagation()
+            onSelect(ing.id)
+          }}
         >
-          <sphereGeometry args={[s.r, 32, 32]} />
-          {s.id === 'vc' && (
+          {/* fat invisible raycast proxy */}
+          <mesh renderOrder={8}>
+            <sphereGeometry args={[ing.r * 2.0, 12, 12]} />
+            <meshBasicMaterial transparent opacity={0} depthWrite={false} />
+          </mesh>
+
+          <OrbCore ing={ing} />
+
+          {/* micro-shapes per ingredient */}
+          {ing.shape === 'sparkle' && (
+            <mesh ref={sparkRef} geometry={sparkGeo} position={[ing.r * 1.15, ing.r * 1.25, ing.r * 0.4]} renderOrder={9}>
+              <meshBasicMaterial color={new THREE.Color(1.9, 1.75, 1.5)} toneMapped={false} side={THREE.DoubleSide} />
+            </mesh>
+          )}
+          {ing.shape === 'ring' && (
+            <mesh ref={ringRef} rotation={[1.25, 0, 0]} renderOrder={8}>
+              <torusGeometry args={[ing.r * 1.5, ing.r * 0.13, 12, 48]} />
+              <meshToonMaterial color={ing.color} gradientMap={toonGradient} emissive={ing.color} emissiveIntensity={0.7} />
+            </mesh>
+          )}
+          {ing.shape === 'glint' && (
+            <mesh geometry={glintGeo} position={[ing.r * 0.85, ing.r * 0.9, ing.r * 0.55]} scale={0.055} renderOrder={9}>
+              <meshBasicMaterial color="#ffffff" transparent opacity={0.95} side={THREE.DoubleSide} />
+            </mesh>
+          )}
+
+          {hoveredId === ing.id && (
             <Html
-              position={[0.2, 0.06, 0]}
-              center={false}
+              position={[0, ing.r + 0.22, 0]}
+              center
               zIndexRange={[8, 0]}
               style={{ pointerEvents: 'none' }}
-              wrapperClass="vc-label-wrap"
+              wrapperClass="orb-tag-wrap"
             >
-              <div className="vc-label">VC · 15% 抗坏血酸</div>
+              <div className="orb-tag" style={{ '--c': ing.color }}>
+                {ing.name}
+              </div>
             </Html>
           )}
-        </mesh>
+        </group>
+      ))}
+
+      {/* decorative minis, non-interactive */}
+      {MINIS.map((m, i) => (
+        <group key={i} ref={(el) => (miniRefs.current[i] = el)}>
+          <mesh renderOrder={8}>
+            <sphereGeometry args={[m.r, 24, 24]} />
+            <meshToonMaterial color={m.color} gradientMap={toonGradient} emissive={m.color} emissiveIntensity={0.9} />
+          </mesh>
+        </group>
       ))}
     </group>
   )
