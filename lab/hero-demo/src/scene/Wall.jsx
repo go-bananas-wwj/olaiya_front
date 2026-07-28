@@ -9,7 +9,10 @@ import * as THREE from 'three'
 //
 // Opening rect: x ∈ [-0.7, 2.1], y ∈ [0.55, 2.85]  (w 2.8 × h 2.3)
 
-export const OPENING = { x0: -0.7, x1: 2.1, y0: 0.55, y1: 2.85, z: -3.8 }
+// Opening rect: x ∈ [1.5, 4.3], y ∈ [0.55, 2.85]  (w 2.8 × h 2.3)
+// shifted right so the frame's left edge clears the centered bottle
+// (bottle right edge ≈ 0.85 incl. float/rim -> ~0.6 world of daylight)
+export const OPENING = { x0: 1.45, x1: 4.05, y0: 0.55, y1: 2.85, z: -3.8 }
 
 // warm plaster, one step deeper than mother-of-pearl (#e8ddd2), subtle grain
 const plasterVert = /* glsl */ `
@@ -36,7 +39,7 @@ const plasterFrag = /* glsl */ `
     float g = hash(floor(vWorld.xy * 90.0));
     col += (g - 0.5) * 0.028;
     // soft corner shading so the window reads as the light center
-    float d = length(vWorld.xy - vec2(0.7, 1.7)) / 9.0;
+    float d = length(vWorld.xy - vec2(2.75, 1.7)) / 9.0;
     col *= 1.0 - min(0.16, d * 0.16);
     gl_FragColor = vec4(col, 1.0);
     #include <tonemapping_fragment>
@@ -71,17 +74,17 @@ const skyFrag = /* glsl */ `
 `
 
 const CLOUDS_OUT = [
-  { x: -0.9, y: 2.3, s: 0.5, sp: 0.06, blobs: [[0, 0, 0.5], [0.5, 0.05, 0.36], [-0.5, 0.04, 0.38], [0.1, 0.26, 0.32]] },
-  { x: 1.2, y: 1.9, s: 0.62, sp: 0.045, blobs: [[0, 0, 0.55], [0.55, 0.05, 0.4], [-0.52, 0.06, 0.4], [0.15, 0.3, 0.34], [-0.2, 0.26, 0.3]] },
-  { x: 0.4, y: 2.6, s: 0.38, sp: 0.075, blobs: [[0, 0, 0.48], [0.42, 0.04, 0.32], [-0.4, 0.03, 0.33]] },
+  { x: 1.15, y: 2.3, s: 0.5, sp: 0.06, blobs: [[0, 0, 0.5], [0.5, 0.05, 0.36], [-0.5, 0.04, 0.38], [0.1, 0.26, 0.32]] },
+  { x: 3.25, y: 1.9, s: 0.62, sp: 0.045, blobs: [[0, 0, 0.55], [0.55, 0.05, 0.4], [-0.52, 0.06, 0.4], [0.15, 0.3, 0.34], [-0.2, 0.26, 0.3]] },
+  { x: 2.45, y: 2.6, s: 0.38, sp: 0.075, blobs: [[0, 0, 0.48], [0.42, 0.04, 0.32], [-0.4, 0.03, 0.33]] },
 ]
 
 const BOKEH_OUT = [
-  { x: -0.2, y: 1.2, r: 0.16, c: '#ffffff', o: 0.25, sp: 0.3, p: 0 },
-  { x: 1.6, y: 2.4, r: 0.22, c: '#f8d8e8', o: 0.28, sp: 0.22, p: 1.3 },
-  { x: 0.6, y: 0.9, r: 0.12, c: '#e0d4f4', o: 0.3, sp: 0.26, p: 2.6 },
-  { x: 1.9, y: 1.5, r: 0.14, c: '#ffffff', o: 0.22, sp: 0.34, p: 3.2 },
-  { x: 0.2, y: 2.5, r: 0.18, c: '#fdf3e2', o: 0.24, sp: 0.2, p: 4.1 },
+  { x: 1.85, y: 1.2, r: 0.16, c: '#ffffff', o: 0.25, sp: 0.3, p: 0 },
+  { x: 3.65, y: 2.4, r: 0.22, c: '#f8d8e8', o: 0.28, sp: 0.22, p: 1.3 },
+  { x: 2.65, y: 0.9, r: 0.12, c: '#e0d4f4', o: 0.3, sp: 0.26, p: 2.6 },
+  { x: 3.95, y: 1.5, r: 0.14, c: '#ffffff', o: 0.22, sp: 0.34, p: 3.2 },
+  { x: 2.25, y: 2.5, r: 0.18, c: '#fdf3e2', o: 0.24, sp: 0.2, p: 4.1 },
 ]
 
 function Plaster({ w, h, position }) {
@@ -126,7 +129,7 @@ function SakuraBranch() {
   const petalGeo = useMemo(() => new THREE.CircleGeometry(1, 12), [])
 
   return (
-    <group position={[0, 0.15, -3.85]}>
+    <group position={[2.05, 0.15, -3.85]}>
       {branchGeos.map((g, i) => (
         <mesh key={i} geometry={g}>
           <meshBasicMaterial color="#7a4a5c" />
@@ -180,7 +183,7 @@ export default function Wall() {
       if (!g) return
       // drift in one consistent direction, wrap inside the outdoor strip
       let x = c.x + t * c.sp
-      x = ((x + 2.2) % 5.4) - 2.2
+      x = ((x - 0.4) % 5.4) + 0.4
       g.position.x = x
     })
     BOKEH_OUT.forEach((b, i) => {

@@ -48,11 +48,11 @@ export default function Particles() {
   const petals = useMemo(
     () =>
       Array.from({ length: PETALS }, (_, i) => {
-        const sx = -0.4 + Math.random() * 2.2 // spawn inside the opening
+        const sx = 1.6 + Math.random() * 2.2 // spawn inside the shifted opening
         const sy = 1.0 + Math.random() * 1.5
         return {
           sx, sy, sz: -3.5,
-          ex: THREE.MathUtils.clamp(sx + (Math.random() - 0.5) * 2.4, -1.7, 2.1),
+          ex: THREE.MathUtils.clamp(sx + (Math.random() - 0.5) * 2.8, -1.2, 3.4),
           ez: 0.3 + Math.random() * 1.9,
           life: 8 + Math.random() * 3,
           sway: 2.5 + Math.random() * 2,

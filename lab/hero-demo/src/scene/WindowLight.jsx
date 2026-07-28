@@ -8,12 +8,13 @@ import * as THREE from 'three'
 // Each blade is a soft gradient plane aligned to its own start->land vector.
 
 const BEAMS = [
-  // grazing beam: kisses the bottle's right silhouette
-  { start: [1.15, 2.0, -3.4], land: [0.95, 0.0, 0.35], w: 0.36, o: 0.2, p: 0.0 },
+  // grazing beam: kisses the bottle's right silhouette (clears the front
+  // by geometry — closest approach ~1.0 > bottle radius 0.72)
+  { start: [1.9, 2.0, -3.4], land: [0.95, 0.0, 0.35], w: 0.36, o: 0.2, p: 0.0 },
   // main beam, right of the bottle
-  { start: [1.7, 2.2, -3.4], land: [1.6, 0.0, 0.7], w: 0.5, o: 0.24, p: 2.1 },
+  { start: [2.8, 2.2, -3.4], land: [1.6, 0.0, 0.7], w: 0.5, o: 0.24, p: 2.1 },
   // far-right accent beam
-  { start: [2.1, 1.7, -3.4], land: [2.25, 0.0, 1.1], w: 0.3, o: 0.15, p: 4.2 },
+  { start: [3.5, 1.8, -3.4], land: [2.25, 0.0, 1.1], w: 0.3, o: 0.15, p: 4.2 },
 ]
 
 const DUST = 22
@@ -114,7 +115,7 @@ export default function WindowLight() {
   const dust = useMemo(
     () =>
       Array.from({ length: DUST }, (_, i) => ({
-        x: 1.15 + Math.random() * 0.85,
+        x: 1.55 + Math.random() * 0.95,
         y0: 0.05 + Math.random() * 1.0,
         z: -2.6 + Math.random() * 2.4,
         sp: 0.05 + Math.random() * 0.09,
