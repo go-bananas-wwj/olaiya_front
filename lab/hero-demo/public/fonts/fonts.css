@@ -38,3 +38,33 @@
   src: url(/fonts/inter-500-0.woff2) format('woff2');
   unicode-range: U+20, U+30-39, U+44-45, U+47-49, U+4e, U+52-55, U+b0, U+b7, U+2014, U+2192;
 }
+
+/* 童话圆体字体（本地化子集） */
+@font-face {
+  font-family: 'ZCOOL KuaiLe';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(/fonts/zcool-kuaile-400-subset.woff2) format('woff2');
+}
+@font-face {
+  font-family: 'Noto Sans SC';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url(/fonts/noto-sans-sc-var-subset.woff2) format('woff2');
+}
+@font-face {
+  font-family: 'Quicksand';
+  font-style: normal;
+  font-weight: 300 700;
+  font-display: swap;
+  src: url(/fonts/quicksand-var.woff2) format('woff2');
+}
+@font-face {
+  font-family: 'Baloo 2';
+  font-style: normal;
+  font-weight: 400 800;
+  font-display: swap;
+  src: url(/fonts/baloo-2-var.woff2) format('woff2');
+}

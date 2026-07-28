@@ -3,8 +3,9 @@
   --ink: #3d2f2a;
   --rosewood: #b06a8a;
   --iris: #8a7ab8;
-  --serif: 'Noto Serif SC', serif;
-  --sans: 'Inter', -apple-system, sans-serif;
+  --serif: 'ZCOOL KuaiLe', 'Noto Serif SC', serif;
+  --sans: 'Quicksand', 'Noto Sans SC', -apple-system, sans-serif;
+  --num: 'Baloo 2', 'Quicksand', sans-serif;
 }
 
 * {
@@ -83,7 +84,7 @@ body {
 .eyebrow {
   display: inline-flex;
   align-items: center;
-  font-family: var(--sans);
+  font-family: var(--num);
   font-weight: 500;
   font-size: 11px;
   letter-spacing: 0.34em;

@@ -71,6 +71,17 @@ const LAYER_PROFILE = [
   [0.001, 1.155],
 ]
 
+// 液面弯月面：贴合液柱顶缘（r=0.6, y=1.155）完整封闭的圆润盖子，
+// 中心微拱（+0.035），与液体同色系——无环、无凹、无镂空
+const MENISCUS_PROFILE = [
+  [0.001, 1.19],
+  [0.18, 1.187],
+  [0.34, 1.179],
+  [0.47, 1.168],
+  [0.56, 1.159],
+  [0.6, 1.155],
+]
+
 function SoftStripe({ position, rotation, width, height, opacity }) {
   const mat = useMemo(
     () =>
@@ -120,6 +131,7 @@ export default function Bottle() {
   const capGeo = useMemo(() => lathe(CAP_PROFILE), [])
   const liquidGeo = useMemo(() => lathe(LIQUID_PROFILE), [])
   const layerGeo = useMemo(() => lathe(LAYER_PROFILE), [])
+  const meniscusGeo = useMemo(() => lathe(MENISCUS_PROFILE), [])
   const bubbleRefs = useRef([])
 
   useFrame((state) => {
@@ -147,42 +159,10 @@ export default function Bottle() {
         <meshToonMaterial color="#ffc9dd" gradientMap={toonGradient} depthWrite={false} />
       </mesh>
 
-      {/* liquid surface: same-family pink with a soft rim (no hard white
-          ring), plus one faint highlight spot (<=35%) for the window light */}
-      <mesh position={[0, 1.162, 0]} rotation={[-Math.PI / 2, 0, 0]} renderOrder={2}>
-        <circleGeometry args={[0.575, 64]} />
-        <shaderMaterial
-          transparent
-          depthWrite={false}
-          uniforms={{
-            uC: { value: new THREE.Color('#ffc4d9') },
-          }}
-          vertexShader={/* glsl */ `
-            varying vec2 vUv;
-            void main() {
-              vUv = uv;
-              gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-            }
-          `}
-          fragmentShader={/* glsl */ `
-            varying vec2 vUv;
-            uniform vec3 uC;
-            void main() {
-              vec2 p = vUv - 0.5;
-              float r = length(p) * 2.0;                 // 0 center -> 1 rim
-              float body = smoothstep(1.0, 0.72, r);      // soft rim, no hard edge
-              vec3 col = uC;
-              // faint window-light highlight, opacity capped ~0.33
-              float hl = exp(-dot(p - vec2(0.10, 0.06), p - vec2(0.10, 0.06)) * 38.0);
-              col = mix(col, vec3(1.0), hl * 0.85);
-              float a = body * 0.94;
-              a = max(a, hl * 0.33);
-              gl_FragColor = vec4(col, a);
-              #include <tonemapping_fragment>
-              #include <colorspace_fragment>
-            }
-          `}
-        />
+      {/* liquid surface: meniscus cap closing the liquid column, same pink
+          family as the layer, gently domed — no ring, no dent, no cutout */}
+      <mesh geometry={meniscusGeo} renderOrder={1}>
+        <meshToonMaterial color="#ffc9dd" gradientMap={toonGradient} depthWrite={false} />
       </mesh>
 
       {/* rising bubbles: low-presence translucent dots, no ring/band decor */}
