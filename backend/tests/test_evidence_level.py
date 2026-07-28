@@ -42,8 +42,19 @@ def test_note_in_vitro():
     assert classify_evidence_level("体外细胞研究，未涉及人体外用浓度。", _ev()) == "in_vitro"
 
 
+def test_external_use_not_in_vitro():
+    """「人体外用」里的「体外」是子串假象，不得误判为 in_vitro。"""
+    assert classify_evidence_level("人体外用试验（n=73）", _ev()) != "in_vitro"
+    assert classify_evidence_level("人体外用试验（n=73）", _ev()) == "human_open"
+
+
 def test_note_review():
     assert classify_evidence_level("叙述性综述，证据等级较低。", _ev()) == "review"
+
+
+def test_review_beats_animal():
+    """综述与动物并存时取更低层级 review（规则顺序：口服→综述→动物→体外）。"""
+    assert classify_evidence_level("综述文献，含豚鼠实验数据", _ev()) == "review"
 
 
 def test_note_human_ct():
@@ -53,8 +64,18 @@ def test_note_human_ct():
 def test_note_human_rct():
     assert classify_evidence_level("随机双盲人体试验", _ev()) == "human_rct"
     assert classify_evidence_level("人体随机对照试验（市售成品制剂）", _ev()) == "human_rct"
-    assert classify_evidence_level("临床试验常用浓度 2%-5%", _ev()) == "human_rct"
     assert classify_evidence_level("ppm 级起效；双盲分脸人体试验", _ev()) == "human_rct"
+
+
+def test_note_human_open():
+    """开放/无对照/病例系列或仅有「人体/临床」弱信号：归 human_open，不拔高为 RCT。"""
+    assert classify_evidence_level("人体开放试验", _ev()) == "human_open"
+    assert classify_evidence_level("人体临床研究（n=59，12周）", _ev()) == "human_open"
+    assert classify_evidence_level("临床试验常用浓度 2%-5%", _ev()) == "human_open"
+    assert classify_evidence_level("人体病例系列报告", _ev()) == "human_open"
+    assert classify_evidence_level("无对照人体试用", _ev()) == "human_open"
+    # 开放设计否决词优先于随机字样：命中即不得归 human_rct
+    assert classify_evidence_level("随机分组开放标签人体试验", _ev()) == "human_open"
 
 
 def test_observational_not_human_rct():
@@ -102,6 +123,7 @@ def test_strength_map_complete():
         assert 0.0 <= score <= 1.0, level
         assert default_strength(level) == score
     assert DEFAULT_EVIDENCE_STRENGTH["human_rct"] == 1.0
+    assert DEFAULT_EVIDENCE_STRENGTH["human_open"] == 0.55
     assert DEFAULT_EVIDENCE_STRENGTH["unknown"] == 0.2
 
 
