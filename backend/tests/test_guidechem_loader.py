@@ -62,3 +62,17 @@ def test_load_product_idempotent(session):
     assert session.query(ProductIngredient).count() == 3
     # 中文名成分不重复建
     assert session.query(Ingredient).filter_by(cn_name="胶原").count() == 1
+
+
+def test_duplicate_claim_quad_in_one_json(session):
+    """同一 JSON 内出现完全相同的宣称四元组时，只能入一条（autoflush 下查询不可见的历史 bug）。"""
+    import copy
+    data = copy.deepcopy(SAMPLE)
+    data["claims"].append(copy.deepcopy(data["claims"][0]))  # 完全重复的一条
+    load_product(session, data)
+    session.commit()
+    assert session.query(ProductClaim).count() == 2
+    # 重复加载后仍不爆炸（历史重复数据兼容：first() 而非 one_or_none()）
+    load_product(session, data)
+    session.commit()
+    assert session.query(ProductClaim).count() == 2

@@ -67,13 +67,19 @@ def load_product(session: Session, data: dict) -> Product:
                                           is_active=item.get("is_active"),
                                           purpose=item.get("purpose")))
 
-    # 宣称：按四元组幂等
+    # 宣称：按四元组幂等。注意 autoflush=False 下同次新增的重复四元组查询不可见，
+    # 必须用内存集合去重，且查库时按全部匹配行处理（库里可能已有历史重复）
+    seen: set[tuple] = set()
     for c in data.get("claims", []):
+        key = (c["claim"], c.get("eval_category"), c.get("method_name"))
+        if key in seen:
+            continue
+        seen.add(key)
         exists = (session.query(ProductClaim)
                   .filter_by(product_id=product.id, claim=c["claim"],
                              eval_category=c.get("eval_category"),
                              method_name=c.get("method_name"))
-                  .one_or_none())
+                  .first())
         if exists is None:
             session.add(ProductClaim(
                 product_id=product.id, claim=c["claim"],
