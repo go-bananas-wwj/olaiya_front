@@ -13,10 +13,15 @@ from ..models.ingredient import EfficacyAssertion
 from ..models.product import ProductIngredient
 
 
-def verdict_for(low: float, high: float, eff_low: float | None, eff_high: float | None) -> str:
+def verdict_for(low: float, high: float, eff_low: float | None, eff_high: float | None,
+                *, is_trace: bool = False) -> str:
     """判定估计区间 [low, high] 相对文献起效线 eff_low 的达标状态。
 
     - eff_low 为 None → "unknown"（无法判定：缺文献浓度）
+    - is_trace 且 eff_low < 0.1 → "trace_level"（总纲 v4.1 §三 I2：
+      成分处于 ≤0.1% 微量段，而文献起效线本身也在微量区间——肽类等
+      ppm 级即起效——则「存在即可能起效」，达标与否依赖原料披露，
+      不按推断区间判不足）
     - low >= eff_low → "effective"（达标：区间整体过起效线）
     - high < eff_low → "insufficient"（不足：区间整体低于起效线）
     - 其他 → "uncertain"（存疑：区间横跨起效线）
@@ -25,6 +30,8 @@ def verdict_for(low: float, high: float, eff_low: float | None, eff_high: float 
     """
     if eff_low is None:
         return "unknown"
+    if is_trace and eff_low < 0.1:
+        return "trace_level"
     if low >= eff_low:
         return "effective"
     if high < eff_low:
@@ -67,6 +74,7 @@ def dose_verdicts(session: Session, product_id: int) -> list[dict] | None:
                 "verdict": verdict_for(
                     link.conc_low, link.conc_high,
                     a.effective_conc_low, a.effective_conc_high,
+                    is_trace=link.is_trace,
                 ),
             }
             for a in assertions

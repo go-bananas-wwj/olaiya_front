@@ -1,0 +1,25 @@
+{
+  "ingredients": [
+    {
+      "cn_name": "乙酰基六肽-8（阿基瑞林）",
+      "inci_name": "ACETYL HEXAPEPTIDE-8",
+      "cas_no": "616204-22-9",
+      "assertions": [
+        {
+          "efficacy": "抗皱（ppm 活性物口径）",
+          "evidence": {
+            "type": "paper",
+            "title": "A synthetic hexapeptide (Argireline) with antiwrinkle activity",
+            "source": "Int J Cosmet Sci, 2002;24(5):303-310",
+            "year": 2002,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/18498523/",
+            "excerpt": "Blanes-Mira 等：健康女性志愿者面部硅模分析，含 10% Argireline 溶液的乳膏使用 30 天后皱纹深度降低约 30%；机制上该六肽模拟 SNAP-25 N 端、竞争性抑制 SNARE 复合体组装。"
+          },
+          "effective_conc_low": 0.0003,
+          "effective_conc_high": null,
+          "note": "10% 为商业溶液口径（库中另条）；3ppm 为文献活性物起效口径"
+        }
+      ]
+    }
+  ]
+}
