@@ -21,6 +21,7 @@ from app.db import SessionLocal, init_db
 from app.models.evidence import Evidence, EvidenceType
 from app.models.ingredient import EfficacyAssertion, Ingredient
 from app.models.product import ProductIngredient
+from app.services.evidence_level import classify_evidence_level, default_strength
 
 PRIOR_FIELDS = ("iecic_max_leave_on", "iecic_max_rinse_off", "legal_cap",
                 "cir_conc_low", "cir_conc_high", "sccs_limit")
@@ -91,11 +92,14 @@ def load_research(session: Session, data: dict) -> dict:
                       .filter_by(ingredient_id=ing.id, efficacy=a["efficacy"], evidence_id=ev.id)
                       .one_or_none())
             if exists is None:
+                # 与回填同一套规则自动填充证据层级/强度；拿不准落 unknown
+                level = classify_evidence_level(a.get("note"), ev)
                 session.add(EfficacyAssertion(
                     ingredient_id=ing.id, efficacy=a["efficacy"], evidence_id=ev.id,
                     effective_conc_low=a.get("effective_conc_low"),
                     effective_conc_high=a.get("effective_conc_high"),
-                    note=a.get("note")))
+                    note=a.get("note"),
+                    evidence_level=level, evidence_strength=default_strength(level)))
                 stats["assertions"] += 1
     return stats
 

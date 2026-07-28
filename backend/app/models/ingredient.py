@@ -33,6 +33,10 @@ class EfficacyAssertion(Base):
     effective_conc_low: Mapped[float | None] = mapped_column(Float, nullable=True)
     effective_conc_high: Mapped[float | None] = mapped_column(Float, nullable=True)
     note: Mapped[str | None] = mapped_column(Text, nullable=True)
+    # —— 证据层级/强度（总纲 I1/I3 数据底座）：由 app.services.evidence_level 的统一规则
+    # 在加载器新建断言与 data/tools/backfill_evidence_level.py 回填时填充 ——
+    evidence_level: Mapped[str | None] = mapped_column(String(30), nullable=True)    # human_rct/oral/.../unknown
+    evidence_strength: Mapped[float | None] = mapped_column(Float, nullable=True)    # 0-1，层级默认分
 
     ingredient = relationship("Ingredient")
     evidence = relationship("Evidence")
