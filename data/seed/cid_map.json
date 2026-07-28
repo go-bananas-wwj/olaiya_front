@@ -53,6 +53,48 @@
     "tpsa": 186,
     "xlogp": -3.1
   },
+  "ASTAXANTHIN": {
+    "cid": 5281224,
+    "matched_by": "cas",
+    "mw": "596.8",
+    "pubchem_title": "Astaxanthin",
+    "status": "ok",
+    "tpsa": 74.6,
+    "xlogp": 10.3
+  },
+  "AVENA SATIVA (OAT) KERNEL EXTRACT": {
+    "cid": null,
+    "matched_by": null,
+    "note": "名称含「EXTRACT」，混合物/提取物，无单一 CID",
+    "status": "no_single_cid"
+  },
+  "AZELAIC ACID": {
+    "cid": 2266,
+    "matched_by": "cas",
+    "mw": "188.22",
+    "pubchem_title": "Azelaic Acid",
+    "status": "ok",
+    "tpsa": 74.6,
+    "xlogp": 1.6
+  },
+  "BAKUCHIOL": {
+    "cid": 5468522,
+    "matched_by": "cas",
+    "mw": "256.4",
+    "pubchem_title": "(+)-Bakuchiol",
+    "status": "ok",
+    "tpsa": 20.2,
+    "xlogp": 6.1
+  },
+  "BENZOYL PEROXIDE": {
+    "cid": 7187,
+    "matched_by": "cas",
+    "mw": "242.23",
+    "pubchem_title": "Benzoyl Peroxide",
+    "status": "ok",
+    "tpsa": 52.6,
+    "xlogp": 3.5
+  },
   "BIFIDA FERMENT LYSATE": {
     "cid": null,
     "matched_by": null,
@@ -83,6 +125,12 @@
     "tpsa": 58.4,
     "xlogp": -0.1
   },
+  "CAMELLIA SINENSIS LEAF EXTRACT": {
+    "cid": null,
+    "matched_by": null,
+    "note": "名称含「EXTRACT」，混合物/提取物，无单一 CID",
+    "status": "no_single_cid"
+  },
   "CAPRYLOYL SALICYLIC ACID": {
     "cid": 9838158,
     "matched_by": "cas",
@@ -107,6 +155,27 @@
     "tpsa": 89.8,
     "xlogp": 12.4
   },
+  "CHAMOMILLA RECUTITA (MATRICARIA) FLOWER EXTRACT": {
+    "cid": null,
+    "matched_by": null,
+    "note": "名称含「EXTRACT」，混合物/提取物，无单一 CID",
+    "status": "no_single_cid"
+  },
+  "COLLAGEN": {
+    "cid": null,
+    "matched_by": null,
+    "note": "聚合物/混合物（显式名单），无单一 CID",
+    "status": "no_single_cid"
+  },
+  "COPPER TRIPEPTIDE-1": {
+    "cid": 71587328,
+    "matched_by": "inci",
+    "mw": "402.92",
+    "pubchem_title": "Prezatide copper",
+    "status": "ok",
+    "tpsa": 179,
+    "xlogp": null
+  },
   "DIPOTASSIUM GLYCYRRHIZATE": {
     "cid": 656852,
     "matched_by": "cas",
@@ -125,6 +194,15 @@
     "tpsa": 61.7,
     "xlogp": -0.8
   },
+  "ELLAGIC ACID": {
+    "cid": 5281855,
+    "matched_by": "cas",
+    "mw": "302.19",
+    "pubchem_title": "Ellagic Acid",
+    "status": "ok",
+    "tpsa": 134,
+    "xlogp": 1.1
+  },
   "ERGOTHIONEINE": {
     "cid": 5351619,
     "matched_by": "cas",
@@ -133,6 +211,24 @@
     "status": "ok",
     "tpsa": 96.3,
     "xlogp": 0.3
+  },
+  "FERULIC ACID": {
+    "cid": 445858,
+    "matched_by": "cas",
+    "mw": "194.18",
+    "pubchem_title": "Ferulic Acid",
+    "status": "ok",
+    "tpsa": 66.8,
+    "xlogp": 1.5
+  },
+  "GLUTATHIONE": {
+    "cid": 124886,
+    "matched_by": "cas",
+    "mw": "307.33",
+    "pubchem_title": "Glutathione",
+    "status": "ok",
+    "tpsa": 160,
+    "xlogp": -4.5
   },
   "GLYCOLIC ACID": {
     "cid": 757,
@@ -149,11 +245,35 @@
     "note": "名称含「EXTRACT」，混合物/提取物，无单一 CID",
     "status": "no_single_cid"
   },
+  "HAMAMELIS VIRGINIANA (WITCH HAZEL) EXTRACT": {
+    "cid": null,
+    "matched_by": null,
+    "note": "名称含「EXTRACT」，混合物/提取物，无单一 CID",
+    "status": "no_single_cid"
+  },
   "HYALURONIC ACID": {
     "cid": null,
     "matched_by": null,
     "note": "聚合物/混合物（显式名单），无单一 CID",
     "status": "no_single_cid"
+  },
+  "HYDROXYDECYL UBIQUINONE": {
+    "cid": 3686,
+    "matched_by": "cas",
+    "mw": "338.4",
+    "pubchem_title": "Idebenone",
+    "status": "ok",
+    "tpsa": 72.8,
+    "xlogp": 4.3
+  },
+  "HYDROXYPINACOLONE RETINOATE": {
+    "cid": 25054592,
+    "matched_by": "inci",
+    "mw": "398.6",
+    "pubchem_title": "Hydroxypinacolone Retinoate",
+    "status": "ok",
+    "tpsa": 43.4,
+    "xlogp": 7.8
   },
   "HYDROXYPROPYL TETRAHYDROPYRANTRIOL": {
     "cid": 16666733,
@@ -164,6 +284,15 @@
     "tpsa": 90.2,
     "xlogp": -1.8
   },
+  "KOJIC ACID": {
+    "cid": 3840,
+    "matched_by": "cas",
+    "mw": "142.11",
+    "pubchem_title": "Kojic Acid",
+    "status": "ok",
+    "tpsa": 66.8,
+    "xlogp": -0.9
+  },
   "LACTIC ACID": {
     "cid": 612,
     "matched_by": "cas",
@@ -172,6 +301,12 @@
     "status": "ok",
     "tpsa": 57.5,
     "xlogp": -0.7
+  },
+  "MELALEUCA ALTERNIFOLIA (TEA TREE) LEAF OIL": {
+    "cid": null,
+    "matched_by": null,
+    "note": "名称含「OIL」，混合物/提取物，无单一 CID",
+    "status": "no_single_cid"
   },
   "NIACINAMIDE": {
     "cid": 936,
@@ -187,6 +322,24 @@
     "matched_by": null,
     "note": "名称含「EXTRACT」，混合物/提取物，无单一 CID",
     "status": "no_single_cid"
+  },
+  "OLIGOPEPTIDE-1": {
+    "cid": 22214678,
+    "matched_by": "inci",
+    "mw": "400.43",
+    "pubchem_title": "L-Lysine, glycyl-L-histidyl-, monoacetate",
+    "status": "ok",
+    "tpsa": 214,
+    "xlogp": null
+  },
+  "PALMITOYL PENTAPEPTIDE-4": {
+    "cid": 9897237,
+    "matched_by": "cas",
+    "mw": "802.1",
+    "pubchem_title": "Palmitoyl Pentapeptide-4",
+    "status": "ok",
+    "tpsa": 296,
+    "xlogp": 0.8
   },
   "PANTHENOL": {
     "cid": 131204,
@@ -221,6 +374,15 @@
     "note": "名称含「EXTRACT」，混合物/提取物，无单一 CID",
     "status": "no_single_cid"
   },
+  "RESVERATROL": {
+    "cid": 445154,
+    "matched_by": "cas",
+    "mw": "228.24",
+    "pubchem_title": "Resveratrol",
+    "status": "ok",
+    "tpsa": 60.7,
+    "xlogp": 3.1
+  },
   "RETINOL": {
     "cid": 445354,
     "matched_by": "cas",
@@ -254,6 +416,12 @@
     "note": "名称含「OIL」，混合物/提取物，无单一 CID",
     "status": "no_single_cid"
   },
+  "SODIUM ACETYLATED HYALURONATE": {
+    "cid": null,
+    "matched_by": null,
+    "note": "CAS 与 INCI 均未命中 PubChem",
+    "status": "not_found"
+  },
   "SQUALANE": {
     "cid": 8089,
     "matched_by": "cas",
@@ -262,6 +430,21 @@
     "status": "ok",
     "tpsa": 0,
     "xlogp": 14.7
+  },
+  "SULFUR": {
+    "cid": 5362487,
+    "matched_by": "cas",
+    "mw": "32.07",
+    "pubchem_title": "Sulfur",
+    "status": "ok",
+    "tpsa": 1,
+    "xlogp": 0.5
+  },
+  "SUPEROXIDE DISMUTASE": {
+    "cid": null,
+    "matched_by": null,
+    "note": "CAS 与 INCI 均未命中 PubChem",
+    "status": "not_found"
   },
   "TOCOPHEROL": {
     "cid": 2116,
@@ -280,6 +463,21 @@
     "status": "ok",
     "tpsa": 63.3,
     "xlogp": -2
+  },
+  "UBIQUINONE": {
+    "cid": 5281915,
+    "matched_by": "cas",
+    "mw": "863.3",
+    "pubchem_title": "Coenzyme Q10",
+    "status": "ok",
+    "tpsa": 52.6,
+    "xlogp": 19.4
+  },
+  "VITIS VINIFERA (GRAPE) SEED EXTRACT": {
+    "cid": null,
+    "matched_by": null,
+    "note": "名称含「EXTRACT」，混合物/提取物，无单一 CID",
+    "status": "no_single_cid"
   },
   "ZINC PCA": {
     "cid": 11602214,
