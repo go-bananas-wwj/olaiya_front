@@ -33,6 +33,8 @@ class ProductIngredient(Base):
     # NULL = 顺序未知（部分数据源的成分为拼音排序，不得伪造位次）
     position: Mapped[int | None] = mapped_column(nullable=True)
     is_trace: Mapped[bool] = mapped_column(default=False)  # 是否"其他微量成分"段（≤0.1%）
+    # 品牌披露浓度锚点（%），仅用于校准验收
+    disclosed_conc: Mapped[float | None] = mapped_column(Float, nullable=True)
     # —— 浓度区间推断结果（%），由计划 02 的推断引擎填充 ——
     conc_low: Mapped[float | None] = mapped_column(Float, nullable=True)
     conc_high: Mapped[float | None] = mapped_column(Float, nullable=True)

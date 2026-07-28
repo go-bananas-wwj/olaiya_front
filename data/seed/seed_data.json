@@ -98,7 +98,8 @@
       "price_current": 1490.0,
       "note": "校准锚点：品牌公布 15% 抗坏血酸 + 1% 生育酚 + 0.5% 阿魏酸",
       "ingredients": ["WATER", "ETHOXYDIGLYCOL", "ASCORBIC ACID", "GLYCERIN", "PROPYLENE GLYCOL", "LAURETH-23", "PHENOXYETHANOL", "TOCOPHEROL", "TRIETHANOLAMINE", "FERULIC ACID", "PANTHENOL", "SODIUM HYALURONATE"],
-      "trace_ingredients": []
+      "trace_ingredients": [],
+      "disclosed": {"ASCORBIC ACID": 15.0, "TOCOPHEROL": 1.0, "FERULIC ACID": 0.5}
     },
     {
       "name": "烟酰胺10%+锌1%精华（Niacinamide 10% + Zinc 1%）",
@@ -108,7 +109,8 @@
       "price_current": 89.0,
       "note": "校准锚点：品牌公布 10% 烟酰胺 + 1% PCA锌",
       "ingredients": ["WATER", "NIACINAMIDE", "PENTYLENE GLYCOL", "ZINC PCA", "DIMETHYL ISOSORBIDE", "TAMARINDUS INDICA SEED GUM", "XANTHAN GUM", "ISOCETETH-20", "ETHOXYDIGLYCOL", "PHENOXYETHANOL", "CHLORPHENESIN"],
-      "trace_ingredients": []
+      "trace_ingredients": [],
+      "disclosed": {"NIACINAMIDE": 10.0, "ZINC PCA": 1.0}
     }
   ]
 }

@@ -15,6 +15,7 @@ from app.models.ingredient import EfficacyAssertion, Ingredient
 from app.models.product import Product, ProductIngredient
 
 SEED_PATH = Path(__file__).resolve().parents[1] / "seed" / "seed_data.json"
+ORDERED_PATH = Path(__file__).resolve().parents[1] / "seed" / "ordered_products.json"
 
 
 def _load_evidence(session: Session, items: list[dict]) -> dict[str, Evidence]:
@@ -86,17 +87,20 @@ def _load_products(session: Session, items: list[dict]) -> None:
         existing = session.query(ProductIngredient).filter_by(product_id=product.id).count()
         if existing:  # 已有成分表则跳过，保证幂等
             continue
+        disclosed = item.get("disclosed", {})
         position = 0
         for inci in item.get("ingredients", []):
             position += 1
             ing = _get_or_create_ingredient(session, inci)
             session.add(ProductIngredient(product_id=product.id, ingredient_id=ing.id,
-                                          position=position, is_trace=False))
+                                          position=position, is_trace=False,
+                                          disclosed_conc=disclosed.get(inci)))
         for inci in item.get("trace_ingredients", []):
             position += 1
             ing = _get_or_create_ingredient(session, inci)
             session.add(ProductIngredient(product_id=product.id, ingredient_id=ing.id,
-                                          position=position, is_trace=True))
+                                          position=position, is_trace=True,
+                                          disclosed_conc=disclosed.get(inci)))
 
 
 def load_seed(session: Session, path: Path = SEED_PATH) -> None:
@@ -106,15 +110,55 @@ def load_seed(session: Session, path: Path = SEED_PATH) -> None:
     _load_products(session, data["products"])
 
 
+def load_ordered_products(session: Session, path: Path = ORDERED_PATH) -> None:
+    """官方降序成分表产品集：position 为 1-based 真实降序，disclosed 锚点写入 disclosed_conc。
+
+    幂等：产品按 name+brand 查重，已有成分关联则跳过；ingredient_source_url 存 product.source_url。
+    """
+    data = json.loads(Path(path).read_text(encoding="utf-8"))
+    for item in data["products"]:
+        product = (session.query(Product)
+                   .filter_by(name=item["name"], brand=item["brand"]).one_or_none())
+        if product is None:
+            product = Product(
+                name=item["name"], brand=item["brand"],
+                category=item.get("category"),
+                price_current=item.get("price_current"), note=item.get("note"),
+                source_url=item.get("ingredient_source_url"),
+            )
+            session.add(product)
+            session.flush()
+        existing = session.query(ProductIngredient).filter_by(product_id=product.id).count()
+        if existing:  # 已有成分表则跳过，保证幂等
+            continue
+        disclosed = item.get("disclosed", {})
+        position = 0
+        for inci in item.get("ingredients", []):
+            position += 1
+            ing = _get_or_create_ingredient(session, inci)
+            session.add(ProductIngredient(product_id=product.id, ingredient_id=ing.id,
+                                          position=position, is_trace=False,
+                                          disclosed_conc=disclosed.get(inci)))
+        for inci in item.get("trace_ingredients", []):
+            position += 1
+            ing = _get_or_create_ingredient(session, inci)
+            session.add(ProductIngredient(product_id=product.id, ingredient_id=ing.id,
+                                          position=position, is_trace=True,
+                                          disclosed_conc=disclosed.get(inci)))
+
+
 def main() -> None:
     init_db()
     with SessionLocal() as s:
         load_seed(s)
+        load_ordered_products(s)
         s.commit()
+        anchors = s.query(ProductIngredient).filter(ProductIngredient.disclosed_conc.isnot(None)).count()
         print(f"evidence={s.query(Evidence).count()} "
               f"ingredients={s.query(Ingredient).count()} "
               f"assertions={s.query(EfficacyAssertion).count()} "
-              f"products={s.query(Product).count()}")
+              f"products={s.query(Product).count()} "
+              f"disclosed_anchors={anchors}")
 
 
 if __name__ == "__main__":

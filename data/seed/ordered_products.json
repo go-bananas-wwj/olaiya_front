@@ -1,0 +1,92 @@
+{
+  "products": [
+    {
+      "name": "小黑瓶精华（Advanced Génifique）",
+      "brand": "兰蔻 Lancôme",
+      "category": "精华",
+      "price_current": null,
+      "note": "公开包装 INCI 降序（INCIDecoder 镜像，2019 上传版本），可能与备案版略有差异",
+      "ingredients": ["WATER", "BIFIDA FERMENT LYSATE", "GLYCERIN", "ALCOHOL DENAT.", "DIMETHICONE", "HYDROXYETHYLPIPERAZINE ETHANE SULFONIC ACID", "ASCORBYL GLUCOSIDE", "SODIUM HYALURONATE", "SODIUM HYDROXIDE", "SODIUM BENZOATE", "PHENOXYETHANOL", "ADENOSINE", "FAEX EXTRACT", "PEG-20 METHYL GLUCOSE SESQUISTEARATE", "PEG-60 HYDROGENATED CASTOR OIL", "SALICYLOYL PHYTOSPHINGOSINE", "AMMONIUM POLYACRYLOYLDIMETHYL TAURATE", "LIMONENE", "XANTHAN GUM", "CAPRYLYL GLYCOL", "DISODIUM EDTA", "OCTYLDODECANOL", "CITRONELLOL", "FRAGRANCE"],
+      "trace_ingredients": [],
+      "disclosed": {},
+      "ingredient_source_url": "https://incidecoder.com/products/lancome-advanced-genifique-youth-activating-serum"
+    },
+    {
+      "name": "小棕瓶精华（Advanced Night Repair）",
+      "brand": "雅诗兰黛 Estée Lauder",
+      "category": "精华",
+      "price_current": null,
+      "note": "公开包装 INCI 降序（INCIDecoder 镜像 Synchronized Multi-Recovery Complex 版），可能与备案版略有差异",
+      "ingredients": ["WATER", "BIFIDA FERMENT LYSATE", "PEG-8", "PROPANEDIOL", "BIS-PEG-18 METHYL ETHER DIMETHYL SILANE", "METHYL GLUCETH-20", "GLYCERETH-26", "PEG-75", "BUTYLENE GLYCOL", "ADANSONIA DIGITATA SEED EXTRACT", "TRIPEPTIDE-32", "SODIUM HYALURONATE", "YEAST EXTRACT", "LACTOBACILLUS FERMENT", "COLA ACUMINATA SEED EXTRACT", "ANTHEMIS NOBILIS FLOWER EXTRACT", "HYDROLYZED ALGIN", "PANTETHINE", "CAFFEINE", "LECITHIN", "SODIUM RNA", "BISABOLOL", "SQUALANE", "GLYCERIN", "OLETH-3 PHOSPHATE", "CAPRYLYL GLYCOL", "OLETH-3", "OLETH-5", "CHOLETH-24", "HYDROGENATED LECITHIN", "JOJOBA WAX PEG-120 ESTERS", "CETETH-24", "TOCOPHERYL ACETATE", "CARBOMER", "TRIETHANOLAMINE", "TETRASODIUM EDTA", "BHT", "XANTHAN GUM", "POTASSIUM SORBATE", "DISODIUM EDTA", "PHENOXYETHANOL", "CI 14700", "CI 19140"],
+      "trace_ingredients": [],
+      "disclosed": {},
+      "ingredient_source_url": "https://incidecoder.com/products/estee-lauder-advanced-night-repair-synchronized-multi-recovery-complex"
+    },
+    {
+      "name": "神仙水（Facial Treatment Essence）",
+      "brand": "SK-II",
+      "category": "精华水",
+      "price_current": null,
+      "note": "公开包装 INCI 降序（INCIDecoder 镜像），可能与备案版略有差异；校准锚点：品牌公布 PITERA™（半乳糖酵母样菌发酵产物滤液）含量 >90%，保守记 90",
+      "ingredients": ["GALACTOMYCES FERMENT FILTRATE", "BUTYLENE GLYCOL", "PENTYLENE GLYCOL", "WATER", "SODIUM BENZOATE", "METHYLPARABEN", "SORBIC ACID"],
+      "trace_ingredients": [],
+      "disclosed": {"GALACTOMYCES FERMENT FILTRATE": 90.0},
+      "ingredient_source_url": "https://incidecoder.com/products/sk-ii-facial-treatment-essence"
+    },
+    {
+      "name": "Pro-X 亮洁晳颜祛斑精华液（淡斑小白瓶）",
+      "brand": "OLAY 玉兰油",
+      "category": "精华",
+      "price_current": 419.0,
+      "note": "公开包装 INCI 降序（国妆特字G20212702 包装成分，可爱网镜像），可能与备案版略有差异",
+      "ingredients": ["WATER", "NIACINAMIDE", "POLYMETHYLSILSESQUIOXANE", "DIMETHICONE", "GLYCERIN", "BUTYLENE GLYCOL", "METHYL GLUCETH-20", "PENTYLENE GLYCOL", "PANTHENOL", "POLYSORBATE 20", "UNDECYLENOYL PHENYLALANINE", "AMINOMETHYL PROPANOL", "SUCROSE LAURATE", "SUCROSE DILAURATE", "ACRYLATES/VINYL ISODECANOATE CROSSPOLYMER", "DIPOTASSIUM GLYCYRRHIZATE", "PHENOXYETHANOL", "ALLANTOIN", "BENZYL ALCOHOL", "LAURETH-4", "DIMETHICONOL", "BISABOLOL"],
+      "trace_ingredients": ["LAMINARIA SACCHARINA EXTRACT", "CITRIC ACID", "ZINGIBER OFFICINALE (GINGER) ROOT EXTRACT", "GLYCERYL ACRYLATE/ACRYLIC ACID COPOLYMER", "DISODIUM EDTA", "PVM/MA COPOLYMER", "SILICA DIMETHYL SILYLATE", "SODIUM BENZOATE", "ZINC SULFATE"],
+      "disclosed": {},
+      "ingredient_source_url": "https://www.keai.com.cn/article-6235-1.html"
+    },
+    {
+      "name": "B5多效修复霜（Cicaplast Baume B5）",
+      "brand": "理肤泉 La Roche-Posay",
+      "category": "面霜",
+      "price_current": null,
+      "note": "公开包装 INCI 降序（INCIDecoder 镜像原版 B5），可能与备案版略有差异；校准锚点：品牌公布 5% 泛醇",
+      "ingredients": ["WATER", "HYDROGENATED POLYISOBUTENE", "DIMETHICONE", "GLYCERIN", "BUTYROSPERMUM PARKII (SHEA) BUTTER", "PANTHENOL", "BUTYLENE GLYCOL", "ALUMINUM STARCH OCTENYLSUCCINATE", "PROPANEDIOL", "CETYL PEG/PPG-10/1 DIMETHICONE", "TRIHYDROXYSTEARIN", "ZINC GLUCONATE", "MADECASSOSIDE", "MANGANESE GLUCONATE", "MAGNESIUM SULFATE", "DISODIUM EDTA", "COPPER GLUCONATE", "ACETYLATED GLYCOL STEARATE", "POLYGLYCERYL-4 ISOSTEARATE", "SODIUM BENZOATE", "CHLORHEXIDINE DIGLUCONATE", "CI 77891"],
+      "trace_ingredients": [],
+      "disclosed": {"PANTHENOL": 5.0},
+      "ingredient_source_url": "https://incidecoder.com/products/la-roche-posay-cicaplast-baume-b5"
+    },
+    {
+      "name": "舒敏保湿特护霜",
+      "brand": "薇诺娜 WINONA",
+      "category": "面霜",
+      "price_current": null,
+      "note": "公开包装 INCI 降序（云G妆网备字2017000520 备案成分，美妆秀品镜像），可能与备案版略有差异",
+      "ingredients": ["WATER", "GLYCERIN", "PENTYLENE GLYCOL", "BUTYROSPERMUM PARKII (SHEA) BUTTER", "TRIDECYL TRIMELLITATE", "DIMETHICONE", "GLYCERYL STEARATE", "BUTYLENE GLYCOL", "ACRYLATES/C10-30 ALKYL ACRYLATE CROSSPOLYMER", "XANTHAN GUM", "PRINSEPIA UTILIS OIL"],
+      "trace_ingredients": ["PORTULACA OLERACEA EXTRACT", "BETA-GLUCAN", "SODIUM HYALURONATE", "AMINOMETHYL PROPANOL"],
+      "disclosed": {},
+      "ingredient_source_url": "http://mp.weixin.qq.com/s?__biz=MzA5NzYxOTkyOA==&mid=2648649288&idx=3&sn=e651a632408a41c9a717ece8da3ab280"
+    },
+    {
+      "name": "黑绷带面霜（Re-Plasty Age Recovery Night）",
+      "brand": "赫莲娜 Helena Rubinstein",
+      "category": "面霜",
+      "price_current": 3680.0,
+      "note": "公开包装 INCI 降序（INCIDecoder 镜像晚霜版），可能与备案版略有差异；校准锚点：品牌公布 30% 玻色因原料组（水+丙二醇+羟丙基四氢吡喃三醇溶液，非纯质）",
+      "ingredients": ["WATER", "PROPYLENE GLYCOL", "DIMETHICONE", "HYDROXYPROPYL TETRAHYDROPYRANTRIOL", "ISOHEXADECANE", "CYCLOHEXASILOXANE", "GLYCERIN", "SYNTHETIC WAX", "DIMETHICONE/PEG-10/15 CROSSPOLYMER", "ALUMINUM STARCH OCTENYLSUCCINATE", "VACCINIUM MYRTILLUS FRUIT EXTRACT", "SODIUM HYALURONATE", "MAGNESIUM SULFATE", "DIPOTASSIUM GLYCYRRHIZATE", "DISODIUM EDTA", "LAURYL PEG-9 POLYDIMETHYLSILOXYETHYL DIMETHICONE", "ETHYLHEXYL HYDROXYSTEARATE", "ACRYLONITRILE/METHYL METHACRYLATE/VINYLIDENE CHLORIDE COPOLYMER", "PHENOXYETHANOL", "CI 77163", "PARFUM"],
+      "trace_ingredients": [],
+      "disclosed": {"HYDROXYPROPYL TETRAHYDROPYRANTRIOL": 30.0},
+      "ingredient_source_url": "https://incidecoder.com/products/helena-rubinstein-re-plasty-age-recovery-night-cream"
+    },
+    {
+      "name": "紫米精华（H.A. Intensifier）",
+      "brand": "修丽可 SkinCeuticals",
+      "category": "精华",
+      "price_current": null,
+      "note": "公开包装 INCI 降序（INCIDecoder 镜像），可能与备案版略有差异；校准锚点：品牌公布 10% 玻色因 + 2% 甘草酸二钾 + 0.2% 紫米提取物",
+      "ingredients": ["WATER", "CYCLOHEXASILOXANE", "GLYCERIN", "ALCOHOL DENAT.", "HYDROXYPROPYL TETRAHYDROPYRANTRIOL", "PROPYLENE GLYCOL", "DIPOTASSIUM GLYCYRRHIZATE", "POLYSILICONE-11", "POLYMETHYLSILSESQUIOXANE", "SODIUM HYALURONATE", "DIMETHICONE", "TOCOPHEROL", "PHENOXYETHANOL", "CAPRYLOYL SALICYLIC ACID", "OCTYLDODECANOL", "BIS-PEG/PPG-16/16 PEG/PPG-16/16 DIMETHICONE", "PEG-20 METHYL GLUCOSE SESQUISTEARATE", "AMMONIUM POLYACRYLOYLDIMETHYL TAURATE", "CAPRYLYL GLYCOL", "XANTHAN GUM", "DEXTRIN", "ORYZA SATIVA (RICE) EXTRACT", "DISODIUM EDTA", "CAPRYLIC/CAPRIC TRIGLYCERIDE", "SODIUM HYDROXIDE", "ADENOSINE", "CITRUS NOBILIS PEEL OIL", "LIMONENE", "T-BUTYL ALCOHOL", "CELLULOSE ACETATE BUTYRATE", "POLYPHOSPHORYLCHOLINE GLYCOL ACRYLATE", "POLYVINYL ALCOHOL", "SODIUM CHLORIDE", "BUTYLENE GLYCOL", "PENTAERYTHRITYL TETRA-DI-T-BUTYL HYDROXYHYDROCINNAMATE"],
+      "trace_ingredients": [],
+      "disclosed": {"HYDROXYPROPYL TETRAHYDROPYRANTRIOL": 10.0, "DIPOTASSIUM GLYCYRRHIZATE": 2.0, "ORYZA SATIVA (RICE) EXTRACT": 0.2},
+      "ingredient_source_url": "https://incidecoder.com/products/skinceuticals-h-a-intensifier"
+    }
+  ]
+}
