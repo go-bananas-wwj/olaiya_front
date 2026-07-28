@@ -1,5 +1,6 @@
 """成分真言 API。启动：仓库根目录
-PYTHONPATH=backend .venv/bin/python -m uvicorn app.main:app --reload --port 8000
+PYTHONPATH=backend .venv/bin/python -m uvicorn app.main:app --host 0.0.0.0 --port 8008
+（8000 端口被机器上其他程序占用，本项目统一用 8008）
 """
 
 from fastapi import Depends, FastAPI, HTTPException
