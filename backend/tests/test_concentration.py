@@ -195,6 +195,28 @@ def test_contradiction_main_cap_below_trace_line():
         estimate_concentrations(items, leave_on=True, n_samples=100, seed=1)
 
 
+def test_contradiction_all_water_main_raises():
+    """全水主段：无非水主段承接余量，Σ 无法闭合为 100，必须显式报错。"""
+    items = [
+        IngredientInput(inci_name="AQUA", water=True),
+        IngredientInput(inci_name="T1", is_trace=True),
+        IngredientInput(inci_name="T2", is_trace=True),
+    ]
+    with pytest.raises(ValueError, match="全部为水相"):
+        estimate_concentrations(items, leave_on=True, n_samples=100, seed=1)
+
+
+def test_contradiction_multiple_water_raises():
+    """water=True 成分最多 1 个：当前实现仅支持单一水相成分。"""
+    items = [
+        IngredientInput(inci_name="AQUA", water=True),
+        IngredientInput(inci_name="WATER2", water=True),
+        IngredientInput(inci_name="B"),
+    ]
+    with pytest.raises(ValueError, match="单一水相"):
+        estimate_concentrations(items, leave_on=True, n_samples=100, seed=1)
+
+
 # ---------------------------------------------------------------- confidence
 
 

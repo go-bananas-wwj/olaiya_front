@@ -6,11 +6,14 @@
 1. 微量段（is_trace=True，共 t 个）：每个从 U(0, min(0.1, cap)) 采样，
    总和 S_trace；主段总量 S_main = 100 − S_trace。
 2. 主成分段（is_trace=False，共 m 个）：从 Dirichlet(1,...,1) 采样并
-   降序排列，赋给对应位次。带“水相先验”的成分（water=True）直接从
-   先验区间均匀抽取——纯拒绝采样在驻留类先验 [50,95] 下接受率仅
-   ~1.6%，无法在 n_samples×20 次尝试内收满样本；先验区间直接抽取
-   后，驻留类下水 ≥50 而其余成分总和 <50，位次约束自动成立，其余
-   约束仍走拒绝。
+   降序排列，赋给对应位次。带“水相先验”的成分（water=True）改为
+   先验替换（prior substitution）：直接在其先验区间内按均匀先验
+   抽取。注意这不是条件采样——Dirichlet 以水为条件的边际是截断
+   Beta 而非均匀分布，两者抽样分布不同，仅有效样本满足的约束集合
+   与纯拒绝一致。纯拒绝在该先验下接受率仅 ~0.04%（仅水先验约束
+   ~1.6-1.9%），无法在 n_samples×20 次尝试内收满样本，故采用此
+   替换；先验区间直接抽取后，驻留类下水 ≥50 而其余成分总和 <50，
+   位次约束自动成立，其余约束仍走拒绝。
 3. 约束拒绝：主段末位必须 ≥0.1（微量线定义）；任何成分不得超过
    upper_cap；leave_on 且 water=True 的成分必须在 [50,95]，淋洗类
    水相先验为 [40,90]；主段全体位次必须保持降序。
@@ -60,6 +63,18 @@ def _preflight_check(ingredients: list[IngredientInput], leave_on: bool) -> None
     trace = [x for x in ingredients if x.is_trace]
     if not main:
         raise ValueError("约束矛盾：主成分段为空，无法凑满 100%")
+    waters = [x for x in ingredients if x.water]
+    if len(waters) > 1:
+        raise ValueError(
+            f"约束矛盾：water=True 的成分有 {len(waters)} 个"
+            f"（{', '.join(x.inci_name for x in waters)}），"
+            "当前实现仅支持单一水相成分"
+        )
+    if all(x.water for x in main):
+        raise ValueError(
+            "约束矛盾：主成分段全部为水相成分，没有非水主段成分承接"
+            "余量（100 − Σ微量 − 水），总和无法闭合为 100%"
+        )
     for x in main:
         if x.upper_cap is not None and x.upper_cap < TRACE_LINE:
             raise ValueError(
