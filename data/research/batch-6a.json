@@ -1,0 +1,333 @@
+{
+  "ingredients": [
+    {
+      "cn_name": "半乳糖酵母样菌发酵产物滤液",
+      "inci_name": "GALACTOMYCES FERMENT FILTRATE",
+      "cas_no": null,
+      "assertions": [
+        {
+          "efficacy": "抗老化（皱纹、色斑、粗糙度逆转）与屏障保湿（升含水量、降TEWL）",
+          "evidence": {
+            "type": "paper",
+            "title": "Significant Reversal of Facial Wrinkle, Pigmented Spot and Roughness by Daily Application of Galactomyces Ferment Filtrate-Containing Skin Products for 12 Months—An 11-Year Longitudinal Skin Aging Rejuvenation Study",
+            "source": "J Clin Med, 2023;12(3):799",
+            "year": 2023,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/36769815/",
+            "excerpt": "86名日本女性11年纵向研究：1999→2010年面部皱纹、色素斑点、粗糙度显著恶化并伴含水量下降、TEWL上升；随后每日两次使用三件含GFF产品（SK-II神仙水、精华、面霜）12个月，皮肤含水量显著累积性升高、TEWL下降，皱纹/色斑/粗糙度显著逆转，总体老化评分接近11年前水平。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "人体纵向干预研究（n=86，12个月），但无安慰剂对照组，且为三件含GFF产品组合（不能归因于单一产品或GFF单一成分）；作者为P&G员工/顾问，存在利益关系；产品中GFF浓度未披露"
+        },
+        {
+          "efficacy": "改善毛孔、粗糙与泛红（减小日间波动）",
+          "evidence": {
+            "type": "paper",
+            "title": "Daily Fluctuation of Facial Pore Area, Roughness and Redness among Young Japanese Women; Beneficial Effects of Galactomyces Ferment Filtrate Containing Antioxidative Skin Care Formula",
+            "source": "J Clin Med, 2021;10(9):1990",
+            "year": 2021,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/34198790/",
+            "excerpt": "两项8周临床研究（n=47与n=57）：年轻日本女性用便携成像设备每日三次自拍记录，4周基线期后每日两次使用含GFF（Pitera®）抗氧化配方4周；GFF显著降低毛孔面积、粗糙度与泛红的净数值及其日间波动幅度，两项独立研究结果一致。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "人体前后自身对照研究（无平行安慰剂组）；作者为P&G相关人员；GFF配方浓度未披露"
+        },
+        {
+          "efficacy": "屏障保护与抗炎性衰老机制（激活AHR/NRF2、上调丝聚蛋白与紧密连接蛋白）",
+          "evidence": {
+            "type": "paper",
+            "title": "Galactomyces Ferment Filtrate Potentiates an Anti-Inflammaging System in Keratinocytes",
+            "source": "J Clin Med, 2022;11(22):6678",
+            "year": 2022,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/36362566/",
+            "excerpt": "体外人角质形成细胞研究汇总：GFF激活芳香烃受体AHR并上调丝聚蛋白（天然保湿因子的内源来源）；激活抗氧化主控因子NRF2，抑制UV与促炎因子诱导的氧化应激，下调衰老相关CDKN2A及炎症性衰老相关CXCL14/IL6R；上调caspase-14与claudin-1/4，促进抗炎IL-37、抑制致敏IL-33。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "弱证据：机制综述（基于体外角质形成细胞实验），非人体功效试验；第一作者为P&G员工"
+        }
+      ]
+    },
+    {
+      "cn_name": "棕榈酰三肽-1",
+      "inci_name": "PALMITOYL TRIPEPTIDE-1",
+      "cas_no": "147732-56-7",
+      "assertions": [
+        {
+          "efficacy": "促进胶原合成、改善紧致度与法令纹（夜间时序应用）",
+          "evidence": {
+            "type": "paper",
+            "title": "Targeting Circadian Rhythm for the Regulation of Skin Collagen Metabolism",
+            "source": "J Cosmet Dermatol, 2026;25(1):e70638",
+            "year": 2026,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/41527525/",
+            "excerpt": "昼夜节律同步化人皮肤成纤维细胞模型显示：夜间应用棕榈酰三肽-1（PT-1）促进胶原合成/分泌相关基因表达；小鼠8周（白天黄芩苷+夜间PT-1）胶原纤维密度增加；30名女性按同一时序方案外用8周：皮肤光泽度+16.29%、法令纹深度-36.35%、紧致度R2值+24.35%。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "弱证据（就单成分而言）：时序复方方案（与黄芩苷联用），无法归因于PT-1单成分；含体外+动物+人体开放试验（n=30，无安慰剂对照）；文献未披露PT-1配方浓度（肽类原料通常以ppm级添加，不可与细胞实验浓度直接换算）"
+        },
+        {
+          "efficacy": "改善真皮细胞外基质结构（与棕榈酰四肽-7复配）",
+          "evidence": {
+            "type": "paper",
+            "title": "Evaluation of dermal extracellular matrix and epidermal-dermal junction modifications using matrix-assisted laser desorption/ionization mass spectrometric imaging, in vivo reflectance confocal microscopy, echography, and histology: effect of age and peptide applications",
+            "source": "J Cosmet Dermatol, 2015;14(2):152-160",
+            "year": 2015,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/25817264/",
+            "excerpt": "以MALDI-MSI质谱成像、在体反射共聚焦显微镜（RCM）与高频超声评估：棕榈酰寡肽（即棕榈酰三肽-1）与棕榈酰四肽-7复配物外用后，超声显示表皮下低回声带厚度减少、密度增加；在体RCM显示肽复配组真皮ECM结构较安慰剂组改善。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "弱证据：双肽复配（Matrixyl 3000型），无法区分单肽贡献；作者自述为方法学预试验，样本量小；复配物浓度未披露"
+        }
+      ]
+    },
+    {
+      "cn_name": "棕榈酰四肽-7",
+      "inci_name": "PALMITOYL TETRAPEPTIDE-7",
+      "cas_no": "221227-05-0",
+      "assertions": [
+        {
+          "efficacy": "抗皱紧致、提升弹性与胶原密度（多肽复合眼霜）",
+          "evidence": {
+            "type": "paper",
+            "title": "Comprehensive evaluation of the efficacy and safety of a new multi-component anti-aging topical eye cream",
+            "source": "Skin Res Technol, 2024;30(7):e13790",
+            "year": 2024,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/38932444/",
+            "excerpt": "含酵母/大米发酵滤液、N-乙酰神经氨酸、棕榈酰三肽-1与棕榈酰四肽-7活性复合物的眼霜：体外人皮肤成纤维细胞实验显示复合物显著促进细胞增殖及胶原（I/III型）与弹性蛋白合成；37名受试者随机对照12周：角质层含水量+28.12%、弹性+18.81%、超声胶原密度+54.99%，第8周起细纹与皱纹显著改善，安全性良好。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "弱证据（就单成分而言）：随机对照临床试验但为四成分复方，无法归因于棕榈酰四肽-7；浓度未披露（肽类通常以ppm级添加）"
+        },
+        {
+          "efficacy": "改善真皮细胞外基质（与棕榈酰三肽-1复配）",
+          "evidence": {
+            "type": "paper",
+            "title": "Evaluation of dermal extracellular matrix and epidermal-dermal junction modifications using matrix-assisted laser desorption/ionization mass spectrometric imaging, in vivo reflectance confocal microscopy, echography, and histology: effect of age and peptide applications",
+            "source": "J Cosmet Dermatol, 2015;14(2):152-160",
+            "year": 2015,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/25817264/",
+            "excerpt": "以MALDI-MSI质谱成像、在体RCM与高频超声评估：棕榈酰寡肽与棕榈酰四肽-7复配物外用后表皮下低回声带厚度减少、密度增加，在体RCM显示真皮ECM结构较安慰剂组改善；免疫组化显示老年皮肤中胶原I/IV/VII/XVII、nidogen-1等ECM/基底膜蛋白丰度下降。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "弱证据：双肽复配，无法区分单肽贡献；方法学预试验、样本量小；棕榈酰四肽-7单成分的抗炎（降IL-6）主张主要来自原料商体外数据，未见PubMed收录的独立验证"
+        }
+      ]
+    },
+    {
+      "cn_name": "九肽-1",
+      "inci_name": "NONAPEPTIDE-1",
+      "cas_no": "158563-45-2",
+      "assertions": [
+        {
+          "efficacy": "美白（拮抗α-MSH-MC1R通路、抑制黑色素生成与酪氨酸酶）",
+          "evidence": {
+            "type": "paper",
+            "title": "Effects of tea polyphenols on UVA-induced melanogenesis via inhibition of α-MSH-MC1R signalling pathway",
+            "source": "Postepy Dermatol Alergol, 2022;39(2):327-335",
+            "year": 2022,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/35645678/",
+            "excerpt": "UVA（15 J/cm²）诱导的人表皮黑素细胞与HaCaT角质形成细胞模型中，九肽-1醋酸盐（N-1A，20 μmol/L，以分子量约1206 Da计≈24 ppm）作为MC1R拮抗剂处理，显著降低黑色素含量与酪氨酸酶活性，并抑制MITF、TRP1、TRP2等黑素生成相关蛋白表达。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "弱证据：体外细胞实验，九肽-1在该研究中作为α-MSH-MC1R通路机制验证的拮抗剂对照使用（20 μM≈24 ppm）；缺乏单成分人体试验"
+        },
+        {
+          "efficacy": "黄褐斑维持期改善（复方制剂，组间差异未达统计学显著）",
+          "evidence": {
+            "type": "paper",
+            "title": "A randomized controlled pilot study of a proprietary combination versus sunscreen in melasma maintenance",
+            "source": "Indian J Dermatol Venereol Leprol, 2021;88(1):51-58",
+            "year": 2021,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/34379946/",
+            "excerpt": "46例黄褐斑患者双盲随机对照预试验：三联疗法8周导入后，试验组（n=23）使用含苯乙基间苯二酚、九肽-1、氨乙基次膦酸、抗氧化剂与防晒的专利复方，对照组（n=23）单用防晒；试验组MASI评分持续下降而对照组回升，但与对照组相比差异未达统计学显著。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "弱证据：复方制剂无法归因于九肽-1单成分；预试验样本量小（n=46）、结果为未达显著的阳性趋势，功效主张必须保守表述"
+        }
+      ]
+    },
+    {
+      "cn_name": "三肽-1",
+      "inci_name": "TRIPEPTIDE-1",
+      "cas_no": "49557-75-7",
+      "assertions": [
+        {
+          "efficacy": "促进成纤维细胞胶原合成",
+          "evidence": {
+            "type": "paper",
+            "title": "Stimulation of collagen synthesis in fibroblast cultures by the tripeptide-copper complex glycyl-L-histidyl-L-lysine-Cu2+",
+            "source": "FEBS Lett, 1988;238(2):343-346",
+            "year": 1988,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/3169264/",
+            "excerpt": "人血浆来源三肽GHK与铜离子的复合物（GHK-Cu）在成纤维细胞培养中刺激胶原合成：10⁻¹²–10⁻¹¹ mol/L即开始起效，10⁻⁹ mol/L达峰值（以GHK分子量340 Da计，10⁻⁹ M≈0.34 μg/L，属亚ppb痕量级），且不依赖细胞数量变化；I型胶原α2(I)链中含GHK序列，提示创面处蛋白酶可原位释放该三肽发挥愈合作用。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "弱证据：体外成纤维细胞实验；研究对象为铜复合物GHK-Cu而非游离三肽-1；体外起效为痕量级（10⁻¹²–10⁻⁹ M），与化妆品添加浓度（通常ppm级）不可直接换算"
+        },
+        {
+          "efficacy": "皮肤再生多通路调节（促ECM合成、恢复成纤维细胞活力）",
+          "evidence": {
+            "type": "paper",
+            "title": "GHK Peptide as a Natural Modulator of Multiple Cellular Pathways in Skin Regeneration",
+            "source": "Biomed Res Int, 2015;2015:648108",
+            "year": 2015,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/26236730/",
+            "excerpt": "综述：GHK存在于人血浆、唾液与尿液中，且随年龄显著下降；可刺激胶原、硫酸皮肤素、硫酸软骨素及小分子蛋白聚糖decorin合成，恢复成纤维细胞复制活力，并表现出抗氧化、抗炎与组织重塑相关基因调控作用。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "弱证据：机制性综述（非新试验数据），作者为GHK研究奠基人且与商业方相关；外用三肽-1的人体功效试验数据缺乏"
+        }
+      ]
+    },
+    {
+      "cn_name": "肌肽",
+      "inci_name": "CARNOSINE",
+      "cas_no": "305-84-0",
+      "assertions": [
+        {
+          "efficacy": "抗糖化（抑制皮肤晚期糖基化终末产物AGEs生成）",
+          "evidence": {
+            "type": "paper",
+            "title": "Novel Facial Cream Containing Carnosine Inhibits Formation of Advanced Glycation End-Products in Human Skin",
+            "source": "Skin Pharmacol Physiol, 2018;31(6):324-331",
+            "year": 2018,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/30199874/",
+            "excerpt": "人皮肤外植体以甲基乙二醛（MG）诱导糖化后局部外用：含肌肽面霜（FC-CARN）组表皮与网状真皮的CML分别降低150%与122%、戊糖苷素分别降低108%与136%（相对MG诱导增量的百分比）；肌肽水溶液（AQ-CARN）组亦显著抑制CML（-64%/-41%）与戊糖苷素生成，证实外用肌肽可透皮发挥抗糖化作用。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "弱证据：离体人皮肤外植体实验（ex vivo），非在体人体试验；面霜中肌肽浓度未在摘要层面披露"
+        },
+        {
+          "efficacy": "抗细胞衰老（促进巨噬细胞清除衰老皮肤细胞）",
+          "evidence": {
+            "type": "paper",
+            "title": "Carnosine Stimulates Macrophage-Mediated Clearance of Senescent Skin Cells Through Activation of the AKT2 Signaling Pathway by CD36 and RAGE",
+            "source": "Front Pharmacol, 2020;11:593832",
+            "year": 2020,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/33390976/",
+            "excerpt": "巨噬细胞-衰老皮肤细胞共培养模型中，肌肽通过CD36与RAGE受体激活AKT2信号通路，促进巨噬细胞介导的衰老皮肤细胞清除，使SA-β-gal阳性衰老皮肤细胞数量显著下降。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "弱证据：体外细胞共培养机制研究，非人体试验；肌肽经典的口服抗糖化人体数据不适用于外用功效主张"
+        }
+      ]
+    },
+    {
+      "cn_name": "视黄醛",
+      "inci_name": "RETINAL",
+      "cas_no": "116-31-4",
+      "assertions": [
+        {
+          "efficacy": "抗皱（改善光老化，疗效与0.05%维A酸相当且耐受性更优）",
+          "evidence": {
+            "type": "paper",
+            "title": "Profilometric evaluation of photodamage after topical retinaldehyde and retinoic acid treatment",
+            "source": "J Am Acad Dermatol, 1998;39(6):960-965",
+            "year": 1998,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/9843009/",
+            "excerpt": "125名面部光损伤患者随机对照（0.05%视黄醛 vs 0.05%维A酸 vs 基质，40/40/45人）44周：鱼尾纹区硅模光学轮廓仪测量显示，第18周起视黄醛组与维A酸组皱纹与粗糙度参数较基质组显著减少；视黄醛局部耐受性显著优于维A酸。"
+          },
+          "effective_conc_low": 0.05,
+          "effective_conc_high": 0.05,
+          "note": "随机载体对照人体试验（n=125，44周），证据等级高；以维A酸为阳性对照"
+        },
+        {
+          "efficacy": "改善光老化肤质与屏障（0.1%时额外降低黑色素指数）",
+          "evidence": {
+            "type": "paper",
+            "title": "Efficacy and safety of retinaldehyde 0.1% and 0.05% creams used to treat photoaged skin: A randomized double-blind controlled trial",
+            "source": "J Cosmet Dermatol, 2018;17(3):471-476",
+            "year": 2018,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/29663701/",
+            "excerpt": "40名韩国女性随机双盲3个月每日两次外用：0.1%与0.05%视黄醛两组整体光老化改善率均达95%，肤质纹理分别改善13.7%与12.6%，TEWL下降14.5%/17.9%、含水量上升10.2%/6.0%；仅0.1%组黑色素指数显著改善（-6.5%）；两浓度耐受性均良好。"
+          },
+          "effective_conc_low": 0.05,
+          "effective_conc_high": 0.1,
+          "note": "随机双盲对照人体试验（n=40，3个月）；为两剂量互相比较、无安慰剂组"
+        }
+      ]
+    },
+    {
+      "cn_name": "四氢姜黄素",
+      "inci_name": "TETRAHYDROCURCUMIN",
+      "cas_no": "36062-04-1",
+      "assertions": [
+        {
+          "efficacy": "美白（抑制酪氨酸酶活性与黑色素生成）",
+          "evidence": {
+            "type": "paper",
+            "title": "Tetrahydrocurcumin (THC) as a Melanogenesis Inhibitor in Melanoma Cell Lines",
+            "source": "Biochem Res Int, 2025;2025:6256669",
+            "year": 2025,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/41446503/",
+            "excerpt": "A375黑素瘤细胞中，四氢姜黄素（0–100 μmol/L，以分子量372 Da计100 μM≈37 ppm）剂量依赖性抑制细胞内黑色素含量与酪氨酸酶活性（以熊果苷100 ppm为阳性对照），并降低细胞内ROS水平；作者认为其具备作为美白护肤品活性物的潜力。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "弱证据：体外黑素瘤细胞实验，无人体试验；起效浓度为μM级（数ppm至约37 ppm），与成品添加量的对应关系未确立"
+        },
+        {
+          "efficacy": "抗氧化（保护成纤维细胞免受氧化应激损伤，效果优于姜黄素）",
+          "evidence": {
+            "type": "paper",
+            "title": "Tetrahydrocurcumin Outperforms Curcumin in Preventing Oxidative Stress-Induced Dysfunction in Tert-Butyl Hydroperoxide-Stimulated Cardiac Fibroblasts",
+            "source": "Int J Mol Sci, 2025;26(13):5964",
+            "year": 2025,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/40649742/",
+            "excerpt": "叔丁基过氧化氢（t-BHP）诱导的成纤维细胞氧化应激模型中，四氢姜黄素预处理显著减轻氧化应激诱导的细胞死亡与功能障碍，且效果优于等浓度姜黄素。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "弱证据：体外实验，且为心脏成纤维细胞（非皮肤来源细胞），仅能提示抗氧化机制；无皮肤外用功效证据"
+        }
+      ]
+    },
+    {
+      "cn_name": "光甘草定",
+      "inci_name": "GLABRIDIN",
+      "cas_no": "59870-68-7",
+      "assertions": [
+        {
+          "efficacy": "美白（抑制酪氨酸酶、减少UVB诱导的色素沉着与红斑）并抗炎",
+          "evidence": {
+            "type": "paper",
+            "title": "The inhibitory effect of glabridin from licorice extracts on melanogenesis and inflammation",
+            "source": "Pigment Cell Res, 1998;11(6):355-361",
+            "year": 1998,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/9870547/",
+            "excerpt": "B16小鼠黑素瘤细胞中光甘草定0.1–1.0 μg/mL（0.1–1 ppm）即抑制酪氨酸酶活性（特异性抑制T1/T3酪氨酸酶同工酶），且不影响细胞DNA合成；豚鼠皮肤外用0.5%光甘草定抑制UVB诱导的色素沉着与红斑；体外还抑制超氧阴离子生成与环氧合酶活性（抗炎）；构效分析显示两个酚羟基（尤其4′位）对抑黑活性至关重要。"
+          },
+          "effective_conc_low": 0.5,
+          "effective_conc_high": 0.5,
+          "note": "弱证据：体外（小鼠黑素瘤细胞）+ 动物（豚鼠皮肤外用0.5%）实验，无人体验证；0.5%为豚鼠外用浓度；细胞级起效浓度低至0.1 ppm"
+        },
+        {
+          "efficacy": "促进黑素小体降解（经自噬途径）并缓解其所致线粒体功能障碍",
+          "evidence": {
+            "type": "paper",
+            "title": "Glabridin promotes melanosome degradation and alleviates melanosome-induced mitochondrial dysfunction in keratinocytes via autophagy",
+            "source": "Biochem Biophys Res Commun, 2026;819:153804",
+            "year": 2026,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42019358/",
+            "excerpt": "人角质形成细胞中，光甘草定经自噬途径促进黑素小体降解，缓解黑素小体过度累积所致的线粒体功能障碍，提示其在色素转运/代谢环节（而非仅黑素合成环节）的祛黑机制。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "弱证据：体外角质形成细胞机制研究（2026年新发表），无人体试验"
+        }
+      ]
+    }
+  ]
+}

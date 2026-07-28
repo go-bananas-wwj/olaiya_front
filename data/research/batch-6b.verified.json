@@ -1,0 +1,326 @@
+{
+  "ingredients": [
+    {
+      "cn_name": "透明质酸钠",
+      "inci_name": "SODIUM HYALURONATE",
+      "cas_no": "9067-32-7",
+      "assertions": [
+        {
+          "efficacy": "保湿（显著提升角质层含水量）并改善皮肤弹性",
+          "evidence": {
+            "type": "paper",
+            "title": "Efficacy of cream-based novel formulations of hyaluronic acid of different molecular weights in anti-wrinkle treatment",
+            "source": "J Drugs Dermatol, 2011;10(9):990-1000",
+            "year": 2011,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/22052267/",
+            "excerpt": "76名30-60岁女性半脸载体对照随机试验：0.1%不同分子量（50/130/300/800/2000 kDa）透明质酸配方每日两次眼周外用60天，所有HA组皮肤含水量与整体弹性（R2）均较载体对照侧显著提升。"
+          },
+          "effective_conc_low": 0.1,
+          "effective_conc_high": 0.1,
+          "note": "随机、载体（半脸自身）对照人体试验（n=76，60天）；其中低分子组（50/130 kDa）另见皱纹深度下降，交叉引用于水解透明质酸条目"
+        },
+        {
+          "efficacy": "舒缓屏障受损相关脱屑/红斑（改善面部脂溢性皮炎）",
+          "evidence": {
+            "type": "paper",
+            "title": "Efficacy and safety of a low molecular weight hyaluronic Acid topical gel in the treatment of facial seborrheic dermatitis final report",
+            "source": "J Clin Aesthet Dermatol, 2014;7(5):15-8",
+            "year": 2014,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/24847403/",
+            "excerpt": "面部脂溢性皮炎成人前瞻性门诊研究（最终报告，13/17例完成）：0.2%低分子透明质酸钠凝胶外用，第4周医师总体评估较基线改善65.5%，脱屑、红斑、瘙痒分别减少76.9%、64.3%、50%；第8周92.3%受试者总体评估优于基线，耐受性良好。"
+          },
+          "effective_conc_low": 0.2,
+          "effective_conc_high": 0.2,
+          "note": "弱证据：前瞻性开放、非盲、无安慰剂对照观察性研究，样本量小（完成13例）；适应证为脂溢性皮炎而非健康皮肤保湿"
+        }
+      ]
+    },
+    {
+      "cn_name": "水解透明质酸",
+      "inci_name": "HYDROLYZED HYALURONIC ACID",
+      "cas_no": null,
+      "assertions": [
+        {
+          "efficacy": "抗皱（低分子透明质酸降低皱纹深度）",
+          "evidence": {
+            "type": "paper",
+            "title": "Efficacy of cream-based novel formulations of hyaluronic acid of different molecular weights in anti-wrinkle treatment",
+            "source": "J Drugs Dermatol, 2011;10(9):990-1000",
+            "year": 2011,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/22052267/",
+            "excerpt": "同一半脸载体对照随机试验中（n=76，0.1% HA每日两次60天），仅低分子量组（130与50 kDa）在60天后皱纹深度（平均粗糙度Ra、最大粗糙度Rz）较载体侧显著下降，作者归因于低分子HA更好的皮肤渗透能力。"
+          },
+          "effective_conc_low": 0.1,
+          "effective_conc_high": 0.1,
+          "note": "随机、载体（半脸自身）对照人体试验；「水解透明质酸」为低分子HA的化妆品表述，本研究分子量为50/130 kDa，与市售水解透明质酸量级相近但不完全等同"
+        },
+        {
+          "efficacy": "角质层渗透（低分子HA可穿透角质层，高分子HA不能）",
+          "evidence": {
+            "type": "paper",
+            "title": "Human skin penetration of hyaluronic acid of different molecular weights as probed by Raman spectroscopy",
+            "source": "Skin Res Technol, 2016;22(1):55-62",
+            "year": 2016,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/25877232/",
+            "excerpt": "拉曼显微成像示踪不同分子量HA的人皮肤渗透：低分子量HA（20-300 kDa）可穿过角质层，而高分子量HA（1000-1400 kDa）不能透过角质层。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "弱证据：离体人体皮肤横切面渗透实验（机制性证据），非在体功效试验"
+        },
+        {
+          "efficacy": "保湿、改善皮肤细腻度与弹性（纳米级低分子HA）",
+          "evidence": {
+            "type": "paper",
+            "title": "Efficacy of a New Topical Nano-hyaluronic Acid in Humans",
+            "source": "J Clin Aesthet Dermatol, 2014;7(3):27-9",
+            "year": 2014,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/24688623/",
+            "excerpt": "33名平均45.2岁女性8周人体试用：纳米级低分子HA制剂（水、精华、霜）外用后皮肤含水量显著提升（最高+96%），2周起皮肤细腻度改善，2周与8周弹性显著提升，8周皱纹深度减少最高达40%。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "弱证据：开放人体试用（n=33），无安慰剂/载体对照组；文献未在摘要层面给出制剂浓度"
+        }
+      ]
+    },
+    {
+      "cn_name": "神经酰胺AP",
+      "inci_name": "CERAMIDE AP",
+      "cas_no": null,
+      "assertions": [
+        {
+          "efficacy": "屏障修护（加速实验性屏障损伤恢复）",
+          "evidence": {
+            "type": "paper",
+            "title": "Repair of acetone- and sodium lauryl sulphate-damaged human skin barrier function using topically applied emulsions containing barrier lipids",
+            "source": "J Eur Acad Dermatol Venereol, 2002;16(6):587-594",
+            "year": 2002,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/12482041/",
+            "excerpt": "人体志愿者SLS与丙酮屏障损伤模型：含神经酰胺III、IIIB、VI（Ceramide VI即Ceramide AP）并复配植物鞘氨醇、胆固醇与亚油酸的完整脂质乳液（每日两次14天），较仅含两种神经酰胺的乳液显著加速SLS损伤后的屏障恢复（TEWL），丙酮损伤后单次使用的保湿改善也更优。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "人体在体试验；为多种神经酰胺+胆固醇+亚油酸+植物鞘氨醇的复配屏障脂质配方，无法归因于神经酰胺AP单体"
+        },
+        {
+          "efficacy": "角质层递送与屏障补充可行性（神经酰胺AP可经微乳递送至角质层）",
+          "evidence": {
+            "type": "paper",
+            "title": "Polyglycerol fatty acid ester surfactant-based microemulsions for targeted delivery of ceramide AP into the stratum corneum: formulation, characterisation, in vitro release and penetration investigation",
+            "source": "Eur J Pharm Biopharm, 2012;82(1):139-150",
+            "year": 2012,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/22691416/",
+            "excerpt": "神经酰胺AP（CER[AP]）是角质层脂质基质的固有成分，能形成坚韧稳定的板层结构，有助于恢复老化与受损皮肤的屏障功能；因其溶解性与角质层渗透性差，研究构建了聚甘油脂肪酸酯微乳，体外释放与多层膜渗透实验显示微乳对CER[AP]的释放与渗透优于常规亲水乳膏。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "弱证据：体外释放/多层膜渗透模型（剂型研究），非人体功效试验"
+        },
+        {
+          "efficacy": "屏障相关性（特应性皮炎模型角质层神经酰胺AP含量下降）",
+          "evidence": {
+            "type": "paper",
+            "title": "Influence of Oral Administration of Lactic Acid Bacteria Metabolites on Skin Barrier Function and Water Content in a Murine Model of Atopic Dermatitis",
+            "source": "Nutrients, 2018;10(12):1858",
+            "year": 2018,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/30513743/",
+            "excerpt": "特应性皮炎样小鼠模型：模型鼠角质层含水量下降、TEWL升高、角质层神经酰胺AP含量减少、表皮增厚；口服乳酸菌代谢产物（脂质组分起效）后角质层含水量、TEWL、神经酰胺AP含量与表皮厚度均改善。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "弱证据：动物（小鼠）模型 + 口服干预，且起效物为乳酸菌代谢产物脂质组分而非外源神经酰胺AP；仅支持神经酰胺AP与屏障功能的相关性"
+        }
+      ]
+    },
+    {
+      "cn_name": "神经酰胺EOP",
+      "inci_name": "CERAMIDE EOP",
+      "cas_no": null,
+      "assertions": [
+        {
+          "efficacy": "屏障相关性（特应性皮炎患者角质层酯化ω-羟基神经酰胺显著减少）",
+          "evidence": {
+            "type": "paper",
+            "title": "Changes in the ceramide profile of atopic dermatitis patients",
+            "source": "J Invest Dermatol, 2010;130(10):2511-2514",
+            "year": 2010,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/20574438/",
+            "excerpt": "对比特应性皮炎患者与正常人角质层神经酰胺谱：患者角质层中酯化ω-羟基神经酰胺类（CER[EOS]、CER[EOP]、CER[EOH]，即以亚油酸酯化的超长链ω-羟基神经酰胺）显著减少；该类脂质是构成长周期板层相、维持皮肤渗透屏障的关键组分。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "人体观察性研究（患者vs正常人角质层脂质谱对比）；该文为研究快报（letter），PubMed未收录摘要；结论经后续犬模型研究（PMID 21649737）交叉印证"
+        },
+        {
+          "efficacy": "屏障结构缺陷（特应性皮炎表皮蛋白结合ω-羟基神经酰胺缺乏）",
+          "evidence": {
+            "type": "paper",
+            "title": "Deficiency of epidermal protein-bound omega-hydroxyceramides in atopic dermatitis",
+            "source": "J Invest Dermatol, 2002;119(1):166-173",
+            "year": 2002,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/12164940/",
+            "excerpt": "健康表皮中蛋白结合ω-羟基神经酰胺占蛋白结合脂质总量的46-53%，特应性皮炎患者非皮损区降至23-28%、皮损区降至10-25%；皮损区游离超长链脂肪酸（>C24）亦减少至正常的25%，代谢标记显示角质包膜相关神经酰胺（含ω-羟基类）从头合成下降。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "人体皮肤活检观察性研究 + 离体表皮培养代谢标记；ω-羟基神经酰胺为神经酰胺EOP所属亚类（含其蛋白结合前体形式），非外用EOP功效试验"
+        },
+        {
+          "efficacy": "屏障机制（神经酰胺EOP显著降低皮肤脂质膜渗透率）",
+          "evidence": {
+            "type": "paper",
+            "title": "Omega-O-Acylceramides in Skin Lipid Membranes: Effects of Concentration, Sphingoid Base, and Model Complexity on Microstructure and Permeability",
+            "source": "Langmuir, 2016;32(48):12894-12904",
+            "year": 2016,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/27934529/",
+            "excerpt": "人工皮肤脂质膜模型：ω-O-酰基神经酰胺（含EOP）参与形成长周期板层相（LPP，12-13 nm），该结构对防止体内水分散失至关重要；在复配模型膜中酰基神经酰胺降低膜对模型渗透物的渗透率，其中EOP与EOdS作用最强。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "弱证据：体外人工脂质膜生物物理模型（机制性证据），非人体功效试验"
+        }
+      ]
+    },
+    {
+      "cn_name": "胆固醇",
+      "inci_name": "CHOLESTEROL",
+      "cas_no": "57-88-5",
+      "assertions": [
+        {
+          "efficacy": "屏障修护（胆固醇主导的生理脂质配比加速老化皮肤屏障恢复）",
+          "evidence": {
+            "type": "paper",
+            "title": "Optimal ratios of topical stratum corneum lipids improve barrier recovery in chronologically aged skin",
+            "source": "J Am Acad Dermatol, 1997;37(3 Pt 1):403-408",
+            "year": 1997,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/9308554/",
+            "excerpt": "自然老化人体皮肤（80±5岁，n=6）胶带剥脱模型：单次外用以胆固醇为主导脂质（3:1:1:1摩尔比，胆固醇:神经酰胺:游离脂肪酸，2%脂质总量）的混合物，6小时屏障恢复速率较等摩尔混合物显著加快（p<0.005）；老化小鼠中同样观察到胆固醇主导配方加速修复，而游离脂肪酸主导配方反而延缓修复。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "人体在体试验（n=6）+小鼠；为胆固醇主导的复配生理脂质混合物（2%脂质总量），非胆固醇单体归因；样本量小"
+        },
+        {
+          "efficacy": "屏障结构基础（胆固醇为屏障修复必需的角质层脂质之一，配比失衡反延缓修复）",
+          "evidence": {
+            "type": "paper",
+            "title": "Optimization of physiological lipid mixtures for barrier repair",
+            "source": "J Invest Dermatol, 1996;106(5):1096-1101",
+            "year": 1996,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/8618046/",
+            "excerpt": "神经酰胺、胆固醇、游离脂肪酸三类角质层脂质均为渗透屏障稳态所必需：单独或两两外用反而延缓屏障恢复，等摩尔混合物允许正常修复，任一组分提高至3倍摩尔比可进一步加速修复；人体受损皮肤初步验证结果一致。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "主要为小鼠在体实验，附人体受损皮肤初步验证；复配混合物研究，支持胆固醇在屏障修护配方中的必要性而非单成分功效"
+        }
+      ]
+    },
+    {
+      "cn_name": "亚油酸",
+      "inci_name": "LINOLEIC ACID",
+      "cas_no": "60-33-3",
+      "assertions": [
+        {
+          "efficacy": "屏障修护（纠正必需脂肪酸缺乏的皮肤屏障异常）",
+          "evidence": {
+            "type": "paper",
+            "title": "Correction of the cutaneous manifestations of essential fatty acid deficiency in man by application of sunflower-seed oil to the skin",
+            "source": "J Invest Dermatol, 1975;64(4):228-234",
+            "year": 1975,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/1117180/",
+            "excerpt": "经典人体研究：将葵花籽油（富含亚油酸）外用于必需脂肪酸缺乏患者皮肤，可纠正必需脂肪酸缺乏的皮肤表现（干燥、脱屑、屏障异常），证实亚油酸经皮补充对维持皮肤屏障的作用。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "人体干预性研究（1975年经典文献，PubMed未收录摘要，无详细浓度信息）；起效物为富含亚油酸的葵花籽油而非纯亚油酸单体"
+        },
+        {
+          "efficacy": "保湿并降低经皮失水（亚油酸酯衍生物修复表皮屏障）",
+          "evidence": {
+            "type": "paper",
+            "title": "Isosorbide Di-(Linoleate/Oleate) Stimulates Prodifferentiation Gene Expression to Restore the Epidermal Barrier and Improve Skin Hydration",
+            "source": "J Invest Dermatol, 2021;141(6):1416-1427.e12",
+            "year": 2021,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/33181142/",
+            "excerpt": "异山梨醇二（亚油酸/油酸）酯（IDL，由葵花脂肪酸酯化制得）：上调角质形成细胞分化基因（KRT1、GRHL2、SPRR4）、增加屏障蛋白（丝聚蛋白、内披蛋白）并抑制炎症基因表达；双盲安慰剂对照试验中，干燥皮肤女性外用2% IDL乳液2周，皮肤含水量显著提升、TEWL显著下降。"
+          },
+          "effective_conc_low": 2.0,
+          "effective_conc_high": 2.0,
+          "note": "双盲安慰剂对照人体试验；起效物为亚油酸酯衍生物（IDL）而非游离亚油酸；基因表达部分为体外/离体皮肤模型；作者来自原料公司"
+        }
+      ]
+    },
+    {
+      "cn_name": "PCA钠",
+      "inci_name": "SODIUM PCA",
+      "cas_no": "28874-51-3",
+      "assertions": [
+        {
+          "efficacy": "保湿（≥2% PCA钠体系改善干燥皮肤）",
+          "evidence": {
+            "type": "paper",
+            "title": "Pyrrolidone carboxylic acid and the skin",
+            "source": "Int J Cosmet Sci, 1981;3(3):101-113",
+            "year": 1981,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/19469932/",
+            "excerpt": "文献综述并汇总实验室8年评估：PCA及其钠盐（NaPCA）是皮肤天然保湿因子组分；经生物物理（阻抗、α弛豫）与临床方法评估，所有含至少2% PCA-NaPCA盐体系的膏霜/乳液制剂均可短期或长期改善干燥皮肤状态（需合适载体，单纯水溶液无效）。"
+          },
+          "effective_conc_low": 2.0,
+          "effective_conc_high": null,
+          "note": "1981年较早研究：综述+实验室多年数据汇总，原始试验细节披露有限；工业界研究（Unilever实验室）"
+        },
+        {
+          "efficacy": "保湿（10% PCA钠溶液提升皮肤含水量的在体测量）",
+          "evidence": {
+            "type": "paper",
+            "title": "The use of near-infrared spectroscopy in skin care applications",
+            "source": "Skin Res Technol, 2006;12(3):162-169",
+            "year": 2006,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/16827690/",
+            "excerpt": "人体临床研究：受试者小腿外用10%甘油、氯化胆碱与PCA钠（NaPCA）溶液，以近红外光谱与Skicon电导仪测量皮肤含水量及吸脱附特性，证实PCA钠等保湿剂外用后皮肤水分含量的变化可被定量检测，结果与电导法及视觉干燥评分一致。"
+          },
+          "effective_conc_low": 10.0,
+          "effective_conc_high": 10.0,
+          "note": "人体在体方法学研究（小样本，保湿剂横向比较）；工业界研究（Colgate-Palmolive）；10%为方法学测试浓度，高于常规配方用量"
+        }
+      ]
+    },
+    {
+      "cn_name": "β-葡聚糖",
+      "inci_name": "BETA-GLUCAN",
+      "cas_no": "9012-72-0",
+      "assertions": [
+        {
+          "efficacy": "舒缓屏障受损（辅助治疗轻中度特应性皮炎、减轻瘙痒）",
+          "evidence": {
+            "type": "paper",
+            "title": "β-Glucan-based cream (containing pleuran isolated from pleurotus ostreatus) in supportive treatment of mild-to-moderate atopic dermatitis",
+            "source": "J Dermatolog Treat, 2016;27(4):351-354",
+            "year": 2016,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/26654776/",
+            "excerpt": "多中心开放半侧自身对照研究（105例轻中度特应性皮炎患者，80例完成）：含pleuran（源自平菇的β-葡聚糖）乳膏外用侧较对照侧EASI评分持续显著下降（第4访视1.57 vs 1.85，p<0.001），瘙痒VAS评分显著降低（1.68 vs 1.95，p<0.001），急性加重天数与严重度减少，耐受性良好。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "弱证据：开放、非盲、半侧对照（无安慰剂乳膏对照）；β-葡聚糖来源为平菇（pleuran），不同来源/构型β-葡聚糖不可直接外推"
+        },
+        {
+          "efficacy": "皮肤修复（改善妊娠纹萎缩外观）",
+          "evidence": {
+            "type": "paper",
+            "title": "Improving the outcome of treating striae gravidarum by combined therapies using topical β-glucan and 1565-nm non-ablative fractional laser: A prospective randomized vehicle-controlled parallel group study",
+            "source": "J Dermatol, 2022;49(9):829-836",
+            "year": 2022,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/35570397/",
+            "excerpt": "前瞻性随机载体对照平行分组研究（64名妊娠纹受试者随机分四组：载体、β-葡聚糖外用、1565nm非剥脱点阵激光+载体、激光+β-葡聚糖，12周）：受试者自评GAIS显示β-葡聚糖组优于载体组；妊娠纹萎缩评分上β-葡聚糖单用弱于激光单用，β-葡聚糖+激光优于载体+激光；各组耐受良好。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "随机载体对照人体试验；注意效应量有限：医师盲评GAIS与萎缩评分上β-葡聚糖单用组改善温和且弱于激光组；妊娠纹修复方向，非屏障/保湿直接证据"
+        }
+      ]
+    }
+  ]
+}

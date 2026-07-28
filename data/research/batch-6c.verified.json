@@ -1,0 +1,326 @@
+{
+  "ingredients": [
+    {
+      "cn_name": "水飞蓟素",
+      "inci_name": "SILYMARIN",
+      "cas_no": "65666-07-1",
+      "assertions": [
+        {
+          "efficacy": "淡化黄褐斑（疗效接近2%氢醌且副作用更少）",
+          "evidence": {
+            "type": "paper",
+            "title": "A Randomized, Double-Blind, Split-Face Study of Topical Silymarin vs 2% Hydroquinone Cream in Melasmas",
+            "source": "J Drugs Dermatol, 2022;21(12):1304-1310",
+            "year": 2022,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/36468967/",
+            "excerpt": "25名表皮型/混合型黄褐斑患者随机双盲半脸对照3个月：1.4%水飞蓟素乳膏与2%氢醌乳膏分侧外用；两者相对亮度指数均显著改善（水飞蓟素侧+14.56%、氢醌侧+12.82%），组间无统计学差异；氢醌侧改良MASI降幅更大（17.97%），但水飞蓟素侧不良反应明显更少。"
+          },
+          "effective_conc_low": 1.4,
+          "effective_conc_high": 1.4,
+          "note": "随机双盲半脸对照人体试验（n=25完成23，3个月）；以2%氢醌为阳性对照，水飞蓟素提亮效果与之相当但mMASI改善略逊，耐受性更优"
+        },
+        {
+          "efficacy": "改善痤疮（减少炎性/非炎性皮损、控油、改善炎症后色沉）",
+          "evidence": {
+            "type": "paper",
+            "title": "A Silymarin Antioxidant Serum Improves Facial Acne Alone and as Part of a Treatment Regimen",
+            "source": "J Drugs Dermatol, 2024;23(4):233-238",
+            "year": 2024,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/38564394/",
+            "excerpt": "两项国际人体研究：巴西12周研究（n=56）单用水飞蓟素抗氧化精华，炎性皮损减少45%、非炎性皮损减少43%，1周皮脂降低16%，并改善脂质过氧化标志与炎症后色沉；美国/德国研究（n=40）在处方痤疮药基础上加用该精华，面部红斑、干燥、脱屑分别改善60%、49%、67%。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "人体开放性临床研究（单臂，无安慰剂对照；精华成品配方，文献未在摘要层面给出水飞蓟素浓度），证据等级中等"
+        },
+        {
+          "efficacy": "光防护（减少UV诱导的DNA损伤与细胞凋亡）",
+          "evidence": {
+            "type": "paper",
+            "title": "Silymarin protects epidermal keratinocytes from ultraviolet radiation-induced apoptosis and DNA damage by nucleotide excision repair mechanism",
+            "source": "PLoS One, 2011;6(6):e21410",
+            "year": 2011,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/21731736/",
+            "excerpt": "水飞蓟素处理正常人表皮角质形成细胞可阻断UVB诱导的凋亡、减少环丁烷嘧啶二聚体（CPD）形成；机制与诱导核苷酸切除修复（NER）基因有关——在NER缺陷的人成纤维细胞与着色性干皮病细胞中该保护作用消失；小鼠皮肤实验同样减少晒伤细胞。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "弱证据：体外人角质形成细胞+小鼠实验，非人体外用功效试验；机制（NER依赖的DNA修复）证据较扎实"
+        }
+      ]
+    },
+    {
+      "cn_name": "黄芩根提取物",
+      "inci_name": "SCUTELLARIA BAICALENSIS ROOT EXTRACT",
+      "cas_no": "94279-99-9",
+      "assertions": [
+        {
+          "efficacy": "改善轻中度光损伤（含黄芩苷的抗氧化配方改善紧致度、光泽、弹性）",
+          "evidence": {
+            "type": "paper",
+            "title": "Evaluation of efficacy and tolerance of a nighttime topical antioxidant containing resveratrol, baicalin, and vitamin E for treatment of mild to moderately photodamaged skin",
+            "source": "J Drugs Dermatol, 2014;13(12)",
+            "year": 2014,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/25607790/",
+            "excerpt": "含白藜芦醇、黄芩苷和维生素E的夜间抗氧化配方用于轻中度光损伤皮肤，临床评估显示皮肤紧致度、光泽、弹性等光损伤指标改善，耐受性良好。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "弱证据：人体复方配方（白藜芦醇+黄芩苷+维生素E），无法归因于黄芩单成分；黄芩根提取物的主要标志成分为黄芩苷"
+        },
+        {
+          "efficacy": "光防护抗炎（黄芩苷减轻UVB诱导的急性皮肤损伤）",
+          "evidence": {
+            "type": "paper",
+            "title": "Baicalin attenuates acute skin damage induced by ultraviolet B via inhibiting pyroptosis",
+            "source": "J Photochem Photobiol B, 2024;256:112937",
+            "year": 2024,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/38743989/",
+            "excerpt": "黄芩苷预处理HaCaT角质形成细胞可改善UVB所致的细胞活力下降、死亡与氧化应激，抑制NF-κB转位、NLRP3炎症小体激活与GSDMD成熟从而减轻焦亡；小鼠体内实验（100 mg/kg）同样减轻UVB诱导的表皮增生、胶原纤维断裂与氧化应激。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "弱证据：体外细胞（50 μM）+小鼠实验，非人体试验；且为黄芩苷单体而非黄芩根全提取物，外推到原料时需注意标志物对应关系"
+        }
+      ]
+    },
+    {
+      "cn_name": "迷迭香叶提取物",
+      "inci_name": "ROSMARINUS OFFICINALIS LEAF EXTRACT",
+      "cas_no": "84604-14-8",
+      "assertions": [
+        {
+          "efficacy": "光防护抗光老化（减轻UV诱导的红斑、保护胶原与弹性蛋白）",
+          "evidence": {
+            "type": "paper",
+            "title": "Skin Photoprotection and Anti-Aging Benefits of a Combination of Rosemary and Grapefruit Extracts: Evidence from In Vitro Models and Human Study",
+            "source": "Int J Mol Sci, 2025;26(9):4001",
+            "year": 2025,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/40362239/",
+            "excerpt": "体外：迷迭香+葡萄柚提取物组合（Nutroxsun）在UV照射的角质形成细胞中降低ROS与IL-1/IL-8/IL-6，在成纤维细胞中减轻UV所致的I型前胶原与弹性蛋白下降及MMP-1/MMP-3升高；人体：20名受试者随机安慰剂对照交叉试验，口服100/200 mg首日起即显著减轻UV诱导的红斑并加速恢复。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "弱证据（就外用而言）：人体部分为口服（100/200 mg）且为迷迭香+葡萄柚复方，非迷迭香叶提取物单成分外用；体外为人细胞系实验"
+        },
+        {
+          "efficacy": "抗皱紧致（促进真皮弹性纤维形成）",
+          "evidence": {
+            "type": "paper",
+            "title": "Rosemary extract and rosmarinic acid accelerate elastic fiber formation by increasing the expression of elastic fiber components in dermal fibroblasts",
+            "source": "J Dermatol, 2024;51(6):816-826",
+            "year": 2024,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/38470170/",
+            "excerpt": "筛选发现迷迭香提取物显著促进正常人真皮成纤维细胞的早期微纤维与成熟弹性纤维形成，上调MFAP-4、原纤维蛋白-1与弹性蛋白表达；机制研究显示其富含的迷迭香酸经TGF-β1上调与CREB磷酸化加速弹性纤维形成，提示其对光老化所致的弹性下降有预防/改善潜力。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "弱证据：体外人真皮成纤维细胞实验，非人体功效试验"
+        },
+        {
+          "efficacy": "抗光老化（外用减轻UVB诱导的皮肤损伤与皱纹标志）",
+          "evidence": {
+            "type": "paper",
+            "title": "Rosmarinus officinalis L. hexane extract: phytochemical analysis, nanoencapsulation, and in silico, in vitro, and in vivo anti-photoaging potential evaluation",
+            "source": "Sci Rep, 2022;12(1):13102",
+            "year": 2022,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/35907916/",
+            "excerpt": "迷迭香叶己烷提取物体外显示抗氧化、抗衰老与创面愈合活性，分子对接提示其主要成分可抑制弹性蛋白酶、胶原酶与透明质酸酶；制成脂质纳米囊凝胶外用于UVB照射大鼠，可恢复抗氧化状态、改善表皮真皮组织学并降低炎症与皱纹标志物水平。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "弱证据：体外+大鼠动物实验（己烷提取部位，纳米囊制剂），非人体试验"
+        }
+      ]
+    },
+    {
+      "cn_name": "金盏花提取物",
+      "inci_name": "CALENDULA OFFICINALIS FLOWER EXTRACT",
+      "cas_no": "84776-23-8",
+      "assertions": [
+        {
+          "efficacy": "舒缓修护（显著降低放疗所致急性皮炎发生率与疼痛）",
+          "evidence": {
+            "type": "paper",
+            "title": "Phase III randomized trial of Calendula officinalis compared with trolamine for the prevention of acute dermatitis during irradiation for breast cancer",
+            "source": "J Clin Oncol, 2004;22(8):1447-53",
+            "year": 2004,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/15084618/",
+            "excerpt": "254名乳腺癌术后放疗患者随机分为金盏花软膏组（126人）与三乙醇胺组（128人），每次放疗后外用：≥2级急性皮炎发生率金盏花组41%显著低于三乙醇胺组63%（P<0.001），放疗中断更少、放射性疼痛显著减轻，患者自评满意度更高。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "III期随机对照人体试验（n=254），证据等级高；但为肿瘤支持治疗场景的药用软膏，后续部分研究与荟萃分析对放射性皮炎疗效结论不一致，外推到日常护肤需保守"
+        },
+        {
+          "efficacy": "舒缓抗炎（改善婴幼儿尿布皮炎，效果优于芦荟）",
+          "evidence": {
+            "type": "paper",
+            "title": "A randomized comparative trial on the therapeutic efficacy of topical aloe vera and Calendula officinalis on diaper dermatitis in children",
+            "source": "ScientificWorldJournal, 2012;2012:810234",
+            "year": 2012,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/22606064/",
+            "excerpt": "66名3岁以下尿布皮炎患儿随机双盲分为金盏花软膏组（34人）与芦荟乳膏组（32人），每日3次外用10天：两组皮炎严重度均显著改善（P<0.001），金盏花组皮疹部位数显著少于芦荟组（P=0.001），均无不良反应。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "随机双盲对照人体试验（n=66，10天）；软膏制剂浓度未在摘要层面明确；为适应证（尿布皮炎）治疗场景"
+        }
+      ]
+    },
+    {
+      "cn_name": "库拉索芦荟叶汁",
+      "inci_name": "ALOE BARBADENSIS LEAF JUICE",
+      "cas_no": "85507-69-3",
+      "assertions": [
+        {
+          "efficacy": "保湿（提升角质层含水量）",
+          "evidence": {
+            "type": "paper",
+            "title": "Moisturizing effect of cosmetic formulations containing Aloe vera extract in different concentrations assessed by skin bioengineering techniques",
+            "source": "Skin Res Technol, 2006;12(4):241-6",
+            "year": 2006,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/17026654/",
+            "excerpt": "20名女性前臂试验：含0.10%/0.25%/0.50%（w/w）冻干库拉索芦荟提取物的配方，单次使用后0.25%与0.50%组角质层含水量即显著升高（对比基质），连续使用2周后三个浓度组均显著提升含水量，TEWL不变，提示经吸湿（humectant）机制起效。"
+          },
+          "effective_conc_low": 0.1,
+          "effective_conc_high": 0.5,
+          "note": "人体生物工程测量试验（n=20，前臂，2周）；受试物为冻干芦荟提取物（0.1-0.5%），与叶汁原料形态存在折算差异，引用浓度时需注意"
+        },
+        {
+          "efficacy": "促进烧伤创面愈合（缩短愈合时间）",
+          "evidence": {
+            "type": "paper",
+            "title": "The efficacy of aloe vera used for burn wound healing: a systematic review",
+            "source": "Burns, 2007;33(6):713-8",
+            "year": 2007,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/17499928/",
+            "excerpt": "系统综述纳入4项对照临床试验共371例：荟萃分析显示外用芦荟组创面愈合时间加权平均较对照组缩短8.79天（P=0.006）；作者认为累积证据倾向支持芦荟用于一度至二度烧伤创面愈合，但纳入产品不统一、结论强度有限。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "系统综述/荟萃分析（基于人体对照试验），但纳入研究芦荟产品各异、异质性大；为烧烫伤治疗场景，非日常护肤功效直接证据"
+        }
+      ]
+    },
+    {
+      "cn_name": "α-熊果苷",
+      "inci_name": "ALPHA-ARBUTIN",
+      "cas_no": "84380-01-8",
+      "assertions": [
+        {
+          "efficacy": "美白淡斑（复方方案含2%α-熊果苷，降低色斑黑素含量与mMASI评分）",
+          "evidence": {
+            "type": "paper",
+            "title": "Efficacy and Safety of a Topical Formulation Containing Trihydroxybenzoic Acid Glucoside and alpha-Arbutin, Applied Along With a Sunscreen: A Noncomparative, Prospective, Interventional Study in Indian Females With Facial Melasma or Dark Spots",
+            "source": "J Cosmet Dermatol, 2025;24(2):e70017",
+            "year": 2025,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/39943675/",
+            "excerpt": "124名Fitzpatrick III-IV型面部色斑/黄褐斑印度女性前瞻性干预90天：10%三羟基苯甲酸葡萄糖苷+2%α-熊果苷每日两次并配防晒霜；色斑黑素含量显著下降16.3%（P<0.001），mMASI下降18.4%，ITA°、肤色均匀度与光泽度显著改善，耐受性良好无刺激。"
+          },
+          "effective_conc_low": 2.0,
+          "effective_conc_high": 2.0,
+          "note": "弱证据：人体单臂开放试验（无对照组，n=120完成），且为复方（10%THBG+2%α-熊果苷）+防晒方案，功效无法归因于α-熊果苷单成分；2%浓度为复方中用量"
+        },
+        {
+          "efficacy": "抑制黑素合成（减少人皮肤细胞黑素生成与酪氨酸酶活性）",
+          "evidence": {
+            "type": "paper",
+            "title": "Inhibitory effects of alpha-arbutin on melanin synthesis in cultured human melanoma cells and a three-dimensional human skin model",
+            "source": "Biol Pharm Bull, 2004;27(4):510-4",
+            "year": 2004,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/15056856/",
+            "excerpt": "α-熊果苷在1.0 mM以下对人黑色素瘤细胞HMV-II无细胞毒，0.5 mM使黑素合成降至对照的76%，细胞内酪氨酸酶活性显著下降而不影响其mRNA表达；三维人体皮肤模型中250 μg α-熊果苷使黑素合成降至对照的40%，且不影响细胞活力。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "弱证据：体外人源细胞+3D皮肤模型实验，非人体功效试验；该文为α-熊果苷美白机制的经典体外证据"
+        },
+        {
+          "efficacy": "美白（对人酪氨酸酶的抑制强度约为β-熊果苷的20倍）",
+          "evidence": {
+            "type": "paper",
+            "title": "Syntheses of arbutin-alpha-glycosides and a comparison of their inhibitory effects with those of alpha-arbutin and arbutin on human tyrosinase",
+            "source": "Chem Pharm Bull (Tokyo), 2003;51(7):798-801",
+            "year": 2003,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/12843585/",
+            "excerpt": "比较α-熊果苷（4-羟苯基α-吡喃葡萄糖苷）与β-熊果苷（即库中ARBUTIN，4-羟苯基β-吡喃葡萄糖苷）对人恶性黑色素瘤细胞酪氨酸酶的抑制：α-熊果苷的Ki值约为β-熊果苷的1/20，抑制效力显著更强，提示氢醌糖苷的α-糖苷键是其高活性的关键。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "弱证据：体外酶学实验（人源酪氨酸酶）；异构体差异说明——库中已有ARBUTIN通常指β-熊果苷，α-熊果苷为其α-异构体，两者立体构型不同，α型对人酪氨酸酶抑制更强，不可混用文献"
+        }
+      ]
+    },
+    {
+      "cn_name": "辛甘醇",
+      "inci_name": "CAPRYLYL GLYCOL",
+      "cas_no": "1117-86-8",
+      "assertions": [
+        {
+          "efficacy": "防腐增效（与苯乙醇/甘油辛酸酯协同，广谱抗菌并通过防腐挑战测试）",
+          "evidence": {
+            "type": "paper",
+            "title": "A new alternative to cosmetics preservation and the effect of the particle size of the emulsion droplets on preservation efficacy",
+            "source": "Int J Cosmet Sci, 2016;38(5):496-503",
+            "year": 2016,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/26940643/",
+            "excerpt": "辛甘醇+苯乙醇+甘油辛酸酯组合的MIC/MBC/MFC均低于任一单成分，任意两组分间无拮抗且有协同或相加效应；挑战试验显示该组合对细菌、酵母的有效浓度分别为0.3%、0.2%，1.4%可完全抑制霉菌，满足PCPC与欧洲药典要求；乳液粒径（100-900 nm）与防腐效力正相关。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "体外微生物学实验（MIC/挑战试验），非人体功效试验；所列浓度为三元复配组合用量，非辛甘醇单成分浓度"
+        },
+        {
+          "efficacy": "防腐助剂（作为更安全的替代防腐剂提供充分防腐保护）",
+          "evidence": {
+            "type": "paper",
+            "title": "Antimicrobial, Preservative, and Hazard Assessments from Eight Chemical Classes",
+            "source": "ACS Omega, 2024;9(16):17869-17877",
+            "year": 2024,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/38680319/",
+            "excerpt": "对八大类130种物质进行抗菌（巴西曲霉、铜绿假单胞菌）与危害筛查，并参照USP-51防腐挑战方法在模型家居护理配方中测试：辛酰羟肟酸与辛甘醇两种物质可提供充分的防腐保护，且相比异噻唑啉酮类与甲醛释放体防腐剂具有更优的毒理学特性。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "体外抗菌筛查+配方挑战试验，非人体功效试验；辛甘醇在化妆品中主要起保湿与防腐助剂（协同增效）作用，其单独防腐效力有限，文献证据均为体外/配方层面"
+        }
+      ]
+    },
+    {
+      "cn_name": "对羟基苯乙酮",
+      "inci_name": "HYDROXYACETOPHENONE",
+      "cas_no": "99-93-4",
+      "assertions": [
+        {
+          "efficacy": "抑制酪氨酸酶、抗色素沉着（2%配方在皮肤模型中显著淡化UV诱导色素沉着）",
+          "evidence": {
+            "type": "paper",
+            "title": "4‑Hydroxyacetophenone is an Antipigmentation Reagent via Inhibiting Tryrosinase Activity",
+            "source": "ACS Omega, 2025;10(31):34811-34821",
+            "year": 2025,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/40821508/",
+            "excerpt": "蘑菇酪氨酸酶模型、B16黑色素瘤细胞与斑马鱼实验系统证实4-羟基苯乙酮为强效酪氨酸酶抑制剂，体内外均显著降低黑素含量；分子对接与动力学模拟显示其与酪氨酸酶稳定结合；含2% 4-羟基苯乙酮的配方在人体皮肤模型中4周后UV诱导的色素沉着几乎完全消退，对照组仍存明显色斑。"
+          },
+          "effective_conc_low": 2.0,
+          "effective_conc_high": 2.0,
+          "note": "弱证据：体外（蘑菇酪氨酸酶/B16细胞）+斑马鱼动物+人体皮肤模型实验，非人体临床试验；2%浓度来自皮肤模型配方；注意该成分为对位异构体（4-羟基苯乙酮）"
+        },
+        {
+          "efficacy": "抗氧化、抑制酪氨酸酶（可逆竞争性抑制酪氨酸酶活性中心）",
+          "evidence": {
+            "type": "paper",
+            "title": "A type of phenolic compound, hydroxyacetophenone: tyrosinase inhibition mechanism evaluation by application of biochemical assay and computational molecular dynamics",
+            "source": "J Biomol Struct Dyn, 2026;44(3):1668-1680",
+            "year": 2026,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/40056389/",
+            "excerpt": "分子动力学模拟显示对羟基苯乙酮（天然存在于云杉针叶的抗氧化剂，化妆品中常用抗氧化成分）对接于酪氨酸酶活性位点，识别出8个关键结合残基；生化抑制动力学证实其为典型的可逆竞争性抑制剂，酚羟基在抑制催化中起枢纽作用。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "弱证据：纯体外生化+计算模拟研究；该成分在配方中多作防腐助剂/抗氧化剂使用，PubMed 未见其防腐增效的人体或挑战试验功效文献，现有可挂证据集中在酪氨酸酶抑制方向，功效主张应保守"
+        }
+      ]
+    }
+  ]
+}
