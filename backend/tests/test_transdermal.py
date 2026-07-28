@@ -192,3 +192,13 @@ class TestGetTransdermalInfo:
             if info["verdict"] is TransdermalVerdict.NOT_APPLICABLE:
                 assert info["reason"].strip(), f"{name} 的 NOT_APPLICABLE 缺 reason"
                 assert info["logkp"] is None, f"{name} 不适用时不应给 logKp"
+
+
+def test_disclaimer_in_all_returns():
+    """所有返回路径（含旁路）必须携带完整免责声明（评审 Important 项）。"""
+    import json
+    from app.services.transdermal import DISCLAIMER, get_transdermal_info
+    cid_map = json.load(open("data/seed/cid_map.json", encoding="utf-8"))
+    for name in list(cid_map) + ["不存在的成分 XYZ"]:
+        info = get_transdermal_info(name, cid_map)
+        assert info["disclaimer"] == DISCLAIMER

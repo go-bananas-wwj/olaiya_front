@@ -124,7 +124,8 @@ def get_transdermal_info(inci_name: str, cid_map: dict) -> dict:
     """
     name = inci_name.strip().upper()
     entry = cid_map.get(name)
-    base = {"verdict": None, "mw": None, "xlogp": None, "logkp": None, "reason": ""}
+    base = {"verdict": None, "mw": None, "xlogp": None, "logkp": None, "reason": "",
+            "disclaimer": DISCLAIMER}
 
     if entry is not None and entry.get("status") != "ok":
         # 混合物/聚合物/未命中 PubChem：无单一 CID，模型不适用（优先于盐名规则）
@@ -156,4 +157,5 @@ def get_transdermal_info(inci_name: str, cid_map: dict) -> dict:
         "xlogp": xlogp,
         "logkp": logkp,
         "reason": _verdict_reason(verdict, mw=mw, xlogp=xlogp, ionic_hit=ionic_hit),
+        "disclaimer": DISCLAIMER,
     }
