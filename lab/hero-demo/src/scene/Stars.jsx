@@ -4,6 +4,7 @@ import { Html } from '@react-three/drei'
 import * as THREE from 'three'
 import { toonGradient } from './toon.jsx'
 import { INGREDIENTS, ORBIT } from '../ingredients.js'
+import { easeOutBack } from '../sequence.js'
 
 // Ingredient orbs: one signature color + micro-shape each. Hover scales the
 // orb 1.3x and pops a cartoon name tag; click opens the evidence card (state
@@ -46,12 +47,13 @@ function OrbCore({ ing }) {
   )
 }
 
-export default function Stars({ onSelect, selectedId }) {
+export default function Stars({ onSelect, selectedId, interactive = true, appeared = true }) {
   const [hoveredId, setHoveredId] = useState(null)
   const groupRefs = useRef({})
   const miniRefs = useRef([])
   const sparkRef = useRef()
   const ringRef = useRef()
+  const appearStart = useRef(null)
   const v = useMemo(() => new THREE.Vector3(), [])
   const sparkGeo = useMemo(() => sparkleGeometry(), [])
   const glintGeo = useMemo(() => sparkleGeometry(), [])
@@ -59,8 +61,9 @@ export default function Stars({ onSelect, selectedId }) {
   useFrame((state, dt) => {
     const t = state.clock.elapsedTime
     if (typeof window !== 'undefined') window.__orbScreen = window.__orbScreen || {}
+    if (appeared && appearStart.current === null) appearStart.current = t
 
-    INGREDIENTS.forEach((ing) => {
+    INGREDIENTS.forEach((ing, i) => {
       const o = ORBIT[ing.id]
       const g = groupRefs.current[ing.id]
       if (!g || !o) return
@@ -69,8 +72,14 @@ export default function Stars({ onSelect, selectedId }) {
         o.y + o.ay * Math.sin(t * o.fy + o.p * 1.7),
         o.az * Math.cos(t * o.fz + o.p * 0.6)
       )
-      const target = hoveredId === ing.id ? 1.3 : selectedId === ing.id ? 1.15 : 1
-      const s = THREE.MathUtils.damp(g.scale.x, target, 9, dt)
+      // P2 pop-in: staggered easeOutBack from 0; until then stay invisible
+      let pop = 0.0001
+      if (appearStart.current !== null) {
+        const raw = THREE.MathUtils.clamp((t - appearStart.current - i * 0.07) / 0.35, 0, 1)
+        pop = Math.max(0.0001, easeOutBack(raw))
+      }
+      const base = hoveredId === ing.id ? 1.3 : selectedId === ing.id ? 1.15 : 1
+      const s = THREE.MathUtils.damp(g.scale.x, base * pop, 9, dt)
       g.scale.setScalar(s)
 
       v.setFromMatrixPosition(g.matrixWorld).project(state.camera)
@@ -88,6 +97,12 @@ export default function Stars({ onSelect, selectedId }) {
         m.y + m.ay * Math.sin(t * m.fy + m.p * 1.7),
         m.az * Math.cos(t * m.fz + m.p * 0.6)
       )
+      let pop = 0.0001
+      if (appearStart.current !== null) {
+        const raw = THREE.MathUtils.clamp((t - appearStart.current - 0.35 - i * 0.06) / 0.35, 0, 1)
+        pop = Math.max(0.0001, easeOutBack(raw))
+      }
+      g.scale.setScalar(pop)
     })
 
     if (sparkRef.current) {
@@ -105,6 +120,7 @@ export default function Stars({ onSelect, selectedId }) {
           key={ing.id}
           ref={(el) => (groupRefs.current[ing.id] = el)}
           onPointerOver={(e) => {
+            if (!interactive) return
             e.stopPropagation()
             setHoveredId(ing.id)
             document.body.style.cursor = 'pointer'
@@ -114,6 +130,7 @@ export default function Stars({ onSelect, selectedId }) {
             document.body.style.cursor = 'auto'
           }}
           onClick={(e) => {
+            if (!interactive) return
             e.stopPropagation()
             onSelect(ing.id)
           }}

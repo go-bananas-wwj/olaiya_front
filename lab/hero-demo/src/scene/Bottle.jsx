@@ -150,7 +150,7 @@ export default function Bottle() {
       {/* glowing surface */}
       <mesh position={[0, 1.162, 0]} rotation={[-Math.PI / 2, 0, 0]} renderOrder={2}>
         <circleGeometry args={[0.575, 64]} />
-        <meshBasicMaterial color={new THREE.Color(1.35, 1.1, 1.22)} toneMapped={false} depthWrite={false} />
+        <meshBasicMaterial color={new THREE.Color(1.18, 1.02, 1.12)} toneMapped={false} depthWrite={false} />
       </mesh>
 
       {/* tilted swirl band inside the liquid */}

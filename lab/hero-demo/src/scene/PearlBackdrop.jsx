@@ -33,10 +33,10 @@ const fragmentShader = /* glsl */ `
     vec2 p = (uv - 0.5) * vec2(uAspect, 1.0);
     float t = uTime;
 
-    // sky gradient (linear space): #f3ede6 -> #fadfe9 -> #e6dbf7
+    // sky gradient (linear space): #f3ede6 -> #f6d9e2 -> #dccdf0
     vec3 bot = vec3(0.894, 0.845, 0.793);
-    vec3 mid = vec3(0.955, 0.733, 0.815);
-    vec3 top = vec3(0.793, 0.708, 0.928);
+    vec3 mid = vec3(0.921, 0.691, 0.757);
+    vec3 top = vec3(0.713, 0.611, 0.870);
     vec3 col = mix(bot, mid, smoothstep(0.0, 0.55, uv.y));
     col = mix(col, top, smoothstep(0.45, 1.02, uv.y));
 

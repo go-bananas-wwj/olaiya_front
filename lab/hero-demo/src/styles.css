@@ -224,34 +224,285 @@ h1 {
   }
 }
 
-/* ---------- ingredient evidence card ---------- */
+/* ---------- ingredient evidence card: right floating panel ---------- */
+
+.card-veil {
+  position: fixed;
+  inset: 0;
+  background: rgba(61, 47, 42, 0.08);
+  z-index: 25;
+  pointer-events: none; /* 透传：暗纱不挡点球 */
+  animation: veil-fade 0.3s ease both;
+}
+
+@keyframes veil-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
 
 .ing-card {
   pointer-events: auto;
-  position: absolute;
-  left: 7.5%;
-  bottom: 30px;
-  width: 352px;
+  position: fixed;
+  right: 32px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 340px;
+  max-height: 72vh;
+  overflow-y: auto;
+  scrollbar-width: none;
+  z-index: 30;
   padding: 16px 20px 18px;
   border-radius: 22px;
-  background: rgba(255, 255, 255, 0.58);
+  background: rgba(255, 255, 255, 0.62);
   border: 2px solid rgba(138, 90, 106, 0.22);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   box-shadow: 0 24px 48px -20px rgba(61, 47, 42, 0.35), 0 4px 14px -6px rgba(176, 106, 138, 0.25);
-  animation: card-in 0.4s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-@keyframes card-in {
+.ing-card::-webkit-scrollbar {
+  display: none;
+}
+
+.ing-card.enter {
+  animation: card-in-r 0.48s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.ing-card.exit {
+  animation: card-out-r 0.38s cubic-bezier(0.5, 0, 0.75, 0.4) both;
+}
+
+@keyframes card-in-r {
   from {
-    transform: translateY(18px);
+    transform: translate(110%, -50%) scale(0.96);
     opacity: 0;
   }
   to {
-    transform: translateY(0);
+    transform: translate(0, -50%) scale(1);
     opacity: 1;
   }
 }
+
+@keyframes card-out-r {
+  from {
+    transform: translate(0, -50%);
+    opacity: 1;
+  }
+  to {
+    transform: translate(110%, -50%);
+    opacity: 0;
+  }
+}
+
+.ing-colorbar {
+  height: 6px;
+  border-radius: 99px;
+  margin: -8px 0 12px;
+  box-shadow: 0 1px 6px rgba(61, 47, 42, 0.15);
+}
+
+.ing-fade {
+  animation: ing-fade 0.2s ease both;
+}
+
+@keyframes ing-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media (max-width: 767px) {
+  .ing-card {
+    right: 0;
+    left: 0;
+    top: auto;
+    bottom: 0;
+    width: auto;
+    max-height: 62vh;
+    transform: none;
+    border-radius: 20px 20px 0 0;
+  }
+
+  .ing-card.enter {
+    animation: drawer-in 0.48s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .ing-card.exit {
+    animation: drawer-out 0.38s cubic-bezier(0.5, 0, 0.75, 0.4) both;
+  }
+
+  @keyframes drawer-in {
+    from {
+      transform: translateY(110%);
+      opacity: 0.6;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes drawer-out {
+    from {
+      transform: translateY(0);
+    }
+    to {
+      transform: translateY(110%);
+    }
+  }
+}
+
+/* ---------- intro: UI stagger reveal (P2) ---------- */
+
+.hero-ui:not(.ui-in):not(.ui-instant) .reveal {
+  opacity: 0;
+}
+
+.hero-ui.ui-in .reveal {
+  animation: ui-fade-up 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.hero-ui.ui-in .d1 {
+  animation-delay: 0s;
+}
+.hero-ui.ui-in .d2 {
+  animation-delay: 0.08s;
+}
+.hero-ui.ui-in .d3 {
+  animation-delay: 0.16s;
+}
+.hero-ui.ui-in .d4 {
+  animation-delay: 0.24s;
+}
+.hero-ui.ui-in .d5 {
+  animation-delay: 0.32s;
+}
+
+.hero-ui.ui-in.ui-fast .reveal {
+  animation-duration: 0.25s;
+  animation-delay: 0s;
+}
+
+.hero-ui.ui-instant .reveal {
+  opacity: 1;
+}
+
+@keyframes ui-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ---------- P0 loading veil ---------- */
+
+.p0-veil {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  background: #f5efe8;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 26px;
+}
+
+.p0-veil.hide {
+  pointer-events: none;
+  animation: p0-out 0.4s ease both;
+}
+
+.p0-logo {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: 26px;
+  letter-spacing: 0.34em;
+  text-indent: 0.34em;
+  color: var(--ink);
+  animation: p0-breathe 1.6s ease-in-out infinite;
+}
+
+@keyframes p0-breathe {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.04);
+  }
+}
+
+.p0-track {
+  width: 168px;
+  height: 3px;
+  border-radius: 99px;
+  background: rgba(61, 47, 42, 0.1);
+  overflow: hidden;
+  position: relative;
+}
+
+.p0-fill {
+  height: 100%;
+  border-radius: 99px;
+  background: linear-gradient(90deg, #b06a8a, #8a7ab8, #f4c2d7, #b06a8a);
+  background-size: 200% 100%;
+  transition: width 0.3s ease;
+  animation: p0-shimmer 1.2s linear infinite;
+}
+
+@keyframes p0-shimmer {
+  from {
+    background-position: 100% 0;
+  }
+  to {
+    background-position: -100% 0;
+  }
+}
+
+@keyframes p0-out {
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .p0-logo {
+    animation: none;
+  }
+  .hero-ui .reveal {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+/* ---------- WebGL static fallback ---------- */
+
+.fallback-sky {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 12%;
+  background: linear-gradient(180deg, #dccdf0 0%, #f6d9e2 52%, #f3ede6 100%);
+}
+
 
 .ing-card-head {
   display: flex;
