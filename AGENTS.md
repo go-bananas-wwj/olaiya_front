@@ -9,6 +9,9 @@
 - 开发期 SQLite（`cfz.db`，git 忽略），切 PostgreSQL 只改 `CFZ_DATABASE_URL`
 - 测试：仓库根目录 `.venv/bin/python -m pytest`（应全绿）
 - Playwright 采集环境：`/tmp/pwenv/bin/python`（chromium 已装，参数 `--no-sandbox --disable-dev-shm-usage`）
+- 相似检索：主 venv 的 faiss-cpu 只读索引；重建嵌入索引用 `.venv-llm`（torch/transformers，主 venv 不装）：
+  `TORCH_DEVICE_BACKEND_AUTOLOAD=0 .venv-llm/bin/python data/tools/build_embeddings.py`
+  （BGE-M3 → `data/models/embedding/faiss/`，训练产物不进 git；torch_npu 自动加载会报 libstdc++ 错，纯 CPU 跑须关掉）
 
 ## 后台服务（统一 tmux，不用 nohup）
 

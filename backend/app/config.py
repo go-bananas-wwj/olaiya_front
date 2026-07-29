@@ -9,5 +9,8 @@ class Settings(BaseSettings):
     # 开发期默认 SQLite 文件库；切换 PostgreSQL 只需改环境变量
     database_url: str = "sqlite:///./cfz.db"
 
+    # Faiss 相似索引目录（data/tools/build_embeddings.py 产物）；相对路径按仓库根目录解析
+    faiss_index_dir: str = "data/models/embedding/faiss"
+
 
 settings = Settings()

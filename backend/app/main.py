@@ -7,7 +7,7 @@ tmux new-session -d -s cfz-web -c /root/workspace/olaiya \\
 import json
 from pathlib import Path
 
-from fastapi import Depends, FastAPI, HTTPException
+from fastapi import Depends, FastAPI, HTTPException, Query
 from fastapi.staticfiles import StaticFiles
 from sqlalchemy import func, or_, select
 from sqlalchemy.orm import Session
@@ -17,6 +17,7 @@ from .models.evidence import Evidence
 from .models.ingredient import EfficacyAssertion, Ingredient
 from .models.product import Product, ProductClaim, ProductIngredient
 from .services.dosecheck import dose_verdicts
+from .services.similarity import search_ingredients, search_products
 from .services.transdermal import get_transdermal_info
 
 # 成分理化映射（D3 透皮判定数据源）：启动时读入内存常量，避免每请求 IO
@@ -232,6 +233,50 @@ def product_concentration(product_id: int, db: Session = Depends(get_db)):
         return {"product_id": product_id, "inferred": False,
                 "reason": "无官方降序成分表，未推断"}
     return {"product_id": product_id, "inferred": True, "estimates": estimates}
+
+
+@app.get("/api/products/{product_id}/similar")
+def product_similar(product_id: int, k: int = Query(5, ge=1, le=50),
+                    db: Session = Depends(get_db)):
+    """成分表相似产品 Top-k（BGE-M3 嵌入 + Faiss，score 为余弦相似度）。
+    索引未构建时 similar=null + reason 降级，不报错。
+    """
+    p = db.get(Product, product_id)
+    if p is None:
+        raise HTTPException(status_code=404, detail="产品不存在")
+    hits = search_products(product_id, k=k)
+    if hits is None:
+        return {"product_id": product_id, "similar": None, "reason": "相似索引未构建"}
+    rows = (db.execute(select(Product).where(Product.id.in_([h["product_id"] for h in hits])))
+            .scalars().all()) if hits else []
+    by_id = {r.id: r for r in rows}
+    similar = [
+        {"id": h["product_id"], "name": by_id[h["product_id"]].name,
+         "brand": by_id[h["product_id"]].brand, "score": h["score"]}
+        for h in hits if h["product_id"] in by_id  # 索引与库可能短暂不一致，跳过已删实体
+    ]
+    return {"product_id": product_id, "similar": similar}
+
+
+@app.get("/api/ingredients/{ingredient_id}/similar")
+def ingredient_similar(ingredient_id: int, k: int = Query(5, ge=1, le=50),
+                       db: Session = Depends(get_db)):
+    """证据文本相似成分 Top-k（BGE-M3 嵌入 + Faiss）。索引未构建时 similar=null 降级。"""
+    ing = db.get(Ingredient, ingredient_id)
+    if ing is None:
+        raise HTTPException(status_code=404, detail="成分不存在")
+    hits = search_ingredients(ingredient_id, k=k)
+    if hits is None:
+        return {"ingredient_id": ingredient_id, "similar": None, "reason": "相似索引未构建"}
+    rows = (db.execute(select(Ingredient).where(Ingredient.id.in_([h["ingredient_id"] for h in hits])))
+            .scalars().all()) if hits else []
+    by_id = {r.id: r for r in rows}
+    similar = [
+        {"id": h["ingredient_id"], "inci_name": by_id[h["ingredient_id"]].inci_name,
+         "cn_name": by_id[h["ingredient_id"]].cn_name, "score": h["score"]}
+        for h in hits if h["ingredient_id"] in by_id
+    ]
+    return {"ingredient_id": ingredient_id, "similar": similar}
 
 
 # 高保真首页原型（lab/hero-demo 构建产物）挂在 /lab
