@@ -25,6 +25,9 @@
   .badge-warn {
     @apply badge bg-warn-soft text-warn;
   }
+  .badge-danger {
+    @apply badge bg-[#fde8e8] text-[#c81e1e];
+  }
   .badge-muted {
     @apply badge bg-[#f1f0f6] text-ink-3;
   }

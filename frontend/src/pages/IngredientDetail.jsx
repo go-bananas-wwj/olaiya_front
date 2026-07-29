@@ -13,6 +13,14 @@ const PRIOR_DEFS = [
   ['sccs_limit', 'SCCS 限值', '%'],
 ]
 
+// D3 透皮判定徽章：verdict → 文案与样式（判定语义为理化模型估计）
+const TRANSDERMAL_DEFS = {
+  easy: { text: '易透皮（估计）', cls: 'badge-ok' },
+  medium: { text: '透皮中等（估计）', cls: 'badge-warn' },
+  hard: { text: '难透皮（估计）', cls: 'badge-danger' },
+  not_applicable: { text: '透皮判定不适用', cls: 'badge-muted' },
+}
+
 export default function IngredientDetail() {
   const { id } = useParams()
   const { data: ing, loading, error } = useFetch(() => api.ingredient(id), [id])
@@ -24,6 +32,9 @@ export default function IngredientDetail() {
     .map(([key, label, unit]) => ing.priors?.[key] != null && [label, `${ing.priors[key]}${unit}`])
     .filter(Boolean)
 
+  const td = ing.transdermal
+    && (TRANSDERMAL_DEFS[ing.transdermal.verdict] || TRANSDERMAL_DEFS.not_applicable)
+
   return (
     <div>
       <Link to="/ingredients" className="text-sm text-brand hover:underline">← 返回成分库</Link>
@@ -34,11 +45,22 @@ export default function IngredientDetail() {
           {ing.assertions.length > 0
             ? <span className="badge-ok">有文献证据 · 断言 {ing.assertions.length} 条</span>
             : <span className="badge-muted">暂无功效断言</span>}
+          {td && <span className={td.cls} title={ing.transdermal.reason}>透皮 · {td.text}</span>}
         </div>
         <div className="text-[13px] text-ink-2 mt-2 flex flex-wrap gap-x-4 gap-y-1">
           {ing.inci_name && <span>INCI：<b className="break-all">{ing.inci_name}</b></span>}
           {ing.cas_no && <span>CAS 号：{ing.cas_no}</span>}
         </div>
+        {ing.transdermal && (
+          <div className="mt-2 text-xs text-ink-3 leading-relaxed">
+            <div>
+              {ing.transdermal.reason}
+              {ing.transdermal.logkp != null &&
+                `（logKp ≈ ${ing.transdermal.logkp} cm/h，Potts-Guy 估计）`}
+            </div>
+            <div>{ing.transdermal.disclaimer}</div>
+          </div>
+        )}
         {priors.length > 0 && (
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 mt-4">
             {priors.map(([k, v]) => (

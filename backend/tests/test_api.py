@@ -250,3 +250,60 @@ def test_concentration_product_not_found(client):
     r = client.get("/api/products/999999/concentration")
     assert r.status_code == 404
     assert r.json()["detail"] == "产品不存在"
+
+
+# —— D3 透皮判定接入成分详情 API ——
+
+
+def test_ingredient_detail_transdermal_structure(client):
+    """有 CID 的成分：transdermal 字段结构完整，数值与 cid_map/Potts-Guy 手算一致。"""
+    items = client.get("/api/ingredients", params={"q": "烟酰胺"}).json()
+    r = client.get(f"/api/ingredients/{items[0]['id']}")
+    assert r.status_code == 200
+    t = r.json()["transdermal"]
+    assert set(t) == {"verdict", "mw", "xlogp", "logkp", "reason", "disclaimer"}
+    # 烟酰胺 MW=122.12, XLogP=-0.4 < 0：logP 窗口外 → hard（估计）
+    assert t["verdict"] == "hard"
+    assert t["mw"] == pytest.approx(122.12)
+    assert t["xlogp"] == pytest.approx(-0.4)
+    assert t["logkp"] == pytest.approx(-3.728932, abs=1e-4)
+    assert t["reason"]
+    assert "估计" in t["reason"]
+    assert t["disclaimer"] == "理化模型估计，未考虑递送系统与配方基质"
+
+
+def test_ingredient_detail_transdermal_easy(client):
+    """苯氧乙醇 MW=138.16, XLogP=1.2 落在 [1,3] 最优窗口 → easy。"""
+    items = client.get("/api/ingredients", params={"q": "PHENOXYETHANOL"}).json()
+    assert items, "种子里必须有苯氧乙醇"
+    t = client.get(f"/api/ingredients/{items[0]['id']}").json()["transdermal"]
+    assert t["verdict"] == "easy"
+    assert t["logkp"] == pytest.approx(-2.690776, abs=1e-4)
+    assert "估计" in t["reason"]
+
+
+def test_ingredient_detail_transdermal_mixture_not_applicable(client, session):
+    """混合物/提取物（cid_map 无单一 CID）：verdict=not_applicable，不给数值。"""
+    ing = Ingredient(inci_name="AVENA SATIVA (OAT) KERNEL EXTRACT", cn_name="燕麦仁提取物")
+    session.add(ing)
+    session.commit()
+    r = client.get(f"/api/ingredients/{ing.id}")
+    assert r.status_code == 200
+    t = r.json()["transdermal"]
+    assert t["verdict"] == "not_applicable"
+    assert t["mw"] is None and t["xlogp"] is None and t["logkp"] is None
+    assert t["reason"].strip()
+    assert t["disclaimer"] == "理化模型估计，未考虑递送系统与配方基质"
+
+
+def test_ingredient_detail_transdermal_unknown_no_error(client, session):
+    """未知成分（不在 cid_map）：200 不报错，verdict=not_applicable 且带 reason。"""
+    ing = Ingredient(inci_name="FOO BAR BAZ UNKNOWN", cn_name="未知测试成分")
+    session.add(ing)
+    session.commit()
+    r = client.get(f"/api/ingredients/{ing.id}")
+    assert r.status_code == 200
+    t = r.json()["transdermal"]
+    assert t["verdict"] == "not_applicable"
+    assert t["logkp"] is None
+    assert t["reason"].strip()

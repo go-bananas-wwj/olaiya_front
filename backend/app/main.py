@@ -4,6 +4,9 @@ tmux new-session -d -s cfz-web -c /root/workspace/olaiya \\
 （8000 端口被机器上其他程序占用，本项目统一用 8008；后台服务统一用 tmux，不用 nohup）
 """
 
+import json
+from pathlib import Path
+
 from fastapi import Depends, FastAPI, HTTPException
 from fastapi.staticfiles import StaticFiles
 from sqlalchemy import func, or_, select
@@ -14,6 +17,11 @@ from .models.evidence import Evidence
 from .models.ingredient import EfficacyAssertion, Ingredient
 from .models.product import Product, ProductClaim, ProductIngredient
 from .services.dosecheck import dose_verdicts
+from .services.transdermal import get_transdermal_info
+
+# 成分理化映射（D3 透皮判定数据源）：启动时读入内存常量，避免每请求 IO
+_CID_MAP_PATH = Path(__file__).resolve().parents[2] / "data" / "seed" / "cid_map.json"
+CID_MAP: dict = json.loads(_CID_MAP_PATH.read_text(encoding="utf-8"))
 
 app = FastAPI(title="成分真言 API", version="0.1.0")
 
@@ -118,6 +126,8 @@ def ingredient_detail(ingredient_id: int, db: Session = Depends(get_db)):
         },
         "assertions": [_assertion_dict(a) for a in assertions],
         "products": products,
+        # D3 透皮判定（理化模型估计，未考虑递送系统与配方基质；not_applicable 为合法输出）
+        "transdermal": get_transdermal_info(ing.inci_name, CID_MAP),
     }
 
 
