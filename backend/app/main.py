@@ -8,6 +8,7 @@ import json
 from pathlib import Path
 
 from fastapi import Depends, FastAPI, HTTPException, Query
+from fastapi.responses import StreamingResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field, field_validator
 from sqlalchemy import func, or_, select
@@ -20,6 +21,7 @@ from .models.product import Product, ProductClaim, ProductIngredient
 from .services.dosecheck import dose_verdicts
 from .services.llm_gateway import LLMGateway, LLMUnavailableError
 from .services.rag_qa import answer_question
+from .services.roundtable import run_roundtable
 from .services.verify_loop import verify_answer
 from .services.fingerprint import compute_fingerprint
 from .services.similar_levels import level1_jaccard, level2_dose, level3_fingerprint
@@ -365,6 +367,38 @@ def chat(req: ChatRequest, db: Session = Depends(get_db),
         return result
     except LLMUnavailableError as e:
         raise HTTPException(status_code=503, detail=str(e))
+
+
+# ---------- 圆桌四 Agent 核验（总纲支柱 4，信息不对称分工，SSE 事件流） ----------
+
+
+class RoundtableRequest(BaseModel):
+    product_name: str = Field(min_length=1, max_length=200)
+
+    @field_validator("product_name")
+    @classmethod
+    def _not_blank(cls, v: str) -> str:
+        v = v.strip()
+        if not v:
+            raise ValueError("product_name 不能为空")
+        return v
+
+
+@app.post("/api/roundtable")
+def roundtable(req: RoundtableRequest, db: Session = Depends(get_db),
+               gateway: LLMGateway = Depends(get_llm_gateway)):
+    """圆桌四 Agent 核验：成分专家 → 法规合规官 → 文献核验官 → 剂量推断师 → 五级裁决。
+
+    SSE 事件流（text/event-stream，逐事件 `data: {json}`，结束后 `data: [DONE]`）：
+    start（产品定位）→ 每角色 tool_call×n + speak → verdict（五级判定组合表，
+    附宣称/证据/剂量工具数据）。产品未找到或 LLM 不可达时流内 error 事件降级。
+    """
+    def _stream():
+        for ev in run_roundtable(db, gateway, req.product_name):
+            yield f"data: {json.dumps(ev, ensure_ascii=False)}\n\n"
+        yield "data: [DONE]\n\n"
+
+    return StreamingResponse(_stream(), media_type="text/event-stream")
 
 
 # 高保真首页原型（lab/hero-demo 构建产物）挂在 /lab
