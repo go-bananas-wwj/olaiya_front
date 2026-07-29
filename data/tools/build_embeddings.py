@@ -1,8 +1,9 @@
 """BGE-M3 嵌入 → Faiss 索引构建（向量层第一步）。
 
 编码对象（从 cfz.db 读）：
-- 产品成分表文本："产品名（品牌）的成分表：成分1、成分2、…"（每个产品一条，
-  成分按位次升序，NULL 位次排最后；无成分表的产品只编码名称+品牌）
+- 产品成分表文本："一款化妆品的成分表：成分1、成分2、…"（每个产品一条，
+  成分按位次升序，NULL 位次排最后；无成分表的产品只编码名称+品牌；
+  **不含产品名/品牌**——避免名称 token 主导嵌入导致 Top-K 全是同品牌）
 - 成分证据文本："成分中文名（INCI）：功效断言1（证据层级）；功效断言2…"
   （有断言的成分一条，相同 功效+层级 去重，层级为空落 unknown；无断言的只用名称+INCI）
 
@@ -60,7 +61,9 @@ def product_texts(db_path: str | Path) -> list[tuple[int, str]]:
     for pid, name, brand in products:
         names = by_product.get(pid)
         if names:
-            out.append((pid, f"{name}（{brand}）的成分表：{'、'.join(names)}"))
+            # 只编码成分表，不含产品名/品牌——否则名称 token 主导嵌入，
+            # Top-K 必为同品牌（成分重叠为 0 也相似），真平替需要跨品牌信号
+            out.append((pid, f"一款化妆品的成分表：{'、'.join(names)}"))
         else:
             out.append((pid, f"{name}（{brand}）"))
     return out

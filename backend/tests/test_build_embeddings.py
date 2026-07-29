@@ -57,7 +57,7 @@ class _FakeEncoder:
 
 def test_product_texts(db_path):
     assert product_texts(db_path) == [
-        (1, "A精华（品牌A）的成分表：水、烟酰胺、抗坏血酸"),
+        (1, "一款化妆品的成分表：水、烟酰胺、抗坏血酸"),
         (2, "B精华（品牌B）"),  # 无成分表的产品只编码名称+品牌
     ]
 
