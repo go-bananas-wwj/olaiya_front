@@ -9,6 +9,7 @@ from pathlib import Path
 
 from fastapi import Depends, FastAPI, HTTPException, Query
 from fastapi.staticfiles import StaticFiles
+from pydantic import BaseModel, Field, field_validator
 from sqlalchemy import func, or_, select
 from sqlalchemy.orm import Session
 
@@ -17,6 +18,8 @@ from .models.evidence import Evidence
 from .models.ingredient import EfficacyAssertion, Ingredient
 from .models.product import Product, ProductClaim, ProductIngredient
 from .services.dosecheck import dose_verdicts
+from .services.llm_gateway import LLMGateway, LLMUnavailableError
+from .services.rag_qa import answer_question
 from .services.fingerprint import compute_fingerprint
 from .services.similar_levels import level1_jaccard, level2_dose, level3_fingerprint
 from .services.similarity import search_ingredients, search_products
@@ -320,6 +323,40 @@ def ingredient_similar(ingredient_id: int, k: int = Query(5, ge=1, le=50),
         for h in hits if h["ingredient_id"] in by_id
     ]
     return {"ingredient_id": ingredient_id, "similar": similar}
+
+
+# ---------- 成分问答（prompt RAG 基线，总纲模型层阶段 1） ----------
+
+
+class ChatRequest(BaseModel):
+    question: str = Field(min_length=1, max_length=2000)
+
+    @field_validator("question")
+    @classmethod
+    def _not_blank(cls, v: str) -> str:
+        v = v.strip()
+        if not v:
+            raise ValueError("question 不能为空")
+        return v
+
+
+def get_llm_gateway() -> LLMGateway:
+    """按环境变量构建 LLM 网关（默认 local 通道）；测试可覆盖注入假件。"""
+    return LLMGateway()
+
+
+@app.post("/api/chat")
+def chat(req: ChatRequest, db: Session = Depends(get_db),
+         gateway: LLMGateway = Depends(get_llm_gateway)):
+    """成分问答：确定性检索组装编号证据包 → LLM 按铁律引用 [n] 回答。
+
+    citations_used 为答案解析出的引用编号；hallucinated_citations 为证据包外
+    编号（如实报告，不删改答案）。LLM 通道不可达时 503 诚实降级。
+    """
+    try:
+        return answer_question(db, gateway, req.question)
+    except LLMUnavailableError as e:
+        raise HTTPException(status_code=503, detail=str(e))
 
 
 # 高保真首页原型（lab/hero-demo 构建产物）挂在 /lab
