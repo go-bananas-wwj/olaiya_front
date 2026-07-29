@@ -17,6 +17,7 @@ from .models.evidence import Evidence
 from .models.ingredient import EfficacyAssertion, Ingredient
 from .models.product import Product, ProductClaim, ProductIngredient
 from .services.dosecheck import dose_verdicts
+from .services.fingerprint import compute_fingerprint
 from .services.similarity import search_ingredients, search_products
 from .services.transdermal import get_transdermal_info
 
@@ -233,6 +234,22 @@ def product_concentration(product_id: int, db: Session = Depends(get_db)):
         return {"product_id": product_id, "inferred": False,
                 "reason": "无官方降序成分表，未推断"}
     return {"product_id": product_id, "inferred": True, "estimates": estimates}
+
+
+@app.get("/api/products/{product_id}/fingerprint")
+def product_fingerprint(product_id: int, db: Session = Depends(get_db)):
+    """功效指纹（总纲 I3）：功效空间稀疏向量，维度得分 = Σ(剂量因子 × 证据强度)。
+
+    分值为相对排序信号，非功效承诺；每维度的剂量口径见 detail[].dose_basis
+    （推断区间 / 未知剂量 / 无起效浓度基准 / 微量线 ppm 口径）。
+    coverage.dimensions 为非零维数。
+    """
+    p = db.get(Product, product_id)
+    if p is None:
+        raise HTTPException(status_code=404, detail="产品不存在")
+    result = compute_fingerprint(db, product_id)
+    result["coverage"]["dimensions"] = len(result["fingerprint"])
+    return {"product_id": product_id, **result}
 
 
 @app.get("/api/products/{product_id}/similar")

@@ -1,0 +1,117 @@
+"""功效指纹（总纲 I3）：产品在功效空间中的稀疏向量表示。
+
+每个功效维度的得分 = Σ_成分 (剂量因子 × 证据强度)；同一成分同一功效的
+多条断言只取贡献最大的一条（max，不重复累加，避免同源/弱证据刷分）。
+剂量因子表达「产品内估计剂量相对文献起效线的充足度」：推断区间充足 →
+趋近 1（封顶 1.5）；剂量未知 → 保守默认 0.5（诚实默认，不虚报也不抹杀）；
+微量段 ppm 级起效成分 → 1.0（存在即可能起效，与 dosecheck 的 trace_level
+同口径）。指纹分值为相对排序信号，非功效承诺；推断浓度本身是模型估计值。
+"""
+
+from __future__ import annotations
+
+from sqlalchemy.orm import Session
+
+from ..models.ingredient import EfficacyAssertion
+from ..models.product import ProductIngredient
+
+UNKNOWN_DOSE_FACTOR = 0.5  # 无推断浓度时的保守剂量因子（诚实默认）
+
+MAX_DOSE_FACTOR = 1.5  # 区间充足度上限：超过起效线最多按 1.5 倍计，防单成分刷分
+
+
+def dose_factor(*, conc_low: float | None, conc_high: float | None,
+                eff_low: float | None, is_trace: bool) -> tuple[float, str]:
+    """剂量因子与口径说明。优先级自上而下：
+
+    - eff_low 为 None（或 <= 0，非法值视同无基准）→ (1.0, "无起效浓度基准")：
+      无文献起效线可锚定，证据强度全额计入
+    - is_trace 且 eff_low < 0.1 → (1.0, "微量线 ppm 口径")：微量段成分而文献
+      起效线本身在微量区间（肽类等 ppm 级即起效），存在即可能起效；
+      与 dosecheck 的 trace_level 同口径，优先于推断区间分支
+    - 有推断区间 → (min(区间中点/eff_low, 1.5), "推断区间")：中点充足度，
+      cap 到 [0, 1.5]
+    - 无推断区间（position NULL，未做浓度推断）→ (UNKNOWN_DOSE_FACTOR, "未知剂量")
+    """
+    if eff_low is None or eff_low <= 0:
+        return 1.0, "无起效浓度基准"
+    if is_trace and eff_low < 0.1:
+        return 1.0, "微量线 ppm 口径"
+    if conc_low is None or conc_high is None:
+        return UNKNOWN_DOSE_FACTOR, "未知剂量"
+    midpoint = (conc_low + conc_high) / 2
+    ratio = midpoint / eff_low
+    return min(max(ratio, 0.0), MAX_DOSE_FACTOR), "推断区间"
+
+
+def compute_fingerprint(session: Session, product_id: int) -> dict:
+    """计算产品的功效指纹。
+
+    返回 {
+      fingerprint: {功效名: round(score, 4)},   # 仅非零维度，按得分降序
+      coverage: {"ingredients_total": int, "ingredients_with_assertion": int,
+                 "inferred_dose": int, "unknown_dose": int},  # 成分级剂量覆盖，
+                 # inferred_dose + unknown_dose == ingredients_total
+      detail: [{ingredient_id, inci_name, efficacy, dose_factor, dose_basis,
+                evidence_strength, contribution}]  # 逐断言贡献明细（含被 max 丢弃的）
+    }
+    evidence_strength 为 NULL（未评级）的断言 contribution 按 0 计，不进指纹维度，
+    但仍在 detail 中如实列出。
+    """
+    links = (
+        session.query(ProductIngredient)
+        .filter_by(product_id=product_id)
+        .order_by(ProductIngredient.id)
+        .all()
+    )
+    scores: dict[str, float] = {}
+    detail: list[dict] = []
+    with_assertion = 0
+    inferred = 0
+    for link in links:
+        if link.conc_low is not None:
+            inferred += 1
+        ing = link.ingredient
+        assertions = (
+            session.query(EfficacyAssertion)
+            .filter_by(ingredient_id=ing.id)
+            .order_by(EfficacyAssertion.id)
+            .all()
+        )
+        if assertions:
+            with_assertion += 1
+        best: dict[str, float] = {}  # 同成分同功效取 max contribution
+        for a in assertions:
+            factor, basis = dose_factor(
+                conc_low=link.conc_low, conc_high=link.conc_high,
+                eff_low=a.effective_conc_low, is_trace=link.is_trace,
+            )
+            contribution = round(factor * (a.evidence_strength or 0.0), 4)
+            detail.append({
+                "ingredient_id": ing.id,
+                "inci_name": ing.inci_name,
+                "efficacy": a.efficacy,
+                "dose_factor": round(factor, 4),
+                "dose_basis": basis,
+                "evidence_strength": a.evidence_strength,
+                "contribution": contribution,
+            })
+            if contribution > best.get(a.efficacy, 0.0):
+                best[a.efficacy] = contribution
+        for efficacy, contrib in best.items():
+            scores[efficacy] = scores.get(efficacy, 0.0) + contrib
+    fingerprint = {
+        efficacy: round(score, 4)
+        for efficacy, score in sorted(scores.items(), key=lambda kv: (-kv[1], kv[0]))
+        if score > 0
+    }
+    return {
+        "fingerprint": fingerprint,
+        "coverage": {
+            "ingredients_total": len(links),
+            "ingredients_with_assertion": with_assertion,
+            "inferred_dose": inferred,
+            "unknown_dose": len(links) - inferred,
+        },
+        "detail": detail,
+    }
