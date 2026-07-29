@@ -61,3 +61,15 @@
 body {
   @apply bg-bg text-ink leading-relaxed;
 }
+
+/* 事件卡入场动画（圆桌讨论流等逐条出现的场景） */
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
