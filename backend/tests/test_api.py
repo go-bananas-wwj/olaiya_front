@@ -266,7 +266,7 @@ def test_ingredient_detail_transdermal_structure(client):
     assert t["verdict"] == "hard"
     assert t["mw"] == pytest.approx(122.12)
     assert t["xlogp"] == pytest.approx(-0.4)
-    assert t["logkp"] == pytest.approx(-3.728932, abs=1e-4)
+    assert t["logkp"] == pytest.approx(-3.7289, abs=1e-6)
     assert t["reason"]
     assert "估计" in t["reason"]
     assert t["disclaimer"] == "理化模型估计，未考虑递送系统与配方基质"
@@ -278,7 +278,7 @@ def test_ingredient_detail_transdermal_easy(client):
     assert items, "种子里必须有苯氧乙醇"
     t = client.get(f"/api/ingredients/{items[0]['id']}").json()["transdermal"]
     assert t["verdict"] == "easy"
-    assert t["logkp"] == pytest.approx(-2.690776, abs=1e-4)
+    assert t["logkp"] == pytest.approx(-2.6908, abs=1e-6)
     assert "估计" in t["reason"]
 
 

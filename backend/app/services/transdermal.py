@@ -117,7 +117,7 @@ def _verdict_reason(verdict: TransdermalVerdict, *, mw, xlogp, ionic_hit) -> str
 
 
 def get_transdermal_info(inci_name: str, cid_map: dict) -> dict:
-    """查成分透皮信息：{verdict, mw, xlogp, logkp(可算则给), reason}。
+    """查成分透皮信息：{verdict, mw, xlogp, logkp(可算则给), reason, disclaimer}。
 
     混合物/无单一 CID 的判定优先于盐名规则（如 SODIUM ACETYLATED
     HYALURONATE 属聚合物，先按 cid_map 的 no_single_cid/not_found 旁路）。
