@@ -21,6 +21,7 @@ from app.db import SessionLocal, init_db
 from app.models.evidence import Evidence, EvidenceType
 from app.models.ingredient import EfficacyAssertion, Ingredient
 from app.models.product import ProductIngredient
+from app.services.efficacy_canon import canonicalize
 from app.services.evidence_level import classify_evidence_level, default_strength
 
 PRIOR_FIELDS = ("iecic_max_leave_on", "iecic_max_rinse_off", "legal_cap",
@@ -99,7 +100,9 @@ def load_research(session: Session, data: dict) -> dict:
                     effective_conc_low=a.get("effective_conc_low"),
                     effective_conc_high=a.get("effective_conc_high"),
                     note=a.get("note"),
-                    evidence_level=level, evidence_strength=default_strength(level)))
+                    evidence_level=level, evidence_strength=default_strength(level),
+                    # 规范功效族：与 backfill_efficacy_canonical 同一套规则
+                    efficacy_canonical=canonicalize(a["efficacy"])))
                 stats["assertions"] += 1
     return stats
 

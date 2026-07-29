@@ -240,6 +240,8 @@ def product_concentration(product_id: int, db: Session = Depends(get_db)):
 def product_fingerprint(product_id: int, db: Session = Depends(get_db)):
     """功效指纹（总纲 I3）：功效空间稀疏向量，维度得分 = Σ(剂量因子 × 证据强度)。
 
+    维度为规范功效族（efficacy_canonical）；法规类与防腐功效族断言不计分，
+    仅在 detail 中标注 excluded/exclude_reason（coverage.excluded_count 计数）。
     分值为相对排序信号，非功效承诺；每维度的剂量口径见 detail[].dose_basis
     （推断区间 / 未知剂量 / 无起效浓度基准 / 微量线 ppm 口径）。
     coverage.dimensions 为非零维数。

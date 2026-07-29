@@ -37,6 +37,9 @@ class EfficacyAssertion(Base):
     # 在加载器新建断言与 data/tools/backfill_evidence_level.py 回填时填充 ——
     evidence_level: Mapped[str | None] = mapped_column(String(30), nullable=True)    # human_rct/oral/.../unknown
     evidence_strength: Mapped[float | None] = mapped_column(Float, nullable=True)    # 0-1，层级默认分
+    # —— 规范功效族（总纲 I3）：由 app.services.efficacy_canon 的规则在 evidence_loader
+    # 新建断言与 data/tools/backfill_efficacy_canonical.py 回填时填充；指纹按此列聚合 ——
+    efficacy_canonical: Mapped[str | None] = mapped_column(String(50), nullable=True)  # 美白/抗皱/.../其他
 
     ingredient = relationship("Ingredient")
     evidence = relationship("Evidence")

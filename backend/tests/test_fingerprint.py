@@ -117,7 +117,122 @@ def test_compute_fingerprint_coverage(session):
     p = _toy_product(session)
     cov = compute_fingerprint(session, p.id)["coverage"]
     assert cov == {"ingredients_total": 3, "ingredients_with_assertion": 2,
-                   "inferred_dose": 1, "unknown_dose": 2}
+                   "inferred_dose": 1, "unknown_dose": 2, "excluded_count": 0}
+
+
+def _preservative_product(session):
+    """含苯氧乙醇的产品：法规类防腐断言（0.9 高分）+ 一条普通保湿断言作对照。
+
+    防腐断言证据为法规（evidence_level=regulation），命中两条排除规则，
+    不得进入指纹维度与 coverage 计分，但 detail 须如实标注。
+    """
+    reg_ev = Evidence(type=EvidenceType.REGULATION, title="准用防腐剂清单", source="规范", year=2015)
+    paper_ev = Evidence(type=EvidenceType.PAPER, title="保湿文献", source="玩具期刊", year=2021)
+    pe = Ingredient(inci_name="PHENOXYETHANOL", cn_name="苯氧乙醇")
+    ha = Ingredient(inci_name="TOY-HA", cn_name="玩具保湿成分")
+    p = Product(name="防腐玩具精华", brand="玩具牌")
+    session.add_all([reg_ev, paper_ev, pe, ha, p])
+    session.flush()
+    session.add_all([
+        EfficacyAssertion(ingredient_id=pe.id, efficacy="防腐（准用防腐剂）", evidence_id=reg_ev.id,
+                          evidence_level="regulation", evidence_strength=0.9),
+        EfficacyAssertion(ingredient_id=ha.id, efficacy="保湿", evidence_id=paper_ev.id,
+                          evidence_level="in_vitro", evidence_strength=0.5),
+        ProductIngredient(product_id=p.id, ingredient_id=pe.id, position=1),
+        ProductIngredient(product_id=p.id, ingredient_id=ha.id, position=2),
+    ])
+    session.commit()
+    return p
+
+
+def test_fingerprint_excludes_preservative_dimension(session):
+    """含苯氧乙醇的产品：指纹无「防腐」维，保湿维正常计分（eff_low None → 因子 1.0）。"""
+    p = _preservative_product(session)
+    result = compute_fingerprint(session, p.id)
+    assert "防腐" not in result["fingerprint"]
+    assert result["fingerprint"] == {"保湿": 0.5}
+
+
+def test_fingerprint_excluded_detail_marked(session):
+    """被排除条目仍在 detail：excluded=true + exclude_reason；未排除条目不带 reason。"""
+    p = _preservative_product(session)
+    result = compute_fingerprint(session, p.id)
+    excluded = [d for d in result["detail"] if d.get("excluded")]
+    assert len(excluded) == 1
+    row = excluded[0]
+    assert row["inci_name"] == "PHENOXYETHANOL"
+    assert row["efficacy"] == "防腐（准用防腐剂）"
+    assert row["exclude_reason"]
+    included = [d for d in result["detail"] if not d.get("excluded")]
+    assert len(included) == 1
+    assert included[0]["efficacy"] == "保湿"
+    assert "exclude_reason" not in included[0]
+    assert result["coverage"]["excluded_count"] == 1
+
+
+def test_fingerprint_exclusion_two_branches(session):
+    """两条排除规则独立生效：
+
+    ① evidence_level=regulation 的非防腐断言（法规事实不是皮肤功效）；
+    ② 非 regulation 的防腐族断言（如体外证据的防腐增效，规则命中「防腐」族）。
+    """
+    reg_ev = Evidence(type=EvidenceType.REGULATION, title="限用清单", source="规范", year=2015)
+    paper_ev = Evidence(type=EvidenceType.PAPER, title="防腐协同文献", source="玩具期刊", year=2021)
+    x = Ingredient(inci_name="TOY-X", cn_name="玩具成分X")
+    y = Ingredient(inci_name="TOY-Y", cn_name="玩具成分Y")
+    p = Product(name="双排除玩具", brand="玩具牌")
+    session.add_all([reg_ev, paper_ev, x, y, p])
+    session.flush()
+    session.add_all([
+        EfficacyAssertion(ingredient_id=x.id, efficacy="美白", evidence_id=reg_ev.id,
+                          evidence_level="regulation", evidence_strength=0.9),
+        EfficacyAssertion(ingredient_id=y.id, efficacy="防腐增效（通过防腐挑战测试）",
+                          evidence_id=paper_ev.id,
+                          evidence_level="in_vitro", evidence_strength=0.5),
+        ProductIngredient(product_id=p.id, ingredient_id=x.id, position=1),
+        ProductIngredient(product_id=p.id, ingredient_id=y.id, position=2),
+    ])
+    session.commit()
+    result = compute_fingerprint(session, p.id)
+    assert result["fingerprint"] == {}
+    assert result["coverage"]["excluded_count"] == 2
+    reasons = {d["efficacy"]: d["exclude_reason"] for d in result["detail"]}
+    assert "法规" in reasons["美白"]
+    assert "防腐" in reasons["防腐增效（通过防腐挑战测试）"]
+
+
+def test_fingerprint_aggregates_by_canonical(session):
+    """不同原文、同 canonical 的断言合为一维；同成分同 canonical 取 max；detail 保留原文。
+
+    - A 两条美白族断言（原文不同）：0.8 与 0.5 → 同成分同 canonical 取 max = 0.8
+      （第一条显式写 efficacy_canonical 走列路径，第二条留 NULL 走实时映射路径）
+    - B 一条「美白提亮…」：0.6 → 与 A 聚合为同一「美白」维
+    指纹：美白 = 0.8 + 0.6 = 1.4
+    """
+    ev = Evidence(type=EvidenceType.PAPER, title="美白文献", source="玩具期刊", year=2020)
+    a = Ingredient(inci_name="TOY-NIA", cn_name="玩具烟酰胺")
+    b = Ingredient(inci_name="TOY-AA", cn_name="玩具熊果苷")
+    p = Product(name="聚合玩具精华", brand="玩具牌")
+    session.add_all([ev, a, b, p])
+    session.flush()
+    session.add_all([
+        EfficacyAssertion(ingredient_id=a.id, efficacy="美白（抑制黑素小体转运）",
+                          evidence_id=ev.id, evidence_strength=0.8,
+                          efficacy_canonical="美白"),
+        EfficacyAssertion(ingredient_id=a.id, efficacy="美白淡斑（黄褐斑）",
+                          evidence_id=ev.id, evidence_strength=0.5),
+        EfficacyAssertion(ingredient_id=b.id, efficacy="美白提亮（降低黑色素指数）并改善皮肤状态",
+                          evidence_id=ev.id, evidence_strength=0.6),
+        ProductIngredient(product_id=p.id, ingredient_id=a.id, position=1),
+        ProductIngredient(product_id=p.id, ingredient_id=b.id, position=2),
+    ])
+    session.commit()
+    result = compute_fingerprint(session, p.id)
+    assert result["fingerprint"] == {"美白": 1.4}
+    raw = {d["efficacy"] for d in result["detail"]}
+    assert raw == {"美白（抑制黑素小体转运）", "美白淡斑（黄褐斑）",
+                   "美白提亮（降低黑色素指数）并改善皮肤状态"}
+    assert all(d["efficacy_canonical"] == "美白" for d in result["detail"])
 
 
 @pytest.fixture()

@@ -46,7 +46,7 @@ web/                前端构建产物（进 git）
 2. paper 类证据入库前必须过机器核验（`data/tools/verify_evidence.py`，PMID→NCBI 标题比对）
 3. 推断浓度是估计值，输出与展示必须带「估计」语义；无官方降序成分表的产品不做浓度推断，不伪造位次
 4. 不爬取天猫/京东/美丽修行等明确禁止的平台；采集礼貌延时（≥4s/页），触发限流立即熔断冷却
-5. 弱证据（口服/动物/体外/复方）必须在 note 字段如实标注；断言另有结构化列 `evidence_level`/`evidence_strength`（规则集中在 `app/services/evidence_level.py`，回填用 `data/tools/backfill_evidence_level.py`），拿不准一律落 `unknown`，禁止猜测
+5. 弱证据（口服/动物/体外/复方）必须在 note 字段如实标注；断言另有结构化列 `evidence_level`/`evidence_strength`（规则集中在 `app/services/evidence_level.py`，回填用 `data/tools/backfill_evidence_level.py`），拿不准一律落 `unknown`，禁止猜测；规范功效族列 `efficacy_canonical`（规则在 `app/services/efficacy_canon.py`，回填用 `data/tools/backfill_efficacy_canonical.py`），功效指纹按规范族聚合并排除法规/防腐族断言
 
 ## Git 约定
 

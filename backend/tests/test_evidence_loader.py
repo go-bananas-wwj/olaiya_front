@@ -57,6 +57,8 @@ def test_merge_cn_stub_into_canonical(session):
     a = session.query(EfficacyAssertion).filter_by(ingredient_id=canonical.id).one()
     assert a.evidence.url.endswith("12100180/")
     assert a.effective_conc_low == 2.0
+    # 新建断言自动填充规范功效族（与回填同一套规则）
+    assert a.efficacy_canonical == "美白"
 
 
 def test_load_research_idempotent(session):
