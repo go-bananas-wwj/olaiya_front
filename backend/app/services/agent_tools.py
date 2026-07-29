@@ -24,6 +24,7 @@ from sqlalchemy.orm import Session
 
 from ..models.ingredient import EfficacyAssertion, Ingredient
 from ..models.product import Product, ProductClaim, ProductIngredient
+from .aliases import alias_exact, aliases_in_text
 from .dosecheck import dose_verdicts
 from .similar_levels import level1_jaccard, level2_dose, level3_fingerprint
 from .transdermal import get_transdermal_info
@@ -49,11 +50,32 @@ def _match_rank(name: str, q: str) -> tuple[int, int]:
     return (2, len(name))
 
 
+def _resolve_inci(session: Session, inci: str) -> Ingredient | None:
+    """按 INCI 精确（大小写无关）→ 前缀解析成分；未登记返回 None（不建 stub）。"""
+    ing = session.execute(
+        select(Ingredient).where(func.upper(Ingredient.inci_name) == inci)
+    ).scalars().first()
+    if ing is None:
+        ing = session.execute(
+            select(Ingredient).where(Ingredient.inci_name.like(f"{inci}%"))
+            .order_by(func.length(Ingredient.inci_name), Ingredient.id)
+        ).scalars().first()
+    return ing
+
+
 def _match_ingredient(session: Session, name: str) -> Ingredient | None:
-    """按中文名/INCI 模糊匹配唯一成分：精确（中文或 INCI 大小写无关）> 前缀 > 子串。"""
+    """按别名表 → 中文名/INCI 模糊匹配唯一成分：精确别名直达 INCI 优先。
+
+    精确别名（整词命中，如「VC」「377」）直接解析到登记成分；别名指向的 INCI
+    未登记时落回模糊匹配（精确（中文或 INCI 大小写无关）> 前缀 > 子串）。
+    """
     q = name.strip()
     if not q:
         return None
+    for inci in alias_exact(q) or ():
+        ing = _resolve_inci(session, inci)
+        if ing is not None:
+            return ing
     like = f"%{q}%"
     rows = session.execute(
         select(Ingredient).where(
@@ -74,7 +96,11 @@ def _match_ingredient(session: Session, name: str) -> Ingredient | None:
 # ---------- 工具 1：产品库（成分专家） ----------
 
 def tool_product_lookup(session: Session, product_name: str) -> dict:
-    """按名称模糊查产品，多候选按匹配度排序（精确 > 前缀 > 子串，同级短名优先）。"""
+    """按名称模糊查产品，多候选按匹配度排序（精确 > 前缀 > 子串，同级短名优先）。
+
+    名称无命中时落回成分别名索引：查询词含俗名/别名（VC、377、玻尿酸…）时，
+    经成分表查到含该成分的产品（matched_via=ingredient，并如实带出命中成分）。
+    """
     q = product_name.strip()
     if not q:
         return {"found": False, "products": [], "exact": False}
@@ -82,7 +108,29 @@ def tool_product_lookup(session: Session, product_name: str) -> dict:
         select(Product).where(Product.name.like(f"%{q}%"))
     ).scalars().all()
     rows.sort(key=lambda p: (*_match_rank(p.name, q), p.id))
-    ids = [p.id for p in rows]
+    # (product, matched_via, matched_ingredient|None)
+    hits: list[tuple[Product, str, Ingredient | None]] = [
+        (p, "name", None) for p in rows]
+    if not hits:  # 别名 → 成分 → 含该成分的产品（同一别名表，与用户语言一致）
+        seen_ing: set[int] = set()
+        seen_prod: set[int] = set()
+        for _alias, incis in aliases_in_text(q):
+            for inci in incis:
+                ing = _resolve_inci(session, inci)
+                if ing is None or ing.id in seen_ing:
+                    continue
+                seen_ing.add(ing.id)
+                prows = session.execute(
+                    select(Product)
+                    .join(ProductIngredient, ProductIngredient.product_id == Product.id)
+                    .where(ProductIngredient.ingredient_id == ing.id)
+                    .order_by(Product.id)
+                ).scalars().all()
+                for p in prows:
+                    if p.id not in seen_prod:
+                        seen_prod.add(p.id)
+                        hits.append((p, "ingredient", ing))
+    ids = [p.id for p, _, _ in hits]
     # 计数走分组批量查询，不逐产品单查
     claim_counts = dict(
         session.query(ProductClaim.product_id, func.count())
@@ -97,8 +145,11 @@ def tool_product_lookup(session: Session, product_name: str) -> dict:
     products = [
         {"id": p.id, "name": p.name, "brand": p.brand, "nmpa_id": p.nmpa_id,
          "claim_count": claim_counts.get(p.id, 0),
-         "ingredient_count": ingredient_counts.get(p.id, 0)}
-        for p in rows
+         "ingredient_count": ingredient_counts.get(p.id, 0),
+         "matched_via": via,
+         "matched_ingredient": ({"id": ing.id, "inci_name": ing.inci_name,
+                                 "cn_name": ing.cn_name} if ing else None)}
+        for p, via, ing in hits
     ]
     return {"found": bool(products), "products": products,
             "exact": bool(rows) and rows[0].name == q}
@@ -218,14 +269,14 @@ def _schema(properties: dict, required: list[str]) -> dict:
 
 
 _PRODUCT_ID = {"type": "integer", "description": "产品 id（由 product_lookup 获得）"}
-_INGREDIENT_NAME = {"type": "string", "description": "成分中文名或 INCI 名，支持模糊匹配"}
+_INGREDIENT_NAME = {"type": "string", "description": "成分中文名、INCI 名或俗名别名（VC/377 等），支持模糊匹配"}
 
 TOOLS: dict[str, dict] = {
     "product_lookup": {
         "fn": tool_product_lookup,
-        "description": "按名称模糊检索产品库，返回候选产品（id/名称/品牌/备案号/宣称数/成分数），多候选按匹配度排序",
+        "description": "按名称模糊检索产品库，返回候选产品（id/名称/品牌/备案号/宣称数/成分数），多候选按匹配度排序；名称无命中时支持成分俗名/别名（VC、377、玻尿酸等）检索含该成分的产品",
         "parameters": _schema(
-            {"product_name": {"type": "string", "description": "产品名称关键词，支持子串模糊匹配"}},
+            {"product_name": {"type": "string", "description": "产品名称关键词，支持子串模糊匹配与成分俗名/别名"}},
             ["product_name"]),
     },
     "product_claims": {
@@ -235,7 +286,7 @@ TOOLS: dict[str, dict] = {
     },
     "ingredient_evidence": {
         "fn": tool_ingredient_evidence,
-        "description": "按中文/INCI 名查询成分的功效断言及挂载证据（文献/专利/法规，含证据层级与强度），文献核验官的信息源",
+        "description": "按中文/INCI 名或俗名别名（VC、377、蓝铜胜肽等）查询成分的功效断言及挂载证据（文献/专利/法规，含证据层级与强度），文献核验官的信息源",
         "parameters": _schema({"ingredient_name": _INGREDIENT_NAME}, ["ingredient_name"]),
     },
     "dose_check": {

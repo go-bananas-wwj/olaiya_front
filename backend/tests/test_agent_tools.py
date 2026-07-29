@@ -63,6 +63,19 @@ def _seed(session):
     return {"nia": nia, "pan": pan, "p1": p1, "p2": p2, "p3": p3}
 
 
+def _seed_alias(session):
+    """别名测试镜像：抗坏血酸/生育酚/苯乙基间苯二酚 + 含抗坏血酸的产品「CE精华」。"""
+    aa = Ingredient(inci_name="ASCORBIC ACID", cn_name="抗坏血酸（维生素C）")
+    toco = Ingredient(inci_name="TOCOPHEROL", cn_name="生育酚（维生素E）")
+    per = Ingredient(inci_name="PHENYLETHYL RESORCINOL", cn_name="苯乙基间苯二酚（377）")
+    p = Product(name="CE精华", brand="乙牌")
+    session.add_all([aa, toco, per, p])
+    session.flush()
+    session.add(ProductIngredient(product_id=p.id, ingredient_id=aa.id, position=3))
+    session.commit()
+    return {"aa": aa, "toco": toco, "per": per, "p": p}
+
+
 # ---------- tool_product_lookup ----------
 
 class TestProductLookup:
@@ -97,6 +110,23 @@ class TestProductLookup:
     def test_empty_query(self, session):
         r = tool_product_lookup(session, "  ")
         assert r["found"] is False and r["products"] == []
+
+    def test_ingredient_alias_lookup(self, session):
+        """名称无命中时经成分别名索引：「VC」找到含抗坏血酸的产品（同一用户语言）。"""
+        _seed_alias(session)
+        r = tool_product_lookup(session, "VC")
+        assert r["found"] is True and r["exact"] is False
+        assert [p["name"] for p in r["products"]] == ["CE精华"]
+        top = r["products"][0]
+        assert top["matched_via"] == "ingredient"
+        assert top["matched_ingredient"]["inci_name"] == "ASCORBIC ACID"
+
+    def test_name_hits_not_polluted_by_alias(self, session):
+        """名称有命中时不追加成分索引候选（exact 语义不变）。"""
+        d = _seed(session)
+        r = tool_product_lookup(session, "玻尿酸精华")
+        assert [p["id"] for p in r["products"]] == [d["p1"].id, d["p2"].id]
+        assert all(p["matched_via"] == "name" for p in r["products"])
 
 
 # ---------- tool_product_claims ----------
@@ -166,6 +196,25 @@ class TestIngredientEvidence:
         r = tool_ingredient_evidence(session, "查无此成分")
         assert r["found"] is False and r["ingredient"] is None and r["assertions"] == []
         assert "查无此成分" in r["note"]
+
+    def test_alias_vc_hits_ascorbic_not_tocopherol(self, session):
+        """别名直达：VC → 抗坏血酸（非生育酚）。"""
+        _seed_alias(session)
+        r = tool_ingredient_evidence(session, "VC")
+        assert r["found"] is True and r["ingredient"]["inci_name"] == "ASCORBIC ACID"
+
+    def test_alias_377_hits_phenylethyl_resorcinol(self, session):
+        _seed_alias(session)
+        r = tool_ingredient_evidence(session, "377")
+        assert r["found"] is True and r["ingredient"]["cn_name"] == "苯乙基间苯二酚（377）"
+
+    def test_alias_unregistered_inci_falls_back_to_fuzzy(self, session):
+        """别名指向的 INCI 未登记时落回模糊匹配（如「…（377）」命名的 stub 成分）。"""
+        stub = Ingredient(inci_name="苯乙基间苯二酚（377）", cn_name="苯乙基间苯二酚（377）")
+        session.add(stub)
+        session.commit()
+        r = tool_ingredient_evidence(session, "377")
+        assert r["found"] is True and r["ingredient"]["id"] == stub.id
 
 
 # ---------- tool_dose_check ----------

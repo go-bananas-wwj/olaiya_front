@@ -66,6 +66,27 @@ def _seed_toy(session):
     return {"nia": nia, "pan": pan, "p": p}
 
 
+def _seed_alias_toy(session):
+    """镜像真实库命名的别名数据：VC/377/维A/蓝铜胜肽各有 1 断言，另设生育酚（维生素E）防误命中。"""
+    aa = Ingredient(inci_name="ASCORBIC ACID", cn_name="抗坏血酸（维生素C）")
+    toco = Ingredient(inci_name="TOCOPHEROL", cn_name="生育酚（维生素E）")
+    per = Ingredient(inci_name="PHENYLETHYL RESORCINOL", cn_name="苯乙基间苯二酚（377）")
+    ret = Ingredient(inci_name="RETINOL", cn_name="视黄醇")
+    ghk = Ingredient(inci_name="COPPER TRIPEPTIDE-1", cn_name="铜三肽-1")
+    ings = {"aa": aa, "toco": toco, "per": per, "ret": ret, "ghk": ghk}
+    session.add_all(ings.values())
+    session.flush()
+    for n, ing in enumerate(ings.values(), start=1):
+        ev = Evidence(type=EvidenceType.PAPER, title=f"{ing.cn_name}研究", source="测试期刊",
+                      year=2020, url=f"https://example.org/a{n}")
+        session.add(ev)
+        session.flush()
+        session.add(EfficacyAssertion(ingredient_id=ing.id, efficacy="美白", evidence_id=ev.id,
+                                      effective_conc_low=1.0, effective_conc_high=2.0))
+    session.commit()
+    return ings
+
+
 # ---------- SYSTEM_PROMPT ----------
 
 def test_system_prompt_pins_citation_rules():
@@ -139,6 +160,73 @@ class TestBuildEvidencePack:
         _seed_toy(session)
         pack = build_evidence_pack(session, "烟酰胺精华里的烟酰胺有用吗")
         assert json.loads(json.dumps(pack, ensure_ascii=False)) == pack
+
+
+# ---------- 别名召回（04a 审查修复） ----------
+
+class TestAliasRecall:
+    """俗名/代号经别名表直达 INCI；别名命中优先于子串命中与分词兜底。"""
+
+    def test_vc_hits_ascorbic_acid(self, session):
+        _seed_alias_toy(session)
+        pack = build_evidence_pack(session, "VC真的能美白吗？")
+        assert pack["ingredients_hit"][0]["inci_name"] == "ASCORBIC ACID"
+        assert pack["items"] and "抗坏血酸" in pack["items"][0]["text"]
+
+    def test_vitamin_c_hits_ascorbic_not_tocopherol(self, session):
+        """「维生素C」必须命中抗坏血酸而非生育酚（别名优先，防长名/分词截胡）。"""
+        _seed_alias_toy(session)
+        pack = build_evidence_pack(session, "维生素C真的能美白吗？")
+        assert pack["ingredients_hit"][0]["inci_name"] == "ASCORBIC ACID"
+        assert all(i["inci_name"] != "TOCOPHEROL" for i in pack["ingredients_hit"])
+        assert "抗坏血酸" in pack["items"][0]["text"]
+        assert all("生育酚" not in it["text"] for it in pack["items"])
+
+    def test_377_hits_phenylethyl_resorcinol(self, session):
+        _seed_alias_toy(session)
+        pack = build_evidence_pack(session, "377能美白吗？")
+        assert pack["ingredients_hit"][0]["inci_name"] == "PHENYLETHYL RESORCINOL"
+        assert pack["items"] and "苯乙基间苯二酚" in pack["items"][0]["text"]
+
+    def test_retinol_aliases(self, session):
+        _seed_alias_toy(session)
+        for q in ("维A真的能抗老吗？", "A醇真的能抗老吗？"):
+            pack = build_evidence_pack(session, q)
+            assert pack["ingredients_hit"][0]["inci_name"] == "RETINOL", q
+            assert pack["items"], q
+
+    def test_blue_copper_peptide_hits_copper_tripeptide(self, session):
+        _seed_alias_toy(session)
+        pack = build_evidence_pack(session, "蓝铜胜肽修护有用吗")
+        assert pack["ingredients_hit"][0]["inci_name"] == "COPPER TRIPEPTIDE-1"
+        assert pack["items"] and "铜三肽-1" in pack["items"][0]["text"]
+
+    def test_plain_name_matching_not_regressed(self, session):
+        """原匹配行为不回归：烟酰胺中文子串、NIACINAMIDE 英文照常命中。"""
+        _seed_toy(session)
+        pack = build_evidence_pack(session, "烟酰胺真的能美白吗")
+        assert pack["ingredients_hit"][0]["cn_name"] == "烟酰胺"
+        assert "美白" in pack["items"][0]["text"]
+        pack = build_evidence_pack(session, "NIACINAMIDE 有用吗")
+        assert pack["ingredients_hit"][0]["inci_name"] == "NIACINAMIDE"
+
+
+# ---------- 退化区间显示 ----------
+
+def test_degenerate_interval_shows_single_value(session):
+    """low==high 退化区间输出单值「起效浓度 5%」，不输出「5-5%」。"""
+    ing = Ingredient(inci_name="DUMMY ACID", cn_name="仿真酸")
+    ev = Evidence(type=EvidenceType.PAPER, title="退化区间研究", source="测试期刊",
+                  year=2021, url="https://example.org/d1")
+    session.add_all([ing, ev])
+    session.flush()
+    session.add(EfficacyAssertion(ingredient_id=ing.id, efficacy="保湿", evidence_id=ev.id,
+                                  effective_conc_low=5.0, effective_conc_high=5.0))
+    session.commit()
+    pack = build_evidence_pack(session, "仿真酸有用吗")
+    text = pack["items"][0]["text"]
+    assert "起效浓度 5%" in text
+    assert "5-5" not in text
 
 
 # ---------- answer_question ----------

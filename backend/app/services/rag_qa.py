@@ -1,7 +1,8 @@
 """prompt RAG 基线（总纲模型层阶段 1）：「成分问答」的证据包组装与引用校验。
 
-检索为确定性逻辑（LLM 无关）：成分中文/INCI 名与产品名子串命中问题（复用
-agent_tools 的模糊匹配做兜底），命中成分取其全部断言（含证据标题/期刊/年份/
+检索为确定性逻辑（LLM 无关）：先查成分别名表（俗名/代号直达 INCI，与
+agent_tools 同一张表），再做成分中文/INCI 名子串命中，最后按问题分词走
+agent_tools 的模糊匹配兜底；命中成分取其全部断言（含证据标题/期刊/年份/
 PMID URL/起效浓度），命中产品取其 NMPA 宣称摘要，组装为编号连续的证据包。
 
 LLM 只根据证据包回答并按 [n] 引用（SYSTEM_PROMPT 铁律）；答案解析出的引用编号
@@ -18,7 +19,8 @@ from sqlalchemy.orm import Session
 
 from ..models.ingredient import EfficacyAssertion, Ingredient
 from ..models.product import Product
-from .agent_tools import _match_ingredient, tool_product_claims
+from .agent_tools import _match_ingredient, _resolve_inci, tool_product_claims
+from .aliases import aliases_in_text
 from .llm_gateway import LLMGateway
 
 SYSTEM_PROMPT = """你是「成分真言」的化妆品成分核验助手。铁律：
@@ -34,8 +36,8 @@ _MAX_PRODUCT_HITS = 3
 _MIN_NAME_LEN = 2
 
 _CITATION_RE = re.compile(r"\[(\d{1,3})\]")
-# 兜底分词：英文/数字/连字符段 或 连续中文段
-_TOKEN_RE = re.compile(r"[A-Za-z][A-Za-z0-9\-]{2,}|[一-鿿]{2,8}")
+# 兜底分词：拉丁/数字/连字符段（≥2 字符，数字开头如 377 合法）或连续中文段
+_TOKEN_RE = re.compile(r"[A-Za-z0-9][A-Za-z0-9\-]{1,}|[一-鿿]{2,8}")
 
 
 def _fmt_num(v: float) -> str:
@@ -45,31 +47,49 @@ def _fmt_num(v: float) -> str:
 # ---------- 确定性检索：名字命中问题 ----------
 
 def _ingredient_hits(session: Session, question: str) -> list[Ingredient]:
-    """成分中文名/INCI 名（大小写无关）作为子串出现在问题中的成分，长名优先。
+    """别名表直达 → 成分名子串 → 分词模糊兜底；别名命中优先于子串命中。
 
-    扫描无命中时按问题分词走 agent_tools 的模糊匹配兜底（token 在成分名内）。
+    别名（VC/377/维生素C…）按「长别名优先、同长先出现优先」解析到登记成分；
+    子串扫描保持「长名优先、同级 id 小优先」；两段共用一个去重序列，凑满
+    _MAX_INGREDIENT_HITS 即止。前两段均无命中时才按问题分词走 agent_tools
+    模糊匹配兜底（token ⊆ 成分名）。
     """
-    q_upper = question.upper()
-    rows = session.execute(
-        select(Ingredient.id, Ingredient.cn_name, Ingredient.inci_name)).all()
-    scored: list[tuple[int, int]] = []  # (命中名长度, id)
-    for iid, cn_name, inci_name in rows:
-        matched = 0
-        if cn_name and len(cn_name) >= _MIN_NAME_LEN and cn_name in question:
-            matched = max(matched, len(cn_name))
-        if inci_name and len(inci_name) >= _MIN_NAME_LEN and inci_name.upper() in q_upper:
-            matched = max(matched, len(inci_name))
-        if matched:
-            scored.append((matched, iid))
-    scored.sort(key=lambda t: (-t[0], t[1]))  # 更具体的命中（长名）优先，同级 id 小优先
-    ids = [iid for _, iid in scored[:_MAX_INGREDIENT_HITS]]
-    if not ids:  # 兜底：分词后复用 agent_tools 模糊匹配（token ⊆ 成分名）
+    ids: list[int] = []
+
+    def _add(iid: int) -> None:
+        if iid not in ids and len(ids) < _MAX_INGREDIENT_HITS:
+            ids.append(iid)
+
+    # 1) 别名表：命中直达 INCI（防「维生素C」被「生育酚（维生素E）」类长名截胡）
+    for _alias, incis in aliases_in_text(question):
+        for inci in incis:
+            ing = _resolve_inci(session, inci)
+            if ing is not None:
+                _add(ing.id)
+
+    # 2) 成分中文名/INCI 名（大小写无关）作为子串出现在问题中的成分，长名优先
+    if len(ids) < _MAX_INGREDIENT_HITS:
+        q_upper = question.upper()
+        rows = session.execute(
+            select(Ingredient.id, Ingredient.cn_name, Ingredient.inci_name)).all()
+        scored: list[tuple[int, int]] = []  # (命中名长度, id)
+        for iid, cn_name, inci_name in rows:
+            matched = 0
+            if cn_name and len(cn_name) >= _MIN_NAME_LEN and cn_name in question:
+                matched = max(matched, len(cn_name))
+            if inci_name and len(inci_name) >= _MIN_NAME_LEN and inci_name.upper() in q_upper:
+                matched = max(matched, len(inci_name))
+            if matched:
+                scored.append((matched, iid))
+        scored.sort(key=lambda t: (-t[0], t[1]))  # 更具体的命中（长名）优先，同级 id 小优先
+        for _, iid in scored:
+            _add(iid)
+
+    if not ids:  # 3) 兜底：分词后复用 agent_tools 模糊匹配（token ⊆ 成分名）
         for tok in _TOKEN_RE.findall(question):
             ing = _match_ingredient(session, tok)
-            if ing is not None and ing.id not in ids:
-                ids.append(ing.id)
-            if len(ids) >= _MAX_INGREDIENT_HITS:
-                break
+            if ing is not None:
+                _add(ing.id)
     return [session.get(Ingredient, iid) for iid in ids]
 
 
@@ -98,8 +118,12 @@ def _assertion_text(ing: Ingredient, a: EfficacyAssertion) -> str:
     ev = a.evidence
     parts = [f"{ing.cn_name}（{ing.inci_name}）：{a.efficacy}"]
     if a.effective_conc_low is not None and a.effective_conc_high is not None:
-        parts.append(f"起效浓度 {_fmt_num(a.effective_conc_low)}-{_fmt_num(a.effective_conc_high)}%"
-                     "（文献值，非产品中浓度）")
+        if a.effective_conc_low == a.effective_conc_high:  # 退化区间显示单值
+            parts.append(f"起效浓度 {_fmt_num(a.effective_conc_low)}%"
+                         "（文献值，非产品中浓度）")
+        else:
+            parts.append(f"起效浓度 {_fmt_num(a.effective_conc_low)}-{_fmt_num(a.effective_conc_high)}%"
+                         "（文献值，非产品中浓度）")
     elif a.effective_conc_low is not None:
         parts.append(f"起效浓度 ≥{_fmt_num(a.effective_conc_low)}%（文献值，非产品中浓度）")
     if a.evidence_level:
