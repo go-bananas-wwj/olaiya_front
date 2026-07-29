@@ -306,7 +306,7 @@ class TestChatApi:
     def test_structure_and_citations(self, client):
         gw = _FakeGateway("烟酰胺美白有文献支撑[1]，浓度为估计值。[9]")
         _override_gateway(gw)
-        r = client.post("/api/chat", json={"question": "烟酰胺真的能美白吗？"})
+        r = client.post("/api/chat", json={"question": "烟酰胺真的能美白吗？", "verify": False})
         assert r.status_code == 200
         body = r.json()
         assert set(body) == {"answer", "evidence_pack", "citations_used",

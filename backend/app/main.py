@@ -20,6 +20,7 @@ from .models.product import Product, ProductClaim, ProductIngredient
 from .services.dosecheck import dose_verdicts
 from .services.llm_gateway import LLMGateway, LLMUnavailableError
 from .services.rag_qa import answer_question
+from .services.verify_loop import verify_answer
 from .services.fingerprint import compute_fingerprint
 from .services.similar_levels import level1_jaccard, level2_dose, level3_fingerprint
 from .services.similarity import search_ingredients, search_products
@@ -330,6 +331,7 @@ def ingredient_similar(ingredient_id: int, k: int = Query(5, ge=1, le=50),
 
 class ChatRequest(BaseModel):
     question: str = Field(min_length=1, max_length=2000)
+    verify: bool = True
 
     @field_validator("question")
     @classmethod
@@ -351,10 +353,16 @@ def chat(req: ChatRequest, db: Session = Depends(get_db),
     """成分问答：确定性检索组装编号证据包 → LLM 按铁律引用 [n] 回答。
 
     citations_used 为答案解析出的引用编号；hallucinated_citations 为证据包外
-    编号（如实报告，不删改答案）。LLM 通道不可达时 503 诚实降级。
+    编号（如实报告，不删改答案）。verify=true（默认）时再跑生成者-验证者
+    校验循环（RARR ≤2 轮），响应增加 verification 字段（final_answer/
+    verification/rewritten/rounds），answer 字段保留原逻辑产物不删改。
+    LLM 通道不可达时 503 诚实降级。
     """
     try:
-        return answer_question(db, gateway, req.question)
+        result = answer_question(db, gateway, req.question)
+        if req.verify:
+            result["verification"] = verify_answer(db, gateway, req.question, result)
+        return result
     except LLMUnavailableError as e:
         raise HTTPException(status_code=503, detail=str(e))
 
