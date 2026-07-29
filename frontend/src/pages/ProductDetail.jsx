@@ -3,6 +3,7 @@ import { api } from '../api'
 import { useFetch, Loading, LoadError } from '../components/common'
 import ClaimCard from '../components/ClaimCard'
 import ConcentrationPanel from '../components/ConcentrationPanel'
+import SimilarLevels from '../components/SimilarLevels'
 
 export default function ProductDetail() {
   const { id } = useParams()
@@ -116,6 +117,8 @@ export default function ProductDetail() {
           </table>
         </div>
       </div>
+
+      <SimilarLevels productId={id} />
     </div>
   )
 }

@@ -18,6 +18,7 @@ from .models.ingredient import EfficacyAssertion, Ingredient
 from .models.product import Product, ProductClaim, ProductIngredient
 from .services.dosecheck import dose_verdicts
 from .services.fingerprint import compute_fingerprint
+from .services.similar_levels import level1_jaccard, level2_dose, level3_fingerprint
 from .services.similarity import search_ingredients, search_products
 from .services.transdermal import get_transdermal_info
 
@@ -275,6 +276,29 @@ def product_similar(product_id: int, k: int = Query(5, ge=1, le=50),
         for h in hits if h["product_id"] in by_id  # 索引与库可能短暂不一致，跳过已删实体
     ]
     return {"product_id": product_id, "similar": similar}
+
+
+@app.get("/api/products/{product_id}/similar-levels")
+def product_similar_levels(product_id: int, k: int = Query(5, ge=1, le=50),
+                           db: Session = Depends(get_db)):
+    """三级相似产品（总纲 I3「诚实版」相似性报告）——真平替的技术底座。
+
+    - l1 成分集合相似（确定性）：Jaccard(成分集合)，附 shared/union 可复算；
+    - l2 剂量级相似：推断区间中点向量的 min 加权余弦；浓度为模型估计值，
+      无推断浓度的产品不参与比对，目标无推断时 available=false 诚实降级；
+    - l3 功效级相似：功效指纹余弦（排除「其他」维），相对排序信号非功效承诺，
+      附共有功效维数 dimensions 与主要共享功效方向 top_shared_dims。
+    """
+    p = db.get(Product, product_id)
+    if p is None:
+        raise HTTPException(status_code=404, detail="产品不存在")
+    return {
+        "product_id": product_id,
+        "l1": level1_jaccard(db, product_id, k=k),
+        "l2": level2_dose(db, product_id, k=k),
+        "l3": level3_fingerprint(db, product_id, k=k),
+        "note": "功效指纹基于 35+ 成分证据库，覆盖深度见各产品 coverage",
+    }
 
 
 @app.get("/api/ingredients/{ingredient_id}/similar")
