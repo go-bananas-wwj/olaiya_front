@@ -6,6 +6,7 @@ import ProductDetail from './pages/ProductDetail'
 import Ingredients from './pages/Ingredients'
 import IngredientDetail from './pages/IngredientDetail'
 import Compare from './pages/Compare'
+import Chat from './pages/Chat'
 
 export default function App() {
   return (
@@ -18,6 +19,7 @@ export default function App() {
           <Route path="ingredients" element={<Ingredients />} />
           <Route path="ingredients/:id" element={<IngredientDetail />} />
           <Route path="compare" element={<Compare />} />
+          <Route path="chat" element={<Chat />} />
           <Route path="*" element={<Home />} />
         </Route>
       </Routes>

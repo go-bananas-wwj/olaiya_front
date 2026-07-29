@@ -2,6 +2,7 @@ import { NavLink, Outlet } from 'react-router-dom'
 
 const NAV = [
   { to: '/', label: '总览', end: true },
+  { to: '/chat', label: '成分问答' },
   { to: '/products', label: '产品库' },
   { to: '/ingredients', label: '成分库' },
   { to: '/compare', label: '产品对比' },
