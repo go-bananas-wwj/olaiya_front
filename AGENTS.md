@@ -17,6 +17,9 @@
 
 - Web 服务端口统一 **8008**（8000 被其他程序占用）
 - 启动：`tmux new-session -d -s cfz-web -c /root/workspace/olaiya "PYTHONPATH=backend .venv/bin/python -m uvicorn app.main:app --host 0.0.0.0 --port 8008"`
+- 视觉 sidecar（AI 生图检测，端口 **8101**，.venv-llm 运行，模型首次请求时加载）：
+  `tmux new-session -d -s cfz-vision -c /root/workspace/olaiya ".venv-llm/bin/python -m uvicorn vision_service.app:app --host 127.0.0.1 --port 8101"`
+  主后端 `POST /api/detect-image` 代理转发（`CFZ_VISION_URL` 可改地址），sidecar 不可达时 503 降级
 - 查看：`tmux ls` / `tmux attach -t cfz-web`（`Ctrl+B` 后按 `D` 退出不中断）
 
 ## 目录约定
@@ -35,6 +38,7 @@ data/
 ├── loaders/        数据加载器（幂等，CLI 见各文件 docstring）
 └── tools/          采集器/核验器/推断执行器
 frontend/           React+Vite 源码（build 到 web/ 由 FastAPI 托管）
+vision_service/     视觉 sidecar（AI 生图检测，DINOv2+线性探针，.venv-llm 运行；torch 惰性导入，主 venv 可 mock 跑测）
 web/                前端构建产物（进 git）
 ```
 

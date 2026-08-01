@@ -7,6 +7,7 @@ const NAV = [
   { to: '/products', label: '产品库' },
   { to: '/ingredients', label: '成分库' },
   { to: '/compare', label: '产品对比' },
+  { to: '/detect', label: '图片鉴伪' },
 ]
 
 export default function Layout() {

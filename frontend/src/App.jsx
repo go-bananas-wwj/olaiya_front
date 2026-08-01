@@ -8,6 +8,7 @@ import IngredientDetail from './pages/IngredientDetail'
 import Compare from './pages/Compare'
 import Chat from './pages/Chat'
 import Roundtable from './pages/Roundtable'
+import Detect from './pages/Detect'
 
 export default function App() {
   return (
@@ -22,6 +23,7 @@ export default function App() {
           <Route path="compare" element={<Compare />} />
           <Route path="chat" element={<Chat />} />
           <Route path="roundtable" element={<Roundtable />} />
+          <Route path="detect" element={<Detect />} />
           <Route path="*" element={<Home />} />
         </Route>
       </Routes>

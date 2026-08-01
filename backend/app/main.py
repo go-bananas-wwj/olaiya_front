@@ -7,7 +7,7 @@ tmux new-session -d -s cfz-web -c /root/workspace/olaiya \\
 import json
 from pathlib import Path
 
-from fastapi import Depends, FastAPI, HTTPException, Query
+from fastapi import Depends, FastAPI, File, HTTPException, Query, UploadFile
 from fastapi.responses import StreamingResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field, field_validator
@@ -27,6 +27,7 @@ from .services.fingerprint import compute_fingerprint
 from .services.similar_levels import level1_jaccard, level2_dose, level3_fingerprint
 from .services.similarity import search_ingredients, search_products
 from .services.transdermal import get_transdermal_info
+from .services import vision_detect
 
 # 成分理化映射（D3 透皮判定数据源）：启动时读入内存常量，避免每请求 IO
 _CID_MAP_PATH = Path(__file__).resolve().parents[2] / "data" / "seed" / "cid_map.json"
@@ -399,6 +400,34 @@ def roundtable(req: RoundtableRequest, db: Session = Depends(get_db),
         yield "data: [DONE]\n\n"
 
     return StreamingResponse(_stream(), media_type="text/event-stream")
+
+
+# ---------- 图片鉴伪（赛题「多模态」：AI 生图检测，代理转发视觉 sidecar） ----------
+
+
+@app.post("/api/detect-image")
+def detect_image(file: UploadFile = File(...)):
+    """AI 生图检测：转发视觉 sidecar（DINOv2 ViT-S/14 + 线性探针，独立 torch 进程）。
+
+    返回 {score, verdict(ai/real/uncertain), threshold, note}；score 为模型估计值，
+    仅供演示。sidecar 非 200 透传其错误语义；sidecar 不可达时 503 诚实降级。
+    """
+    content = file.file.read()
+    if not content:
+        raise HTTPException(status_code=400, detail="空文件")
+    try:
+        status, payload = vision_detect.detect_image(
+            content,
+            file.filename or "upload",
+            file.content_type or "application/octet-stream",
+        )
+    except vision_detect.VisionUnavailableError as e:
+        raise HTTPException(status_code=503, detail=str(e))
+    if status != 200:
+        if not 400 <= status < 600:
+            status = 502
+        raise HTTPException(status_code=status, detail=payload.get("detail", "检测失败"))
+    return payload
 
 
 # 高保真首页原型（lab/hero-demo 构建产物）挂在 /lab
