@@ -27,6 +27,14 @@ INCI_ALIASES: dict[str, tuple[str, ...]] = {
     "BAKUCHIOL": ("补骨脂酚",),
     "ERGOTHIONEINE": ("麦角硫因",),
     "CERAMIDE NP": ("神经酰胺",),
+    "GLYCOLIC ACID": ("果酸", "甘醇酸"),
+    "LACTIC ACID": ("果酸",),
+    "AZELAIC ACID": ("杜鹃花酸",),
+    "ASCORBYL GLUCOSIDE": ("AA2G", "维C葡糖苷", "VC葡糖苷"),
+    "BENZOYL PEROXIDE": ("BPO", "班赛"),
+    "PALMITOYL PENTAPEPTIDE-4": ("Matrixyl", "五胜肽", "棕榈酰五肽"),
+    "HYDROXYDECYL UBIQUINONE": ("艾地苯",),
+    "DIPOTASSIUM GLYCYRRHIZATE": ("甘草酸",),
 }
 
 
