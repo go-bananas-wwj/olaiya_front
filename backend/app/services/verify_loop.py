@@ -4,10 +4,16 @@
 的待核验句（无引用的过渡句不核验），逐句连同其引用编号对应的证据子集发给
 VERIFY_PROMPT 核验——证据子集而非全包，控制 token。
 
+NLI 核验之前先做一层确定性措辞校验（needs_hedge）：句子提到浓度百分比数字
+却没有「估计/文献/实验/研究/临床」限定词时，同样视为不通过并触发重写——评测
+发现模型复述浓度数字时容易丢「文献值/估计」限定语，措辞规则确定可查，不必
+交给 LLM 判断。
+
 全部通过一轮即终；有不通过且轮次未满 max_rounds 时，把未通过陈述与原因反馈
 给生成者重写一轮再重验（带错误反馈的 RARR 循环）；仍有不通过则 final_answer
 保留原样、对应句尾追加 ⚠️ 标记，verification 如实记录——不删改生成内容，
-只标注。核验回复无法解析为 JSON 时按不通过处理并如实注明（安全方向）。
+只标注。措辞问题不追加 ⚠️，只在 hedge 字段如实记录。核验回复无法解析为
+JSON 时按不通过处理并如实注明（安全方向）。
 """
 
 from __future__ import annotations
@@ -27,6 +33,16 @@ VERIFY_PROMPT = """你是证据核验员。给定【证据材料】和一句【�
 _CLAIM_SPLIT_RE = re.compile(r"[。；;！？!?\n]+")
 _CITATION_RE = re.compile(r"\[(\d{1,3})\]")
 _JSON_OBJ_RE = re.compile(r"\{[^{}]*\}", re.S)
+
+# 浓度限定语：提到百分比数字的句子必须带「估计/文献」类限定语义（措辞校验，
+# 确定性规则，先于 NLI 核验执行）
+HEDGE_WORDS = ("估计", "文献", "实验", "研究", "临床")
+_CONC_RE = re.compile(r"\d+(?:\.\d+)?\s*%")
+
+
+def needs_hedge(sentence: str) -> bool:
+    """句子含百分比数字且无任何限定词 → 需要加限定语"""
+    return bool(_CONC_RE.search(sentence)) and not any(w in sentence for w in HEDGE_WORDS)
 
 
 def split_claims(answer: str) -> list[str]:
@@ -74,17 +90,26 @@ def _verify_claim(gateway: LLMGateway, claim: str, pack_by_id: dict[int, dict]) 
 
 
 def _rewrite(gateway: LLMGateway, question: str, answer: str,
-             failed: list[dict], items: list[dict]) -> str:
-    """带错误反馈的重写：未通过陈述+原因回给生成者，仍受铁律 SYSTEM_PROMPT 约束。"""
+             failed: list[dict], items: list[dict],
+             hedge_failures: list[str] = ()) -> str:
+    """带错误反馈的重写：未通过陈述+原因（及缺限定语的措辞问题）回给生成者，
+    仍受铁律 SYSTEM_PROMPT 约束。"""
     if items:
         materials = "\n".join(f"[{it['id']}] {it['text']}" for it in items)
     else:
         materials = "（未检索到相关证据材料）"
     failed_lines = "\n".join(f"- {v['claim']}（原因：{v['reason']}）" for v in failed)
+    feedback = f"【未通过核验的陈述】\n{failed_lines or '（无）'}"
+    if hedge_failures:
+        hedge_lines = "\n".join(f"- {c}" for c in hedge_failures)
+        feedback += (
+            f"\n\n【缺少限定语的陈述】\n{hedge_lines}\n"
+            "这些句子提到浓度数字但缺少限定语，请加上『文献值/估计值』"
+        )
     user = (
         f"【证据材料】\n{materials}\n\n【问题】{question}\n\n"
         f"【上一轮回答】\n{answer}\n\n"
-        f"【未通过核验的陈述】\n{failed_lines}\n\n"
+        f"{feedback}\n\n"
         "请修正：只根据证据材料重新回答，未通过核验的陈述若找不到证据支持就删除"
         "或改为「证据不足」表述，已通过核验的陈述保持不变。引用编号格式 [n] 不变。"
     )
@@ -98,13 +123,18 @@ def verify_answer(session: Session, gateway: LLMGateway, question: str,
                   rag_result: dict, *, max_rounds: int = 2) -> dict:
     """生成者-验证者循环。
 
-    round 1：split_claims(rag_result["answer"]) → 逐句连同其引用编号对应的证据
+    round 1：split_claims(rag_result["answer"]) → 先做确定性措辞校验
+    （needs_hedge：浓度数字缺限定语），再逐句连同其引用编号对应的证据
     原文发给 VERIFY_PROMPT（证据子集而非全包，控制 token）。
     返回 {final_answer, verification: [{claim, supported, reason, citations}],
-    rewritten, rounds}（rounds = 实际核验轮数；无可核验句时为 0）。
-    若有 supported=false 且 rounds < max_rounds：把「未通过核验的陈述+原因」反馈
-    给生成者重写一轮（带错误反馈的 RARR 循环），重验；仍有不通过 → final_answer
+    rewritten, rounds, hedge: {failures, fixed}}（rounds = 实际核验轮数；
+    无可核验句时为 0；hedge.failures 为最后一轮仍缺限定语的句子，
+    fixed 表示首轮曾缺限定语、重写后已补齐）。
+    若有 supported=false 或措辞不通过且 rounds < max_rounds：把
+    「未通过核验的陈述+原因」（及缺限定语反馈）反馈给生成者重写一轮
+    （带错误反馈的 RARR 循环），重验；仍有不通过 → final_answer
     保留原样但在对应句尾追加 ⚠️ 标记，verification 如实记录。
+    措辞问题不追加 ⚠️，只在 hedge 字段如实记录。
 
     session 保留与 answer_question 对称的签名；证据包直接取自 rag_result，
     本函数不再查库。
@@ -115,19 +145,26 @@ def verify_answer(session: Session, gateway: LLMGateway, question: str,
     rounds = 0
     rewritten = False
     verifications: list[dict] = []
+    hedge_failures: list[str] = []
+    had_hedge_failure = False
 
     while split_claims(answer):
         rounds += 1
-        verifications = [_verify_claim(gateway, c, pack_by_id) for c in split_claims(answer)]
+        claims = split_claims(answer)
+        hedge_failures = [c for c in claims if needs_hedge(c)]  # 措辞校验先于 NLI
+        had_hedge_failure = had_hedge_failure or bool(hedge_failures)
+        verifications = [_verify_claim(gateway, c, pack_by_id) for c in claims]
         failed = [v for v in verifications if not v["supported"]]
-        if not failed or rounds >= max_rounds:
+        if (not failed and not hedge_failures) or rounds >= max_rounds:
             break
-        answer = _rewrite(gateway, question, answer, failed, items)
+        answer = _rewrite(gateway, question, answer, failed, items, hedge_failures)
         rewritten = True
 
     final_answer = answer
     for v in verifications:  # 循环结束后仍不通过的陈述：句尾追加 ⚠️，不删改原句
         if not v["supported"] and v["claim"] in final_answer:
             final_answer = final_answer.replace(v["claim"], v["claim"] + "⚠️", 1)
+    hedge = {"failures": hedge_failures,
+             "fixed": had_hedge_failure and not hedge_failures}
     return {"final_answer": final_answer, "verification": verifications,
-            "rewritten": rewritten, "rounds": rounds}
+            "rewritten": rewritten, "rounds": rounds, "hedge": hedge}

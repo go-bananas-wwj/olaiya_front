@@ -11,7 +11,7 @@ from app.main import app, get_db, get_llm_gateway
 from app.models.evidence import Evidence, EvidenceType
 from app.models.ingredient import EfficacyAssertion, Ingredient
 from app.services.rag_qa import SYSTEM_PROMPT, build_evidence_pack
-from app.services.verify_loop import VERIFY_PROMPT, split_claims, verify_answer
+from app.services.verify_loop import VERIFY_PROMPT, needs_hedge, split_claims, verify_answer
 from data.loaders.seed_loader import load_seed
 
 
@@ -96,6 +96,26 @@ class TestSplitClaims:
 
     def test_strips_whitespace(self):
         assert split_claims("烟酰胺能美白[1] 。  泛醇保湿[2]。") == ["烟酰胺能美白[1]", "泛醇保湿[2]"]
+
+
+# ---------- needs_hedge（浓度限定语确定性校验） ----------
+
+class TestNeedsHedge:
+    def test_concentration_without_hedge_word_needs_hedge(self):
+        """含百分比数字且无任何限定词 → 需要加限定语。"""
+        assert needs_hedge("起效浓度为 2%") is True
+
+    def test_hedge_word_present_passes(self):
+        """带「文献」限定词 → 不需要。"""
+        assert needs_hedge("文献值 2%") is False
+
+    def test_literature_reported_range_passes(self):
+        """浓度区间且有「文献」限定 → 不需要。"""
+        assert needs_hedge("文献报道起效浓度为 2%-5%") is False
+
+    def test_no_percentage_passes(self):
+        """无百分比数字 → 真空通过。"""
+        assert needs_hedge("烟酰胺能美白") is False
 
 
 # ---------- verify_answer ----------
@@ -213,6 +233,51 @@ class TestVerifyAnswer:
         # verification 记录最后一轮（重写后）的核验；首轮的 [9] 判定体现在核验请求里
         assert r["verification"][0]["citations"] == [1]
 
+    def test_hedge_failure_triggers_rewrite_with_hedge_feedback(self, session):
+        """浓度数字缺限定语：即使 NLI 全过也触发重写，反馈文案含限定语要求；重验通过 fixed=True。"""
+        _seed_toy(session)
+        initial = "起效浓度为 2%[1]。"
+        rewritten = "文献值起效浓度为 2%[1]。"
+        gw = _StagedGateway(
+            answers=[rewritten],
+            verifies=['{"supported": true, "reason": "有出处"}'],
+        )
+        r = verify_answer(session, gw, "烟酰胺真的能美白吗？", _rag_result(session, initial))
+        assert r["rewritten"] is True
+        assert r["rounds"] == 2
+        assert r["final_answer"] == rewritten
+        assert [v["supported"] for v in r["verification"]] == [True]
+        assert r["hedge"] == {"failures": [], "fixed": True}
+        assert len(gw.gen_calls) == 1
+        feedback = gw.gen_calls[0][1]["content"]
+        assert "这些句子提到浓度数字但缺少限定语，请加上『文献值/估计值』" in feedback
+        assert "起效浓度为 2%[1]" in feedback
+
+    def test_hedged_concentration_no_rewrite(self, session):
+        """本来就带限定语：不触发重写，hedge 为空且 fixed=False。"""
+        _seed_toy(session)
+        answer = "文献值起效浓度为 2%[1]。"
+        gw = _StagedGateway(verifies=['{"supported": true, "reason": "ok"}'])
+        r = verify_answer(session, gw, "烟酰胺真的能美白吗？", _rag_result(session, answer))
+        assert r["rounds"] == 1
+        assert r["rewritten"] is False
+        assert r["hedge"] == {"failures": [], "fixed": False}
+        assert gw.gen_calls == []
+
+    def test_hedge_failure_persists_after_max_rounds(self, session):
+        """重写后仍缺限定语：hedge.failures 如实保留，fixed=False（不追加 ⚠️，只记录）。"""
+        _seed_toy(session)
+        gw = _StagedGateway(
+            answers=["起效浓度为 5%[1]。"],  # 重写后依旧缺限定语
+            verifies=['{"supported": true, "reason": "有出处"}'],
+        )
+        r = verify_answer(session, gw, "烟酰胺真的能美白吗？",
+                          _rag_result(session, "起效浓度为 2%[1]。"))
+        assert r["rounds"] == 2
+        assert r["hedge"]["failures"] == ["起效浓度为 5%[1]"]
+        assert r["hedge"]["fixed"] is False
+        assert "⚠️" not in r["final_answer"]  # 措辞问题不标 ⚠️，如实记录即可
+
 
 # ---------- POST /api/chat 接入 ----------
 
@@ -253,7 +318,7 @@ class TestChatVerifyApi:
         body = r.json()
         assert "verification" in body
         vres = body["verification"]
-        assert set(vres) == {"final_answer", "verification", "rewritten", "rounds"}
+        assert set(vres) == {"final_answer", "verification", "rewritten", "rounds", "hedge"}
         assert vres["rounds"] == 1
         assert vres["rewritten"] is False
         assert vres["final_answer"] == body["answer"]
