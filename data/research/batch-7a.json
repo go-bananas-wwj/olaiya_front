@@ -1,0 +1,242 @@
+{
+  "ingredients": [
+    {
+      "cn_name": "羟基积雪草苷",
+      "inci_name": "MADECASSOSIDE",
+      "cas_no": "34540-22-2",
+      "assertions": [
+        {
+          "efficacy": "抗光老化（改善深浅皱纹、紧致度、粗糙度与皮肤含水量，重塑真皮弹性纤维网络）",
+          "evidence": {
+            "type": "paper",
+            "title": "Clinical, biometric and structural evaluation of the long-term effects of a topical treatment with ascorbic acid and madecassoside in photoaged human skin",
+            "source": "Exp Dermatol, 2008;17(11):946-952",
+            "year": 2008,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/18503551/",
+            "excerpt": "20名光老化女性随机双盲6个月试验：含5%维生素C+0.1%羟基积雪草苷的配方外用后，深浅皱纹、柔软度、紧致度、粗糙度与含水量的临床评分显著改善，皮肤弹性测量与乳头层弹性纤维网络半定量组织学评估相互印证，约2/3受试者改善，观察到正常结构的弹性纤维网络重现。"
+          },
+          "effective_conc_low": 0.1,
+          "effective_conc_high": 0.1,
+          "note": "随机双盲人体试验（n=20，6个月）；弱证据提示：为复方配方（5%VC+0.1%羟基积雪草苷），无法完全归因于羟基积雪草苷单成分"
+        },
+        {
+          "efficacy": "促进烧伤创面愈合",
+          "evidence": {
+            "type": "paper",
+            "title": "Burn wound healing properties of asiaticoside and madecassoside",
+            "source": "Exp Ther Med, 2016;12(3):1269-1274",
+            "year": 2016,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/27588048/",
+            "excerpt": "积雪草苷与羟基积雪草苷在500 ppm以下对细胞无毒性；两者均可提高单核细胞趋化蛋白-1（MCP-1）产生，并在动物烧伤模型中促进创面愈合，支持积雪草成分用于烧伤修复的进一步研究。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "弱证据：体外细胞实验+动物烧伤模型，非人体外用功效试验；且为积雪草苷与羟基积雪草苷并列测试"
+        }
+      ]
+    },
+    {
+      "cn_name": "积雪草苷",
+      "inci_name": "ASIATICOSIDE",
+      "cas_no": "16830-15-2",
+      "assertions": [
+        {
+          "efficacy": "促进创面愈合（提高羟脯氨酸、抗张强度、胶原含量与上皮化）",
+          "evidence": {
+            "type": "paper",
+            "title": "In vitro and in vivo wound healing activity of asiaticoside isolated from Centella asiatica",
+            "source": "J Ethnopharmacol, 1999;65(1):1-11",
+            "year": 1999,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/10350364/",
+            "excerpt": "豚鼠打孔创面外用0.2%积雪草苷溶液：羟脯氨酸增加56%、抗张强度增加57%，胶原含量上升、上皮化改善；链脲佐菌素糖尿病大鼠（愈合延迟模型）外用0.4%溶液同样显著提高羟脯氨酸、抗张强度与胶原并促进上皮化；口服1 mg/kg在豚鼠模型亦有效，并在鸡胚绒毛尿囊膜模型（40 µg/片）促进血管生成。"
+          },
+          "effective_conc_low": 0.2,
+          "effective_conc_high": 0.4,
+          "note": "弱证据：动物创面模型（豚鼠/糖尿病大鼠）+鸡胚血管生成模型，非人体外用试验；为伤口愈合机制证据，美容功效外推需谨慎"
+        },
+        {
+          "efficacy": "抗氧化（提升创面组织抗氧化酶与抗氧化物水平，降低脂质过氧化）",
+          "evidence": {
+            "type": "paper",
+            "title": "Asiaticoside-induced elevation of antioxidant levels in healing wounds",
+            "source": "Phytother Res, 1999;13(1):50-54",
+            "year": 1999,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/10189951/",
+            "excerpt": "大鼠切除性皮肤创面外用0.2%积雪草苷每日两次共7天：新生组织中SOD升高35%、过氧化氢酶升高67%、谷胱甘肽过氧化物酶升高49%、维生素E升高77%、抗坏血酸升高36%，脂质过氧化产物（TBARS）下降69%；持续14天后与载体组差异消失，提示其抗氧化诱导作用集中在愈合早期。"
+          },
+          "effective_conc_low": 0.2,
+          "effective_conc_high": 0.2,
+          "note": "弱证据：大鼠创面模型，非人体外用功效试验；抗氧化效应为创面愈合情境下的机制证据"
+        }
+      ]
+    },
+    {
+      "cn_name": "硫辛酸",
+      "inci_name": "ALPHA-LIPOIC ACID",
+      "cas_no": "1077-28-7",
+      "assertions": [
+        {
+          "efficacy": "抗光老化（改善面部光老化临床特征、降低皮肤粗糙度）",
+          "evidence": {
+            "type": "paper",
+            "title": "Randomized, placebo-controlled, double blind study on the clinical efficacy of a cream containing 5% alpha-lipoic acid related to photoageing of facial skin",
+            "source": "Br J Dermatol, 2003;149(4):841-849",
+            "year": 2003,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/14616378/",
+            "excerpt": "33名女性（平均54.4岁）半脸随机双盲安慰剂对照12周：5%硫辛酸乳膏每日两次外用；自我评估、临床评估、照片评估与激光轮廓测量四种方法均显示硫辛酸侧显著改善，最客观的激光轮廓测量显示皮肤粗糙度平均下降50.8%，安慰剂侧为40.7%（P<0.001）。"
+          },
+          "effective_conc_low": 5.0,
+          "effective_conc_high": 5.0,
+          "note": "随机双盲半脸安慰剂对照人体试验（n=33，12周），证据等级较高；安慰剂侧也有较大改善提示基质本身有贡献"
+        }
+      ]
+    },
+    {
+      "cn_name": "紫檀芪",
+      "inci_name": "PTEROSTILBENE",
+      "cas_no": "537-42-8",
+      "assertions": [
+        {
+          "efficacy": "提亮肤色与抗衰老（减少皱纹细纹、改善肤色均匀度、水合与弹性）",
+          "evidence": {
+            "type": "paper",
+            "title": "An Open-Label Single-Arm, Monocentric Study Assessing the Efficacy and Safety of Natural Pterostilbene (Pterocarpus marsupium) for Skin Brightening and Antiaging Effects",
+            "source": "Clin Cosmet Investig Dermatol, 2020;13:105-116",
+            "year": 2020,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/32099438/",
+            "excerpt": "38名健康志愿者开放标签单臂8周试验：0.4%天然紫檀芪面霜外用显著减少皱纹与细纹、均匀肤色、改善皮肤水合与弹性，未见不良反应；体外实验证实紫檀芪显著抑制黑色素生成、酪氨酸酶活性及胶原酶/弹性蛋白酶活性。"
+          },
+          "effective_conc_low": 0.4,
+          "effective_conc_high": 0.4,
+          "note": "弱证据：开放标签单臂试验（n=38，8周），无安慰剂对照；研究由原料商Sami Labs/Sabinsa资助且作者均为其雇员；另含体外酪氨酸酶/黑色素实验"
+        },
+        {
+          "efficacy": "抗炎（抑制NLRP3炎症小体活化，缓解接触性皮炎样皮肤炎症）",
+          "evidence": {
+            "type": "paper",
+            "title": "Pterostilbene Attenuates Hexavalent Chromium-Induced Allergic Contact Dermatitis by Preventing Cell Apoptosis and Inhibiting IL-1β-Related NLRP3 Inflammasome Activation",
+            "source": "J Clin Med, 2018;7(12):489",
+            "year": 2018,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/30486377/",
+            "excerpt": "六价铬诱导的小鼠耳部变应性接触性皮炎模型中，紫檀芪干预显著减轻皮肤炎症反应严重程度；体外HaCaT角质形成细胞实验中，紫檀芪缓解铬诱导的炎症与细胞凋亡，机制涉及抑制p38 MAPK/MK2通路及IL-1β相关的NLRP3炎症小体活化。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "弱证据：小鼠皮炎模型+人角质形成细胞体外实验，非人体外用功效试验；为铬接触性皮炎治疗情境的机制证据"
+        }
+      ]
+    },
+    {
+      "cn_name": "壬二酰甘氨酸钾",
+      "inci_name": "POTASSIUM AZELOYL DIGLYCINATE",
+      "cas_no": "477773-67-4",
+      "assertions": [
+        {
+          "efficacy": "抗炎舒缓（减轻玫瑰痤疮红斑、潮红、刺痛灼烧感，兼具保湿）",
+          "evidence": {
+            "type": "paper",
+            "title": "Clinical and instrumental assessment of the effects of a new product based on hydroxypropyl chitosan and potassium azeloyl diglycinate in the management of rosacea",
+            "source": "J Cosmet Dermatol, 2012;11(1):37-41",
+            "year": 2012,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/22360333/",
+            "excerpt": "42名I/II期玫瑰痤疮患者随机多中心双盲安慰剂对照平行试验：含5%壬二酰甘氨酸钾+1%羟丙基壳聚糖的乳膏每日两次外用4周，Mexameter仪器测量与临床评估均显示红斑显著减轻，潮红、刺痛、灼烧等症状同步改善，角质层含水量提升。"
+          },
+          "effective_conc_low": 5.0,
+          "effective_conc_high": 5.0,
+          "note": "随机双盲安慰剂对照人体试验（n=42，4周）；弱证据提示：为复方配方（5%壬二酰甘氨酸钾+1%羟丙基壳聚糖），无法完全归因于单成分"
+        },
+        {
+          "efficacy": "舒缓敏感（降低玫瑰痤疮患者刺痛与灼烧感）",
+          "evidence": {
+            "type": "paper",
+            "title": "Treatment of symptoms of erythemato-telangiectatic rosacea with topical potassium azeloyl diglycinate and hydroxypropyl chitosan: Results of a sponsor-free, multicenter, open study",
+            "source": "J Dermatolog Treat, 2015;26(2):191-192",
+            "year": 2015,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/24831156/",
+            "excerpt": "37名红斑毛细血管扩张型玫瑰痤疮伴刺痛灼烧患者（既往用过壬二酸/甲硝唑）开放多中心试验：5%壬二酰甘氨酸钾+1%羟丙基壳聚糖乳膏每日两次12周，30名可评估患者刺痛灼烧总评分从66分降至37分（-56.1%），无不良反应报告。"
+          },
+          "effective_conc_low": 5.0,
+          "effective_conc_high": 5.0,
+          "note": "弱证据：开放标签无对照试验（n=37，12周）+复方配方；其控油/祛痘等常见宣称目前缺乏PubMed收录的人体临床证据"
+        }
+      ]
+    },
+    {
+      "cn_name": "辛酰甘氨酸",
+      "inci_name": "CAPRYLOYL GLYCINE",
+      "cas_no": "14246-53-8",
+      "assertions": [
+        {
+          "efficacy": "抑制毛发过度生长（降低毛发密度、终毛密度与毛发长度）",
+          "evidence": {
+            "type": "paper",
+            "title": "Assessment of the skin efficacy and acceptability of a cosmetic product in the treatment of the forearm hypertrichosis in female patients",
+            "source": "J Cosmet Dermatol, 2021;20(8):2527-2530",
+            "year": 2021,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/33347705/",
+            "excerpt": "69名女性（37±6岁）双盲安慰剂对照120天试验：4%辛酰甘氨酸乳膏每日两次外用于前臂，TrichoScan定量显示活性侧毛发密度、中位毛发长度与终毛密度较基线显著下降（P<0.001），120天时活性侧与安慰剂侧差异高度显著（P<0.001）。"
+          },
+          "effective_conc_low": 4.0,
+          "effective_conc_high": 4.0,
+          "note": "随机双盲安慰剂对照人体试验（n=69，120天）；注意：该证据针对多毛症（抑制毛发生长），辛酰甘氨酸主流的控油/祛痘宣称缺乏PubMed收录的人体临床证据"
+        },
+        {
+          "efficacy": "抑制鸟氨酸脱羧酶ODC1活性（减缓毛发生长的机制）",
+          "evidence": {
+            "type": "paper",
+            "title": "Capryloyl glycine and soy isoflavonoids in hypertrichosis: An experimental and placebo-controlled clinical study",
+            "source": "J Cosmet Dermatol, 2021;20(Suppl 1):18-22",
+            "year": 2021,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/33934471/",
+            "excerpt": "体外酶学实验：含4%辛酰甘氨酸+1%大豆异黄酮的乳膏抑制毛囊关键酶ODC1活性达35.1%；12名前臂多毛症女性的半侧安慰剂对照4个月试验中，11/12（91.7%）活性侧观察到改善，安慰剂侧无改善。"
+          },
+          "effective_conc_low": 4.0,
+          "effective_conc_high": 4.0,
+          "note": "弱证据：体外酶学实验+小样本人体半侧对照（n=12）；且为复方配方（4%辛酰甘氨酸+1%大豆异黄酮发酵提取物）"
+        }
+      ]
+    },
+    {
+      "cn_name": "季铵盐-73（皮傲宁）",
+      "inci_name": "QUATERNIUM-73",
+      "cas_no": "15763-48-1",
+      "assertions": [
+        {
+          "efficacy": "抗痤疮（强效抑制痤疮丙酸杆菌，微针递送改善痤疮）",
+          "evidence": {
+            "type": "paper",
+            "title": "Dissolved bubble microneedle patches for co-delivery of hydrophobic and hydrophilic drugs to improve acne vulgaris therapy",
+            "source": "Microsyst Nanoeng, 2025;11(1):223",
+            "year": 2025,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/41285765/",
+            "excerpt": "以透明质酸为基质的溶解气泡微针贴片共递送疏水性皮傲宁（PIONIN）、亲水性甘草酸二钾与水杨酸：贴片具良好机械强度与生物相容性，对痤疮丙酸杆菌（P. acnes）有强抗菌活性，体内研究证实其治疗寻常痤疮的疗效。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "弱证据：体外抗菌+体内动物实验，且为微针复方递送体系（皮傲宁+甘草酸二钾+水杨酸），无法归因于单成分；PubMed未见季铵盐-73的人体外用临床功效文献，其经典的低浓度抗痤疮杆菌MIC数据仅见于原料商资料，人体功效宣称应保守表述"
+        }
+      ]
+    },
+    {
+      "cn_name": "乙酰基四肽-9",
+      "inci_name": "ACETYL TETRAPEPTIDE-9",
+      "cas_no": "928006-50-2",
+      "assertions": [
+        {
+          "efficacy": "抗衰老辅助（术后联合护理中改善泛红、细纹与肤色均匀度）",
+          "evidence": {
+            "type": "paper",
+            "title": "Real World Case Series: Integrated Skincare With Advanced RGN-6 Serum",
+            "source": "J Cosmet Dermatol, 2025;24(Suppl 2):e70303",
+            "year": 2025,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/40709746/",
+            "excerpt": "6例真实世界病例系列（深肤色女性，能量类医美项目术后）：含3%乙酰基四肽-9的RGN-6多成分精华（另含1% eperuline、0.2%依克多因、10% glycorepair、0.2% bioceramide 603、2%烟酰胺）每日两次外用，专家组一致认为所有病例泛红、细纹与肤色均匀度改善。"
+          },
+          "effective_conc_low": 3.0,
+          "effective_conc_high": 3.0,
+          "note": "弱证据：真实世界病例系列（6例），无对照组，且为六成分复方精华，完全无法归因于乙酰基四肽-9单成分；其促进lumican/胶原I合成的经典机制宣称源自原料商（Lucas Meyer Dermican）资料，PubMed未见独立人体功效文献；另注意肽类常用原料液添加量（%）与纯肽含量（ppm级）口径不同，文中3%为配方标注的原料液级别"
+        }
+      ]
+    }
+  ]
+}

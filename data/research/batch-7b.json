@@ -1,0 +1,249 @@
+{
+  "ingredients": [
+    {
+      "cn_name": "绿原酸",
+      "inci_name": "CHLOROGENIC ACID",
+      "cas_no": "327-97-9",
+      "assertions": [
+        {
+          "efficacy": "抗光老化（促进I型胶原合成、抑制UVA诱导的MMP）",
+          "evidence": {
+            "type": "paper",
+            "title": "Chlorogenic Acid Prevents UVA-Induced Skin Photoaging through Regulating Collagen Metabolism and Apoptosis in Human Dermal Fibroblasts",
+            "source": "Int J Mol Sci, 2022;23(13):6941",
+            "year": 2022,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/35805942/",
+            "excerpt": "人真皮成纤维细胞实验：绿原酸特异性上调I型胶原mRNA与蛋白表达并增加胶原分泌；UVA照射下通过增强TGF-β/Smad2/3信号提升胶原I、降低MMP1与MMP3水平，同时减少ROS蓄积、减轻DNA损伤并降低细胞凋亡，首次证实其对UVA光老化的保护作用。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "弱证据：体外人真皮成纤维细胞实验，非人体功效试验"
+        },
+        {
+          "efficacy": "光防护（外用预防UV诱导的红斑/氧化损伤）",
+          "evidence": {
+            "type": "paper",
+            "title": "Efficient topical delivery of chlorogenic acid by an oil-in-water microemulsion to protect skin against UV-induced damage",
+            "source": "Chem Pharm Bull (Tokyo), 2011;59(6):793-796",
+            "year": 2011,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/21628922/",
+            "excerpt": "离体豚鼠背部皮肤与尤卡坦小型猪皮肤渗透实验显示绿原酸皮内蓄积量高于槲皮素、染料木素等多酚；o/w型微乳进一步提升其溶解度与皮肤蓄积；含绿原酸微乳凝胶预处理豚鼠皮肤可预防UV照射诱发的红斑形成。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "弱证据：动物（豚鼠）在体红斑实验 + 离体皮肤渗透实验，非人体试验；功效依赖微乳促渗载体"
+        }
+      ]
+    },
+    {
+      "cn_name": "咖啡酸",
+      "inci_name": "CAFFEIC ACID",
+      "cas_no": "331-39-5",
+      "assertions": [
+        {
+          "efficacy": "光防护（外用显著减轻UVB诱导的皮肤红斑）",
+          "evidence": {
+            "type": "paper",
+            "title": "In vitro and in vivo evaluation of caffeic and ferulic acids as topical photoprotective agents",
+            "source": "Int J Pharm, 2000;199(1):39-47",
+            "year": 2000,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/10794925/",
+            "excerpt": "Franz扩散池人离体皮肤实验证实咖啡酸与阿魏酸可透过角质层；据此设计的健康志愿者在体试验中，咖啡酸与阿魏酸饱和水溶液（pH 7.2）外用后经反射分光光度法监测，对皮肤UVB红斑有显著防护作用。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "人体在体外用试验（健康志愿者UVB红斑模型）；以饱和水溶液给药，文献未给出统一百分比浓度"
+        },
+        {
+          "efficacy": "抑制UVB诱导的皮肤炎症与光致癌（激活PPARγ）",
+          "evidence": {
+            "type": "paper",
+            "title": "Caffeic Acid Inhibits UVB-induced Inflammation and Photocarcinogenesis Through Activation of Peroxisome Proliferator-activated Receptor-γ in Mouse Skin",
+            "source": "Photochem Photobiol, 2015;91(6):1458-1468",
+            "year": 2015,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/26303058/",
+            "excerpt": "小鼠UVB急慢性照射模型：咖啡酸（15mg/kg）照射前给药降低脂质过氧化与TNF-α、IL-6、COX-2、NF-κB等炎症分子表达并提升抗氧化状态（PPARγ激活）；30周慢性照射致鳞状细胞癌模型中，外用与腹腔注射咖啡酸均下调iNOS/VEGF/TGF-β、上调p53并减少肿瘤多发数。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "弱证据：动物（小鼠）实验，含外用与腹腔注射两种给药途径；剂量为15mg/kg体重，非化妆品浓度语境"
+        }
+      ]
+    },
+    {
+      "cn_name": "吡哆素（维生素B6）",
+      "inci_name": "PYRIDOXINE",
+      "cas_no": "65-23-6",
+      "assertions": [
+        {
+          "efficacy": "屏障维护（促进表皮丝聚蛋白生成）",
+          "evidence": {
+            "type": "paper",
+            "title": "Pyridoxine stimulates filaggrin production in human epidermal keratinocytes",
+            "source": "Mol Biol Rep, 2021;48(7):5513-5518",
+            "year": 2021,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/34302584/",
+            "excerpt": "正常人表皮角质形成细胞实验：吡哆醇（PN）特异性上调终末分化标志物前丝聚蛋白mRNA，并浓度依赖性地增加丝聚蛋白（filaggrin）蛋白生成（该效应受P2x嘌呤能受体调控）；作者指出PN缺乏可致脂溢性皮炎等皮肤问题，提示其促丝聚蛋白作用可用于屏障维护与特应性皮炎日常护理方向。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "弱证据：体外人角质形成细胞机制实验，非人体功效试验"
+        },
+        {
+          "efficacy": "促进毛发生长（促毛干伸长，复方维生素组合）",
+          "evidence": {
+            "type": "paper",
+            "title": "Vitamins and their derivatives synergistically promote hair shaft elongation ex vivo via PlGF/VEGFR-1 signalling activation",
+            "source": "J Dermatol Sci, 2022;108(1):2-11",
+            "year": 2022,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/36210234/",
+            "excerpt": "小鼠触须毛囊器官培养模型：泛醇乙醚+醋酸生育酚+吡哆醇（PPT）组合显著促进毛干伸长，毛发基质细胞增殖较对照提升1.9倍；机制为上调PlGF并激活VEGFR-1信号，人毛乳头细胞中PlGF分泌亦增加。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "弱证据：复方组合（吡哆醇为组分之一，无法归因于单成分）+ 动物离体器官培养，非人体试验"
+        }
+      ]
+    },
+    {
+      "cn_name": "生物素",
+      "inci_name": "BIOTIN",
+      "cas_no": "58-85-5",
+      "assertions": [
+        {
+          "efficacy": "改善脱发与指甲问题（证据仅限于生物素缺乏或病理状态）",
+          "evidence": {
+            "type": "paper",
+            "title": "A Review of the Use of Biotin for Hair Loss",
+            "source": "Skin Appendage Disord, 2017;3(3):166-169",
+            "year": 2017,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/28879195/",
+            "excerpt": "系统综述PubMed全部病例报告与随机对照试验：共18例生物素用于毛发/指甲改变的报告，所有病例均存在导致毛发或指甲生长不良的基础病理（获得性或遗传性生物素缺乏、脆甲综合征、难梳理头发综合征等），补充后均有改善；但作者明确指出健康人群补充生物素的有效性证据不足，不支持对健康个体的常规补充。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "系统综述（证据分级较高但结论为否定性）：生物素仅在缺乏或特定病理状态下有益，健康人群生发/护甲功效缺乏证据，宣传时应保守表述"
+        },
+        {
+          "efficacy": "改善脆甲（指甲变硬变韧）",
+          "evidence": {
+            "type": "paper",
+            "title": "[Treatment of brittle fingernails with biotin]",
+            "source": "Z Hautkr, 1989;64(1):41-48",
+            "year": 1989,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/2648686/",
+            "excerpt": "71例脆甲患者口服生物素2.5mg/天，最终可评估的45例中41例（91%）经平均5.5±2.3个月治疗后指甲明显变硬变韧，4例改善不确定，无完全无效者。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "弱证据：口服补充（2.5mg/天）且为无对照组的开放病例系列，样本量小、年代较早"
+        }
+      ]
+    },
+    {
+      "cn_name": "牡丹根提取物",
+      "inci_name": "PAEONIA SUFFRUTICOSA ROOT EXTRACT",
+      "cas_no": null,
+      "assertions": [
+        {
+          "efficacy": "抗光老化（抗氧化、减少胶原降解，改善皮肤水分与弹性）",
+          "evidence": {
+            "type": "paper",
+            "title": "Paeonia suffruticosa Andrews root extract ameliorates photoaging via regulating IRS1/PI3K/FOXO pathway",
+            "source": "Front Pharmacol, 2025;16:1520392",
+            "year": 2025,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/40115263/",
+            "excerpt": "牡丹根提取物（PSAE，总酚含量48.9%）：体外有效清除DPPH、超氧阴离子、羟自由基与ABTS自由基并抑制胶原酶/透明质酸酶；HaCaT、HFF细胞及3D全层皮肤模型中显著降低UV诱导的ROS升高与衰老相关β-半乳糖苷酶活性，抑制UV诱导的IRS1/PI3K/AKT/mTOR过表达；人体功效评估显示经皮失水、表皮含水量、粗糙度与弹性等指标改善。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "细胞+3D皮肤模型+人体功效评估的多层证据；企业（贝泰妮）资助研究，人体试验样本量与对照设计在摘要层面未详"
+        },
+        {
+          "efficacy": "抗炎舒缓（缓解皮炎、瘙痒等多种皮肤炎症，主要活性物丹皮酚）",
+          "evidence": {
+            "type": "paper",
+            "title": "Investigation of paeonol in dermatological diseases: an animal study review",
+            "source": "Front Pharmacol, 2024;15:1450816",
+            "year": 2024,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/39588155/",
+            "excerpt": "综述丹皮酚（牡丹根皮主要活性代谢物）在皮肤科的应用：在皮炎、银屑病、瘙痒、光老化、色素沉着、增生性瘢痕等多种皮肤病的动物模型中减轻皮肤损伤与炎症反应、抑制皮肤组织异常增生；作者明确指出证据大部分基于动物实验。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "弱证据：动物实验为主的综述，指向单分子丹皮酚而非提取物整体；人体功效证据缺乏"
+        }
+      ]
+    },
+    {
+      "cn_name": "野大豆籽提取物",
+      "inci_name": "GLYCINE SOJA SEED EXTRACT",
+      "cas_no": null,
+      "assertions": [
+        {
+          "efficacy": "改善光老化外观（淡化色斑、细纹，改善肤质与肤色）",
+          "evidence": {
+            "type": "paper",
+            "title": "Efficacy of a soy moisturizer in photoaging: a double-blind, vehicle-controlled, 12-week study",
+            "source": "J Drugs Dermatol, 2007;6(9):917-922",
+            "year": 2007,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/17941363/",
+            "excerpt": "65名中度面部光损伤女性12周双盲载体对照试验：含非变性大豆丝氨酸蛋白酶抑制剂（STI/BBI，经PAR-2通路抑制黑素体吞噬）的大豆保湿剂较载体显著改善斑驳色素沉着、肤色不均、暗沉、细纹、整体纹理与肤色，多数指标第2周起即有显著差异；安全性良好。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "双盲载体对照人体试验（n=65，12周）；活性物为非变性大豆提取物中的STI/BBI蛋白酶抑制剂；强生公司资助；文献未给出提取物浓度"
+        },
+        {
+          "efficacy": "抗光老化与保湿（减轻皱纹、提升皮肤水合度）",
+          "evidence": {
+            "type": "paper",
+            "title": "Soy Protein Containing Isoflavones Improves Facial Signs of Photoaging and Skin Hydration in Postmenopausal Women: Results of a Prospective Randomized Double-Blind Controlled Trial",
+            "source": "Nutrients, 2023;15(19):4113",
+            "year": 2023,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/37836398/",
+            "excerpt": "44名绝经后女性6个月随机双盲对照（酪蛋白为对照）：口服含异黄酮的大豆蛋白分离物组第16、24周平均皱纹严重度较基线分别下降5.9%与7.1%，显著优于对照组；24周面部色素强度下降2.5%，双侧面颊皮肤水合度较基线提升39%与68%。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "弱证据（就外用而言）：口服补充试验；随机双盲对照设计本身质量较高"
+        }
+      ]
+    },
+    {
+      "cn_name": "盐生杜氏藻提取物",
+      "inci_name": "DUNALIELLA SALINA EXTRACT",
+      "cas_no": null,
+      "assertions": [
+        {
+          "efficacy": "光防护（提升皮肤类胡萝卜素水平、减轻UV红斑）",
+          "evidence": {
+            "type": "paper",
+            "title": "Supplementation with beta-carotene or a similar amount of mixed carotenoids protects humans from UV-induced erythema",
+            "source": "J Nutr, 2003;133(1):98-101",
+            "year": 2003,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/12514275/",
+            "excerpt": "安慰剂对照平行试验（每组n=12，II型皮肤）：藻类来源β-胡萝卜素24mg/天口服12周，血清β-胡萝卜素升高3-4倍，皮肤类胡萝卜素总量上升，照光后24小时红斑强度较基线显著降低，效果与等量混合类胡萝卜素相当。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "弱证据（就外用而言）：口服补充试验；β-胡萝卜素为藻类来源（盐生杜氏藻是自然界与商用最富β-胡萝卜素的藻源），但非外用杜氏藻提取物的直接功效证据"
+        },
+        {
+          "efficacy": "外用安全性（温和无刺激、无致敏）",
+          "evidence": {
+            "type": "paper",
+            "title": "Preliminary Data on the Safety of Phytoene- and Phytofluene-Rich Products for Human Use including Topical Application",
+            "source": "J Toxicol, 2018;2018:5475784",
+            "year": 2018,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/29849613/",
+            "excerpt": "体外细胞毒性与遗传毒性试验显示富含八氢番茄红素/六氢番茄红素的产品无显著细胞毒或遗传毒潜力；含杜氏藻提取物的富八氢番茄红素/六氢番茄红素产品人体短期与长期皮肤相容性试验未见刺激或致敏反应，支持其人体外用安全性。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "弱证据：安全性（皮肤相容性）人体试验，非功效证据；杜氏藻提取物的直接外用功效人体证据目前缺乏，功效主张应保守表述"
+        }
+      ]
+    }
+  ]
+}
