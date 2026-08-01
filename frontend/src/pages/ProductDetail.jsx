@@ -18,7 +18,8 @@ export default function ProductDetail() {
     p.registrant && ['备案人', p.registrant],
     p.filing_date && ['备案日期', p.filing_date],
     effMatch && ['宣称功效', effMatch[1]],
-    p.price_current != null && ['参考价（人工采样）', `¥${p.price_current}`],
+    p.price_current != null && ['参考价（人工采样）', `¥${p.price_current}${p.spec ? ` / ${p.spec}` : ''}`],
+    p.price_current == null && p.spec && ['主规格', p.spec],
   ].filter(Boolean)
 
   return (

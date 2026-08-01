@@ -202,7 +202,8 @@ def test_concentration_inferred_structure(client, session):
     assert len(estimates) == 12  # CE 全部位次成分均有估计区间
     for e in estimates:
         assert set(e) == {"ingredient_id", "inci_name", "cn_name", "low", "high",
-                          "confidence", "disclosed_conc", "dose"}
+                          "confidence", "disclosed_conc", "dose",
+                          "cost_per_effective_dose", "cost_note"}
         assert 0.0 <= e["low"] <= e["high"] <= 100.0
         assert 0.0 <= e["confidence"] <= 1.0
         assert isinstance(e["dose"], list)

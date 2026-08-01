@@ -3,6 +3,12 @@
 low/high/confidence 均为推断引擎输出的**模型估计值**（约束采样 p5/p95），
 非实测浓度；dose 判定仅表达「估计区间与文献起效线的相对关系」，
 不构成功效承诺。产品无推断结果（conc_low 为 NULL）时不输出判定。
+
+每起效成本（总纲 I3，cost_per_effective_dose/cost_note）：折算浓度基准优先
+取品牌官方披露锚点 disclosed_conc（官方数据），无披露时取推断区间中点
+（模型估计值）；起效线取该成分全部断言中 effective_conc_low 的最小值
+（达到最低文献起效线的折算成本）。产品有价格/规格、成分有起效线时才计算，
+其余为 None；输出为估计值，展示必须带「估计」语义。
 """
 
 from __future__ import annotations
@@ -10,7 +16,10 @@ from __future__ import annotations
 from sqlalchemy.orm import Session
 
 from ..models.ingredient import EfficacyAssertion
-from ..models.product import ProductIngredient
+from ..models.product import Product, ProductIngredient
+from .cost import cost_per_effective_dose, parse_spec_ml
+
+COST_NOTE = "按 1ml 日用量折算，估计值"
 
 
 def verdict_for(low: float, high: float, eff_low: float | None, eff_high: float | None,
@@ -43,8 +52,10 @@ def dose_verdicts(session: Session, product_id: int) -> list[dict] | None:
     """组装产品的浓度估计 + 逐断言剂量判定；无推断结果（无 conc_low 非空行）返回 None。
 
     每个估计项：{ingredient_id, inci_name, cn_name, low, high, confidence,
-    disclosed_conc, dose: [{efficacy, eff_low, eff_high, verdict}]}；
-    一个成分有多条功效断言时逐条输出判定。
+    disclosed_conc, dose: [{efficacy, eff_low, eff_high, verdict}],
+    cost_per_effective_dose, cost_note}；一个成分有多条功效断言时逐条输出判定。
+    cost_per_effective_dose 为每起效成本（元/天，按 1ml 用量折算，估计值），
+    产品无价格/规格或成分无起效浓度断言时为 None。
     """
     links = (
         session.query(ProductIngredient)
@@ -57,6 +68,9 @@ def dose_verdicts(session: Session, product_id: int) -> list[dict] | None:
     )
     if not links:
         return None
+    product = session.get(Product, product_id)
+    price = product.price_current if product is not None else None
+    spec_ml = parse_spec_ml(product.spec) if product is not None else None
     estimates: list[dict] = []
     for link in links:
         ing = link.ingredient
@@ -79,6 +93,16 @@ def dose_verdicts(session: Session, product_id: int) -> list[dict] | None:
             }
             for a in assertions
         ]
+        # 每起效成本：起效线取全部断言最低 effective_conc_low；
+        # 折算浓度基准 = 官方披露锚点，无披露取推断区间中点（估计值）
+        eff_lows = [a.effective_conc_low for a in assertions
+                    if a.effective_conc_low is not None]
+        cost = None
+        if price is not None and spec_ml is not None and eff_lows:
+            conc_mid = (link.disclosed_conc if link.disclosed_conc is not None
+                        else (link.conc_low + link.conc_high) / 2)
+            cost = cost_per_effective_dose(
+                price=price, spec_ml=spec_ml, conc_mid=conc_mid, eff_low=min(eff_lows))
         estimates.append({
             "ingredient_id": ing.id,
             "inci_name": ing.inci_name,
@@ -88,5 +112,7 @@ def dose_verdicts(session: Session, product_id: int) -> list[dict] | None:
             "confidence": link.conc_confidence,
             "disclosed_conc": link.disclosed_conc,
             "dose": dose,
+            "cost_per_effective_dose": cost,  # 元/天（1ml 用量折算，估计值）
+            "cost_note": COST_NOTE if cost is not None else None,
         })
     return estimates

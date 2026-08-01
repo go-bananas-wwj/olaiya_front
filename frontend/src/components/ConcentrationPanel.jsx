@@ -67,6 +67,15 @@ function EstimateRow({ est }) {
           {est.dose.map((d, i) => <DoseBadge key={i} est={est} d={d} />)}
         </div>
       )}
+      {est.cost_per_effective_dose != null && (
+        <div className="mt-1.5 text-xs text-ink-2" title={est.cost_note || undefined}>
+          每起效成本
+          <span className="text-brand font-semibold tabular-nums mx-1">
+            ¥{est.cost_per_effective_dose.toFixed(2)}/天
+          </span>
+          <span className="text-ink-3">（估计）</span>
+        </div>
+      )}
     </div>
   )
 }

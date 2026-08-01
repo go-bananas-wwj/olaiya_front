@@ -210,6 +210,7 @@ def product_detail(product_id: int, db: Session = Depends(get_db)):
         "filing_date": p.filing_date,
         "source_url": p.source_url,
         "price_current": p.price_current,
+        "spec": p.spec,
         "note": p.note,
         "ingredients": [{
             "ingredient_id": l.ingredient_id,
@@ -227,11 +228,14 @@ def product_detail(product_id: int, db: Session = Depends(get_db)):
 
 @app.get("/api/products/{product_id}/concentration")
 def product_concentration(product_id: int, db: Session = Depends(get_db)):
-    """浓度推断结果 + 剂量达标判定。
+    """浓度推断结果 + 剂量达标判定 + 每起效成本。
 
     浓度为模型估计值（推断引擎按位次/先验约束采样的 p5/p95 区间），非实测；
     dose.verdict 为估计区间与文献起效浓度的相对关系（effective/insufficient/
     uncertain/unknown/trace_level，trace_level 表示微量线以下 ppm 级可能起效、依赖原料披露）。
+    产品级 price/spec 为人工采样的官方零售价与主规格；estimates[].cost_per_effective_dose
+    为按起效浓度折算的每日使用成本（元/天，按 1ml 用量，估计值，折算基准优先官方
+    披露锚点、无披露取推断区间中点，起效线取该成分最低文献起效浓度），无数据时为 None。
     无官方降序成分表的产品未推断，返回 inferred=false。
     """
     p = db.get(Product, product_id)
@@ -241,7 +245,9 @@ def product_concentration(product_id: int, db: Session = Depends(get_db)):
     if estimates is None:
         return {"product_id": product_id, "inferred": False,
                 "reason": "无官方降序成分表，未推断"}
-    return {"product_id": product_id, "inferred": True, "estimates": estimates}
+    return {"product_id": product_id, "inferred": True,
+            "price": p.price_current, "spec": p.spec,
+            "estimates": estimates}
 
 
 @app.get("/api/products/{product_id}/fingerprint")

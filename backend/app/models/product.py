@@ -20,6 +20,7 @@ class Product(Base):
     filing_date: Mapped[str | None] = mapped_column(String(20), nullable=True)   # 备案日期（源站字符串原样存）
     source_url: Mapped[str | None] = mapped_column(String(500), nullable=True)   # 备案数据来源页
     price_current: Mapped[float | None] = mapped_column(Float, nullable=True)  # 人民币元，人工采样
+    spec: Mapped[str | None] = mapped_column(String(50), nullable=True)  # 主规格（如 "30ml"/"50g"），随价格采样
     note: Mapped[str | None] = mapped_column(Text, nullable=True)  # 如"品牌公布 15%VC+1%VE"
 
 
