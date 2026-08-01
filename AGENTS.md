@@ -35,8 +35,9 @@ data/
 ├── raw/            原始采集数据（git 忽略）
 ├── seed/           手工核实的种子数据（进 git，文献必须真实可查）
 ├── research/       研究产出的证据 JSON（机验后入库）
+├── eval/           域内评测集与跑分报告（build_eval_set.py 生成 qa_eval.json，run_eval.py 出 report.json）
 ├── loaders/        数据加载器（幂等，CLI 见各文件 docstring）
-└── tools/          采集器/核验器/推断执行器
+└── tools/          采集器/核验器/推断执行器/评测器
 frontend/           React+Vite 源码（build 到 web/ 由 FastAPI 托管）
 vision_service/     视觉 sidecar（AI 生图检测，DINOv2+线性探针，.venv-llm 运行；torch 惰性导入，主 venv 可 mock 跑测）
 web/                前端构建产物（进 git）
