@@ -78,3 +78,34 @@ def test_normalize_inci():
     # 合法括号（植物拉丁名）不动
     assert (normalize_inci("Glycyrrhiza Glabra (Licorice) Root Extract")
             == "GLYCYRRHIZA GLABRA (LICORICE) ROOT EXTRACT")
+
+
+def test_normalize_inci_decodes_html_entities():
+    """页面成分名里的 HTML 实体必须解码（实测泄漏：&#34; &#39; 等进入成分名）。"""
+    assert normalize_inci("&#34;AQUA / WATER") == "AQUA / WATER"
+    assert normalize_inci("NIACINAMIDE&#34;") == "NIACINAMIDE"
+    assert normalize_inci("&#34;D&#39;ALPHA VITAMIN E") == "D'ALPHA VITAMIN E"
+    assert (normalize_inci("Silybum Marianum (Lady&#39;s Thistle) Extract")
+            == "SILYBUM MARIANUM (LADY'S THISTLE) EXTRACT")
+    assert normalize_inci("PARFUM / FRAGRANCE &#34;") == "PARFUM / FRAGRANCE"
+    assert normalize_inci("Cera Alba/Beeswax/Cire d&#39;Abeille") == "CERA ALBA/BEESWAX/CIRE D'ABEILLE"
+
+
+def test_parse_product_page_decodes_entities_in_ingredients():
+    """构造输入：长列表锚文本带 &#34;/&#39; 实体 → 解析出的成分名必须干净。"""
+    html = ('<html><body><h1>Brand X P</h1>'
+            '<div id="showmore-section-ingredlist-long">'
+            '<div class="ingred-long  "><div class="ingred-header">'
+            '<a href="/ingredients/water" class="product-long-ingred-link x">&#34;Aqua / Water</a>'
+            '</div></div>'
+            '<div class="ingred-long  "><div class="ingred-header">'
+            '<a href="/ingredients/niacinamide" class="product-long-ingred-link x">Niacinamide&#34;</a>'
+            '</div></div>'
+            '<div class="ingred-long  "><div class="ingred-header">'
+            '<a href="/ingredients/barley" class="product-long-ingred-link x">Hordeum Vulgare Extract\\Extrait d&#39;Orge</a>'
+            '</div></div>'
+            '</div></body></html>')
+    data = parse_product_page(html)
+    names = [i["inci_name"] for i in data["ingredients"]]
+    assert names == ["AQUA / WATER", "NIACINAMIDE", "HORDEUM VULGARE EXTRACT\\EXTRAIT D'ORGE"]
+    assert all("&" not in n and '"' not in n for n in names)

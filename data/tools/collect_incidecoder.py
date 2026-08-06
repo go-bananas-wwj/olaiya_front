@@ -57,8 +57,11 @@ _DECLARED_CONC = re.compile(r"\s*\(\d+(?:\.\d+)?\s*%\)\s*$")
 
 
 def normalize_inci(display: str) -> str:
-    """页面展示名 → 归一 INCI 名：去零宽字符、剥末尾浓度标注、压空白、大写。"""
-    s = _DECLARED_CONC.sub("", _ZWSP.sub("", display))
+    """页面展示名 → 归一 INCI 名：HTML 实体解码、去零散双引号（标签引述残留）、
+    去零宽字符、剥末尾浓度标注、压空白、大写。"""
+    import html as html_mod
+    s = html_mod.unescape(display).replace('"', "")
+    s = _DECLARED_CONC.sub("", _ZWSP.sub("", s))
     return _WS.sub(" ", s).strip().upper()
 
 
