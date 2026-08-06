@@ -100,3 +100,75 @@ def test_build_is_idempotent(db_path, tmp_path):
     build(db_path, out_dir, _FakeEncoder())
     second = {p.name: p.read_bytes() for p in sorted(out_dir.iterdir())}
     assert first == second, "同库同向量重跑必须得到完全一致的索引产物"
+
+
+class _NamedFakeEncoder(_FakeEncoder):
+    """带 name 的假编码器：meta 的 model 字段应如实写编码器名。"""
+
+    name = "qwen3-embedding-0.6b"
+
+
+def test_build_writes_actual_model_name(db_path, tmp_path):
+    out_dir = tmp_path / "faiss-qwen3"
+    build(db_path, out_dir, _NamedFakeEncoder())
+    for kind in ("products", "ingredients"):
+        meta = json.loads((out_dir / f"{kind}.json").read_text(encoding="utf-8"))
+        assert meta["model"] == "qwen3-embedding-0.6b"
+
+
+def test_resolve_encoder_auto_detects_qwen3():
+    from data.tools.build_embeddings import resolve_encoder
+
+    assert resolve_encoder("data/models/embedding/qwen3-embedding-0.6b", None) == "qwen3"
+    assert resolve_encoder("data/models/embedding/bge-m3", None) == "bge-m3"
+    # 显式指定优先于路径猜测
+    assert resolve_encoder("data/models/embedding/bge-m3", "qwen3") == "qwen3"
+
+
+def test_resolve_encoder_ambiguous_name_raises():
+    from data.tools.build_embeddings import resolve_encoder
+
+    with pytest.raises(ValueError, match="--encoder"):
+        resolve_encoder("data/models/embedding/qwen3-vs-bge-m3", None)
+
+
+def test_encoder_max_length_defaults():
+    """BGE-M3 保持 512 不变；Qwen3 用 1024（实测产品文本最长 589 token）。"""
+    from data.tools.build_embeddings import (
+        MAX_LENGTH,
+        BGEM3Encoder,
+        Qwen3EmbeddingEncoder,
+    )
+
+    assert BGEM3Encoder.max_length == MAX_LENGTH == 512
+    assert Qwen3EmbeddingEncoder.max_length == 1024
+
+
+def test_default_out_dir_per_encoder():
+    from data.tools.build_embeddings import DEFAULT_OUT_DIR, default_out_dir
+
+    assert default_out_dir("bge-m3") == DEFAULT_OUT_DIR  # BGE-M3 默认路径不变
+    assert default_out_dir("qwen3") == DEFAULT_OUT_DIR / "qwen3-0.6b"
+
+
+def test_last_token_pool_picks_last_non_pad():
+    """last_token_pool 双分支：左 pad 取末尾位，右 pad 用 sum-1 定位。
+
+    依赖 torch，主 venv 会 importorskip 跳过；真跑请用：
+        .venv-llm/bin/python -m pytest backend/tests/test_build_embeddings.py
+    """
+    torch = pytest.importorskip("torch")
+    from data.tools.build_embeddings import last_token_pool
+
+    hidden = torch.arange(2 * 4 * 3, dtype=torch.float32).reshape(2, 4, 3)
+    # 左 pad：mask[:, -1] 全 1 → 取每个样本末尾位（位置 3），与 pad 个数无关
+    mask = torch.tensor([[1, 1, 1, 1], [0, 0, 1, 1]])
+    pooled = last_token_pool(hidden, mask)
+    assert pooled.shape == (2, 3)
+    torch.testing.assert_close(pooled[0], hidden[0, 3])
+    torch.testing.assert_close(pooled[1], hidden[1, 3])
+    # 右 pad：sum-1 定位最后一个 1
+    mask2 = torch.tensor([[1, 1, 0, 0], [1, 0, 0, 0]])
+    pooled2 = last_token_pool(hidden, mask2)
+    torch.testing.assert_close(pooled2[0], hidden[0, 1])
+    torch.testing.assert_close(pooled2[1], hidden[1, 0])
