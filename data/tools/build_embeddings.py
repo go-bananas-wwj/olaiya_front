@@ -168,6 +168,7 @@ class Qwen3EmbeddingEncoder:
     torch/transformers 同样惰性导入，纯逻辑测试可在主 venv 跑。
     """
 
+    # 类级缺省名（0.6B）；__init__ 按实际模型目录名覆盖，8B 等变体如实进 meta
     name = QWEN3_MODEL_NAME
     # 原生 32k 上下文；实测产品文本最长 589 token，1024 留足余量且不影响短文本 batch 效率
     max_length = 1024
@@ -175,6 +176,8 @@ class Qwen3EmbeddingEncoder:
     def __init__(self, model_path: str | Path, device: str | None = None):
         import torch
         from transformers import AutoModel, AutoTokenizer
+
+        self.name = Path(model_path).name.lower()
 
         if device is None:
             npu_ok = os.environ.get("ASCEND_RT_VISIBLE_DEVICES") and hasattr(torch, "npu")
