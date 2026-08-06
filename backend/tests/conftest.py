@@ -1,3 +1,4 @@
+import atexit
 import os
 import tempfile
 
@@ -5,6 +6,8 @@ import tempfile
 _db_fd, _db_path = tempfile.mkstemp(suffix=".db")
 os.close(_db_fd)
 os.environ["CFZ_DATABASE_URL"] = f"sqlite:///{_db_path}"
+# mkstemp 不自动删除：进程退出时清理，避免 /tmp 泄漏（不影响测试期间的隔离语义）
+atexit.register(lambda: os.path.exists(_db_path) and os.unlink(_db_path))
 
 import pytest
 
