@@ -1,8 +1,8 @@
-"""产品档案：产品-成分有序关联（位次即备案成分表降序）、价格采样点。"""
+"""产品档案：产品-成分有序关联（位次即备案成分表降序）、价格采样点、去重审计日志。"""
 
 import datetime
 
-from sqlalchemy import Date, Float, ForeignKey, String, Text
+from sqlalchemy import Date, Float, ForeignKey, String, Text, UniqueConstraint
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from ..db import Base
@@ -78,3 +78,22 @@ class PricePoint(Base):
     price: Mapped[float] = mapped_column(Float)
     source: Mapped[str] = mapped_column(String(200))  # 人工采样/联盟API
     is_manual: Mapped[bool] = mapped_column(default=True)
+
+
+class MergeLog(Base):
+    """产品去重审计日志（data/loaders/product_dedup.py 写入）：
+    每合并/归一一行留一条，(kind, dup_id) 唯一保证幂等，detail 存动作明细 JSON。"""
+
+    __tablename__ = "merge_log"
+    __table_args__ = (UniqueConstraint("kind", "dup_id"),)
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    kind: Mapped[str] = mapped_column(String(20))  # merge / brand_normalize
+    keeper_id: Mapped[int | None] = mapped_column(nullable=True)
+    dup_id: Mapped[int | None] = mapped_column(nullable=True)
+    keeper_name: Mapped[str | None] = mapped_column(String(300), nullable=True)
+    dup_name: Mapped[str | None] = mapped_column(String(300), nullable=True)
+    brand: Mapped[str | None] = mapped_column(String(200), nullable=True)
+    jaccard: Mapped[float | None] = mapped_column(Float, nullable=True)
+    detail: Mapped[str | None] = mapped_column(Text, nullable=True)
+    created_at: Mapped[str] = mapped_column(String(30))  # ISO 时间串
