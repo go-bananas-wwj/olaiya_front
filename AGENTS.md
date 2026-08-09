@@ -58,3 +58,4 @@ web/                前端构建产物（进 git）
 
 - 提交格式 `type: 中文描述`，type ∈ feat / fix / test / chore
 - 每个任务一个提交；工作区保持干净（`cfz.db`、`data/raw/`、`.superpowers/`、`node_modules/` 已忽略）
+- **每次修改完成后必须同步 GitHub**：远程 `origin` = `git@github.com:go-bananas-wwj/olaiya_front.git`（master），提交后立即 `git push`，不留本地未推送提交
