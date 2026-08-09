@@ -3,19 +3,31 @@ import { Link } from 'react-router-dom'
 import { api } from '../api'
 import { Loading, LoadError, Empty } from '../components/common'
 
+const PAGE_SIZE = 60 // 每页成分数（加载更多分页）
+
 export default function Ingredients() {
   const [q, setQ] = useState('')
   const [onlyEvidence, setOnlyEvidence] = useState(false)
-  const [state, setState] = useState({ data: null, loading: true, error: null })
+  const [items, setItems] = useState([])
+  const [total, setTotal] = useState(0)
+  const [state, setState] = useState({ loading: true, error: null })
+
+  const fetchPage = (offset) => {
+    setState((s) => ({ ...s, loading: true, error: null }))
+    return api.ingredients({
+      q, has_evidence: onlyEvidence ? 'true' : '', limit: PAGE_SIZE, offset,
+    })
+      .then(({ total: t, items: page }) => {
+        setTotal(t)
+        setItems((prev) => (offset === 0 ? page : [...prev, ...page]))
+        setState({ loading: false, error: null })
+      })
+      .catch((e) => setState({ loading: false, error: e.message }))
+  }
 
   useEffect(() => {
     let alive = true
-    setState((s) => ({ ...s, loading: true, error: null }))
-    const timer = setTimeout(() => {
-      api.ingredients({ q, has_evidence: onlyEvidence ? 'true' : '' })
-        .then((data) => alive && setState({ data, loading: false, error: null }))
-        .catch((e) => alive && setState({ data: null, loading: false, error: e.message }))
-    }, 250)
+    const timer = setTimeout(() => { if (alive) fetchPage(0) }, 250)
     return () => { alive = false; clearTimeout(timer) }
   }, [q, onlyEvidence])
 
@@ -41,14 +53,14 @@ export default function Ingredients() {
         </div>
       </div>
 
-      {state.loading && <div className="card"><Loading /></div>}
+      {state.loading && items.length === 0 && <div className="card"><Loading /></div>}
       {state.error && <div className="card"><LoadError error={state.error} /></div>}
-      {state.data && state.data.length === 0 && <Empty text="没有匹配的成分" />}
-      {state.data && state.data.length > 0 && (
+      {!state.loading && !state.error && items.length === 0 && <Empty text="没有匹配的成分" />}
+      {items.length > 0 && (
         <>
-          <div className="text-xs text-ink-3 mb-3">共 {state.data.length} 种成分</div>
+          <div className="text-xs text-ink-3 mb-3">共 {total} 种成分</div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {state.data.map((i) => (
+            {items.map((i) => (
               <Link
                 key={i.id}
                 to={`/ingredients/${i.id}`}
@@ -67,6 +79,17 @@ export default function Ingredients() {
               </Link>
             ))}
           </div>
+          {items.length < total && (
+            <div className="text-center mt-5">
+              <button
+                className="btn-page"
+                disabled={state.loading}
+                onClick={() => fetchPage(items.length)}
+              >
+                {state.loading ? '加载中…' : `加载更多（已显示 ${items.length} / ${total}）`}
+              </button>
+            </div>
+          )}
         </>
       )}
     </div>

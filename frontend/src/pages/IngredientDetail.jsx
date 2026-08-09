@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { api } from '../api'
 import { useFetch, Loading, LoadError } from '../components/common'
@@ -24,9 +25,22 @@ const TRANSDERMAL_DEFS = {
 export default function IngredientDetail() {
   const { id } = useParams()
   const { data: ing, loading, error } = useFetch(() => api.ingredient(id), [id])
+  // 含该成分的产品默认只返回前 50 条，「展开更多」按 offset 追加
+  const [extraProducts, setExtraProducts] = useState([])
+  const [loadingMore, setLoadingMore] = useState(false)
 
   if (loading) return <div className="card"><Loading /></div>
   if (error) return <div className="card"><LoadError error={error} /></div>
+
+  const products = [...ing.products, ...extraProducts]
+  const productTotal = ing.product_total ?? products.length
+  const loadMore = () => {
+    setLoadingMore(true)
+    api.ingredient(id, { product_offset: products.length, product_limit: 100 })
+      .then((d) => setExtraProducts((prev) => [...prev, ...d.products]))
+      .catch(() => {})
+      .finally(() => setLoadingMore(false))
+  }
 
   const priors = PRIOR_DEFS
     .map(([key, label, unit]) => ing.priors?.[key] != null && [label, `${ing.priors[key]}${unit}`])
@@ -85,22 +99,31 @@ export default function IngredientDetail() {
       </div>
 
       <div className="card">
-        <h2 className="card-title">含该成分的产品（{ing.products.length} 款）</h2>
-        {ing.products.length === 0 ? (
+        <h2 className="card-title">含该成分的产品（{productTotal} 款）</h2>
+        {products.length === 0 ? (
           <div className="text-sm text-ink-3">库内暂无产品使用该成分。</div>
         ) : (
-          <div className="grid sm:grid-cols-2 gap-3">
-            {ing.products.map((p) => (
-              <Link
-                key={p.id}
-                to={`/products/${p.id}`}
-                className="border border-line rounded-xl px-4 py-3 hover:border-brand hover:bg-brand-soft/40 transition-colors"
-              >
-                <div className="text-sm font-medium leading-snug">{p.name}</div>
-                <div className="text-xs text-ink-3 mt-1">{p.brand}</div>
-              </Link>
-            ))}
-          </div>
+          <>
+            <div className="grid sm:grid-cols-2 gap-3">
+              {products.map((p) => (
+                <Link
+                  key={p.id}
+                  to={`/products/${p.id}`}
+                  className="border border-line rounded-xl px-4 py-3 hover:border-brand hover:bg-brand-soft/40 transition-colors"
+                >
+                  <div className="text-sm font-medium leading-snug">{p.name}</div>
+                  <div className="text-xs text-ink-3 mt-1">{p.brand}</div>
+                </Link>
+              ))}
+            </div>
+            {products.length < productTotal && (
+              <div className="text-center mt-4">
+                <button className="btn-page" disabled={loadingMore} onClick={loadMore}>
+                  {loadingMore ? '加载中…' : `展开更多（已显示 ${products.length} / ${productTotal}）`}
+                </button>
+              </div>
+            )}
+          </>
         )}
       </div>
     </div>

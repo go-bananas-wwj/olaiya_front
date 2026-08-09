@@ -137,8 +137,10 @@ def test_products_filter_has_claims(client, session):
 def test_products_filter_limit(client):
     all_products = client.get("/api/products").json()
     r = client.get("/api/products", params={"limit": 1})
-    assert [p["id"] for p in r.json()] == [all_products[0]["id"]]
-    # 0 与不传等价：不限
+    body = r.json()
+    assert body["total"] == len(all_products)
+    assert [p["id"] for p in body["items"]] == [all_products[0]["id"]]
+    # 0 与不传等价：不限，保持纯 list 返回
     assert client.get("/api/products", params={"limit": 0}).json() == all_products
 
 

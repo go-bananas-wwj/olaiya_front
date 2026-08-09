@@ -59,12 +59,15 @@ async function postFile(path, file) {
 
 export const api = {
   stats: () => get('/api/stats'),
-  products: (params) => get('/api/products', params), // q / brand / has_claims / limit
+  // q / brand / has_claims / limit / offset（带 limit/offset 返回 {total, items}）
+  products: (params) => get('/api/products', params),
   product: (id) => get(`/api/products/${id}`),
   productConcentration: (id) => get(`/api/products/${id}/concentration`),
   productSimilarLevels: (id, params) => get(`/api/products/${id}/similar-levels`, params), // k
-  ingredients: (params) => get('/api/ingredients', params), // q / has_evidence
-  ingredient: (id) => get(`/api/ingredients/${id}`),
+  brands: () => get('/api/brands'),
+  // q / has_evidence / limit / offset（带 limit/offset 返回 {total, items}）
+  ingredients: (params) => get('/api/ingredients', params),
+  ingredient: (id, params) => get(`/api/ingredients/${id}`, params), // product_limit / product_offset
   chat: (question) => post('/api/chat', { question }),
   detectImage: (file) => postFile('/api/detect-image', file),
 }

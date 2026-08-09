@@ -81,46 +81,72 @@ def stats(db: Session = Depends(get_db)):
 
 @app.get("/api/ingredients")
 def list_ingredients(q: str | None = None, has_evidence: str | None = None,
+                     limit: int = 0, offset: int = 0,
                      db: Session = Depends(get_db)):
-    stmt = select(Ingredient).order_by(Ingredient.id)
+    """成分列表。断言计数用聚合子查询一次出（避免逐成分 COUNT 的 N+1）。
+
+    不带 limit/offset 时保持旧的纯 list 返回；带 limit>0 或 offset>0 时
+    返回 {"total": 过滤后总数, "items": [...]}（item 字段不变），LIMIT/OFFSET
+    下推到 SQL 层。limit=0 表示不限。
+    """
+    # 断言计数的聚合子查询：has_evidence 过滤与 assertion_count 字段共用
+    assert_sq = (select(EfficacyAssertion.ingredient_id.label("ingredient_id"),
+                        func.count().label("assertion_count"))
+                 .group_by(EfficacyAssertion.ingredient_id).subquery())
+    assert_cnt = func.coalesce(assert_sq.c.assertion_count, 0)
+    stmt = (select(Ingredient, assert_cnt)
+            .outerjoin(assert_sq, assert_sq.c.ingredient_id == Ingredient.id))
     if q:
         like = f"%{q}%"
-        stmt = select(Ingredient).where(
-            or_(Ingredient.cn_name.like(like), Ingredient.inci_name.like(like))
-        ).order_by(Ingredient.id)
-    rows = db.execute(stmt).scalars().all()
-    out = []
-    for i in rows:
-        # 断言计数：has_evidence 过滤与 assertion_count 字段共用
-        cnt = db.query(EfficacyAssertion).filter_by(ingredient_id=i.id).count()
-        if has_evidence == "true" and cnt == 0:
-            continue
-        if has_evidence == "false" and cnt > 0:
-            continue
-        out.append({"id": i.id, "inci_name": i.inci_name, "cn_name": i.cn_name,
-                    "cas_no": i.cas_no, "assertion_count": cnt})
-    return out
+        stmt = stmt.where(
+            or_(Ingredient.cn_name.like(like), Ingredient.inci_name.like(like)))
+    if has_evidence == "true":
+        stmt = stmt.where(assert_cnt > 0)
+    if has_evidence == "false":
+        stmt = stmt.where(assert_cnt == 0)
+
+    def _item(i: Ingredient, cnt: int) -> dict:
+        return {"id": i.id, "inci_name": i.inci_name, "cn_name": i.cn_name,
+                "cas_no": i.cas_no, "assertion_count": cnt}
+
+    stmt = stmt.order_by(Ingredient.id)
+    if limit > 0 or offset > 0:
+        total = db.execute(
+            select(func.count()).select_from(stmt.subquery())).scalar_one()
+        page = stmt.offset(offset)
+        if limit > 0:
+            page = page.limit(limit)
+        items = [_item(i, cnt) for i, cnt in db.execute(page).all()]
+        return {"total": total, "items": items}
+    return [_item(i, cnt) for i, cnt in db.execute(stmt).all()]
 
 
 @app.get("/api/ingredients/{ingredient_id}")
-def ingredient_detail(ingredient_id: int, db: Session = Depends(get_db)):
+def ingredient_detail(ingredient_id: int, product_limit: int = 50,
+                      product_offset: int = 0,
+                      db: Session = Depends(get_db)):
+    """成分详情。含该成分的产品默认只给前 50 条（product_total 为去重总数），
+    可用 product_limit / product_offset 翻页，product_limit=0 表示不限。"""
     ing = db.get(Ingredient, ingredient_id)
     if ing is None:
         raise HTTPException(status_code=404, detail="成分不存在")
     assertions = (db.query(EfficacyAssertion)
                   .filter_by(ingredient_id=ing.id)
                   .order_by(EfficacyAssertion.id).all())
-    # 含该成分的产品（经 ProductIngredient 关联去重，按产品 id 排序）
-    links = (db.query(ProductIngredient)
-             .filter_by(ingredient_id=ing.id)
-             .order_by(ProductIngredient.product_id).all())
-    products = []
-    seen_product_ids = set()
-    for l in links:
-        if l.product_id in seen_product_ids:
-            continue
-        seen_product_ids.add(l.product_id)
-        products.append({"id": l.product.id, "name": l.product.name, "brand": l.product.brand})
+    # 含该成分的产品（经 ProductIngredient 关联去重，按产品 id 排序；
+    # join 一次查出，避免逐链接惰性加载的 N+1）
+    pid_sq = (select(ProductIngredient.product_id.label("product_id"))
+              .where(ProductIngredient.ingredient_id == ing.id)
+              .distinct().subquery())
+    product_total = db.execute(
+        select(func.count()).select_from(pid_sq)).scalar_one()
+    stmt = (select(Product.id, Product.name, Product.brand)
+            .join(pid_sq, pid_sq.c.product_id == Product.id)
+            .order_by(Product.id).offset(product_offset))
+    if product_limit > 0:
+        stmt = stmt.limit(product_limit)
+    products = [{"id": pid, "name": name, "brand": brand}
+                for pid, name, brand in db.execute(stmt).all()]
     return {
         "id": ing.id,
         "inci_name": ing.inci_name,
@@ -136,6 +162,7 @@ def ingredient_detail(ingredient_id: int, db: Session = Depends(get_db)):
         },
         "assertions": [_assertion_dict(a) for a in assertions],
         "products": products,
+        "product_total": product_total,
         # D3 透皮判定（理化模型估计，未考虑递送系统与配方基质；not_applicable 为合法输出）
         "transdermal": get_transdermal_info(ing.inci_name, CID_MAP),
     }
@@ -154,35 +181,62 @@ def _claim_dict(c: ProductClaim) -> dict:
     }
 
 
+@app.get("/api/brands")
+def list_brands(db: Session = Depends(get_db)):
+    """去重排序后的品牌名列表（轻量接口，供前端品牌下拉用）。"""
+    rows = db.execute(select(Product.brand).distinct().order_by(Product.brand)).scalars().all()
+    return [b for b in rows if b]
+
+
 @app.get("/api/products")
 def list_products(q: str | None = None, brand: str | None = None,
-                  has_claims: str | None = None, limit: int = 0,
+                  has_claims: str | None = None, limit: int = 0, offset: int = 0,
                   db: Session = Depends(get_db)):
-    stmt = select(Product)
+    """产品列表。claim/成分计数用聚合子查询一次出（避免逐产品两条 COUNT 的 N+1）。
+
+    不带 limit/offset 时保持旧的纯 list 返回；带 limit>0 或 offset>0 时
+    返回 {"total": 过滤后总数, "items": [...]}（item 字段不变），LIMIT/OFFSET
+    下推到 SQL 层。limit=0 表示不限。
+    """
+    claim_sq = (select(ProductClaim.product_id.label("product_id"),
+                       func.count().label("claim_count"))
+                .group_by(ProductClaim.product_id).subquery())
+    ing_sq = (select(ProductIngredient.product_id.label("product_id"),
+                     func.count().label("ingredient_count"))
+              .group_by(ProductIngredient.product_id).subquery())
+    claim_cnt = func.coalesce(claim_sq.c.claim_count, 0)
+    ing_cnt = func.coalesce(ing_sq.c.ingredient_count, 0)
+    stmt = (select(Product, claim_cnt, ing_cnt)
+            .outerjoin(claim_sq, claim_sq.c.product_id == Product.id)
+            .outerjoin(ing_sq, ing_sq.c.product_id == Product.id))
     if q:
         like = f"%{q}%"
         stmt = stmt.where(or_(Product.name.like(like), Product.brand.like(like)))
     if brand:
         stmt = stmt.where(Product.brand == brand)  # 品牌精确匹配
-    stmt = stmt.order_by(Product.brand, Product.id)
-    rows = db.execute(stmt).scalars().all()
-    out = []
-    for p in rows:
-        claim_count = db.query(ProductClaim).filter_by(product_id=p.id).count()
-        # 按是否存在功效宣称过滤
-        if has_claims == "true" and claim_count == 0:
-            continue
-        if has_claims == "false" and claim_count > 0:
-            continue
-        ing_count = db.query(ProductIngredient).filter_by(product_id=p.id).count()
-        out.append({
+    # 按是否存在功效宣称过滤
+    if has_claims == "true":
+        stmt = stmt.where(claim_cnt > 0)
+    if has_claims == "false":
+        stmt = stmt.where(claim_cnt == 0)
+
+    def _item(p: Product, claim_count: int, ing_count: int) -> dict:
+        return {
             "id": p.id, "name": p.name, "brand": p.brand,
             "nmpa_id": p.nmpa_id, "claim_count": claim_count,
             "ingredient_count": ing_count,
-        })
-    if limit > 0:  # 0 = 不限
-        out = out[:limit]
-    return out
+        }
+
+    stmt = stmt.order_by(Product.brand, Product.id)
+    if limit > 0 or offset > 0:
+        total = db.execute(
+            select(func.count()).select_from(stmt.subquery())).scalar_one()
+        page = stmt.offset(offset)
+        if limit > 0:
+            page = page.limit(limit)
+        items = [_item(p, cc, ic) for p, cc, ic in db.execute(page).all()]
+        return {"total": total, "items": items}
+    return [_item(p, cc, ic) for p, cc, ic in db.execute(stmt).all()]
 
 
 @app.get("/api/products/{product_id}")
