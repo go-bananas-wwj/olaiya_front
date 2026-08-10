@@ -4,6 +4,10 @@
 由 data/tools/extract_iecic_pdf.py + data/tools/build_inci_cn_map.py 产出，禁止 LLM 机翻）。
 
 清洗规则（normalize_inci）：
+- 剥营销符号（`⚫●◆■▲○☆★™®©Ⓒ`，任何位置，INCI 名不含这类字符）、剥隐形噪声字符
+  （软连字符 \\xad、零宽字符、私用区/控制字符；`\\U00100001` 这类采集垃圾）、
+  连字符变体 U+2010/U+2011 归一到 `-`、带调拉丁字母折回 ASCII（TITANÏUM→TITANIUM，
+  仅拉丁字母折叠，希腊/全角/中文不动）；
 - 去空括号 `[]` 后缀、去 `<N%` 浓度尾巴、去 `->` 尾巴、去尾部 `*`/`^` 标记、去前导 `*`/`^`
   营销标记（`*VITAMIN C`→`VITAMIN C`；剥完仍无映射的保持剥后干净名，不猜翻译）；
 - 反斜杠多语名（英\\拉丁\\法，如 `WATER\\AQUA\\EAU`）与含 EXTRAIT 的斜杠/无分隔双语名
@@ -12,9 +16,15 @@
 
 附加规范化（resolve_bilingual 入口）：
 - 欧莱雅内部配方码括号 `(F.I.L. xxx/1)` 剥除后走既有规则，剥除的码记入 merge_log（不丢信息）；
-- USAN→INCI 别名（data/seed/usan_inci_alias.json，NIH PubChem 同 CID 同义词双向核验产出，
-  构建器 data/tools/build_usan_alias.py）：AVOBENZONE/OCTISALATE 等美国 USAN 名规范化到
-  IECIC 键后走既有合并/回填。别名只用于匹配，中文名永远来自 IECIC 映射。
+- 别名表（data/seed/usan_inci_alias.json，NIH PubChem 同 CID 同义词双向核验产出，构建器
+  data/tools/build_usan_alias.py）：USAN 名（AVOBENZONE 等）、INCI 更名旧名（CERAMIDE 6 II 等）、
+  其他俗名，规范化到 IECIC 键后走既有合并/回填；连字符/空格变体（CERAMIDE 6-II）经
+  折叠形（去全部非字母数字）唯一命中别名键时同样接受。别名只用于匹配，中文名永远来自 IECIC 映射。
+- 拼写/标点变体：折叠形匹配（resolver 末档）——候选名去掉全部非字母数字后，恰好与唯一
+  一个 IECIC 键（中文名一致）的折叠形相同才归一（`TRIDECETH 3`→`TRIDECETH-3`、
+  `1.2-HEXANEDIOL`→`1,2-HEXANEDIOL`；数字保留故 `TRIDECETH-3` 与 `TRIDECETH-12` 不误并）；
+- `CL <数字>` 是 CI 号前缀拼写错误（INCI 无 CL 前缀着色剂）：改写成 CI 后重新解析，
+  「CI 号 + 俗名」双段（`CL 42090 BLUE 1`）两段都精确命中 IECIC 键时取俗名段并记 ci-dual 日志。
 
 斜杠/括号双语名规则（resolve_bilingual，美式 dual labeling，如 PARFUM/FRAGRANCE、
 TITANIUM DIOXIDE (CI 77891)）：全名精确命中 IECIC 映射的不动（共聚物 CAPRYLIC/CAPRIC ...）；
@@ -29,7 +39,8 @@ TITANIUM DIOXIDE (CI 77891)）：全名精确命中 IECIC 映射的不动（共�
 工艺限定词括号（HYDROLYZED/FERMENTED 等）仅当 IECIC 有对应工艺条目（如 HYDROLYZED XXX）
 才映射过去，否则保持原样不吞工艺词；括号内是 CI 号而主段未命中映射时同样保持原样
 （防 ORANGE 5 LAKE (CI 45370) 色淀变体被吞）。
-无法判定的一律保持原样。
+无法判定的一律保持原样。斜杠在括号内（`(PALMITIC ACID/ETHYLHEXANOIC ACID) DEXTRIN`
+糊精酯混配）不是双语名，不走斜杠拆分。
 
 合并规则：清洗后与库内其他成分行撞名（大小写无关）时合并——product_ingredients 与
 efficacy_assertions 的 ingredient_id 改指保留行（优先保留本名已是规范名的行，否则 id 最小者），
@@ -46,6 +57,7 @@ efficacy_assertions 的 ingredient_id 改指保留行（优先保留本名已是
 import argparse
 import json
 import re
+import unicodedata
 from pathlib import Path
 
 from sqlalchemy.orm import Session
@@ -66,6 +78,78 @@ _STAR_HEAD = re.compile(r"^[*^\s]+")  # 前导 */^ 营销标记（如 *VITAMIN C
 _EXTRAIT_TAIL = re.compile(r"\s+EXTRAIT\s+.*$", re.IGNORECASE)
 _FIL_PAREN = re.compile(r"\s*\(((?:CODE )?F\.I\.L\.:? [^()]*)\)\s*$", re.IGNORECASE)  # 欧莱雅内部配方码
 ALIAS_SEED_PATH = Path(__file__).resolve().parents[1] / "seed" / "usan_inci_alias.json"
+
+# 营销/噪声字符：INCI 名不可能含这些符号，任何位置直接剥除
+_MKT_SYMBOL = re.compile(r"[⚫●◆■▲○☆★™®©Ⓒ]")
+# 隐形噪声：软连字符、零宽、控制字符、私用区（采集垃圾，如 \U00100001CRITHMUM ...）
+_INVISIBLE = re.compile(
+    "[\x00-\x08\x0b\x0c\x0e-\x1f\x7f\xad\u200b-\u200f\u202a-\u202e\ufeff\ue000-\uf8ff\U000f0000-\U0010fffd]")
+_HYPHEN_VARIANT = str.maketrans({"‐": "-", "‑": "-"})  # U+2010/U+2011 连字符变体
+_CL_TYPO = re.compile(r"^CL\s+(\d+.*)$")  # CL 是 CI 号前缀拼写错误（INCI 无 CL 前缀着色剂）
+_CI_DUAL = re.compile(r"^(CI \d+)\s+(\S.*)$")  # 「CI 号 + 俗名」双段命名
+_COLLAPSE = re.compile(r"[^A-Z0-9一-鿿]+")  # 折叠形：去非字母数字（数字保留防误并；CJK 保留防吞中文名）
+
+# 已知损坏的 IECIC 键（PDF 抽取换行残空格，如 'BEH ENETH-25' 实为 BEHENETH-25）。
+# 折叠形匹配禁止归一到这些键（会把库内正确拼写改成损坏键）；键本身的精确命中与中文名不受影响。
+_CORRUPT_IECIC_KEYS = frozenset({
+    "ACRYLATES/POLYTRIMETHYLSILO XYMETHACRYLATE COPOLYMER",
+    "ACRYLONITRILE/METHACRYLONIT RILE/METHYL METHACRYLATE COPOLYMER",
+    "AMMONIUM ACRYLOYLDIMETHYLTAURATE/BEH ENETH-25 METHACRYLATE CROSSPOLYMER",
+    "AMMONIUM ACRYLOYLDIMETHYLTAURATE/STE ARETH-8 METHACRYLATE COPOLYMER",
+    "AMMONIUM ACRYLOYLDIMETHYLTAURATE/STE ARETH-25 METHACRYLATE CROSSPOLYMER",
+    "BIS-BEHENYL/ISOSTEARYL/PHYTOSTE RYL DIMER DILINOLEYL DIMER DILINOLEATE",
+    "CAPRYLIC/CAPRIC/MYRISTIC/ST EARIC TRIGLYCERIDE",
+    "DIPENTAERYTHRITYL HEXAHYDROXYSTEARATE/HEXASTE ARATE/HEXAROSINATE",
+    "DIPENTAERYTHRITYL TETRAHYDROXYSTEARATE/TETRAI SOSTEARATE",
+    "DIVINYLDIMETHICONE/DIMETHIC ONE COPOLYMER",
+    "HYDROGENATED DIMER DILINOLEYL/DIMETHYLCARBONAT E COPOLYMER",
+    "HYDROGENATED STYRENE/METHYLSTYRENE/INDEN E COPOLYMER",
+    "OCTYLACRYLAMIDE/ACRYLATES/B UTYLAMINOETHYL METHACRYLATE COPOLYMER",
+    "PENTAERYTHRITYL ADIPATE/CAPRATE/CAPRYLATE/H EPTANOATE",
+    "PENTAERYTHRITYL TETRABEHENATE/BENZOATE/ETHY LHEXANOATE",
+    "PHENYLPROPYLDIMETHYLSILOXYS ILICATE",
+    "PHYTOSTERYL/BEHENYL/OCTYLDO DECYL LAUROYL GLUTAMATE",
+    "POLYGLYCERYL-4 DIISOSTEARATE/POLYHYDROXYST EARATE/SEBACATE",
+    "POLYPERFLUOROMETHYLISOPROPY L ETHER",
+    "STEAROXYMETHICONE/DIMETHICO NE COPOLYMER",
+    "TETRADECYL AMINOBUTYROYLVALYLAMINOBUTY RIC UREA TRIFLUOROACETATE",
+    "TRIMETHYLSILOXYSILICATE/DIM ETHICONOL CROSSPOLYMER",
+    "TRIMETHYLSILOXYSILYLCARBAMO YL PULLULAN",
+    "VINYL CAPROLACTAM/VP/DIMETHYLAMIN OETHYL METHACRYLATE COPOLYMER",
+    "VP/DIMETHYLAMINOETHYLMETHAC RYLATE COPOLYMER",
+})
+
+
+def _slash_in_paren(s: str) -> bool:
+    """任一斜杠位于未闭合括号内（(A/B) DEXTRIN 糊精酯混配）→ 不是双语斜杠名。"""
+    depth = 0
+    for ch in s:
+        if ch in "([":
+            depth += 1
+        elif ch in ")]":
+            depth = max(0, depth - 1)
+        elif ch == "/" and depth > 0:
+            return True
+    return False
+
+
+def _fold_latin_diacritics(s: str) -> str:
+    """带调拉丁字母折回 ASCII 基字（TITANÏUM→TITANIUM、GLUCOSIDÉ→GLUCOSIDE）。
+    只折 category 为 L* 且 NFKD 分解后是纯 ASCII 的字符；希腊/全角/中文等不动。"""
+    out: list[str] = []
+    for ch in s:
+        if ord(ch) > 126 and unicodedata.category(ch).startswith("L"):
+            base = "".join(c for c in unicodedata.normalize("NFKD", ch)
+                           if not unicodedata.combining(c))
+            if base and all(ord(c) < 128 for c in base):
+                out.append(base)
+                continue
+        out.append(ch)
+    return "".join(out)
+
+
+def _collapse(s: str) -> str:
+    return _COLLAPSE.sub("", s.upper())
 
 # 工艺限定词括号：XXX (HYDROLYZED)/(FERMENTED)。能映射到 IECIC 对应条目才动
 # （候选键仍须过 resolver 精确命中，绝不猜）；没有对应条目就保持原样，不吞工艺词。
@@ -96,6 +180,10 @@ _FORM_CLASS = {"OIL": "oil", "EXTRACT": "extract", "BUTTER": "butter", "WAX": "w
 def normalize_inci(name: str) -> str:
     """INCI 名规范化：去噪声尾巴、多语名取英文段、空白归一。规则见模块 docstring。"""
     s = (name or "").replace("’", "'").replace("‘", "'")
+    s = _INVISIBLE.sub("", s)  # 软连字符/零宽/私用区等隐形噪声
+    s = _MKT_SYMBOL.sub("", s)  # ⚫●™®©Ⓒ 等营销符号（任何位置）
+    s = s.translate(_HYPHEN_VARIANT)  # U+2010/U+2011 → -
+    s = _fold_latin_diacritics(s)  # 带调拉丁字母折回 ASCII（TITANÏUM→TITANIUM）
     if "\\" in s or ("EXTRAIT" in s.upper() and "/" in s):
         # 英\拉丁\法 多语拼接（或 EXTRAIT 斜杠双语）：取第一个不含 EXTRAIT 的段
         segs = [seg.strip() for seg in re.split(r"[\\/]+", s) if seg.strip()]
@@ -116,19 +204,27 @@ def load_seed(path: Path = SEED_PATH) -> dict:
 
 class InciResolver:
     """IECIC 映射查询：精确键 → 结尾句点变体（ALCOHOL DENAT vs ALCOHOL DENAT. 双向）→
-    去括号段精确键（含 [NANO]）→ 去括号派生键（仅无歧义）。
+    去括号段精确键（含 [NANO]）→ 去括号派生键（仅无歧义）→ 折叠形匹配（末档）。
     派生键同样来自 IECIC 条目（如 BUTYROSPERMUM PARKII (SHEA) BUTTER 派生出
-    BUTYROSPERMUM PARKII BUTTER），多条目坍缩到同一派生键且中文名不一致的弃用。"""
+    BUTYROSPERMUM PARKII BUTTER），多条目坍缩到同一派生键且中文名不一致的弃用。
+    折叠形（去全部非字母数字，数字保留）恰好唯一命中 IECIC 键才归一
+    （TRIDECETH 3→TRIDECETH-3；TRIDECETH-3 与 TRIDECETH-12 折叠形不同不误并）。"""
 
     def __init__(self, mapping: dict):
         self.map = mapping
         derived: dict[str, list[tuple[str, str]]] = {}
+        collapsed: dict[str, list[tuple[str, str]]] = {}
         for key, entry in mapping.items():
             sk = _BRACKET_SEG.sub("", key).strip()
             if sk and sk != key:
                 derived.setdefault(sk, []).append((key, entry["cn_name"]))
+            if key not in _CORRUPT_IECIC_KEYS:  # 损坏键（PDF 换行残空格）不进折叠形索引
+                collapsed.setdefault(_collapse(key), []).append((key, entry["cn_name"]))
         self.derived = {sk: keys[0][0] for sk, keys in derived.items()
                         if len({cn for _, cn in keys}) == 1}
+        # 折叠形唯一性同样按中文名判定：多键同折叠形且中文名一致（少见）取其一，不一致弃用
+        self.collapsed = {ck: keys[0][0] for ck, keys in collapsed.items()
+                          if len({cn for _, cn in keys}) == 1}
 
     def resolve(self, name: str) -> str | None:
         """返回 name 对应的 IECIC 规范键（映射表原键），查不到返回 None。"""
@@ -142,7 +238,10 @@ class InciResolver:
         sk = _BRACKET_SEG.sub("", k).strip()
         if sk != k and sk in self.map:
             return sk
-        return self.derived.get(sk)
+        r = self.derived.get(sk)
+        if r:
+            return r
+        return self.collapsed.get(_collapse(k))
 
     def cn_of(self, key: str) -> str:
         return self.map[key]["cn_name"]
@@ -184,7 +283,7 @@ def resolve_bilingual(name: str, resolver: InciResolver,
                       aliases: dict[str, str] | None = None) -> tuple[str, str | None]:
     """斜杠/括号双语名规范化：返回 (新 inci_name, 日志标记 or None)。
     全名精确命中映射（共聚物等）与无法判定的形态都保持原样。规则见模块 docstring。
-    aliases：USAN→INCI 别名表（data/seed/usan_inci_alias.json，PubChem 同 CID 核验，
+    aliases：别名表（data/seed/usan_inci_alias.json，PubChem 同 CID 核验，
     键大写、值为 IECIC 规范键），仅用于规范化匹配，中文名永远来自 IECIC 映射。"""
     tags: list[str] = []
     s = normalize_inci(name)
@@ -196,13 +295,44 @@ def resolve_bilingual(name: str, resolver: InciResolver,
         return s, "+".join(tags) or None  # (a) 全名精确命中，不动（可能仅剥了 F.I.L.）
     if aliases and s.upper() in aliases:
         tags.append("usan-alias")
-        return aliases[s.upper()], "+".join(tags)  # USAN 名规范化到 IECIC 键
+        return aliases[s.upper()], "+".join(tags)  # 别名规范化到 IECIC 键
+    if aliases:  # 别名折叠形（去非字母数字）唯一命中：CERAMIDE 6-II → CERAMIDE 6 II
+        ck = _collapse(s)
+        cands = {a: v for a, v in aliases.items() if _collapse(a) == ck and a != s.upper()}
+        if len(cands) == 1:
+            a, v = next(iter(cands.items()))
+            tags.append(f"usan-alias-collapse({a})")
+            return v, "+".join(tags)
     if s.endswith("."):
         r = resolver.resolve(s)  # 尾部句点变体（TRIETHANOLAMINE.）：命中规范键则归一
         if r:
             return r, "+".join(tags) or None
 
-    if "/" in s:
+    m_cl = _CL_TYPO.match(s)  # CL 是 CI 号前缀拼写错误：改写后重新解析，不命中保持原样
+    if m_cl:
+        cand = f"CI {m_cl.group(1)}"
+        r = resolver.resolve(cand)
+        if r:
+            return r, "+".join(tags + ["cl-typo"])
+        m_ci = _CI_DUAL.match(cand)  # 改写后是「CI 号 + 俗名」双段：两段都精确命中取俗名段
+        if m_ci and not _COMPOSITE.search(m_ci.group(2)):
+            kci, kn = resolver.resolve(m_ci.group(1)), resolver.resolve(m_ci.group(2))
+            if kci and kn and kci != kn:
+                return kn, "+".join(tags + [
+                    f"cl-typo+ci-dual({m_ci.group(1)}|{m_ci.group(2)} -> {kn})"])
+    else:
+        m_ci = _CI_DUAL.match(s)  # 「CI 号 + 俗名」双段（CI 号让位 INCI 名）
+        if m_ci and not _COMPOSITE.search(m_ci.group(2)):
+            kci, kn = resolver.resolve(m_ci.group(1)), resolver.resolve(m_ci.group(2))
+            if kci and kn and kci != kn:
+                return kn, "+".join(tags + [f"ci-dual({m_ci.group(1)}|{m_ci.group(2)} -> {kn})"])
+    if "(" not in s and "[" not in s:  # 带括号名交给括号规则（含 paren-shift 护栏），不走折叠形
+        rk = resolver.collapsed.get(_collapse(s))  # 折叠形末档：TRIDECETH 3 → TRIDECETH-3
+        if rk:  # 只查折叠形索引，不调全量 resolve（防 bracket-strip/derived 绕过括号护栏）
+            return rk, "+".join(tags + ["punct-collapse"])
+
+    # 斜杠在括号内（(A/B) DEXTRIN 糊精酯混配）：不是双语名，不走斜杠拆分
+    if "/" in s and not _slash_in_paren(s):
         segs = [seg.strip() for seg in s.split("/") if seg.strip()]
         if len(segs) >= 2 and not _PEG_PPG.search(s):
             hits = [(seg, resolver.resolve(seg)) for seg in segs]
@@ -278,6 +408,10 @@ def _merge_into(session: Session, keeper: Ingredient, dup: Ingredient, stats: di
                 session.query(ProductIngredient).filter_by(ingredient_id=keeper.id)}
     for link in session.query(ProductIngredient).filter_by(ingredient_id=dup.id).all():
         if link.product_id in existing:
+            stats["merge_log"].append(
+                f"merge-conflict #{dup.id} -> #{keeper.id}：product_id={link.product_id} "
+                f"已有保留行链接，删多余链接 link_id={link.id}")
+            stats["merge_conflicts"] += 1
             session.delete(link)  # 保留行已有同产品链接，删多余链接
         else:
             link.ingredient_id = keeper.id
@@ -302,7 +436,7 @@ def run_cleanup(session: Session, seed: dict | None = None,
     resolver = InciResolver(mapping)
     stats: dict = {"renamed": 0, "merged": 0, "backfilled": 0, "already_cn": 0,
                    "cn_synced": 0, "cn_tail_cleaned": 0, "bilingual": 0,
-                   "usan_alias": 0, "fil_stripped": 0,
+                   "usan_alias": 0, "fil_stripped": 0, "merge_conflicts": 0,
                    "unmapped": 0, "unmapped_names": set(), "merge_log": []}
 
     # —— 阶段一：规范化 inci_name（含斜杠/括号双语规则），撞名合并 ——
@@ -400,12 +534,15 @@ def coverage_report(session: Session, map_keys: set[str] | None = None,
 
 
 def load_aliases(path: Path = ALIAS_SEED_PATH) -> dict[str, str]:
-    """USAN→INCI 别名表（data/seed/usan_inci_alias.json，PubChem 同 CID 核验）。
-    文件缺失时返回空表（别名是增量机制，不是必需依赖）。"""
+    """别名表（data/seed/usan_inci_alias.json，PubChem 同 CID 核验）。
+    合并所有 alias* 段（USAN / CERAMIDE 旧名 / 其他俗名）；文件缺失时返回空表
+    （别名是增量机制，不是必需依赖）。"""
     if not Path(path).exists():
         return {}
     raw = json.loads(Path(path).read_text(encoding="utf-8"))
-    return {k.upper(): v for k, v in raw.get("alias", {}).items()}
+    return {k.upper(): v for sec, d in raw.items()
+            if sec.startswith("alias") and isinstance(d, dict)
+            for k, v in d.items()}
 
 
 def main() -> None:
@@ -427,6 +564,7 @@ def main() -> None:
         else:
             s.commit()
     print(f"清洗改名={stats['renamed']} 合并删除={stats['merged']} "
+          f"（其中冲突链接删除={stats['merge_conflicts']}） "
           f"回填中文名={stats['backfilled']} 已有中文跳过={stats['already_cn']} "
           f"双语规范化={stats['bilingual']} "
           f"（其中 USAN别名={stats['usan_alias']} F.I.L.剥除={stats['fil_stripped']}） "

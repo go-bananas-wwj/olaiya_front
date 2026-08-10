@@ -4,8 +4,8 @@
   "url_template": "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/{alias}/synonyms/JSON",
   "retrieved": "2026-08-10",
   "raw_cache": "data/raw/pubchem_usan/{ALIAS}.json",
-  "rule": "同一 CID（同一物质）同义词中恰好命中唯一 IECIC 2021 键才接受别名；零/多命中拒收",
-  "spot_check": "全量 9 条逐条与 PubChem 同 CID 同义词原文核对（非抽样，总数少于 10 条故全查）：AVOBENZONE→CID 51040 同义词含 'Butyl methoxydibenzoylmethane'；OCTISALATE→'Ethylhexyl salicylate'（亦名 Octyl salicylate）；OCTINOXATE→'Ethylhexyl methoxycinnamate'；OXYBENZONE→'Benzophenone-3'；ENSULIZOLE→'Phenylbenzimidazole sulfonic acid'；MERADIMATE→'Menthyl anthranilate'；ECAMSULE→'Terephthalylidene dicamphor sulfonic acid'（Mexoryl SX）；BEMOTRIZINOL→'Bis-ethylhexyloxyphenol methoxyphenyl triazine'（Tinosorb S）；TROLAMINE→'Triethanolamine'（TEA）。均为 FDA 防晒专论/药品通用名体系下公认可查的 USAN↔INCI 对应，且接受条件已限定为同一 PubChem CID 下唯一 IECIC 键命中，无人工猜测。"
+  "rule": "同一 CID（同一物质）同义词中恰好命中唯一 IECIC 2021 键才接受别名；零/多命中拒收；名字查询返回多个 CID（歧义物质）同样拒收",
+  "spot_check": "USAN 段 9 条逐条与 PubChem 同 CID 同义词原文核对（非抽样，总数少于 10 条故全查）：AVOBENZONE→CID 51040 同义词含 'Butyl methoxydibenzoylmethane'；OCTISALATE→'Ethylhexyl salicylate'（亦名 Octyl salicylate）；OCTINOXATE→'Ethylhexyl methoxycinnamate'；OXYBENZONE→'Benzophenone-3'；ENSULIZOLE→'Phenylbenzimidazole sulfonic acid'；MERADIMATE→'Menthyl anthranilate'；ECAMSULE→'Terephthalylidene dicamphor sulfonic acid'（Mexoryl SX）；BEMOTRIZINOL→'Bis-ethylhexyloxyphenol methoxyphenyl triazine'（Tinosorb S）；TROLAMINE→'Triethanolamine'（TEA）。均为 FDA 防晒专论/药品通用名体系下公认可查的 USAN↔INCI 对应。CERAMIDE 段（INCI 2013 更名旧名）：CERAMIDE 6 II→CID 44625889 同义词原文含 'Ceramide AP' 与 'Ceramide 6 II'（同一 CID，且为该 CID 唯一 IECIC 键命中）；CERAMIDE 3（CID 9898642）与 CERAMIDE 1（CID 58418606）的同义词列表均不含任何 IECIC 键（NP/EOP 名未收录），按规则拒收不做。其他俗名段：ETHANOL（CID 702）同义词同时命中 ALCOHOL 与 ALCOHOL DENAT. 两个 IECIC 键、PURIFIED WATER（CID 962）同时命中 WATER 与 AQUA，均按宁缺毋滥拒收；BG/DPG（日系缩写）PubChem 无 CID，拒收。所有接受条件已限定为同一 PubChem CID 下唯一 IECIC 键命中，无人工猜测。"
  },
  "alias": {
   "AVOBENZONE": "BUTYL METHOXYDIBENZOYLMETHANE",
@@ -18,5 +18,17 @@
   "BEMOTRIZINOL": "BIS-ETHYLHEXYLOXYPHENOL METHOXYPHENYL TRIAZINE",
   "TROLAMINE": "TRIETHANOLAMINE"
  },
- "rejected": {}
+ "alias_ceramide": {
+  "CERAMIDE 6 II": "CERAMIDE AP"
+ },
+ "alias_common": {},
+ "rejected": {
+  "CERAMIDE 3": "IECIC 零命中",
+  "CERAMIDE 1": "IECIC 零命中",
+  "ETHANOL": "IECIC 同 CID 命中 2 个：['ALCOHOL', 'ALCOHOL DENAT.']",
+  "PURIFIED WATER": "IECIC 同 CID 命中 2 个：['AQUA', 'WATER']",
+  "CARRAGEENAN": "fetch failed: HTTP Error 404: PUGREST.NotFound",
+  "BG": "fetch failed: HTTP Error 404: PUGREST.NotFound",
+  "DPG": "fetch failed: HTTP Error 404: PUGREST.NotFound"
+ }
 }
