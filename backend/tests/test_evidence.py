@@ -17,8 +17,10 @@ def test_create_paper_evidence(session):
     assert got.year == 2007
 
 
-def test_all_four_evidence_types(session):
+def test_all_evidence_types(session):
+    """每个枚举值都能入库（含 database 官方数据库词表类型）。"""
     for t in EvidenceType:
         session.add(Evidence(type=t, title=f"t-{t.value}", source="s"))
     session.commit()
-    assert session.query(Evidence).count() == 4
+    assert session.query(Evidence).count() == len(EvidenceType)
+    assert "database" in {t.value for t in EvidenceType}

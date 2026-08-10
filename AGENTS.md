@@ -53,6 +53,7 @@ web/                前端构建产物（进 git）
 4. 不爬取天猫/京东/美丽修行等明确禁止的平台；采集礼貌延时（≥4s/页），触发限流立即熔断冷却
 5. 弱证据（口服/动物/体外/复方）必须在 note 字段如实标注；断言另有结构化列 `evidence_level`/`evidence_strength`（规则集中在 `app/services/evidence_level.py`，回填用 `data/tools/backfill_evidence_level.py`），拿不准一律落 `unknown`，禁止猜测；规范功效族列 `efficacy_canonical`（规则在 `app/services/efficacy_canon.py`，回填用 `data/tools/backfill_efficacy_canonical.py`），功效指纹按规范族聚合并排除法规/防腐族断言
 6. 成分中文化只用 IECIC 2021 官方映射（`data/seed/inci_cn_map.json`，来源与抽查核对说明在文件 source 字段；PDF 提取 `data/tools/extract_iecic_pdf.py` 需 pdfplumber，生成 `data/tools/build_inci_cn_map.py`），禁止 LLM 机翻成分名；清洗回填用 `data/loaders/inci_cn_loader.py`（幂等，未命中保持原样）。成分别名（USAN 名 / CERAMIDE 2013 更名前旧名 / 其他俗名 → IECIC 键）只用 PubChem 同 CID 双向核验的 `data/seed/usan_inci_alias.json`（多段结构 alias/alias_ceramide/alias_common，构建 `data/tools/build_usan_alias.py`，同 CID 唯一 IECIC 命中才接受、多 CID 拒收，原始响应存 `data/raw/pubchem_usan/`），别名只用于匹配，中文名仍只出自 IECIC 映射；拼写/标点变体走 loader 折叠形唯一命中（数字保留、CJK 保留、损坏 IECIC 键黑名单 `_CORRUPT_IECIC_KEYS` 除外）
+7. CosIng 功能分类断言（`data/seed/cosing_functions.json`，官方搜索 API 采集 `data/tools/collect_cosing.py`、构建 `data/tools/build_cosing_seed.py`、入库 `data/loaders/cosing_loader.py`，幂等）是**官方申报功能分类，不是功效实证**：efficacy 一律「功能分类：XX（CosIng 官方申报功能）」，禁止出现「证明/实证/临床」等越界措辞；证据类型 `database`（source="European Commission CosIng"），evidence_level 落 `unknown`；note 固定注明「CosIng 功能字段为官方申报功能分类，非功效实证」并附原功能码；功能码映射只取语义明确子集（FUNCTION_MAP），ambiguous 码一律跳过登记 SKIP_REASONS，未知码绝不猜测映射
 
 ## Git 约定
 
