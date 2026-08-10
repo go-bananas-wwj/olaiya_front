@@ -1,0 +1,474 @@
+{
+  "ingredients": [
+    {
+      "cn_name": "甘油",
+      "inci_name": "GLYCERIN",
+      "cas_no": "56-81-5",
+      "assertions": [
+        {
+          "efficacy": "屏障修护（加速受损屏障恢复）",
+          "evidence": {
+            "type": "paper",
+            "title": "Glycerol accelerates recovery of barrier function in vivo",
+            "source": "Acta Derm Venereol, 1999;79(6):418-421",
+            "year": 1999,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/10598752/",
+            "excerpt": "两项人体生物物理研究：胶带剥离与 SLS 反复洗涤造成屏障损伤后，甘油处理部位的经皮失水（TEWL）恢复显著快于未处理与基质对照，角质层含水量更高；效果在停用后 7 天仍可观察，作者认为甘油是「屏障稳定与保湿」成分，且效应源于屏障修复调节而非单纯吸湿。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "人体屏障损伤模型（胶带剥离/SLS 洗涤），样本量小，非大样本功效人群试验"
+        },
+        {
+          "efficacy": "保湿（提高角质层含水量、补偿被洗脱的天然保湿因子）",
+          "evidence": {
+            "type": "paper",
+            "title": "Effects of glycerol on human skin damaged by acute sodium lauryl sulphate treatment",
+            "source": "Arch Dermatol Res, 2010;302(6):435-441",
+            "year": 2010,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/20043170/",
+            "excerpt": "人体前臂 10% SLS 封闭急性刺激模型：1-10% 甘油水溶液处理后，低剂量即可显著改善皮肤水合（电容法），机制为增强角质层持水能力、补偿被表面活性剂洗脱的天然保湿因子；TEWL 恢复较慢，作者认为甘油先补水、再促进生理性屏障修复。"
+          },
+          "effective_conc_low": 1.0,
+          "effective_conc_high": 10.0,
+          "note": "人体前臂 SLS 急性刺激模型（短时封闭给药），非常规使用场景的功效人群试验"
+        },
+        {
+          "efficacy": "舒缓抗刺激（抑制刺激引起的 TEWL 升高与炎症）",
+          "evidence": {
+            "type": "paper",
+            "title": "Anti-irritant and anti-inflammatory effects of glycerol and xylitol in sodium lauryl sulphate-induced acute irritation",
+            "source": "J Eur Acad Dermatol Venereol, 2015;29(12):2333-2341",
+            "year": 2015,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/26370610/",
+            "excerpt": "SKH-1 无毛鼠 SLS（5%）急性刺激模型：10% 甘油可抑制 SLS 引起的 TEWL 升高、减轻真皮血流增加与白细胞-内皮相互作用、改善水合并降低 IL-1β 与 TNF-α 表达；木糖醇在等渗浓度下亦有效且有效浓度低于甘油。"
+          },
+          "effective_conc_low": 5.0,
+          "effective_conc_high": 10.0,
+          "note": "弱证据：小鼠（SKH-1 无毛鼠）动物模型，非人体外用功效试验"
+        }
+      ]
+    },
+    {
+      "cn_name": "木糖醇",
+      "inci_name": "XYLITOL",
+      "cas_no": "87-99-0",
+      "assertions": [
+        {
+          "efficacy": "舒缓抗刺激与保湿（抑制 TEWL 升高、减轻炎症、改善水合）",
+          "evidence": {
+            "type": "paper",
+            "title": "Anti-irritant and anti-inflammatory effects of glycerol and xylitol in sodium lauryl sulphate-induced acute irritation",
+            "source": "J Eur Acad Dermatol Venereol, 2015;29(12):2333-2341",
+            "year": 2015,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/26370610/",
+            "excerpt": "SKH-1 无毛鼠 SLS 急性刺激模型：8.26% 与 16.52% 木糖醇均可抑制 SLS 引起的 TEWL 升高、减轻真皮微循环炎症反应、改善皮肤水合、降低 TNF-α 表达并减少 SLS 向角质层深层渗透；作者结论为其有效浓度低于甘油。"
+          },
+          "effective_conc_low": 8.26,
+          "effective_conc_high": 16.52,
+          "note": "弱证据：小鼠（SKH-1 无毛鼠）动物模型，非人体外用功效试验；试验浓度按等渗设计，高于化妆品常用量"
+        }
+      ]
+    },
+    {
+      "cn_name": "聚二甲基硅氧烷",
+      "inci_name": "DIMETHICONE",
+      "cas_no": "9006-65-9",
+      "assertions": [
+        {
+          "efficacy": "防护（预防表面活性剂引起的刺激性接触性皮炎）",
+          "evidence": {
+            "type": "paper",
+            "title": "A bioengineering study on the efficacy of a skin protectant lotion in preventing SLS-induced dermatitis",
+            "source": "Skin Res Technol, 2000;6(2):77-80",
+            "year": 2000,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/11428946/",
+            "excerpt": "12 名健康受试者双盲随机人体研究：含聚二甲基硅氧烷的皮肤防护乳液预处理后再接触 0.5% SLS，视觉评分与 TEWL 显著低于 SLS 单用位点及载体对照位点；作者认为合适的聚二甲基硅氧烷防护产品可在家庭/工作环境中预防刺激物性皮炎。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "人体双盲生物工程研究（n=12，前臂 SLS 激发模型）；成品配方试验，非单成分给药"
+        },
+        {
+          "efficacy": "皮肤屏障保护（对刺激物与浸渍的防护，效果因配方而异）",
+          "evidence": {
+            "type": "paper",
+            "title": "A controlled, three-part trial to investigate the barrier function and skin hydration properties of six skin protectants",
+            "source": "Ostomy Wound Manage, 2005;51(12):30-42",
+            "year": 2005,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/16439809/",
+            "excerpt": "18 名健康志愿者三阶段对照试验比较六种皮肤保护剂：含聚二甲基硅氧烷的产品对刺激物的防护效果差异很大（部分显著、部分无效），保湿潜力较好但对浸渍的屏障效力低；凡士林基质产品整体表现最佳。作者提示屏障保护「不只是加入一种活性屏障成分」那么简单。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "人体对照试验（n=18，失禁性皮炎防护场景）；如实记录：含该成分产品效果不稳定，功效高度依赖整体配方"
+        }
+      ]
+    },
+    {
+      "cn_name": "生育酚（维生素E）",
+      "inci_name": "TOCOPHEROL",
+      "assertions": [
+        {
+          "efficacy": "改善术后疤痕外观（随机双盲研究显示无效，如实记录）",
+          "evidence": {
+            "type": "paper",
+            "title": "The effects of topical vitamin E on the cosmetic appearance of scars",
+            "source": "Dermatol Surg, 1999;25(4):311-315",
+            "year": 1999,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/10417589/",
+            "excerpt": "15 名皮肤癌术后患者随机双盲研究：疤痕两侧分别外用普通润肤剂（Aquaphor）与含维生素 E 的 Aquaphor，每日两次共 4 周，随访至 12 周。90% 病例中维生素 E 无效或使疤痕外观更差，33% 患者出现接触性皮炎；作者建议不鼓励在术后伤口外用维生素 E。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "随机双盲对照人体研究（n=15）；负面结果：对「维生素E淡化疤痕」这一常见宣称构成反证，且 33% 接触性皮炎发生率提示不良反应风险"
+        }
+      ]
+    },
+    {
+      "cn_name": "柠檬酸",
+      "inci_name": "CITRIC ACID",
+      "cas_no": "77-92-9",
+      "assertions": [
+        {
+          "efficacy": "抗光老化（增厚活性表皮、增加真皮糖胺聚糖含量）",
+          "evidence": {
+            "type": "paper",
+            "title": "Citric acid increases viable epidermal thickness and glycosaminoglycan content of sun-damaged skin",
+            "source": "Dermatol Surg, 1997;23(8):689-694",
+            "year": 1997,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/9256916/",
+            "excerpt": "人体对照研究：20% 柠檬酸乳液与载体对照外用 3 个月后取活检，图像分析显示处理侧活性表皮厚度与真皮糖胺聚糖含量增加，变化与甘醇酸、乳酸铵及维 A 酸类似。"
+          },
+          "effective_conc_low": 20.0,
+          "effective_conc_high": 20.0,
+          "note": "人体活检组织学研究（与载体对照）；试验浓度 20% 远高于化妆品中柠檬酸常见的 pH 调节用量，不可外推至低浓度产品"
+        }
+      ]
+    },
+    {
+      "cn_name": "烟酰胺",
+      "inci_name": "NIACINAMIDE",
+      "assertions": [
+        {
+          "efficacy": "屏障修护（促进神经酰胺等角质层脂质合成、降低 TEWL）",
+          "evidence": {
+            "type": "paper",
+            "title": "Nicotinamide increases biosynthesis of ceramides as well as other stratum corneum lipids to improve the epidermal permeability barrier",
+            "source": "Br J Dermatol, 2000;143(3):524-531",
+            "year": 2000,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/10971324/",
+            "excerpt": "体外正常人角质形成细胞中烟酰胺剂量依赖性提高神经酰胺合成 4.1-5.5 倍（并上调限速酶 SPT 及其 mRNA），同时提高游离脂肪酸与胆固醇合成；干燥皮肤外用烟酰胺后角质层神经酰胺与游离脂肪酸水平升高、TEWL 下降。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "体外细胞实验 + 人体外用观察；摘要未给出人体试验浓度与样本量"
+        },
+        {
+          "efficacy": "控油（降低面部皮脂分泌速率）",
+          "evidence": {
+            "type": "paper",
+            "title": "The effect of 2% niacinamide on facial sebum production",
+            "source": "J Cosmet Laser Ther, 2006;8(2):96-101",
+            "year": 2006,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/16766489/",
+            "excerpt": "两项人体试验：日本 100 名受试者双盲安慰剂对照，2% 烟酰胺保湿剂 4 周后皮脂分泌速率（SER）显著降低；高加索 30 名受试者随机分脸 6 周，即时皮脂水平（CSL）显著降低而 SER 变化不显著，提示种族间效果指标有差异。"
+          },
+          "effective_conc_low": 2.0,
+          "effective_conc_high": 2.0,
+          "note": "人体双盲安慰剂对照（n=100）+ 分脸研究（n=30）；两项结果不完全一致，如实记录"
+        },
+        {
+          "efficacy": "抗老化（改善细纹皱纹、色斑、泛红与肤色蜡黄）",
+          "evidence": {
+            "type": "paper",
+            "title": "Topical niacinamide reduces yellowing, wrinkling, red blotchiness, and hyperpigmented spots in aging facial skin",
+            "source": "Int J Cosmet Sci, 2004;26(5):231-238",
+            "year": 2004,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/18492135/",
+            "excerpt": "50 名 40-60 岁高加索女性 12 周双盲安慰剂对照左右随机分脸研究：5% 烟酰胺保湿剂相对对照显著改善细纹/皱纹、色素沉着斑点、肤质、泛红，并显著改善肤色蜡黄；耐受性良好。"
+          },
+          "effective_conc_low": 5.0,
+          "effective_conc_high": 5.0,
+          "note": "人体双盲安慰剂对照分脸随机研究（n=50，12 周）"
+        }
+      ]
+    },
+    {
+      "cn_name": "尿素",
+      "inci_name": "UREA",
+      "cas_no": "57-13-6",
+      "assertions": [
+        {
+          "efficacy": "保湿改善干燥脱屑（寻常型鱼鳞病）",
+          "evidence": {
+            "type": "paper",
+            "title": "Effect of topical treatment with 7.5% urea in Ichthyosis Vulgaris: A randomized, controlled, double blinded, split body study evaluating the effect of urea cream compared to the vehicle (moisturizing) cream",
+            "source": "Skin Health Dis, 2021;1(4):e65",
+            "year": 2021,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/35663767/",
+            "excerpt": "14 名寻常型鱼鳞病患者随机双盲分侧 4 周研究：半身用 7.5% 尿素霜、另半身用基础保湿霜（载体）。两种处理均显著改善皮肤水合；在角化最重的腿部，尿素组临床脱屑评分下降与水合提升均显著优于载体，手臂则未见显著差异。"
+          },
+          "effective_conc_low": 7.5,
+          "effective_conc_high": 7.5,
+          "note": "随机双盲载体对照人体研究（n=14，鱼鳞病患者）；效果在角化较重部位（腿部）才显著优于普通保湿霜，样本量小；利益冲突：作者 Uffe Koppelhus 与 DermaPharm A/S 合作化妆品品牌 MDerma（原文披露）"
+        }
+      ]
+    },
+    {
+      "cn_name": "乙酰壳糖胺",
+      "inci_name": "ACETYL GLUCOSAMINE",
+      "cas_no": "7512-17-6",
+      "assertions": [
+        {
+          "efficacy": "美白淡斑（减少面部色素沉着外观）",
+          "evidence": {
+            "type": "paper",
+            "title": "Reduction in the appearance of facial hyperpigmentation by topical N-acetyl glucosamine",
+            "source": "J Cosmet Dermatol, 2007;6(1):20-26",
+            "year": 2007,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/17348991/",
+            "excerpt": "8 周双盲安慰剂对照左右随机分脸人体试验：外用 2% 乙酰壳糖胺（NAG）减少面部色素沉着外观；第二项临床研究中 2% NAG 与 4% 烟酰胺联用效果更强。Franz 池体外实验显示 NAG 透皮性良好，耐受性好。"
+          },
+          "effective_conc_low": 2.0,
+          "effective_conc_high": 2.0,
+          "note": "人体双盲安慰剂对照分脸研究；文内第二项研究为与烟酰胺的复方"
+        },
+        {
+          "efficacy": "美白淡斑（与烟酰胺复配减少面部不规则色素沉着）",
+          "evidence": {
+            "type": "paper",
+            "title": "Reduction in the appearance of facial hyperpigmentation after use of moisturizers with a combination of topical niacinamide and N-acetyl glucosamine: results of a randomized, double-blind, vehicle-controlled trial",
+            "source": "Br J Dermatol, 2010;162(2):435-441",
+            "year": 2010,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/19845667/",
+            "excerpt": "202 名 40-60 岁女性 10 周随机双盲载体对照全脸平行组研究：含 4% 烟酰胺 + 2% NAG 的 SPF15 日霜+晚霜方案，相对载体对照在四项色素指标（斑点面积、视觉分级、黑素分布均匀度等）上均显著更优，效果超出单纯防晒。"
+          },
+          "effective_conc_low": 2.0,
+          "effective_conc_high": 2.0,
+          "note": "随机双盲载体对照人体试验（n=202）；弱证据提示：复方（烟酰胺+NAG+SPF15 防晒体系），无法完全归因于 NAG 单成分"
+        }
+      ]
+    },
+    {
+      "cn_name": "四己基癸醇抗坏血酸酯",
+      "inci_name": "TETRAHEXYLDECYL ASCORBATE",
+      "cas_no": "183476-82-6",
+      "assertions": [
+        {
+          "efficacy": "抗皱/改善光老化（临床评分改善并伴新生胶原组织学证据）",
+          "evidence": {
+            "type": "paper",
+            "title": "Double-blind, half-face study comparing topical vitamin C and vehicle for rejuvenation of photodamage",
+            "source": "Dermatol Surg, 2002;28(3):231-236",
+            "year": 2002,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/11896774/",
+            "excerpt": "10 名受试者双盲半脸 12 周研究：含 10% 抗坏血酸 + 7% 四己基癸醇抗坏血酸酯（THDA）的无水硅凝胶，面颊与口周光老化评分显著优于载体侧；活检示 Grenz 区胶原增加、I 型胶原 mRNA 染色增强，无炎症表现。"
+          },
+          "effective_conc_low": 7.0,
+          "effective_conc_high": 7.0,
+          "note": "双盲半脸人体研究（n=10，样本量小）；弱证据提示：复方（10% 抗坏血酸+7% THDA），无法完全归因于 THDA 单成分"
+        }
+      ]
+    },
+    {
+      "cn_name": "抗坏血酸磷酸酯镁",
+      "inci_name": "MAGNESIUM ASCORBYL PHOSPHATE",
+      "cas_no": "113170-55-1",
+      "assertions": [
+        {
+          "efficacy": "美白淡斑（抑制黑素生成、减轻黄褐斑与老年性雀斑）",
+          "evidence": {
+            "type": "paper",
+            "title": "Inhibitory effect of magnesium L-ascorbyl-2-phosphate (VC-PMG) on melanogenesis in vitro and in vivo",
+            "source": "J Am Acad Dermatol, 1996;34(1):29-33",
+            "year": 1996,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/8543691/",
+            "excerpt": "体外实验显示抗坏血酸磷酸酯镁（VC-PMG）抑制酪氨酸酶与黑素瘤细胞的黑素生成，并可透入表皮；10% VC-PMG 乳膏用于患者后，34 例黄褐斑或老年性雀斑患者中 19 例有显著美白效果（25 例正常皮肤者 3 例变浅）。"
+          },
+          "effective_conc_low": 10.0,
+          "effective_conc_high": 10.0,
+          "note": "弱证据：体外（酪氨酸酶/黑素瘤细胞）+ 无对照人体观察，非随机对照试验；部分患者有效、并非普遍有效"
+        }
+      ]
+    },
+    {
+      "cn_name": "抗坏血酸磷酸酯钠",
+      "inci_name": "SODIUM ASCORBYL PHOSPHATE",
+      "cas_no": "66170-10-3",
+      "assertions": [
+        {
+          "efficacy": "抗痘（寻常痤疮单药治疗）",
+          "evidence": {
+            "type": "paper",
+            "title": "Sodium L-ascorbyl-2-phosphate 5% lotion for the treatment of acne vulgaris: a randomized, double-blind, controlled trial",
+            "source": "J Cosmet Dermatol, 2010;9(1):22-27",
+            "year": 2010,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/20367669/",
+            "excerpt": "50 名痤疮患者随机双盲载体对照 12 周试验：5% 抗坏血酸磷酸酯钠（APS）乳液在研究者整体评分、受试者自评与皮损计数上均显著优于载体，耐受性与载体相当；作者认为 5% APS 单药治疗痤疮有效。"
+          },
+          "effective_conc_low": 5.0,
+          "effective_conc_high": 5.0,
+          "note": "随机双盲载体对照人体试验（n=50，12 周）"
+        }
+      ]
+    },
+    {
+      "cn_name": "抗坏血酸（维生素C）",
+      "inci_name": "ASCORBIC ACID",
+      "assertions": [
+        {
+          "efficacy": "抗光老化（改善临床评分、皮肤微轮廓与弹性组织超微结构）",
+          "evidence": {
+            "type": "paper",
+            "title": "Topical ascorbic acid on photoaged skin. Clinical, topographical and ultrastructural evaluation: double-blind study vs. placebo",
+            "source": "Exp Dermatol, 2003;12(3):237-244",
+            "year": 2003,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/12823436/",
+            "excerpt": "光老化皮肤健康女性志愿者 6 个月双盲随机安慰剂对照试验：5% 维生素 C 乳膏在医生评估与自评总体评分上均显著优于基质，硅胶复模显示皮肤微轮廓密度显著增加、深沟纹减少，电镜观察到弹性组织修复证据。"
+          },
+          "effective_conc_low": 5.0,
+          "effective_conc_high": 5.0,
+          "note": "随机双盲安慰剂对照人体试验（6 个月，含皮肤轮廓测量与活检超微结构证据）"
+        }
+      ]
+    },
+    {
+      "cn_name": "咖啡因",
+      "inci_name": "CAFFEINE",
+      "assertions": [
+        {
+          "efficacy": "紧致/改善橘皮组织外观",
+          "evidence": {
+            "type": "paper",
+            "title": "Clinical Effectiveness of a Novel Caffeine Nano-Cream for Cellulite Reduction: A Randomised Double-Blind Trial",
+            "source": "Pharmaceutics, 2026;18(2):151",
+            "year": 2026,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/41754894/",
+            "excerpt": "含羊毛脂促渗的 2% 咖啡因纳米乳膏，随机双盲安慰剂配对试验：受试者双大腿分别外用活性与安慰剂乳膏 12 周，橘皮组织评分由 3.96 降至 2.50（安慰剂 3.88→2.83），活性组效应量中等（ES=0.475），耐受性良好。"
+          },
+          "effective_conc_low": 2.0,
+          "effective_conc_high": 2.0,
+          "note": "随机双盲安慰剂对照人体试验（12 周）；效应量中等且安慰剂组亦有改善，特殊纳米载体+促渗剂配方，效果不可直接外推至普通咖啡因产品"
+        },
+        {
+          "efficacy": "改善黑眼圈与下睑浮肿外观",
+          "evidence": {
+            "type": "paper",
+            "title": "Effectiveness and tolerance of multicorrective topical treatment for infraorbital dark circles and puffiness",
+            "source": "J Cosmet Dermatol, 2024;23(2):486-495",
+            "year": 2024,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/38112168/",
+            "excerpt": "含四己基癸醇抗坏血酸酯、多肽、植物提取物、二羟黄酮与咖啡因的多效眼霜，开放标签 12 周临床研究（n=40，完成 37）：色差计、VISIA 成像与激光多普勒等客观指标及临床分级均显示黑眼圈（微血管充血/黑素/血红蛋白降解相关色素）与浮肿显著改善，耐受性好。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "弱证据：开放标签无对照人体研究（n=40）；复方眼霜（咖啡因仅为成分之一），无法归因于咖啡因单成分；研究由品牌方（Revision Skincare）资助"
+        }
+      ]
+    },
+    {
+      "cn_name": "扁桃酸",
+      "inci_name": "MANDELIC ACID",
+      "assertions": [
+        {
+          "efficacy": "抗痘（化学换肤治疗轻中度寻常痤疮）",
+          "evidence": {
+            "type": "paper",
+            "title": "Comparative study of efficacy and safety of 45% mandelic acid versus 30% salicylic acid peels in mild-to-moderate acne vulgaris",
+            "source": "J Cosmet Dermatol, 2020;19(2):393-399",
+            "year": 2020,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/31553119/",
+            "excerpt": "50 名轻中度痤疮患者随机分两组，每 2 周一次共 6 次换肤（45% 扁桃酸 vs 30% 水杨酸），12 周后两组痤疮评分改善总体等效；水杨酸对非炎性皮损更好，扁桃酸对炎性皮损更优且不良反应更少、耐受性更好。"
+          },
+          "effective_conc_low": 45.0,
+          "effective_conc_high": 45.0,
+          "note": "随机对照人体研究（n=50）；45% 为专业换肤浓度，远高于日常驻留型化妆品，浓度不可外推"
+        }
+      ]
+    },
+    {
+      "cn_name": "葡糖酸内酯",
+      "inci_name": "GLUCONOLACTONE",
+      "cas_no": "90-80-2",
+      "assertions": [
+        {
+          "efficacy": "抗老化（PHA 方案抗老化效果与 AHA 方案相当且更温和）",
+          "evidence": {
+            "type": "paper",
+            "title": "A polyhydroxy acid skin care regimen provides antiaging effects comparable to an alpha-hydroxyacid regimen",
+            "source": "Cutis, 2004;73(2 Suppl):14-17",
+            "year": 2004,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/15002657/",
+            "excerpt": "12 周人体对照研究：含葡糖酸内酯的多羟基酸（PHA）护肤方案与含甘醇酸的 AHA 方案对比，硅胶复模、临床分级与皮肤弹性回弹均显示两组显著抗老化获益且总体相当；PHA 组刺痛/灼烧感与敏感评级显著更低。作者单位为 NeoStrata（PHA 原料厂商）。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "人体 12 周对照研究；弱证据提示：方案/复方级证据（整套 PHA 产品），非单成分单产品；研究由 PHA 原料厂商（NeoStrata）人员完成"
+        }
+      ]
+    },
+    {
+      "cn_name": "十一碳烯酰基苯丙氨酸",
+      "inci_name": "UNDECYLENOYL PHENYLALANINE",
+      "cas_no": "175357-18-3",
+      "assertions": [
+        {
+          "efficacy": "美白淡斑（淡化日光性黑子）",
+          "evidence": {
+            "type": "paper",
+            "title": "A randomized, double-blind, vehicle-controlled study of a preparation containing undecylenoyl phenylalanine 2% in the treatment of solar lentigines",
+            "source": "Clin Exp Dermatol, 2010;35(5):473-476",
+            "year": 2010,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/19874316/",
+            "excerpt": "36 名手部日光性黑子患者随机双盲载体对照 12 周研究：2% 十一碳烯酰基苯丙氨酸侧皮损全部部分改善（63.3% 中度、36.6% 明显），载体侧 86.6% 无变化，差异显著（P<0.01）；副作用轻微（红斑、瘙痒或灼烧）。机制可能为 α-MSH 拮抗抑制黑素生成。"
+          },
+          "effective_conc_low": 2.0,
+          "effective_conc_high": 2.0,
+          "note": "随机双盲载体对照人体研究（n=36，完成 30）"
+        }
+      ]
+    },
+    {
+      "cn_name": "泛醇",
+      "inci_name": "PANTHENOL",
+      "assertions": [
+        {
+          "efficacy": "屏障修护与舒缓抗炎（SLS 刺激后加速屏障修复、减轻红斑）",
+          "evidence": {
+            "type": "paper",
+            "title": "Dexpanthenol enhances skin barrier repair and reduces inflammation after sodium lauryl sulphate-induced irritation",
+            "source": "J Dermatolog Treat, 2002;13(4):173-178",
+            "year": 2002,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/19753737/",
+            "excerpt": "人体 SLS 斑贴刺激模型：含右旋泛醇（dexpanthenol）的乳膏与载体对照每日两次外用，泛醇组屏障修复显著加速、角质层含水量与粗糙度改善均优于载体，并显著减轻作为炎症标志的皮肤红斑（载体无此效果）。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "人体 SLS 刺激模型载体对照研究；摘要未注明乳膏中泛醇浓度"
+        }
+      ]
+    },
+    {
+      "cn_name": "植物鞘氨醇",
+      "inci_name": "PHYTOSPHINGOSINE",
+      "cas_no": "554-62-1",
+      "assertions": [
+        {
+          "efficacy": "抗痘（抗菌+抗炎活性改善寻常痤疮）",
+          "evidence": {
+            "type": "paper",
+            "title": "Anti-microbial and -inflammatory activity and efficacy of phytosphingosine: an in vitro and in vivo study addressing acne vulgaris",
+            "source": "Int J Cosmet Sci, 2007;29(3):181-190",
+            "year": 2007,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/18489348/",
+            "excerpt": "植物鞘氨醇（PS）为角质层天然存在的鞘氨醇碱基：体外与体内研究证实皮肤同型 PS 具有强抗菌（针对痤疮丙酸杆菌等）与抗炎活性，在痤疮皮肤护理中取得良好临床结果，作者认为其可作为活性成分增强或补充现有痤疮治疗。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "体外抗菌/抗炎实验 + 体内应用研究的综述性报道；摘要未给出临床对照设计与浓度，证据强度中等"
+        }
+      ]
+    }
+  ]
+}

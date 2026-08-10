@@ -1,0 +1,59 @@
+[
+  {
+    "ingredient": "烟酰胺",
+    "assertion": "美白淡斑（抑制黑素小体从黑素细胞向角质形成细胞转运）",
+    "reason": "与库内 evidence id=1 重复（同成分同功效同文献 PMID 12100180，库内 efficacy 为「美白（抑制黑素小体转运）」，loader 幂等键匹配不上会重复插入，故剔除）；note/excerpt 含新增信息（体外抑制黑素小体转运 35-68%、两项人体试验设计细节、有效浓度 2-5%），供人工补录到既有断言",
+    "assertion_data": {
+      "efficacy": "美白淡斑（抑制黑素小体从黑素细胞向角质形成细胞转运）",
+      "evidence": {
+        "type": "paper",
+        "title": "The effect of niacinamide on reducing cutaneous pigmentation and suppression of melanosome transfer",
+        "source": "Br J Dermatol, 2002;147(1):20-31",
+        "year": 2002,
+        "url": "https://pubmed.ncbi.nlm.nih.gov/12100180/",
+        "excerpt": "体外共培养与重建表皮模型中烟酰胺抑制黑素小体转运 35-68%（不影响酪氨酸酶活性）；人体试验：18 名色素沉着受试者 5% 烟酰胺保湿剂配对使用、120 名晒黑受试者 2% 烟酰胺+防晒对比，4 周后色素沉着显著减少、肤色变浅。"
+      },
+      "effective_conc_low": 2.0,
+      "effective_conc_high": 5.0,
+      "note": "人体临床试验（n=18 配对 + n=120 分组，其中一组为与防晒剂复方）+ 体外机制研究"
+    }
+  },
+  {
+    "ingredient": "视黄醇",
+    "assertion": "抗皱（改善自然老化细纹，伴糖胺聚糖与 I 型前胶原增加）",
+    "reason": "与库内 evidence id=2 重复（同成分同功效同文献 PMID 17515510，库内 efficacy 为「抗皱（改善自然老化皮肤细纹）」，loader 幂等键匹配不上会重复插入，故剔除）；note/excerpt 含新增信息（细纹评分 -1.64 vs -0.08、糖胺聚糖与 I 型前胶原组织学指标、浓度 0.4%），供人工补录到既有断言",
+    "assertion_data": {
+      "efficacy": "抗皱（改善自然老化细纹，伴糖胺聚糖与 I 型前胶原增加）",
+      "evidence": {
+        "type": "paper",
+        "title": "Improvement of naturally aged skin with vitamin A (retinol)",
+        "source": "Arch Dermatol, 2007;143(5):606-612",
+        "year": 2007,
+        "url": "https://pubmed.ncbi.nlm.nih.gov/17515510/",
+        "excerpt": "36 名老年受试者（平均 87 岁）随机双盲载体对照左右臂 24 周研究：0.4% 视黄醇乳液细纹评分改善显著优于载体（-1.64 vs -0.08，P<0.001）；亚组活检示糖胺聚糖表达与 I 型前胶原免疫染色显著增加。"
+      },
+      "effective_conc_low": 0.4,
+      "effective_conc_high": 0.4,
+      "note": "随机双盲载体对照人体试验（n=36，手臂部位自然老化皮肤）"
+    }
+  },
+  {
+    "ingredient": "腺苷",
+    "assertion": "抗皱（改善眼周鱼尾纹与眉间纹）",
+    "reason": "与库内 evidence id=32 重复（同成分同功效同文献 PMID 18489289，库内 efficacy 为「抗皱」，loader 幂等键匹配不上会重复插入，故剔除）；note/excerpt 含新增信息（n=126、FOITS 轮廓测量、3 周起效、欧莱雅企业研究），供人工补录到既有断言",
+    "assertion_data": {
+      "efficacy": "抗皱（改善眼周鱼尾纹与眉间纹）",
+      "evidence": {
+        "type": "paper",
+        "title": "Evaluation of anti-wrinkle efficacy of adenosine-containing products using the FOITS technique",
+        "source": "Int J Cosmet Sci, 2006;28(6):447-451",
+        "year": 2006,
+        "url": "https://pubmed.ncbi.nlm.nih.gov/18489289/",
+        "excerpt": "126 名 45-65 岁女性盲法随机安慰剂对照 2 个月研究：含腺苷的乳膏与可溶性膜剂每日两次用于眼周，FOITS 快速活体光学轮廓测量显示 3 周起 Ra/Rz 参数显著改善并维持至 2 个月；腺苷乳膏对眉间纹亦有显著改善。"
+      },
+      "effective_conc_low": null,
+      "effective_conc_high": null,
+      "note": "盲法随机安慰剂对照人体试验（n=126）；第一作者单位为欧莱雅研发（企业资助研究）；摘要未注明腺苷浓度"
+    }
+  }
+]
