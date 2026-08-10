@@ -1,0 +1,1929 @@
+{
+  "ingredients": [
+    {
+      "cn_name": "甘油",
+      "inci_name": "GLYCERIN",
+      "cas_no": null,
+      "cir_conc_low": 0.0001,
+      "cir_conc_high": 99.4,
+      "assertions": [
+        {
+          "efficacy": "安全评估：现行使用方式和浓度下安全（CIR 评估；行业调查使用浓度区间 0.0001%-99.4%，非安全限值）",
+          "evidence": {
+            "type": "white_paper",
+            "title": "Safety Assessment of Glycerin as Used in Cosmetics（IJT 38(Suppl. 3):6-22, 2019）",
+            "source": "Cosmetic Ingredient Review",
+            "year": 2019,
+            "url": "https://cir-reports.cir-safety.org/view-attachment?id=ad7dbaa1-8e74-ec11-8943-0022482f06a6",
+            "excerpt": "ed,theavailableinformation indicates that incidental inhalation would not be a significant route of exposure that might lead to local respiratory or sys- temic effects. A detailed discussion and summary of the Panel’sapproachtoevaluatingincidentalinhalationexposures toingredientsincosmeticproductsisavailableathttp://www. cir-safety.org/cir-findings. Conclusion The Panel concluded that glycerin is safe in cosmetics in the present practices of use and concentration described in this safety assessment. Becker et al Authors’ Note UnpublishedsourcescitedinthisreportareavailablefromtheExec- utiveDirector,CosmeticIngredientReview,1620LStreet,NW,Suite 1200,Washington,DC20036,USA. AuthorContributions L.Beckercontributedtoconceptionanddesign,contributedtoacqui- sition, analysis, and interpretation, drafted the manuscript, and criti- cally revised the manuscript. W. … Two uses foranhydrous glycerin (inaneye makeup preparation and a moisturizer) were reported in the VCRP; these uses were merged with theglycerin uses."
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "CIR（美国化妆品原料评价委员会）专家小组安全评估结论，为行业自评机构意见而非监管限值；浓度来自 PCPC 行业使用调查，非功效起效浓度；浓度数值经人工与报告原文核对"
+        }
+      ]
+    },
+    {
+      "cn_name": "苯氧乙醇",
+      "inci_name": "PHENOXYETHANOL",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": []
+    },
+    {
+      "cn_name": "氯己定二葡糖酸盐",
+      "inci_name": "CHLORHEXIDINE DIGLUCONATE",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": []
+    },
+    {
+      "cn_name": "聚二甲基硅氧烷",
+      "inci_name": "DIMETHICONE",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": []
+    },
+    {
+      "cn_name": "氨端聚二甲基硅氧烷",
+      "inci_name": "AMODIMETHICONE",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": []
+    },
+    {
+      "cn_name": "生育酚（维生素E）",
+      "inci_name": "TOCOPHEROL",
+      "cas_no": null,
+      "cir_conc_low": 9e-07,
+      "cir_conc_high": 5.4,
+      "assertions": [
+        {
+          "efficacy": "安全评估：现行使用方式和浓度下安全（CIR 评估；行业调查使用浓度区间 0.0000009%-5.4%，非安全限值）",
+          "evidence": {
+            "type": "white_paper",
+            "title": "Final Report on the Safety Assessment of Tocopherol, Tocopheryl Acetate, Tocopheryl Linoleate, Tocopheryl Linoleate/Oleate, Tocopheryl Nicotinate, Tocopheryl Succinate, Dioleyl Tocopheryl Methylsilanol, Potassium Ascorbyl Tocopheryl Phosphate, and Tocophersolan（IJT 37(Suppl.2):61-94, 2018）",
+            "source": "Cosmetic Ingredient Review",
+            "year": 2018,
+            "url": "https://cir-reports.cir-safety.org/view-attachment?id=297dbaa1-8e74-ec11-8943-0022482f06a6",
+            "excerpt": "lable information indicates that incidental inhalation would not be a significant route of exposure that might lead to local respiratory or systemic effects. A detailed discussionandsummaryofthePanel’sapproachtoevaluating incidentalinhalationexposurestoingredientsincosmeticprod- ucts isavailable at http://www.cir-safety.org/cir-findings. Conclusion ThePanelconcludedthatthefollowing14ingredientsaresafe in cosmetics in the present practices of use and concentration described inthissafety assessment: Ascorbyl tocopheryl acetate* Ascorbyl tocopheryl maleate Dioleyltocopheryl methylsilanol Potassium ascorbyltocopheryl phosphate Sodiumtocopheryl phosphate Tocopherol Tocophersolan Tocopherylacetate Tocopheryllinoleate 92S Tocopheryl linoleate/oleate Tocopheryl nicotinate Tocopheryl phosphate* Tocopheryl succinate Tocotrienols AuthorContributions Monice M. Fiume … 9 these g-Tocopherol is often the most prevalent form of vitamin E in plant seeds and the products derived from them: Corn, soybean, and sesame oil and walnuts, pecans, and pea- nutsaregoodsourcesofg-tocopherol. … 15Tocopherylacetate continuedtohavethehighestreporteduseconcentration;itis used atupto36%inleave-onformulationsand thatuseisin cuticlesofteners."
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "CIR（美国化妆品原料评价委员会）专家小组安全评估结论，为行业自评机构意见而非监管限值；浓度来自 PCPC 行业使用调查，非功效起效浓度；浓度数值经人工与报告原文核对"
+        }
+      ]
+    },
+    {
+      "cn_name": "生育酚乙酸酯",
+      "inci_name": "TOCOPHERYL ACETATE",
+      "cas_no": null,
+      "cir_conc_low": 1e-08,
+      "cir_conc_high": 36.0,
+      "assertions": [
+        {
+          "efficacy": "安全评估：现行使用方式和浓度下安全（CIR 评估；行业调查使用浓度区间 0.00000001%-36%，非安全限值）",
+          "evidence": {
+            "type": "white_paper",
+            "title": "Final Report on the Safety Assessment of Tocopherol, Tocopheryl Acetate, Tocopheryl Linoleate, Tocopheryl Linoleate/Oleate, Tocopheryl Nicotinate, Tocopheryl Succinate, Dioleyl Tocopheryl Methylsilanol, Potassium Ascorbyl Tocopheryl Phosphate, and Tocophersolan（IJT 37(Suppl.2):61-94, 2018）",
+            "source": "Cosmetic Ingredient Review",
+            "year": 2018,
+            "url": "https://cir-reports.cir-safety.org/view-attachment?id=297dbaa1-8e74-ec11-8943-0022482f06a6",
+            "excerpt": "lable information indicates that incidental inhalation would not be a significant route of exposure that might lead to local respiratory or systemic effects. A detailed discussionandsummaryofthePanel’sapproachtoevaluating incidentalinhalationexposurestoingredientsincosmeticprod- ucts isavailable at http://www.cir-safety.org/cir-findings. Conclusion ThePanelconcludedthatthefollowing14ingredientsaresafe in cosmetics in the present practices of use and concentration described inthissafety assessment: Ascorbyl tocopheryl acetate* Ascorbyl tocopheryl maleate Dioleyltocopheryl methylsilanol Potassium ascorbyltocopheryl phosphate Sodiumtocopheryl phosphate Tocopherol Tocophersolan Tocopherylacetate Tocopheryllinoleate 92S Tocopheryl linoleate/oleate Tocopheryl nicotinate Tocopheryl phosphate* Tocopheryl succinate Tocotrienols AuthorContributions Monice M. Fiume … 9 these g-Tocopherol is often the most prevalent form of vitamin E in plant seeds and the products derived from them: Corn, soybean, and sesame oil and walnuts, pecans, and pea- nutsaregoodsourcesofg-tocopherol. … 15Tocopherylacetate continuedtohavethehighestreporteduseconcentration;itis used atupto36%inleave-onformulationsand thatuseisin cuticlesofteners."
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "CIR（美国化妆品原料评价委员会）专家小组安全评估结论，为行业自评机构意见而非监管限值；浓度来自 PCPC 行业使用调查，非功效起效浓度；浓度数值经人工与报告原文核对"
+        }
+      ]
+    },
+    {
+      "cn_name": "柠檬酸",
+      "inci_name": "CITRIC ACID",
+      "cas_no": null,
+      "cir_conc_low": 5e-07,
+      "cir_conc_high": 39.0,
+      "assertions": []
+    },
+    {
+      "cn_name": "柠檬酸钠",
+      "inci_name": "SODIUM CITRATE",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": []
+    },
+    {
+      "cn_name": "柠檬酸三乙酯",
+      "inci_name": "TRIETHYL CITRATE",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": []
+    },
+    {
+      "cn_name": "EDTA 二钠",
+      "inci_name": "DISODIUM EDTA",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": []
+    },
+    {
+      "cn_name": "EDTA 四钠",
+      "inci_name": "TETRASODIUM EDTA",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": []
+    },
+    {
+      "cn_name": "EDTA 三钠",
+      "inci_name": "TRISODIUM EDTA",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": 2.0,
+      "assertions": []
+    },
+    {
+      "cn_name": "辛甘醇",
+      "inci_name": "CAPRYLYL GLYCOL",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": []
+    },
+    {
+      "cn_name": "1,2-戊二醇",
+      "inci_name": "PENTYLENE GLYCOL",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": []
+    },
+    {
+      "cn_name": "1,2-己二醇",
+      "inci_name": "1,2-HEXANEDIOL",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": []
+    },
+    {
+      "cn_name": "丁二醇",
+      "inci_name": "BUTYLENE GLYCOL",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": []
+    },
+    {
+      "cn_name": "硬脂醇",
+      "inci_name": "STEARYL ALCOHOL",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": []
+    },
+    {
+      "cn_name": "双丙甘醇",
+      "inci_name": "DIPROPYLENE GLYCOL",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": []
+    },
+    {
+      "cn_name": "辛基十二醇",
+      "inci_name": "OCTYLDODECANOL",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": []
+    },
+    {
+      "cn_name": "己二醇",
+      "inci_name": "HEXYLENE GLYCOL",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": []
+    },
+    {
+      "cn_name": "氢氧化钠",
+      "inci_name": "SODIUM HYDROXIDE",
+      "cas_no": null,
+      "cir_conc_low": 8.3e-06,
+      "cir_conc_high": 12.9,
+      "assertions": []
+    },
+    {
+      "cn_name": "氢氧化钾",
+      "inci_name": "POTASSIUM HYDROXIDE",
+      "cas_no": null,
+      "cir_conc_low": 4.9e-06,
+      "cir_conc_high": 10.0,
+      "assertions": []
+    },
+    {
+      "cn_name": "黄原胶",
+      "inci_name": "XANTHAN GUM",
+      "cas_no": null,
+      "cir_conc_low": 1e-05,
+      "cir_conc_high": 6.0,
+      "assertions": []
+    },
+    {
+      "cn_name": "透明质酸钠",
+      "inci_name": "SODIUM HYALURONATE",
+      "cas_no": null,
+      "cir_conc_low": 1e-05,
+      "cir_conc_high": 7.5,
+      "assertions": [
+        {
+          "efficacy": "安全评估：现行使用方式和浓度下安全（CIR 评估；行业调查使用浓度区间 0.00001%-7.5%，非安全限值）",
+          "evidence": {
+            "type": "white_paper",
+            "title": "Final Report: Safety Assessment of Hyaluronates as Used in Cosmetics（June 13, 2023）",
+            "source": "Cosmetic Ingredient Review",
+            "year": 2023,
+            "url": "https://cir-reports.cir-safety.org/view-attachment?id=dd27a62b-d988-9d8d-aaff-51a43716120d",
+            "excerpt": "necessary procedures to limit infectious agents, and/or biologically-derived impurities (e.g., nucleic acids, proteins, endotoxins). Additionally, industry should minimize impurities, such as heavy metals, according to limits set by the Food and Drug Administration (FDA) and the Environmental Protection Agency (EPA). The Panel reviewed all relevant data and concluded that these 7 ingredients are safe in cosmetics in the present practices of use and concentration described in this safety assessment. INTRODUCTION This assessment reviews the safety of the following 7 ingredients as used in cosmetic formulations: Hyaluronic Acid* Potassium Hyaluronate* Hydrolyzed Calcium Hyaluronate Sodium Acetylated Hyaluronate Hydrolyzed Hyaluronic Acid Sodium Hyaluronate* Hydrolyzed Sodium Hyaluronate * previously reviewed by the Panel Sodium Acetylated Hyaluronate and Hy … The results of the 2021 concentration of use survey conducted by the Council indicate Sodium Hyaluronate also has the highest concentration of use; it is used at up to 7. … , Hydrolyzed Calcium Hyaluronate, Hydrolyzed Hyaluronic Acid, Hydrolyzed Sodium Hyaluronate, and Sodium Acetylated Hyaluronate) can be found in Table 5."
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "CIR（美国化妆品原料评价委员会）专家小组安全评估结论，为行业自评机构意见而非监管限值；浓度来自 PCPC 行业使用调查，非功效起效浓度；浓度数值经人工与报告原文核对"
+        }
+      ]
+    },
+    {
+      "cn_name": "乙酰化透明质酸钠",
+      "inci_name": "SODIUM ACETYLATED HYALURONATE",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": [
+        {
+          "efficacy": "安全评估：现行使用方式和浓度下安全（CIR 评估）",
+          "evidence": {
+            "type": "white_paper",
+            "title": "Final Report: Safety Assessment of Hyaluronates as Used in Cosmetics（June 13, 2023）",
+            "source": "Cosmetic Ingredient Review",
+            "year": 2023,
+            "url": "https://cir-reports.cir-safety.org/view-attachment?id=dd27a62b-d988-9d8d-aaff-51a43716120d",
+            "excerpt": "necessary procedures to limit infectious agents, and/or biologically-derived impurities (e.g., nucleic acids, proteins, endotoxins). Additionally, industry should minimize impurities, such as heavy metals, according to limits set by the Food and Drug Administration (FDA) and the Environmental Protection Agency (EPA). The Panel reviewed all relevant data and concluded that these 7 ingredients are safe in cosmetics in the present practices of use and concentration described in this safety assessment. INTRODUCTION This assessment reviews the safety of the following 7 ingredients as used in cosmetic formulations: Hyaluronic Acid* Potassium Hyaluronate* Hydrolyzed Calcium Hyaluronate Sodium Acetylated Hyaluronate Hydrolyzed Hyaluronic Acid Sodium Hyaluronate* Hydrolyzed Sodium Hyaluronate * previously reviewed by the Panel Sodium Acetylated Hyaluronate and Hy … The results of the 2021 concentration of use survey conducted by the Council indicate Sodium Hyaluronate also has the highest concentration of use; it is used at up to 7. … , Hydrolyzed Calcium Hyaluronate, Hydrolyzed Hyaluronic Acid, Hydrolyzed Sodium Hyaluronate, and Sodium Acetylated Hyaluronate) can be found in Table 5."
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "CIR（美国化妆品原料评价委员会）专家小组安全评估结论，为行业自评机构意见而非监管限值；浓度来自 PCPC 行业使用调查，非功效起效浓度；浓度数值经人工与报告原文核对"
+        }
+      ]
+    },
+    {
+      "cn_name": "水解透明质酸",
+      "inci_name": "HYDROLYZED HYALURONIC ACID",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": [
+        {
+          "efficacy": "安全评估：现行使用方式和浓度下安全（CIR 评估）",
+          "evidence": {
+            "type": "white_paper",
+            "title": "Final Report: Safety Assessment of Hyaluronates as Used in Cosmetics（June 13, 2023）",
+            "source": "Cosmetic Ingredient Review",
+            "year": 2023,
+            "url": "https://cir-reports.cir-safety.org/view-attachment?id=dd27a62b-d988-9d8d-aaff-51a43716120d",
+            "excerpt": "necessary procedures to limit infectious agents, and/or biologically-derived impurities (e.g., nucleic acids, proteins, endotoxins). Additionally, industry should minimize impurities, such as heavy metals, according to limits set by the Food and Drug Administration (FDA) and the Environmental Protection Agency (EPA). The Panel reviewed all relevant data and concluded that these 7 ingredients are safe in cosmetics in the present practices of use and concentration described in this safety assessment. INTRODUCTION This assessment reviews the safety of the following 7 ingredients as used in cosmetic formulations: Hyaluronic Acid* Potassium Hyaluronate* Hydrolyzed Calcium Hyaluronate Sodium Acetylated Hyaluronate Hydrolyzed Hyaluronic Acid Sodium Hyaluronate* Hydrolyzed Sodium Hyaluronate * previously reviewed by the Panel Sodium Acetylated Hyaluronate and Hy … The results of the 2021 concentration of use survey conducted by the Council indicate Sodium Hyaluronate also has the highest concentration of use; it is used at up to 7. … , Hydrolyzed Calcium Hyaluronate, Hydrolyzed Hyaluronic Acid, Hydrolyzed Sodium Hyaluronate, and Sodium Acetylated Hyaluronate) can be found in Table 5."
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "CIR（美国化妆品原料评价委员会）专家小组安全评估结论，为行业自评机构意见而非监管限值；浓度来自 PCPC 行业使用调查，非功效起效浓度"
+        }
+      ]
+    },
+    {
+      "cn_name": "烟酰胺",
+      "inci_name": "NIACINAMIDE",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": []
+    },
+    {
+      "cn_name": "苯甲醇",
+      "inci_name": "BENZYL ALCOHOL",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": []
+    },
+    {
+      "cn_name": "苯甲酸钠",
+      "inci_name": "SODIUM BENZOATE",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": []
+    },
+    {
+      "cn_name": "苯甲酸",
+      "inci_name": "BENZOIC ACID",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": []
+    },
+    {
+      "cn_name": "苯甲酸苄酯",
+      "inci_name": "BENZYL BENZOATE",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": []
+    },
+    {
+      "cn_name": "卡波姆",
+      "inci_name": "CARBOMER",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": []
+    },
+    {
+      "cn_name": "丙烯酸（酯）类/C10-30 烷醇丙烯酸酯交联聚合物",
+      "inci_name": "ACRYLATES/C10-30 ALKYL ACRYLATE CROSSPOLYMER",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": []
+    },
+    {
+      "cn_name": "丙烯酸（酯）类共聚物",
+      "inci_name": "ACRYLATES COPOLYMER",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": []
+    },
+    {
+      "cn_name": "聚丙烯酸钠",
+      "inci_name": "SODIUM POLYACRYLATE",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": []
+    },
+    {
+      "cn_name": "甲基丙烯酸甲酯交联聚合物",
+      "inci_name": "METHYL METHACRYLATE CROSSPOLYMER",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": []
+    },
+    {
+      "cn_name": "丙二醇",
+      "inci_name": "PROPYLENE GLYCOL",
+      "cas_no": null,
+      "cir_conc_low": 0.0008,
+      "cir_conc_high": 99.0,
+      "assertions": []
+    },
+    {
+      "cn_name": "硬脂酸",
+      "inci_name": "STEARIC ACID",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": []
+    },
+    {
+      "cn_name": "棕榈酸",
+      "inci_name": "PALMITIC ACID",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": []
+    },
+    {
+      "cn_name": "肉豆蔻酸",
+      "inci_name": "MYRISTIC ACID",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": []
+    },
+    {
+      "cn_name": "PEG-100 硬脂酸酯",
+      "inci_name": "PEG-100 STEARATE",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": []
+    },
+    {
+      "cn_name": "硅石",
+      "inci_name": "SILICA",
+      "cas_no": null,
+      "cir_conc_low": 5e-06,
+      "cir_conc_high": 82.0,
+      "assertions": []
+    },
+    {
+      "cn_name": "变性乙醇",
+      "inci_name": "ALCOHOL DENAT.",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": []
+    },
+    {
+      "cn_name": "鲸蜡醇",
+      "inci_name": "CETYL ALCOHOL",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": []
+    },
+    {
+      "cn_name": "鲸蜡硬脂醇",
+      "inci_name": "CETEARYL ALCOHOL",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": []
+    },
+    {
+      "cn_name": "山梨酸钾",
+      "inci_name": "POTASSIUM SORBATE",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": []
+    },
+    {
+      "cn_name": "山嵛醇",
+      "inci_name": "BEHENYL ALCOHOL",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": []
+    },
+    {
+      "cn_name": "聚季铵盐-10",
+      "inci_name": "POLYQUATERNIUM-10",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": []
+    },
+    {
+      "cn_name": "泛醇",
+      "inci_name": "PANTHENOL",
+      "cas_no": null,
+      "cir_conc_low": 5.3e-06,
+      "cir_conc_high": 5.3,
+      "assertions": [
+        {
+          "efficacy": "安全评估：现行使用方式和浓度下安全（CIR 评估；行业调查使用浓度区间 0.0000053%-5.3%，非安全限值）",
+          "evidence": {
+            "type": "white_paper",
+            "title": "Annual Review of Cosmetic Ingredient Safety Assessments - 2004/2005（IJT 41(Suppl.3):77-128, 2022）",
+            "source": "Cosmetic Ingredient Review",
+            "year": 2022,
+            "url": "https://cir-reports.cir-safety.org/view-attachment?id=b4404ad0-e5dd-d8ed-b8b6-939376f83fc0",
+            "excerpt": "actic reaction attributable to 3.33 mg D-Panthenol in a vitamin B complex product and another woman who took trimetazidine (for 6 yr), vitamin H (biotin,10mg/dfor2mo),andPantothenicAcid(300mg/ d for 2 mo) for alopecia and developed eosinophilic pleuropericarditis. Discussion The Panel reviewed this safety assessment of Panthenol, PantothenicAcidandderivatives,anddeterminedthatthese 7ingredientsaresafeincosmeticsinthepresentpracticesof use and concentration described in this safety assessment. The Panel also noted that these ingredients may contain residual, potentially N-nitrosatable, amines as impurities; and,thuscautionedthattheseingredientsshouldnotbeused incosmeticproductsinwhichN-nitrosocompoundsmaybe formed. ThePanelrecognizedthatD-Panthenolshowedamarginal effect of penetration enhancement on the penetration of progesterone throughthe skin;th … 42,43 PanthenolandPanthenylEthylEther are used in body and hand sprays at concentrations up to 5% and 0."
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "CIR（美国化妆品原料评价委员会）专家小组安全评估结论，为行业自评机构意见而非监管限值；浓度来自 PCPC 行业使用调查，非功效起效浓度；浓度数值经人工与报告原文核对"
+        }
+      ]
+    },
+    {
+      "cn_name": "甘油硬脂酸酯",
+      "inci_name": "GLYCERYL STEARATE",
+      "cas_no": null,
+      "cir_conc_low": 0.0002,
+      "cir_conc_high": 18.9,
+      "assertions": [
+        {
+          "efficacy": "安全评估：现行使用方式和浓度下安全（CIR 评估；行业调查使用浓度区间 0.0002%-18.9%，非安全限值）",
+          "evidence": {
+            "type": "white_paper",
+            "title": "Safety Assessment of Monoglyceryl Monoesters as Used in Cosmetics（IJT 39(Suppl. 3):93-126, 2020）",
+            "source": "Cosmetic Ingredient Review",
+            "year": 2020,
+            "url": "https://cir-reports.cir-safety.org/view-attachment?id=6befb9a7-8e74-ec11-8943-0022482f06a6",
+            "excerpt": "Most of the monoglyceryl monoestershaveseveralreportedfunctionsincosmetics,butthemostcommonfunctionamongtheingredientsisskinconditioning agent; a few are reported to function only as surfactant–emulsifying agents. The Panel reviewed relevant new data, including fre- quencyandconcentrationofuseandconsideredthedatafrompreviousCosmeticIngredientReviewreports.ThePanelconcluded thattheseingredientsaresafeincosmeticsinthepresentpracticesofuseandconcentrationdescribedinthissafetyassessment. Keywords cosmetics, safety,monoglyceryl monoesters Introduction largergroupofingredientsandfoundsafeasacosmetic ingredientinthepracticesofuseandconcentrations.6 In 1982, the Expert Panel for Cosmetic Ingredient Safety (cid:2) Glyceryl Ricinoleate SE—also reviewed as part of a (Panel) published the Final Report on the Safety Assessment larger group of ingredients in … Forexample,in1976Glyceryl Stearate was reported to be used in 1371 cosmetic formulations at con- centrations up to 50%1; currently, it is reported to be used in 5153formulationsatamaximumconcentrationof18."
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "CIR（美国化妆品原料评价委员会）专家小组安全评估结论，为行业自评机构意见而非监管限值；浓度来自 PCPC 行业使用调查，非功效起效浓度；浓度数值经人工与报告原文核对"
+        }
+      ]
+    },
+    {
+      "cn_name": "甘油硬脂酸酯 SE",
+      "inci_name": "GLYCERYL STEARATE SE",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": [
+        {
+          "efficacy": "安全评估：现行使用方式和浓度下安全（CIR 评估）",
+          "evidence": {
+            "type": "white_paper",
+            "title": "Safety Assessment of Monoglyceryl Monoesters as Used in Cosmetics（IJT 39(Suppl. 3):93-126, 2020）",
+            "source": "Cosmetic Ingredient Review",
+            "year": 2020,
+            "url": "https://cir-reports.cir-safety.org/view-attachment?id=6befb9a7-8e74-ec11-8943-0022482f06a6",
+            "excerpt": "Most of the monoglyceryl monoestershaveseveralreportedfunctionsincosmetics,butthemostcommonfunctionamongtheingredientsisskinconditioning agent; a few are reported to function only as surfactant–emulsifying agents. The Panel reviewed relevant new data, including fre- quencyandconcentrationofuseandconsideredthedatafrompreviousCosmeticIngredientReviewreports.ThePanelconcluded thattheseingredientsaresafeincosmeticsinthepresentpracticesofuseandconcentrationdescribedinthissafetyassessment. Keywords cosmetics, safety,monoglyceryl monoesters Introduction largergroupofingredientsandfoundsafeasacosmetic ingredientinthepracticesofuseandconcentrations.6 In 1982, the Expert Panel for Cosmetic Ingredient Safety (cid:2) Glyceryl Ricinoleate SE—also reviewed as part of a (Panel) published the Final Report on the Safety Assessment larger group of ingredients in … Forexample,in1976Glyceryl Stearate was reported to be used in 1371 cosmetic formulations at con- centrations up to 50%1; currently, it is reported to be used in 5153formulationsatamaximumconcentrationof18."
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "CIR（美国化妆品原料评价委员会）专家小组安全评估结论，为行业自评机构意见而非监管限值；浓度来自 PCPC 行业使用调查，非功效起效浓度"
+        }
+      ]
+    },
+    {
+      "cn_name": "丁羟甲苯",
+      "inci_name": "BHT",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": []
+    },
+    {
+      "cn_name": "聚二甲基硅氧烷醇",
+      "inci_name": "DIMETHICONOL",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": []
+    },
+    {
+      "cn_name": "水杨酸",
+      "inci_name": "SALICYLIC ACID",
+      "cas_no": null,
+      "cir_conc_low": 1e-05,
+      "cir_conc_high": 30.0,
+      "assertions": [
+        {
+          "efficacy": "安全评估：现行使用方式和浓度下安全（CIR 评估；行业调查使用浓度区间 0.00001%-30%，非安全限值）",
+          "evidence": {
+            "type": "white_paper",
+            "title": "Amended Safety Assessment of Salicylic Acid and Salicylates as Used in Cosmetics（IJT 44(Suppl.4):5-57, 2025）",
+            "source": "Cosmetic Ingredient Review",
+            "year": 2025,
+            "url": "https://cir-reports.cir-safety.org/view-attachment?id=f8f3e083-2ca8-b5b4-b338-aa3ca6da8825",
+            "excerpt": "ingredientswerepreviouslyreviewedbythePanel,and3arereviewedhereinforthefirsttime.Someofthereportedfunctions incosmeticsforingredientsinthisgrouparehairandskinconditioningagents,and,lessfrequently,preservativesandfragrance ingredients.Uponreviewofrelevantnewdata,includingfrequencyandconcentrationofuse,andconsiderationofdatafromthe previous CIR report, the Panel concluded that these ingredients are safe in cosmetics in the present practices of use and concentrationdescribedinthesafetyassessmentwhenformulatedtobenon-irritatingandnon-sensitizing,whichmaybebased on a quantitative risk assessment (QRA). Keywords Cosmetics, Safety, Expert Panel for Cosmetic Ingredient Safety, Cosmetic Ingredient Review, Butyloctyl Salicylate, Calcium Salicylate, C12-15 Alkyl Salicylate, Ethylhexyl Salicylate, Hexyldodecyl Salicylate, Isocetyl Salicylate, Isodecyl Salicylate, Mag … 18 Salicylic Acid is being usedatconcentrationsupto30%inrinse-offproducts(peels); thisisthehighestmaximumingredientuseconcentrationthat isbeingreportedforrinse-offproducts. … ,Ethylhexyl Salicylate, up to 0."
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "CIR（美国化妆品原料评价委员会）专家小组安全评估结论，为行业自评机构意见而非监管限值；浓度来自 PCPC 行业使用调查，非功效起效浓度；浓度数值经人工与报告原文核对"
+        }
+      ]
+    },
+    {
+      "cn_name": "水杨酸乙基己酯",
+      "inci_name": "ETHYLHEXYL SALICYLATE",
+      "cas_no": null,
+      "cir_conc_low": 0.0003,
+      "cir_conc_high": 5.1,
+      "assertions": [
+        {
+          "efficacy": "安全评估：现行使用方式和浓度下安全（CIR 评估；行业调查使用浓度区间 0.0003%-5.1%，非安全限值）",
+          "evidence": {
+            "type": "white_paper",
+            "title": "Amended Safety Assessment of Salicylic Acid and Salicylates as Used in Cosmetics（IJT 44(Suppl.4):5-57, 2025）",
+            "source": "Cosmetic Ingredient Review",
+            "year": 2025,
+            "url": "https://cir-reports.cir-safety.org/view-attachment?id=f8f3e083-2ca8-b5b4-b338-aa3ca6da8825",
+            "excerpt": "ingredientswerepreviouslyreviewedbythePanel,and3arereviewedhereinforthefirsttime.Someofthereportedfunctions incosmeticsforingredientsinthisgrouparehairandskinconditioningagents,and,lessfrequently,preservativesandfragrance ingredients.Uponreviewofrelevantnewdata,includingfrequencyandconcentrationofuse,andconsiderationofdatafromthe previous CIR report, the Panel concluded that these ingredients are safe in cosmetics in the present practices of use and concentrationdescribedinthesafetyassessmentwhenformulatedtobenon-irritatingandnon-sensitizing,whichmaybebased on a quantitative risk assessment (QRA). Keywords Cosmetics, Safety, Expert Panel for Cosmetic Ingredient Safety, Cosmetic Ingredient Review, Butyloctyl Salicylate, Calcium Salicylate, C12-15 Alkyl Salicylate, Ethylhexyl Salicylate, Hexyldodecyl Salicylate, Isocetyl Salicylate, Isodecyl Salicylate, Mag … 18 Salicylic Acid is being usedatconcentrationsupto30%inrinse-offproducts(peels); thisisthehighestmaximumingredientuseconcentrationthat isbeingreportedforrinse-offproducts. … ,Ethylhexyl Salicylate, up to 0."
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "CIR（美国化妆品原料评价委员会）专家小组安全评估结论，为行业自评机构意见而非监管限值；浓度来自 PCPC 行业使用调查，非功效起效浓度；浓度数值经人工与报告原文核对"
+        }
+      ]
+    },
+    {
+      "cn_name": "三乙醇胺",
+      "inci_name": "TRIETHANOLAMINE",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": []
+    },
+    {
+      "cn_name": "异十六烷",
+      "inci_name": "ISOHEXADECANE",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": []
+    },
+    {
+      "cn_name": "C13-14 异链烷烃",
+      "inci_name": "C13-14 ISOPARAFFIN",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": []
+    },
+    {
+      "cn_name": "异十二烷",
+      "inci_name": "ISODODECANE",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": []
+    },
+    {
+      "cn_name": "辛酸/癸酸甘油三酯",
+      "inci_name": "CAPRYLIC/CAPRIC TRIGLYCERIDE",
+      "cas_no": null,
+      "cir_conc_low": 6.7e-06,
+      "cir_conc_high": 95.6,
+      "assertions": [
+        {
+          "efficacy": "安全评估：现行使用方式和浓度下安全（CIR 评估；行业调查使用浓度区间 0.0000067%-95.6%，非安全限值）",
+          "evidence": {
+            "type": "white_paper",
+            "title": "Annual Review of Cosmetic Ingredient Safety Assessment - 2001/2002（IJT 41(Suppl.3):22-68, 2022）",
+            "source": "Cosmetic Ingredient Review",
+            "year": 2022,
+            "url": "https://cir-reports.cir-safety.org/view-attachment?id=01c28e01-d54c-3cfe-9864-b6d71355ec26",
+            "excerpt": "smenthaveseveralfunctions,withmostreportedtofunctionasskinconditioningagents(occlusiveoremollient)and/or viscosity increasing agents in cosmetics; some are also reported to function as a fragrance or solvent. The Panel reviewed relevant new data, including frequency and concentration of use, and considered the data from previous reports. The Panel concludedthe51triglyceridesreviewedinthisreportaresafeincosmeticsinthepresentpracticesofuseandconcentration described in this safety assessment. Keywords Safety, cosmetics, Triglycerides INTRODUCTION Caprylic/Capric Triheptanoin Trioctanoin (now, The Panel published the Final Report on the Safety As- Triglyceride Triethylhexanoin) sessment of Trihydroxystearin in 2000.1 Based on the Glyceryl Stearate Triheptylundecanoin Triolein Diacetate available animal and clinical data, which included sum- Glyceryl … Some of the triglycerides are used at relatively high con- centrations in products that can be used near the eye, can possibly be ingested, or come in contact with mucous membranes;forexample,Caprylic/CapricTriglycerideisused atupto83."
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "CIR（美国化妆品原料评价委员会）专家小组安全评估结论，为行业自评机构意见而非监管限值；浓度来自 PCPC 行业使用调查，非功效起效浓度；浓度数值经人工与报告原文核对"
+        }
+      ]
+    },
+    {
+      "cn_name": "1,3-丙二醇",
+      "inci_name": "PROPANEDIOL",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": 39.9,
+      "assertions": [
+        {
+          "efficacy": "安全评估：现行使用方式和浓度下安全（CIR 评估；行业调查最大使用浓度 39.9%，非安全限值）",
+          "evidence": {
+            "type": "white_paper",
+            "title": "Safety Assessment of Alkane Diols as Used in Cosmetics（IJT 43(Suppl. 2):70-131, 2024）",
+            "source": "Cosmetic Ingredient Review",
+            "year": 2024,
+            "url": "https://cir-reports.cir-safety.org/view-attachment?id=94742a1a-c561-614f-9f89-14ce58abfc0b",
+            "excerpt": "Slaga***, Paul W. Snyder***, and Bart Heldreth Abstract The Expert Panel for Cosmetic Ingredient Safety (Panel) assessed the safety of 10 alkane diol ingredients as used in cosmetics. The alkane diols are structurally related to each other as small diols, and most are reported to function in cosmeticsassolvents.ThePanelreviewedtherelevantdatafortheseingredients,andconcludedthatsevenalkanediols aresafeincosmeticsinthepresentpracticesofuseandconcentrationdescribedinthissafetyassessment,butthatthe available data are insufficient to make a determination of safety for three ingredients, namely 1,4-Butanediol, 2,3-Bu- tanediol, and Octanediol. Keywords Cosmetics, Safety, Propanediol (1,3-propanediol), 1,4-Butanediol, 2,3-Butanediol, 1,5-Pentanediol, Hexanediol (1,6- hexanediol), Octanediol (1,8-octanediol), 1,10-Decanediol, Methylpropanediol (2-methyl … , Pro- panediol is used at up to 10% in eye makeup removers) and possible mucous membrane exposure and ingestion (e."
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "CIR（美国化妆品原料评价委员会）专家小组安全评估结论，为行业自评机构意见而非监管限值；浓度来自 PCPC 行业使用调查，非功效起效浓度；浓度数值经人工与报告原文核对"
+        }
+      ]
+    },
+    {
+      "cn_name": "聚丙烯酰基二甲基牛磺酸铵",
+      "inci_name": "AMMONIUM POLYACRYLOYLDIMETHYL TAURATE",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": [
+        {
+          "efficacy": "安全评估：现行使用方式和浓度下安全（CIR 评估）",
+          "evidence": {
+            "type": "white_paper",
+            "title": "Final Report: Safety Assessment of Acryloyldimethyltaurate Polymers as Used in Cosmetics（April 11, 2017）",
+            "source": "Cosmetic Ingredient Review",
+            "year": 2017,
+            "url": "https://cir-reports.cir-safety.org/view-attachment?id=8e02abb3-8c74-ec11-8943-0022482f06a6",
+            "excerpt": "opacifying agent, and viscosity increasing agent – aqueous. The Panel expressed concern about residual monomers and impurities including acrylamide, vinyl formamide, and methacrylamidolauric acid monomers. They stressed that the cosmetics industry should continue to use current good manufacturing practices (cGMPs) to limit impurities. The Panel concluded that acryloyldimethyltaurate polymers are safe in cosmetics in the present practices of use and concentration described in this safety assessment. INTRODUCTION This is a review of published scientific literature and unpublished data provided by Industry relevant to assessing the safety of 21 acryloyldimethyltaurate polymers as used in cosmetics. This group of ingredients comprises homopolymers, copolymers, and crosslinked polymers, the monomers of which are at least partially composed of acryloyldimethyl"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "CIR（美国化妆品原料评价委员会）专家小组安全评估结论，为行业自评机构意见而非监管限值；浓度来自 PCPC 行业使用调查，非功效起效浓度"
+        }
+      ]
+    },
+    {
+      "cn_name": "丙烯酰胺/丙烯酰基二甲基牛磺酸钠共聚物",
+      "inci_name": "ACRYLAMIDE/SODIUM ACRYLOYLDIMETHYLTAURATE COPOLYMER",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": [
+        {
+          "efficacy": "安全评估：现行使用方式和浓度下安全（CIR 评估）",
+          "evidence": {
+            "type": "white_paper",
+            "title": "Final Report: Safety Assessment of Acryloyldimethyltaurate Polymers as Used in Cosmetics（April 11, 2017）",
+            "source": "Cosmetic Ingredient Review",
+            "year": 2017,
+            "url": "https://cir-reports.cir-safety.org/view-attachment?id=8e02abb3-8c74-ec11-8943-0022482f06a6",
+            "excerpt": "opacifying agent, and viscosity increasing agent – aqueous. The Panel expressed concern about residual monomers and impurities including acrylamide, vinyl formamide, and methacrylamidolauric acid monomers. They stressed that the cosmetics industry should continue to use current good manufacturing practices (cGMPs) to limit impurities. The Panel concluded that acryloyldimethyltaurate polymers are safe in cosmetics in the present practices of use and concentration described in this safety assessment. INTRODUCTION This is a review of published scientific literature and unpublished data provided by Industry relevant to assessing the safety of 21 acryloyldimethyltaurate polymers as used in cosmetics. This group of ingredients comprises homopolymers, copolymers, and crosslinked polymers, the monomers of which are at least partially composed of acryloyldimethyl"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "CIR（美国化妆品原料评价委员会）专家小组安全评估结论，为行业自评机构意见而非监管限值；浓度来自 PCPC 行业使用调查，非功效起效浓度"
+        }
+      ]
+    },
+    {
+      "cn_name": "水杨酸苄酯",
+      "inci_name": "BENZYL SALICYLATE",
+      "cas_no": null,
+      "cir_conc_low": 0.0036,
+      "cir_conc_high": 0.5,
+      "assertions": [
+        {
+          "efficacy": "安全评估：现行使用方式和浓度下安全（CIR 评估；行业调查使用浓度区间 0.0036%-0.5%，非安全限值）",
+          "evidence": {
+            "type": "white_paper",
+            "title": "Final Report: Safety Assessment of Benzyl Salicylate as Used in Cosmetics（April 9, 2019）",
+            "source": "Cosmetic Ingredient Review",
+            "year": 2019,
+            "url": "https://cir-reports.cir-safety.org/view-attachment?id=543ac6dd-8c74-ec11-8943-0022482f06a6",
+            "excerpt": "0036-4702 ♢ ph 202.331.0651 ♢ fax 202.331.0088 ♢ cirinfo@cir-safety.org ABSTRACT The Cosmetic Ingredient Review (CIR) Expert Panel (Panel) assessed the safety of Benzyl Salicylate, which is reported to function in cosmetics as a fragrance ingredient and light stabilizer. The Panel reviewed the available data to determine the safety of this ingredient. The Panel concluded that Benzyl Salicylate is safe in cosmetics in the present practices of use and concentration described in the safety assessment when formulated to be non-irritating and non-sensitizing, which may be based on a quantitative risk assessment (QRA). INTRODUCTION This is a safety assessment of Benzyl Salicylate as used in cosmetic formulations. According to the web-based International Cosmetic Ingredient Dictionary and Handbook (wINCI; Dictionary), this ingredient is reported to function in c … In 2016, the Council conducted a survey of the maximum use concentrations of Benzyl Salicylate, but only for the function of light stabilizer."
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "CIR（美国化妆品原料评价委员会）专家小组安全评估结论，为行业自评机构意见而非监管限值；浓度来自 PCPC 行业使用调查，非功效起效浓度；浓度数值经人工与报告原文核对"
+        }
+      ]
+    },
+    {
+      "cn_name": "羟苯甲酯",
+      "inci_name": "METHYLPARABEN",
+      "cas_no": null,
+      "cir_conc_low": 1e-06,
+      "cir_conc_high": 0.9,
+      "assertions": []
+    },
+    {
+      "cn_name": "羟苯丙酯",
+      "inci_name": "PROPYLPARABEN",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": []
+    },
+    {
+      "cn_name": "羟苯乙酯",
+      "inci_name": "ETHYLPARABEN",
+      "cas_no": null,
+      "cir_conc_low": 3.2e-07,
+      "cir_conc_high": 0.65,
+      "assertions": []
+    },
+    {
+      "cn_name": "牛油果树果脂",
+      "inci_name": "BUTYROSPERMUM PARKII (SHEA) BUTTER",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": 100.0,
+      "assertions": [
+        {
+          "efficacy": "安全评估：现行使用方式和浓度下安全（CIR 评估；行业调查最大使用浓度 100%，非安全限值）",
+          "evidence": {
+            "type": "white_paper",
+            "title": "Safety Assessment of <I>Butyrospermum parkii</P> (Shea)-Derived Ingredients as Used in Cosmetics（IJT 43(Suppl. 1):82-95, 2024）",
+            "source": "Cosmetic Ingredient Review",
+            "year": 2024,
+            "url": "https://cir-reports.cir-safety.org/view-attachment?id=119162d0-bdd5-4f59-a27f-b8347d6473e3",
+            "excerpt": "y.org/cir-findings. ThePanelalsoexpressedconcernaboutpesticideresidues, heavy metals, and other plant species that may be present in botanical ingredients. They stressed that the cosmetics in- dustry should continue to use current good manufacturing practices (cGMPs) to limit impurities. 93S Conclusion The Expert Panel for Cosmetic Ingredient Safety concluded that the following 13 ingredients are safe in cosmetics in the present practices of use and concentration described in this safety assessment when formulated to be non-sensitizing. Butyrospermum Parkii (Shea)Butter Hydrogenated Shea Butter Butyrospermum Parkii (Shea)Oil Hydrogenated Shea Oil* Butyrospermum Parkii (Shea)Butter Hydrolyzed SheaSeedcake Extractrowhead Extract* Butyrospermum Parkii (Shea)Butter Shea ButterGlyceride Unsaponifiables Butyrospermum Parkii (Shea)Nut Shea ButterGlycerides Extra … Theresultsoftheconcentrationofuse survey conducted in 2016 by the Council indicate Butyr- ospermum Parkii (Shea) Butter has the highest reported maximum concentration of use; it is used at up to 100% in moisturizers."
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "CIR（美国化妆品原料评价委员会）专家小组安全评估结论，为行业自评机构意见而非监管限值；浓度来自 PCPC 行业使用调查，非功效起效浓度；浓度数值经人工与报告原文核对"
+        }
+      ]
+    },
+    {
+      "cn_name": "乙基己基甘油",
+      "inci_name": "ETHYLHEXYLGLYCERIN",
+      "cas_no": null,
+      "cir_conc_low": 1e-06,
+      "cir_conc_high": 8.0,
+      "assertions": []
+    },
+    {
+      "cn_name": "季戊四醇四（双-叔丁基羟基氢化肉桂酸）酯",
+      "inci_name": "PENTAERYTHRITYL TETRA-DI-T-BUTYL HYDROXYHYDROCINNAMATE",
+      "cas_no": null,
+      "cir_conc_low": 1e-05,
+      "cir_conc_high": 0.8,
+      "assertions": [
+        {
+          "efficacy": "安全评估：现行使用方式和浓度下安全（CIR 评估；行业调查使用浓度区间 0.00001%-0.8%，非安全限值）",
+          "evidence": {
+            "type": "white_paper",
+            "title": "Safety Assessment of Pentaerythrityl Tetra-Di-t-Butyl Hydroxyhydrocinnamate as Used in Cosmetics（IJT 37(Suppl3):80-89, 2018）",
+            "source": "Cosmetic Ingredient Review",
+            "year": 2018,
+            "url": "https://cir-reports.cir-safety.org/view-attachment?id=8ba8b89b-8e74-ec11-8943-0022482f06a6",
+            "excerpt": "occur. Additionally,thenegativehumanrepeatedinsultpatchtestdataataconcentrationof0.5%weredeemedsufficientforevaluatingthe skin irritation and sensitization potential of pentaerythrityl tetra-di-t-butyl hydroxyhydrocinnamate over the range of use con- centrations in cosmetic products. The Cosmetic Ingredient Review Expert Panel concluded that pentaerythrityl tetra-di-t-butyl hydroxyhydrocinnamateissafeincosmeticsinthepresentpracticesofuseandconcentrationdescribedinthissafetyassessment. Keywords pentaerythrityl tetra-di-t-butyl hydroxyhydrocinnamate, safety,cosmetics Introduction Use This report presents information relevant to evaluating the Cosmetic safety of pentaerythrityl tetra-di-t-butyl hydroxyhydrocinna- Pentaerythrityl tetra-di-t-butyl hydroxyhydrocinnamate is mate as used in cosmetics. This ingredient functions as an reported to function … Gill3, and Bart Heldreth4 Abstract Pentaerythrityltetra-di-t-butylhydroxyhydrocinnamatefunctionsasanantioxidantincosmeticproductsandisusedatconcentrations upto0."
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "CIR（美国化妆品原料评价委员会）专家小组安全评估结论，为行业自评机构意见而非监管限值；浓度来自 PCPC 行业使用调查，非功效起效浓度；浓度数值经人工与报告原文核对"
+        }
+      ]
+    },
+    {
+      "cn_name": "氯苯甘醚",
+      "inci_name": "CHLORPHENESIN",
+      "cas_no": null,
+      "cir_conc_low": 8e-06,
+      "cir_conc_high": 0.32,
+      "assertions": []
+    },
+    {
+      "cn_name": "氢氧化铝",
+      "inci_name": "ALUMINUM HYDROXIDE",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": []
+    },
+    {
+      "cn_name": "氧化铝",
+      "inci_name": "ALUMINA",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": []
+    },
+    {
+      "cn_name": "乙二胺二琥珀酸三钠",
+      "inci_name": "TRISODIUM ETHYLENEDIAMINE DISUCCINATE",
+      "cas_no": null,
+      "cir_conc_low": 0.0039,
+      "cir_conc_high": 0.64,
+      "assertions": [
+        {
+          "efficacy": "安全评估：现行使用方式和浓度下安全（CIR 评估；行业调查使用浓度区间 0.0039%-0.64%，非安全限值）",
+          "evidence": {
+            "type": "white_paper",
+            "title": "Final Report: Safety Assessment of Trisodium Ethylenediamine Disuccinate and Tetrasodium Iminodisuccinate as Used in Cosmetics（March 7, 2023）",
+            "source": "Cosmetic Ingredient Review",
+            "year": 2023,
+            "url": "https://cir-reports.cir-safety.org/view-attachment?id=95de20b7-c6a6-01ad-b192-f388735be463",
+            "excerpt": "ic Ingredient Safety (Panel) assessed the safety of Trisodium Ethylenediamine Disuccinate and Tetrasodium Iminodisuccinate as used in cosmetics. These ingredients are reported to function in cosmetics as chelating agents. The Panel reviewed the available data to determine the safety of these ingredients, and concluded that Trisodium Ethylenediamine Disuccinate and Tetrasodium Iminodisuccinate are safe in cosmetics in the present practices of use and concentration as described in the safety assessment. INTRODUCTION This assessment reviews the safety of Trisodium Ethylenediamine Disuccinate and Tetrasodium Iminodisuccinate as used in cosmetic formulations. According to the web-based International Cosmetic Ingredient Dictionary and Handbook (wINCI; Dictionary), both of these ingredients are reported to function as chelating agents in cosmetics (Table 1).1 Th … Incidental ingestion and mucous membrane exposure may occur as Trisodium Ethylenediamine Disuccinate is reported to be used in lipsticks at 0."
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "CIR（美国化妆品原料评价委员会）专家小组安全评估结论，为行业自评机构意见而非监管限值；浓度来自 PCPC 行业使用调查，非功效起效浓度；浓度数值经人工与报告原文核对"
+        }
+      ]
+    },
+    {
+      "cn_name": "咖啡因",
+      "inci_name": "CAFFEINE",
+      "cas_no": null,
+      "cir_conc_low": 5e-05,
+      "cir_conc_high": 6.0,
+      "assertions": [
+        {
+          "efficacy": "安全评估：现行使用方式和浓度下安全（CIR 评估；行业调查使用浓度区间 0.00005%-6%，非安全限值）",
+          "evidence": {
+            "type": "white_paper",
+            "title": "Safety Assessment of Methylxanthines as Used in Cosmetics（IJT 43(Suppl.4):42-77, 2024）",
+            "source": "Cosmetic Ingredient Review",
+            "year": 2024,
+            "url": "https://cir-reports.cir-safety.org/view-attachment?id=2e57128a-29cd-ca95-a1ad-1100173b58f6",
+            "excerpt": "Snyder**, Monice Fiume , and Bart Heldreth Abstract TheExpertPanelforCosmeticIngredientSafety(Panel)assessedthesafetyofthreemethylxanthines,Caffeine,Theobromine, andTheophylline,asusedincosmetics.Alloftheseingredientsarereportedtofunctionasskin-conditioningagentsincosmetic products.ThePanelreviewedthedatarelevanttothesafetyoftheseingredientsandconcludedthatCaffeine,Theobromine, andTheophyllinearesafeincosmeticsinthepresentpracticesofuseandconcentrationdescribedinthissafetyassessment. Keywords CosmeticIngredientReview,ExpertPanelforCosmeticIngredientSafety,Safety,CosmeticIngredient,Caffeine,Theophylline, Theobromine Introduction theassessment.PleasenotethattheECHAwebsiteandOECD SIDSdocumentsprovidessummariesofinformationgenerated This is an assessment of the safety of the following 3 byindustry,andwhencitedherein,itisthosesummarydatathat methylx … The results of the concentration of use surveyconductedbytheCouncilindicateCaffeinealsohasthe highestconcentrationofuseinaleave-onformulation;itisused products."
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "CIR（美国化妆品原料评价委员会）专家小组安全评估结论，为行业自评机构意见而非监管限值；浓度来自 PCPC 行业使用调查，非功效起效浓度；浓度数值经人工与报告原文核对"
+        }
+      ]
+    },
+    {
+      "cn_name": "辛酰水杨酸",
+      "inci_name": "CAPRYLOYL SALICYLIC ACID",
+      "cas_no": null,
+      "cir_conc_low": 0.1,
+      "cir_conc_high": 0.5,
+      "assertions": []
+    },
+    {
+      "cn_name": "腺苷",
+      "inci_name": "ADENOSINE",
+      "cas_no": null,
+      "cir_conc_low": 0.04,
+      "cir_conc_high": 1.0,
+      "assertions": [
+        {
+          "efficacy": "安全评估：现行使用方式和浓度下安全（CIR 评估；行业调查使用浓度区间 0.04%-1%，非安全限值）",
+          "evidence": {
+            "type": "white_paper",
+            "title": "Safety Assessment of Adenosine as Used in Cosmetics（IJT 43(Suppl. 1):50-63, 2024）",
+            "source": "Cosmetic Ingredient Review",
+            "year": 2024,
+            "url": "https://cir-reports.cir-safety.org/view-attachment?id=cd3b62ad-1279-3043-bf9f-58ee259b08ba",
+            "excerpt": "ract The Expert Panel for Cosmetic Ingredient Safety (Panel) assessed the safety of Adenosine, AdenosinePhosphate, Adenosine Triphosphate, Disodium Adenosine Phosphate, and Disodium Adenosine Triphosphate. These ingredients are reported to functionincosmeticsasskin-conditioningagents–miscellaneous.ThePanelconsideredtheavailabledataandconcludedthat thefiveadenosineingredientsreviewedinthisreportaresafeincosmeticsinthepresentpracticesofuseandconcentration described in this safety assessment. Keywords Adenosine, Adenosine Phosphate, Adenosine Triphosphate, Disodium Adenosine Phosphate, and Disodium Adenosine Triphosphate Introduction Chemistry This is a safety assessment of Adenosine, Adenosine Phos- Definition and Structure phate, Adenosine Triphosphate, Disodium Adenosine Phos- Thedefinitionsandstructuresoftheingredientsincludedinthis phate, and … The results of the concentration of use survey con- ducted by the Council indicate that Adenosine has the highestconcentrationofuse;itisusedatupto1%inbody andhandproducts."
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "CIR（美国化妆品原料评价委员会）专家小组安全评估结论，为行业自评机构意见而非监管限值；浓度来自 PCPC 行业使用调查，非功效起效浓度；浓度数值经人工与报告原文核对"
+        }
+      ]
+    },
+    {
+      "cn_name": "月桂醇聚醚-7",
+      "inci_name": "LAURETH-7",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": []
+    },
+    {
+      "cn_name": "十三烷醇聚醚-6",
+      "inci_name": "TRIDECETH-6",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": []
+    },
+    {
+      "cn_name": "角鲨烷",
+      "inci_name": "SQUALANE",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": []
+    },
+    {
+      "cn_name": "胆固醇",
+      "inci_name": "CHOLESTEROL",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": []
+    },
+    {
+      "cn_name": "椰油基甜菜碱",
+      "inci_name": "COCO-BETAINE",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": [
+        {
+          "efficacy": "安全评估：现行使用方式和浓度下安全（CIR 评估）",
+          "evidence": {
+            "type": "white_paper",
+            "title": "Safety Assessment of Alkyl Betaines as Used in Cosmetics（IJT 37(Suppl.1):28-46, 2018）",
+            "source": "Cosmetic Ingredient Review",
+            "year": 2018,
+            "url": "https://cir-reports.cir-safety.org/view-attachment?id=4ca8b89b-8e74-ec11-8943-0022482f06a6",
+            "excerpt": "the availableinforma- tion indicates that incidental inhalation would not be a significantrouteofexposurethatmightleadtolocalrespiratory orsystemiceffects.Adetaileddiscussionandsummaryofthe Panel’sapproachtoevaluatingincidentalinhalationexposures toingredientsincosmeticproductsisavailableathttp://www. cir-safety.org/cir-findings. Conclusion TheCIRPanelconcludedthatthefollowing11alkylbetaines are safe in cosmetics in the present practices of use and con- centrationdescribedinthesafetyassessment,whenformulated tobenonirritating. Behenyl betaine Betaine Cetyl betaine Coco-betaine Decyl betaine* Hydrogenated tallow betaine* Lauryl betaine Myristyl betaine Oleyl betaine Stearyl betaine Tallow betaine* *Indicatesnotincurrentuse.Wereingredientsinthisgroupnot in current use to be used in the future, the expectation is that theywouldbeusedinproductcategoriesandatco"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "CIR（美国化妆品原料评价委员会）专家小组安全评估结论，为行业自评机构意见而非监管限值；浓度来自 PCPC 行业使用调查，非功效起效浓度"
+        }
+      ]
+    },
+    {
+      "cn_name": "鲸蜡硬脂基葡糖苷",
+      "inci_name": "CETEARYL GLUCOSIDE",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": []
+    },
+    {
+      "cn_name": "二硬脂二甲铵锂蒙脱石",
+      "inci_name": "DISTEARDIMONIUM HECTORITE",
+      "cas_no": null,
+      "cir_conc_low": 0.04,
+      "cir_conc_high": 28.0,
+      "assertions": []
+    },
+    {
+      "cn_name": "聚丙烯酰胺",
+      "inci_name": "POLYACRYLAMIDE",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": []
+    },
+    {
+      "cn_name": "月桂醇聚醚硫酸酯钠",
+      "inci_name": "SODIUM LAURETH SULFATE",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": []
+    },
+    {
+      "cn_name": "抗坏血酸葡糖苷",
+      "inci_name": "ASCORBYL GLUCOSIDE",
+      "cas_no": null,
+      "cir_conc_low": 0.00081,
+      "cir_conc_high": 5.0,
+      "assertions": [
+        {
+          "efficacy": "安全评估：现行使用方式和浓度下安全（CIR 评估；行业调查使用浓度区间 0.00081%-5%，非安全限值）",
+          "evidence": {
+            "type": "white_paper",
+            "title": "Safety Assessment of Ascorbyl Glucoside and Sodium Ascorbyl Glucoside as Used in Cosmetics（IJT 44(Suppl. 1):5-16, 2025）",
+            "source": "Cosmetic Ingredient Review",
+            "year": 2025,
+            "url": "https://cir-reports.cir-safety.org/view-attachment?id=3db8c16b-406c-8081-890e-1a57001b130c",
+            "excerpt": "redient Safety (Panel) reviewed the safety of Ascorbyl Glucoside and Sodium Ascorbyl Glucosideincosmeticproducts.Theseingredientsarereportedtohavethefollowingfunctionsincosmetics:antioxidant,and skin-conditioning agent—miscellaneous. The Panel reviewed data relevant to the safety of these ingredients in cosmetic formulations, and concluded that Ascorbyl Glucoside and Sodium Ascorbyl Glucoside are safe in cosmetics in the present practices of use and concentration described in this safety assessment. Keywords Cosmetics,Ingredients,Safety,ExpertPanelforCosmeticIngredientSafety,CosmeticIngredientReview,AscorbylGlucoside, Sodium Ascorbyl Glucoside Introduction ascorbic acid (Ascorbyl Dipalmitate, Ascorbyl Isostearate, As- corbyl Linoleate, Ascorbyl Palmitate, Ascorbyl Stearate, As- The safety of Ascorbyl Glucoside and Sodium Ascorbyl corbyl Tetraisopalmitate, … 20 According to 2020 VCRP data, Ascorbyl Glucoside is reported to be used in 532 cosmetic products (463 leave-on and69rinse-off;Table2)."
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "CIR（美国化妆品原料评价委员会）专家小组安全评估结论，为行业自评机构意见而非监管限值；浓度来自 PCPC 行业使用调查，非功效起效浓度；浓度数值经人工与报告原文核对"
+        }
+      ]
+    },
+    {
+      "cn_name": "对羟基苯乙酮",
+      "inci_name": "HYDROXYACETOPHENONE",
+      "cas_no": null,
+      "cir_conc_low": 9e-05,
+      "cir_conc_high": 5.0,
+      "assertions": [
+        {
+          "efficacy": "安全评估：现行使用方式和浓度下安全（CIR 评估；行业调查使用浓度区间 0.00009%-5%，非安全限值）",
+          "evidence": {
+            "type": "white_paper",
+            "title": "Final Report: Safety Assessment of Hydroxyacetophenone as Used in Cosmetics（September 27, 2022）",
+            "source": "Cosmetic Ingredient Review",
+            "year": 2022,
+            "url": "https://cir-reports.cir-safety.org/view-attachment?id=80587fea-2d0b-5f26-a33a-01adef3b6503",
+            "excerpt": "ration Program ABSTRACT The Expert Panel for Cosmetic Ingredient Safety (Panel) assessed the safety of Hydroxyacetophenone as used in cosmetic formulations. This ingredient is reported to function in cosmetics as an antioxidant and skin-conditioning agent. The Panel reviewed relevant data related to the safety of this ingredient in cosmetic formulations, and concluded that Hydroxyacetophenone is safe in cosmetics in the present practices of use and concentration described in this safety assessment. INTRODUCTION This assessment reviews the safety of Hydroxyacetophenone as used in cosmetic formulations. According to the web- based International Cosmetic Ingredient Dictionary and Handbook (wINCI; Dictionary), this ingredient is reported to function in cosmetics as an antioxidant and skin-conditioning agent - miscellaneous.1 This safety assessment includes r … 5 The phenylacetate is then converted to Hydroxyacetophenone via a Fries rearrangement, after which it is purified."
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "CIR（美国化妆品原料评价委员会）专家小组安全评估结论，为行业自评机构意见而非监管限值；浓度来自 PCPC 行业使用调查，非功效起效浓度；浓度数值经人工与报告原文核对"
+        }
+      ]
+    },
+    {
+      "cn_name": "神经酰胺NP",
+      "inci_name": "CERAMIDE NP",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": 0.2,
+      "assertions": [
+        {
+          "efficacy": "安全评估：现行使用方式和浓度下安全（CIR 评估；行业调查最大使用浓度 0.2%，非安全限值）",
+          "evidence": {
+            "type": "white_paper",
+            "title": "Safety Assessment of Ceramides as Used in Cosmetics（IJT 39(Suppl. 3):5-25, 2020）",
+            "source": "Cosmetic Ingredient Review",
+            "year": 2020,
+            "url": "https://cir-reports.cir-safety.org/view-attachment?id=7a7dbaa1-8e74-ec11-8943-0022482f06a6",
+            "excerpt": "Jr***, Ronald C. Shank***, ThomasJ.Slaga***,Paul W. Snyder***, Lillian J. Gill****, and Bart Heldrethy Abstract TheExpertPanelforCosmeticIngredientSafety(Panel)reviewedthesafetyofceramides,whichfunctionincosmeticsprimarily as hair-conditioning agents and skin-conditioning agents—miscellaneous. The Panel considered relevant data related to these ingredients. The Panel concluded that ceramides were safe in cosmetics in the present practices of use and concentration described inthissafetyassessment. Keywords ceramides, cosmetics, safety Introduction efficacy studiesof other cosmetic ingredients or pharmaceuti- cals in which naturally occurring ceramide levels in the skin Ceramide ingredients are reported to function primarily as were evaluated, and data on pseudo-ceramides (such as that hair-conditioning agents and skin-conditioning agents—mis- found in an a … 27,31,53-55 Ceramide 2 (up to 20%), Ceramide NP (up to10%),Ceramide5(upto5%),andHydroxypalmitoylSphin- ganine(upto20%)werenotsensitizinginguineapigmaximi- zation tests. … No dermal irritation was observed in human patch tests of Ceramide 2 (up to 5% in lanolin), Ceramide NP (up to 10% dispersion in petrolatum), Ceramide 5 (up to 5% in lanolin), and Ceramide AP (5% dis- persion inpetrolatum). … International Journal of Toxicology 39(Supplement 3) 2-Oleamido-1,3-octadecanediol was slightly irritating when tested neatinrabbit eyes."
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "CIR（美国化妆品原料评价委员会）专家小组安全评估结论，为行业自评机构意见而非监管限值；浓度来自 PCPC 行业使用调查，非功效起效浓度；浓度数值经人工与报告原文核对"
+        }
+      ]
+    },
+    {
+      "cn_name": "神经酰胺AP",
+      "inci_name": "CERAMIDE AP",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": 0.2,
+      "assertions": [
+        {
+          "efficacy": "安全评估：现行使用方式和浓度下安全（CIR 评估；行业调查最大使用浓度 0.2%，非安全限值）",
+          "evidence": {
+            "type": "white_paper",
+            "title": "Safety Assessment of Ceramides as Used in Cosmetics（IJT 39(Suppl. 3):5-25, 2020）",
+            "source": "Cosmetic Ingredient Review",
+            "year": 2020,
+            "url": "https://cir-reports.cir-safety.org/view-attachment?id=7a7dbaa1-8e74-ec11-8943-0022482f06a6",
+            "excerpt": "Jr***, Ronald C. Shank***, ThomasJ.Slaga***,Paul W. Snyder***, Lillian J. Gill****, and Bart Heldrethy Abstract TheExpertPanelforCosmeticIngredientSafety(Panel)reviewedthesafetyofceramides,whichfunctionincosmeticsprimarily as hair-conditioning agents and skin-conditioning agents—miscellaneous. The Panel considered relevant data related to these ingredients. The Panel concluded that ceramides were safe in cosmetics in the present practices of use and concentration described inthissafetyassessment. Keywords ceramides, cosmetics, safety Introduction efficacy studiesof other cosmetic ingredients or pharmaceuti- cals in which naturally occurring ceramide levels in the skin Ceramide ingredients are reported to function primarily as were evaluated, and data on pseudo-ceramides (such as that hair-conditioning agents and skin-conditioning agents—mis- found in an a … 27,31,53-55 Ceramide 2 (up to 20%), Ceramide NP (up to10%),Ceramide5(upto5%),andHydroxypalmitoylSphin- ganine(upto20%)werenotsensitizinginguineapigmaximi- zation tests. … No dermal irritation was observed in human patch tests of Ceramide 2 (up to 5% in lanolin), Ceramide NP (up to 10% dispersion in petrolatum), Ceramide 5 (up to 5% in lanolin), and Ceramide AP (5% dis- persion inpetrolatum). … International Journal of Toxicology 39(Supplement 3) 2-Oleamido-1,3-octadecanediol was slightly irritating when tested neatinrabbit eyes."
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "CIR（美国化妆品原料评价委员会）专家小组安全评估结论，为行业自评机构意见而非监管限值；浓度来自 PCPC 行业使用调查，非功效起效浓度；浓度数值经人工与报告原文核对"
+        }
+      ]
+    },
+    {
+      "cn_name": "2-油酰胺基-1,3-十八烷二醇",
+      "inci_name": "2-OLEAMIDO-1,3-OCTADECANEDIOL",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": 0.2,
+      "assertions": [
+        {
+          "efficacy": "安全评估：现行使用方式和浓度下安全（CIR 评估；行业调查最大使用浓度 0.2%，非安全限值）",
+          "evidence": {
+            "type": "white_paper",
+            "title": "Safety Assessment of Ceramides as Used in Cosmetics（IJT 39(Suppl. 3):5-25, 2020）",
+            "source": "Cosmetic Ingredient Review",
+            "year": 2020,
+            "url": "https://cir-reports.cir-safety.org/view-attachment?id=7a7dbaa1-8e74-ec11-8943-0022482f06a6",
+            "excerpt": "Jr***, Ronald C. Shank***, ThomasJ.Slaga***,Paul W. Snyder***, Lillian J. Gill****, and Bart Heldrethy Abstract TheExpertPanelforCosmeticIngredientSafety(Panel)reviewedthesafetyofceramides,whichfunctionincosmeticsprimarily as hair-conditioning agents and skin-conditioning agents—miscellaneous. The Panel considered relevant data related to these ingredients. The Panel concluded that ceramides were safe in cosmetics in the present practices of use and concentration described inthissafetyassessment. Keywords ceramides, cosmetics, safety Introduction efficacy studiesof other cosmetic ingredients or pharmaceuti- cals in which naturally occurring ceramide levels in the skin Ceramide ingredients are reported to function primarily as were evaluated, and data on pseudo-ceramides (such as that hair-conditioning agents and skin-conditioning agents—mis- found in an a … 27,31,53-55 Ceramide 2 (up to 20%), Ceramide NP (up to10%),Ceramide5(upto5%),andHydroxypalmitoylSphin- ganine(upto20%)werenotsensitizinginguineapigmaximi- zation tests. … No dermal irritation was observed in human patch tests of Ceramide 2 (up to 5% in lanolin), Ceramide NP (up to 10% dispersion in petrolatum), Ceramide 5 (up to 5% in lanolin), and Ceramide AP (5% dis- persion inpetrolatum). … International Journal of Toxicology 39(Supplement 3) 2-Oleamido-1,3-octadecanediol was slightly irritating when tested neatinrabbit eyes."
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "CIR（美国化妆品原料评价委员会）专家小组安全评估结论，为行业自评机构意见而非监管限值；浓度来自 PCPC 行业使用调查，非功效起效浓度；浓度数值经人工与报告原文核对"
+        }
+      ]
+    },
+    {
+      "cn_name": "神经酰胺EOP",
+      "inci_name": "CERAMIDE EOP",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": [
+        {
+          "efficacy": "安全评估：现行使用方式和浓度下安全（CIR 评估）",
+          "evidence": {
+            "type": "white_paper",
+            "title": "Safety Assessment of Ceramides as Used in Cosmetics（IJT 39(Suppl. 3):5-25, 2020）",
+            "source": "Cosmetic Ingredient Review",
+            "year": 2020,
+            "url": "https://cir-reports.cir-safety.org/view-attachment?id=7a7dbaa1-8e74-ec11-8943-0022482f06a6",
+            "excerpt": "Jr***, Ronald C. Shank***, ThomasJ.Slaga***,Paul W. Snyder***, Lillian J. Gill****, and Bart Heldrethy Abstract TheExpertPanelforCosmeticIngredientSafety(Panel)reviewedthesafetyofceramides,whichfunctionincosmeticsprimarily as hair-conditioning agents and skin-conditioning agents—miscellaneous. The Panel considered relevant data related to these ingredients. The Panel concluded that ceramides were safe in cosmetics in the present practices of use and concentration described inthissafetyassessment. Keywords ceramides, cosmetics, safety Introduction efficacy studiesof other cosmetic ingredients or pharmaceuti- cals in which naturally occurring ceramide levels in the skin Ceramide ingredients are reported to function primarily as were evaluated, and data on pseudo-ceramides (such as that hair-conditioning agents and skin-conditioning agents—mis- found in an a … 27,31,53-55 Ceramide 2 (up to 20%), Ceramide NP (up to10%),Ceramide5(upto5%),andHydroxypalmitoylSphin- ganine(upto20%)werenotsensitizinginguineapigmaximi- zation tests. … No dermal irritation was observed in human patch tests of Ceramide 2 (up to 5% in lanolin), Ceramide NP (up to 10% dispersion in petrolatum), Ceramide 5 (up to 5% in lanolin), and Ceramide AP (5% dis- persion inpetrolatum). … International Journal of Toxicology 39(Supplement 3) 2-Oleamido-1,3-octadecanediol was slightly irritating when tested neatinrabbit eyes."
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "CIR（美国化妆品原料评价委员会）专家小组安全评估结论，为行业自评机构意见而非监管限值；浓度来自 PCPC 行业使用调查，非功效起效浓度"
+        }
+      ]
+    },
+    {
+      "cn_name": "聚山梨醇酯-80",
+      "inci_name": "POLYSORBATE 80",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": []
+    },
+    {
+      "cn_name": "聚山梨醇酯-20",
+      "inci_name": "POLYSORBATE 20",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": []
+    },
+    {
+      "cn_name": "聚山梨醇酯-60",
+      "inci_name": "POLYSORBATE 60",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": []
+    },
+    {
+      "cn_name": "羟乙基纤维素",
+      "inci_name": "HYDROXYETHYLCELLULOSE",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": []
+    },
+    {
+      "cn_name": "聚甲基倍半硅氧烷",
+      "inci_name": "POLYMETHYLSILSESQUIOXANE",
+      "cas_no": null,
+      "cir_conc_low": 1e-05,
+      "cir_conc_high": 55.2,
+      "assertions": [
+        {
+          "efficacy": "安全评估：现行使用方式和浓度下安全（CIR 评估；行业调查使用浓度区间 0.00001%-55.2%，非安全限值）",
+          "evidence": {
+            "type": "white_paper",
+            "title": "Final Report: Safety Assessment of Polysilsesquioxanes as Used in Cosmetics（December 4, 2017）",
+            "source": "Cosmetic Ingredient Review",
+            "year": 2017,
+            "url": "https://cir-reports.cir-safety.org/view-attachment?id=8b69a6cb-8c74-ec11-8943-0022482f06a6",
+            "excerpt": "view (CIR) Expert Panel (Panel) assessed the safety of 18 polysilsesquioxane ingredients as used in cosmetics. The majority of the ingredients named in this assessment have several functions, with most reported to function as film formers, opacifying agents, and nail conditioning agents. The Panel reviewed relevant data related to these ingredients and concluded that these polysilsesquioxanes are safe in cosmetics in the present practices of use and concentration described in this safety assessment. INTRODUCTION This is a safety assessment of 18 polysilsesquioxanes as used in cosmetics. The ingredients in this group comprise the polymers resulting from the hydrolysis and condensation of alkyltrialkoxysilanes or alkyltrichlorosilanes, and typically comprise three-dimensional frameworks. According to the web-based Cosmetic Ingredient Dictionary and Handbook … The results of the concentration of use survey conducted by the Council in 2016 indicate Polymethylsilsesquioxane has the highest reported maximum concentration of use; it is used at up to 55."
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "CIR（美国化妆品原料评价委员会）专家小组安全评估结论，为行业自评机构意见而非监管限值；浓度来自 PCPC 行业使用调查，非功效起效浓度；浓度数值经人工与报告原文核对"
+        }
+      ]
+    },
+    {
+      "cn_name": "异丙醇",
+      "inci_name": "ISOPROPYL ALCOHOL",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": []
+    },
+    {
+      "cn_name": "西曲氯铵",
+      "inci_name": "CETRIMONIUM CHLORIDE",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": []
+    },
+    {
+      "cn_name": "山嵛基三甲基氯化铵",
+      "inci_name": "BEHENTRIMONIUM CHLORIDE",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": []
+    },
+    {
+      "cn_name": "山嵛基三甲基铵甲基硫酸盐",
+      "inci_name": "BEHENTRIMONIUM METHOSULFATE",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": []
+    },
+    {
+      "cn_name": "淀粉辛烯基琥珀酸铝",
+      "inci_name": "ALUMINUM STARCH OCTENYLSUCCINATE",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": []
+    },
+    {
+      "cn_name": "鲸蜡醇磷酸酯钾",
+      "inci_name": "POTASSIUM CETYL PHOSPHATE",
+      "cas_no": null,
+      "cir_conc_low": 0.05,
+      "cir_conc_high": 8.3,
+      "assertions": []
+    },
+    {
+      "cn_name": "异硬脂酸异丙酯",
+      "inci_name": "ISOPROPYL ISOSTEARATE",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": []
+    },
+    {
+      "cn_name": "肉豆蔻酸异丙酯",
+      "inci_name": "ISOPROPYL MYRISTATE",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": []
+    },
+    {
+      "cn_name": "合成鲸蜡",
+      "inci_name": "CETYL ESTERS",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": []
+    },
+    {
+      "cn_name": "异壬酸异壬酯",
+      "inci_name": "ISONONYL ISONONANOATE",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": []
+    },
+    {
+      "cn_name": "肉豆蔻醇肉豆蔻酸酯",
+      "inci_name": "MYRISTYL MYRISTATE",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": []
+    },
+    {
+      "cn_name": "棕榈酸异丙酯",
+      "inci_name": "ISOPROPYL PALMITATE",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": []
+    },
+    {
+      "cn_name": "月桂酰乳酰乳酸钠",
+      "inci_name": "SODIUM LAUROYL LACTYLATE",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": [
+        {
+          "efficacy": "安全评估：现行使用方式和浓度下安全（CIR 评估）",
+          "evidence": {
+            "type": "white_paper",
+            "title": "Safety Assessment of Alkanoyl Lactyl Lactate Salts as Used in Cosmetics（IJT 43(Suppl.4):108-129, 2024）",
+            "source": "Cosmetic Ingredient Review",
+            "year": 2024,
+            "url": "https://cir-reports.cir-safety.org/view-attachment?id=eba6acc5-20c9-72ef-ad09-fe06f14219cf",
+            "excerpt": "Liebler***, James G. Marks Jr.***, Ronald C. Shank***, Thomas J. Slaga**, † †† Paul W. Snyder**, Monice Fiume , and Bart Heldreth Abstract TheExpertPanelforCosmeticIngredientSafety(Panel)reviewedthesafetyof10alkanoyllactyllactatesalts.Theseingredients havethesurfactantfunctionincosmeticsincommon.ThePanelrevieweddatarelevanttothesafetyoftheseingredients,and concluded that these 10 ingredients are safe incosmetics in the present practices of use and concentration describedin the safetyassessmentwhenformulatedtobenonirritatingandnonsensitizing,whichmaybebasedonaquantitativeriskassessment (QRA) or other accepted methodologies. Keywords Cosmetic Ingredient Review, Expert Panel for Cosmetic Ingredient Safety, Safety, Cosmetic Ingredient, Calcium Stearoyl Lactylate,SodiumBehenoylLactylate,SodiumCaproylLactylate,SodiumCaproyl/LauroylLactylate,SodiumCocoylLactyl"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "CIR（美国化妆品原料评价委员会）专家小组安全评估结论，为行业自评机构意见而非监管限值；浓度来自 PCPC 行业使用调查，非功效起效浓度"
+        }
+      ]
+    },
+    {
+      "cn_name": "氢化聚异丁烯",
+      "inci_name": "HYDROGENATED POLYISOBUTENE",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": [
+        {
+          "efficacy": "安全评估：现行使用方式和浓度下安全（CIR 评估）",
+          "evidence": {
+            "type": "white_paper",
+            "title": "Final Report of the Cosmetic Ingredient Review Expert Panel on the on the safety assessment of Polyisobutene and Hydrogenated Polyisobutene as used in cosmetics（IJT 39(Supp. 2):59-90, 2020）",
+            "source": "Cosmetic Ingredient Review",
+            "year": 2020,
+            "url": "https://cir-reports.cir-safety.org/view-attachment?id=32efb9a7-8e74-ec11-8943-0022482f06a6",
+            "excerpt": "heseingredients, not inggaps in the available safety data for some of the polyenes in this safety assessment. The data available for many of the ingredients are sufficient and can be extrapolated to support the safety of the entire group because of the similarities in the chemicalstructures,chemicalproperties,useconcentrations,andreportedfunctionsacrossthegroup.ThePanelconcludedthat polyenes were safeincosmetics inthepresent practices of useand concentrationdescribed inthissafety assessment. Keywords polyenegroup, safety,cosmetics Introduction Polybutene (published in 1982), Polyethylene (published in 2007), Polyisobutene (published in 2008), and Hydrogenated The26ingredientslistedbelowaresimplepolyolefinsthatare Polyisobutene (published in 2008) have previously been the polymerization products of vinyl-type monomers and are reviewed by the Expert Pa"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "CIR（美国化妆品原料评价委员会）专家小组安全评估结论，为行业自评机构意见而非监管限值；浓度来自 PCPC 行业使用调查，非功效起效浓度"
+        }
+      ]
+    },
+    {
+      "cn_name": "聚乙烯",
+      "inci_name": "POLYETHYLENE",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": [
+        {
+          "efficacy": "安全评估：现行使用方式和浓度下安全（CIR 评估）",
+          "evidence": {
+            "type": "white_paper",
+            "title": "Final Report of the Cosmetic Ingredient Review Expert Panel on the on the safety assessment of Polyisobutene and Hydrogenated Polyisobutene as used in cosmetics（IJT 39(Supp. 2):59-90, 2020）",
+            "source": "Cosmetic Ingredient Review",
+            "year": 2020,
+            "url": "https://cir-reports.cir-safety.org/view-attachment?id=32efb9a7-8e74-ec11-8943-0022482f06a6",
+            "excerpt": "heseingredients, not inggaps in the available safety data for some of the polyenes in this safety assessment. The data available for many of the ingredients are sufficient and can be extrapolated to support the safety of the entire group because of the similarities in the chemicalstructures,chemicalproperties,useconcentrations,andreportedfunctionsacrossthegroup.ThePanelconcludedthat polyenes were safeincosmetics inthepresent practices of useand concentrationdescribed inthissafety assessment. Keywords polyenegroup, safety,cosmetics Introduction Polybutene (published in 1982), Polyethylene (published in 2007), Polyisobutene (published in 2008), and Hydrogenated The26ingredientslistedbelowaresimplepolyolefinsthatare Polyisobutene (published in 2008) have previously been the polymerization products of vinyl-type monomers and are reviewed by the Expert Pa"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "CIR（美国化妆品原料评价委员会）专家小组安全评估结论，为行业自评机构意见而非监管限值；浓度来自 PCPC 行业使用调查，非功效起效浓度"
+        }
+      ]
+    },
+    {
+      "cn_name": "PEG-10 聚二甲基硅氧烷",
+      "inci_name": "PEG-10 DIMETHICONE",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": []
+    },
+    {
+      "cn_name": "合成氟金云母",
+      "inci_name": "SYNTHETIC FLUORPHLOGOPITE",
+      "cas_no": null,
+      "cir_conc_low": 2e-05,
+      "cir_conc_high": 67.0,
+      "assertions": []
+    },
+    {
+      "cn_name": "环五聚二甲基硅氧烷",
+      "inci_name": "CYCLOPENTASILOXANE",
+      "cas_no": null,
+      "cir_conc_low": 0.0001,
+      "cir_conc_high": 93.0,
+      "assertions": []
+    },
+    {
+      "cn_name": "环己硅氧烷",
+      "inci_name": "CYCLOHEXASILOXANE",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": []
+    },
+    {
+      "cn_name": "癸二酸二异丙酯",
+      "inci_name": "DIISOPROPYL SEBACATE",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": []
+    },
+    {
+      "cn_name": "锦纶-12",
+      "inci_name": "NYLON-12",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": []
+    },
+    {
+      "cn_name": "乳酸",
+      "inci_name": "LACTIC ACID",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": [
+        {
+          "efficacy": "安全评估：现行使用方式和浓度下安全（CIR 评估）",
+          "evidence": {
+            "type": "white_paper",
+            "title": "40th Anniversary Overview and Rereview Summaries From 2011 to 2015（IJT 36(Suppl2):14-58, 2017）",
+            "source": "Cosmetic Ingredient Review",
+            "year": 2017,
+            "url": "https://cir-reports.cir-safety.org/view-attachment?id=78339067-953f-de05-9d46-508a63ceca4c",
+            "excerpt": "is not established as a mode of action. The Panel datain2007andconfirmedthatconclusion.4In2012,thePanel agreedthatthatthereisaneedforfurtherstudyofthereported reviewed 3 new studies on phthalates published in 2012 and association between phthalates exposures and diabetes and to confirmed that dibutyl, dimethyl, and diethyl phthalate and investigate possiblecausal links. butyl benzyl phthalate are safe in cosmetics in the present practices of use and concentration. The Panel did not reopen Declaration ofConflicting Interests the safetyassessment. Theauthor(s)declarednopotentialconflictsofinterestwithrespectto theresearch,authorship,and/orpublicationofthisarticle. Discussion Funding The Panel reviewed new studies that focused on the potential forendocrinedisruption/reproductiveanddevelopmentaltoxi- The author(s) received nofinancial support fortheresearch,"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "CIR（美国化妆品原料评价委员会）专家小组安全评估结论，为行业自评机构意见而非监管限值；浓度来自 PCPC 行业使用调查，非功效起效浓度"
+        }
+      ]
+    },
+    {
+      "cn_name": "甘醇酸",
+      "inci_name": "GLYCOLIC ACID",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": [
+        {
+          "efficacy": "安全评估：现行使用方式和浓度下安全（CIR 评估）",
+          "evidence": {
+            "type": "white_paper",
+            "title": "40th Anniversary Overview and Rereview Summaries From 2011 to 2015（IJT 36(Suppl2):14-58, 2017）",
+            "source": "Cosmetic Ingredient Review",
+            "year": 2017,
+            "url": "https://cir-reports.cir-safety.org/view-attachment?id=78339067-953f-de05-9d46-508a63ceca4c",
+            "excerpt": "is not established as a mode of action. The Panel datain2007andconfirmedthatconclusion.4In2012,thePanel agreedthatthatthereisaneedforfurtherstudyofthereported reviewed 3 new studies on phthalates published in 2012 and association between phthalates exposures and diabetes and to confirmed that dibutyl, dimethyl, and diethyl phthalate and investigate possiblecausal links. butyl benzyl phthalate are safe in cosmetics in the present practices of use and concentration. The Panel did not reopen Declaration ofConflicting Interests the safetyassessment. Theauthor(s)declarednopotentialconflictsofinterestwithrespectto theresearch,authorship,and/orpublicationofthisarticle. Discussion Funding The Panel reviewed new studies that focused on the potential forendocrinedisruption/reproductiveanddevelopmentaltoxi- The author(s) received nofinancial support fortheresearch,"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "CIR（美国化妆品原料评价委员会）专家小组安全评估结论，为行业自评机构意见而非监管限值；浓度来自 PCPC 行业使用调查，非功效起效浓度"
+        }
+      ]
+    },
+    {
+      "cn_name": "乙二醇二硬脂酸酯",
+      "inci_name": "GLYCOL DISTEARATE",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": []
+    },
+    {
+      "cn_name": "山梨（糖）醇",
+      "inci_name": "SORBITOL",
+      "cas_no": null,
+      "cir_conc_low": 7e-05,
+      "cir_conc_high": 70.0,
+      "assertions": [
+        {
+          "efficacy": "安全评估：现行使用方式和浓度下安全（CIR 评估；行业调查使用浓度区间 0.00007%-70%，非安全限值）",
+          "evidence": {
+            "type": "white_paper",
+            "title": "Safety Assessment of Mannitol, Sorbitol and Xylitol as Used in Cosmetics（IJT 44(Suppl. 1):22-43, 2025）",
+            "source": "Cosmetic Ingredient Review",
+            "year": 2025,
+            "url": "https://cir-reports.cir-safety.org/view-attachment?id=659788c7-69b4-1796-96f1-07ac887409ea",
+            "excerpt": "Shank***, Thomas J. Slaga**, † †† Paul W. Snyder**, Monice Fiume , and Bart Heldreth Abstract The Expert Panel for Cosmetic Ingredient Safety (Panel) assessed the safety of Mannitol, Sorbitol, and Xylitol as used in cosmetics.Theseingredientsarereportedtofunctionashumectants,skin-conditioningagents,orflavoringagents.ThePanel consideredtheavailabledataandconcludedthatthesesugaralcoholingredientsaresafeincosmeticsinthepresentpracticesof use and concentration described in the safety assessment. Keywords Cosmetics, Ingredients, Safety, Mannitol, Sorbitol, Xylitol, Expert Panel for Cosmetic Ingredient Safety, Cosmetic Ingredient Review Introduction (https://www.cir-safety.org/supplementaldoc/preliminary-search- engines-and-websites; https://www.cir-safety.org/supplementald ThisisasafetyassessmentofMannitol,Sorbitol,andXylitolas oc/cir-report-format-outl … The results of the concentration of use survey conducted by the CouncilindicateSorbitolalsohasthehighestconcentrationof use; it is used at up to 70% in dentifrices."
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "CIR（美国化妆品原料评价委员会）专家小组安全评估结论，为行业自评机构意见而非监管限值；浓度来自 PCPC 行业使用调查，非功效起效浓度；浓度数值经人工与报告原文核对"
+        }
+      ]
+    },
+    {
+      "cn_name": "山梨坦油酸酯",
+      "inci_name": "SORBITAN OLEATE",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": [
+        {
+          "efficacy": "安全评估：现行使用方式和浓度下安全（CIR 评估）",
+          "evidence": {
+            "type": "white_paper",
+            "title": "Final Report on the Safety Assessment of Sorbitan Stearate, Sorbitan Laurate, Sorbitan Sesquioleate, Sorbitan Oleate, Sorbitan Tristearate, Sorbitan Palmitate, and Sorbitan Trioleate (Addended by report published in IJT 21(suppl. 1), 2002.)（IJT 38(Suppl.2):60-80, 2019）",
+            "source": "Cosmetic Ingredient Review",
+            "year": 2019,
+            "url": "https://cir-reports.cir-safety.org/view-attachment?id=f1eeb9a7-8e74-ec11-8943-0022482f06a6",
+            "excerpt": "edsorbitanesters(sorbitanundecylenate,sorbitan sesquicaprylate,andsorbitanpalmate).Mostofthesorbitanestersarereportedtofunctionincosmeticsassurfactant-emulsifying agents. The Panel reviewed the data from previous sorbitan ester reports, as well as additional data included in this report, to determinethesafetyoftheseingredients.ThePanelconcludedthatthesorbitanestersincludedinthissafetyassessmentaresafe incosmetics inthepresent practices ofuse andconcentration. Keywords safety,cosmetics, sorbitan esters Introduction Fattysorbitansesquiesters Sorbitansesquicaprylate In 1985, the Cosmetic Ingredient Review (CIR) Expert Panel Sorbitansesquiisostearate (2002) (Panel) published a safety assessment of 7 sorbitan esters; Sorbitansesquioleate (1985) basedon thedatapresented inthatassessment, thepanelcon- Sorbitansesquistearate (2002) cluded that sorbitan stear"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "CIR（美国化妆品原料评价委员会）专家小组安全评估结论，为行业自评机构意见而非监管限值；浓度来自 PCPC 行业使用调查，非功效起效浓度"
+        }
+      ]
+    },
+    {
+      "cn_name": "C12-15 醇苯甲酸酯",
+      "inci_name": "C12-15 ALKYL BENZOATE",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": []
+    },
+    {
+      "cn_name": "茶叶提取物",
+      "inci_name": "CAMELLIA SINENSIS LEAF EXTRACT",
+      "cas_no": null,
+      "cir_conc_low": 2e-05,
+      "cir_conc_high": 2.0,
+      "assertions": []
+    },
+    {
+      "cn_name": "氧化锡",
+      "inci_name": "TIN OXIDE",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": []
+    },
+    {
+      "cn_name": "精氨酸",
+      "inci_name": "ARGININE",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": []
+    },
+    {
+      "cn_name": "硬脂酰谷氨酸二钠",
+      "inci_name": "DISODIUM STEAROYL GLUTAMATE",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": []
+    },
+    {
+      "cn_name": "海藻糖",
+      "inci_name": "TREHALOSE",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": []
+    },
+    {
+      "cn_name": "向日葵（HELIANTHUS ANNUUS）籽油",
+      "inci_name": "HELIANTHUS ANNUUS (SUNFLOWER) SEED OIL",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": []
+    },
+    {
+      "cn_name": "野大豆（GLYCINE SOJA）油",
+      "inci_name": "GLYCINE SOJA (SOYBEAN) OIL",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": []
+    },
+    {
+      "cn_name": "椰子（COCOS NUCIFERA）油",
+      "inci_name": "COCOS NUCIFERA (COCONUT) OIL",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": []
+    },
+    {
+      "cn_name": "杏（PRUNUS ARMENIACA）仁油",
+      "inci_name": "PRUNUS ARMENIACA (APRICOT) KERNEL OIL",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": []
+    },
+    {
+      "cn_name": "聚二甲基硅氧烷/乙烯基聚二甲基硅氧烷交联聚合物",
+      "inci_name": "DIMETHICONE/VINYL DIMETHICONE CROSSPOLYMER",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": []
+    },
+    {
+      "cn_name": "聚二甲基硅氧烷交联聚合物",
+      "inci_name": "DIMETHICONE CROSSPOLYMER",
+      "cas_no": null,
+      "cir_conc_low": 0.007,
+      "cir_conc_high": 25.0,
+      "assertions": []
+    },
+    {
+      "cn_name": "焦亚硫酸钠",
+      "inci_name": "SODIUM METABISULFITE",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": []
+    },
+    {
+      "cn_name": "甲硅烷基化硅石",
+      "inci_name": "SILICA SILYLATE",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": []
+    },
+    {
+      "cn_name": "三甲基硅烷氧基硅酸酯",
+      "inci_name": "TRIMETHYLSILOXYSILICATE",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": []
+    },
+    {
+      "cn_name": "滑石粉",
+      "inci_name": "TALC",
+      "cas_no": null,
+      "cir_conc_low": 0.0005,
+      "cir_conc_high": 100.0,
+      "assertions": []
+    },
+    {
+      "cn_name": "硫酸镁",
+      "inci_name": "MAGNESIUM SULFATE",
+      "cas_no": null,
+      "cir_conc_low": 1e-05,
+      "cir_conc_high": 49.0,
+      "assertions": [
+        {
+          "efficacy": "安全评估：现行使用方式和浓度下安全（CIR 评估；行业调查使用浓度区间 0.00001%-49%，非安全限值）",
+          "evidence": {
+            "type": "white_paper",
+            "title": "Safety Assessment of Magnesium Sulfate as Used in Cosmetics（IJT 37(Suppl.1):47-54, 2018）",
+            "source": "Cosmetic Ingredient Review",
+            "year": 2018,
+            "url": "https://cir-reports.cir-safety.org/view-attachment?id=047dbaa1-8e74-ec11-8943-0022482f06a6",
+            "excerpt": "entaftercosmeticproductapplication.Furthermore,theextensive clinical experience of the Panel, including the results of numerous patch tests, indicates that magnesium salts do not have the potential to induce sensitization. The Panel also noted that results were negative for 50% magnesium sulfate in a mouse skin irritationstudyandinaninvitrosensitizationassay.ThePanelconcludedthatmagnesiumsulfateissafeincosmeticsinthepresent practices ofuse andconcentration described inthesafetyassessment. Keywords magnesium sulfate, safety,cosmetics Introduction Use Thesafetyofmagnesiumsulfate,aninorganicsulfate,asusedin Cosmetic cosmetics,isreviewedinthissafetyassessment.Magnesiumsul- Magnesium sulfate functions as a bulking agent in cosmetic fateisreportedtofunctionasabulkingagentincosmeticproducts. products.4 According to information supplied to the US Food and … 5 Results from a survey of ingredient use Magnesiumsulfate(MgSO ,CASNos."
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "CIR（美国化妆品原料评价委员会）专家小组安全评估结论，为行业自评机构意见而非监管限值；浓度来自 PCPC 行业使用调查，非功效起效浓度；浓度数值经人工与报告原文核对"
+        }
+      ]
+    },
+    {
+      "cn_name": "椰油酰胺丙基甜菜碱",
+      "inci_name": "COCAMIDOPROPYL BETAINE",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": []
+    },
+    {
+      "cn_name": "麦芽糊精",
+      "inci_name": "MALTODEXTRIN",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": []
+    },
+    {
+      "cn_name": "石蜡",
+      "inci_name": "PARAFFIN",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": []
+    },
+    {
+      "cn_name": "三乙氧基辛基硅烷",
+      "inci_name": "TRIETHOXYCAPRYLYLSILANE",
+      "cas_no": null,
+      "cir_conc_low": 1e-06,
+      "cir_conc_high": 2.6,
+      "assertions": [
+        {
+          "efficacy": "安全评估：现行使用方式和浓度下安全（CIR 评估；行业调查使用浓度区间 0.000001%-2.6%，非安全限值）",
+          "evidence": {
+            "type": "white_paper",
+            "title": "Final Report: Safety Assessment of Alkoxy Alkyl Silanes as Used in Cosmetics（December 6, 2016）",
+            "source": "Cosmetic Ingredient Review",
+            "year": 2016,
+            "url": "https://cir-reports.cir-safety.org/view-attachment?id=3412a8b9-8c74-ec11-8943-0022482f06a6",
+            "excerpt": "ead to local respiratory or systemic effects. A detailed discussion and summary of the Panel’s approach to evaluating incidental inhalation exposures to ingredients in cosmetic products is available at http://www.cir-safety.org/cir-findings. CONCLUSION The CIR Expert Panel concluded that Bis-Stearoxydimethylsilane, Stearoxytrimethylsilane, Triethoxycaprylylsilane, and Trimethoxycaprylylsilane are safe in cosmetics in the present practices of use and concentration described in this safety assessment. TABLES Table 1. Definitions, CAS Nos., idealized structures, and functions of the alkoxyl alkyl silane ingredients in this safety assessment.1, CIR Staff Ingredient CAS No. Definition & Structures Function(s) Bis-Stearoxydimethylsilane Bis-Stearoxydimethylsilane is the silicon compound that conforms to the Skin-conditioning agent - 29043-70-7 formula. [Bis-Ste … The results of the concentration of use survey conducted by the Council in 2015 indicate that Triethoxycaprylylsilane has the highest reported maximum concentration of use; it is used at up to 2."
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "CIR（美国化妆品原料评价委员会）专家小组安全评估结论，为行业自评机构意见而非监管限值；浓度来自 PCPC 行业使用调查，非功效起效浓度；浓度数值经人工与报告原文核对"
+        }
+      ]
+    },
+    {
+      "cn_name": "棕榈酰五肽-4",
+      "inci_name": "PALMITOYL PENTAPEPTIDE-4",
+      "cas_no": null,
+      "cir_conc_low": 5e-06,
+      "cir_conc_high": 0.0035,
+      "assertions": [
+        {
+          "efficacy": "安全评估：现行使用方式和浓度下安全（CIR 评估；行业调查使用浓度区间 0.000005%-0.0035%，非安全限值）",
+          "evidence": {
+            "type": "white_paper",
+            "title": "Final Report: Safety Assessment of Myristoyl Pentapeptide-4, Palmitoyl Pentapeptide-4 and Pentapeptide-4 as Used in Cosmetics（October 1, 2024）",
+            "source": "Cosmetic Ingredient Review",
+            "year": 2024,
+            "url": "https://cir-reports.cir-safety.org/view-attachment?id=d4bf93aa-abdb-7a7a-8b6f-795c2e499c89",
+            "excerpt": "ogen Screen ABSTRACT The Expert Panel for Cosmetic Ingredient Safety (Panel) assessed the safety of Myristoyl Pentapeptide-4, Palmitoyl Pentapeptide-4, and Pentapeptide-4 (KTTKS and KTSKS sequences), which are reported to function as skin-conditioning agents in cosmetic products. The Panel reviewed the available data to determine the safety of these ingredients and concluded these ingredients are safe in cosmetics in the present practices of use and concentration described in this safety assessment. INTRODUCTION This assessment reviews the safety of Myristoyl Pentapeptide-4, Palmitoyl Pentapeptide-4, and Pentapeptide-4 as used in cosmetic formulations. According to the web-based International Cosmetic Ingredient Dictionary and Handbook (Dictionary), these ingredients are reported to function in cosmetics as skin-conditioning agents (Table 1).1 The 3 ingre … The results of the concentration of use survey conducted by the Council in 2022 and revised in 2023 indicate Palmitoyl Pentapeptide-4 has the highest maximum reported concentration of use, at up to 0."
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "CIR（美国化妆品原料评价委员会）专家小组安全评估结论，为行业自评机构意见而非监管限值；浓度来自 PCPC 行业使用调查，非功效起效浓度；浓度数值经人工与报告原文核对"
+        }
+      ]
+    },
+    {
+      "cn_name": "酵母提取物",
+      "inci_name": "YEAST EXTRACT",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": [
+        {
+          "efficacy": "安全评估：现行使用方式和浓度下安全（CIR 评估）",
+          "evidence": {
+            "type": "white_paper",
+            "title": "Final Report: Safety Assessment of Yeast-Derived Ingredients as Used in Cosmetics（June 4, 2024）",
+            "source": "Cosmetic Ingredient Review",
+            "year": 2024,
+            "url": "https://cir-reports.cir-safety.org/view-attachment?id=5cf8f722-d0c7-ee72-9e81-4ddc60723a28",
+            "excerpt": "function in cosmetics as skin protectants or skin-conditioning agents. The Panel reviewed the available data to determine the safety of these ingredients and concluded that 21 yeast-derived ingredients and 22 generically-named yeast-derived ingredients, when derived from species of yeast included in the report with both dermal sensitization and food use status, or sufficient composition data, are safe in cosmetics in the present practices of use and concentration described in this safety assessment. The Panel also concluded that the available data are insufficient to make a determination of safety for the remaining 13 ingredients under the intended conditions of use in cosmetic formulations. INTRODUCTION This assessment reviews the safety of the following 56 yeast-derived ingredients as used in cosmetic formulations: Galactomyces Ferment Filtrate Pichia M"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "CIR（美国化妆品原料评价委员会）专家小组安全评估结论，为行业自评机构意见而非监管限值；浓度来自 PCPC 行业使用调查，非功效起效浓度"
+        }
+      ]
+    },
+    {
+      "cn_name": "尿囊素",
+      "inci_name": "ALLANTOIN",
+      "cas_no": null,
+      "cir_conc_low": 0.0001,
+      "cir_conc_high": 2.0,
+      "assertions": []
+    },
+    {
+      "cn_name": "PEG/PPG-14/7 二甲基醚",
+      "inci_name": "PEG/PPG-14/7 DIMETHYL ETHER",
+      "cas_no": null,
+      "cir_conc_low": 0.00011,
+      "cir_conc_high": 7.0,
+      "assertions": []
+    },
+    {
+      "cn_name": "PPG-5-鲸蜡醇聚醚-20",
+      "inci_name": "PPG-5-CETETH-20",
+      "cas_no": null,
+      "cir_conc_low": 0.05,
+      "cir_conc_high": 10.0,
+      "assertions": []
+    },
+    {
+      "cn_name": "甘草酸二钾",
+      "inci_name": "DIPOTASSIUM GLYCYRRHIZATE",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": []
+    },
+    {
+      "cn_name": "PCA钠",
+      "inci_name": "SODIUM PCA",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": 3.0,
+      "assertions": [
+        {
+          "efficacy": "安全评估：现行使用方式和浓度下安全（CIR 评估；行业调查最大使用浓度 3%，非安全限值）",
+          "evidence": {
+            "type": "white_paper",
+            "title": "Safety Assessment of PCA (2-pyrrolidone-5-carboxylic acid) and its Salts as Used in Cosmetics（IJT 38(Suppl.2):5-11, 2019）",
+            "source": "Cosmetic Ingredient Review",
+            "year": 2019,
+            "url": "https://cir-reports.cir-safety.org/view-attachment?id=08efb9a7-8e74-ec11-8943-0022482f06a6",
+            "excerpt": "y unreviewed salts (calcium, magnesium, and potassium) of PCA to this safety assessment. 2-Pyrrolidone-5-carboxylicacidanditssaltsarereportedtofunctionincosmeticsasskinconditioningagents—humectants.The Panel reviewed the data from the 1999 report of PCA and sodium PCA, as well as additional data included in this report, to determinethesafetyoftheseingredients.ThePanelconcludedthatPCAanditssaltsaresafeincosmeticsinthepresentpractices ofuseandconcentration;additionally,theseingredientsshouldnotbeusedincosmeticproductsinwhichN-nitrosocompounds canbe formed. Keywords 2-pyrrolidone-5-carboxylic acid,cosmetics, safety Introduction Chemistry In 1999, the Cosmetic Ingredient Review (CIR) Expert Panel Definition and Structure (Panel) published a safety assessment of 2-pyrrolidone-5- 2-Pyrrolidone-5-carboxylic acid, also known as pyroglutamic carboxylic ac … In another study, no significant irritation was observed when 46 volunteers were International Journal of Toxicology 38(Supplement 2) treatedwith30%sodiumPCAusingopenpatchtestmethods."
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "CIR（美国化妆品原料评价委员会）专家小组安全评估结论，为行业自评机构意见而非监管限值；浓度来自 PCPC 行业使用调查，非功效起效浓度；浓度数值经人工与报告原文核对"
+        }
+      ]
+    },
+    {
+      "cn_name": "水解大豆蛋白",
+      "inci_name": "HYDROLYZED SOY PROTEIN",
+      "cas_no": null,
+      "cir_conc_low": 3e-05,
+      "cir_conc_high": 3.5,
+      "assertions": [
+        {
+          "efficacy": "安全评估：现行使用方式和浓度下安全（CIR 评估；行业调查使用浓度区间 0.00003%-3.5%，非安全限值）",
+          "evidence": {
+            "type": "white_paper",
+            "title": "Final Report: Safety Assessment of Soy Proteins and Peptides as Used in Cosmetics（IJT 42(Suppl. 2):102-113, 2023）",
+            "source": "Cosmetic Ingredient Review",
+            "year": 2023,
+            "url": "https://cir-reports.cir-safety.org/view-attachment?id=5990bd27-d995-b2ca-b911-b6baceebd820",
+            "excerpt": "k***, Thomas J. Slaga**, † †† Paul W. Snyder**, Monice Fiume , and Bart Heldreth Abstract The Expert Panel for Cosmetic Ingredient Safety (Panel) assessed the safety of soy proteins and peptides, which function in cosmeticsprimarilyashairconditioningagentsandskin-conditioningagents-miscellaneous.ThePanelconsideredrelevantdata relatedtotheseingredients.ThePanelconcludedthatsoyproteinsandpeptidesaresafeincosmeticsinthepresentpracticesof use and concentration described in this safety assessment. Keywords soy protein, peptides, cosmetics, safety, risk assessment Introduction ingredients via oral exposure is not addressed further in this report. The primary focus of the safety assessment is the Soy protein and peptide ingredients function mainly as skin review of safety based on topical exposure. andhairconditioningagentsinpersonalcareproducts.1This Not … Forexample,HydrolyzedSoyProteinisused in bath soaps and detergents at up to 1."
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "CIR（美国化妆品原料评价委员会）专家小组安全评估结论，为行业自评机构意见而非监管限值；浓度来自 PCPC 行业使用调查，非功效起效浓度；浓度数值经人工与报告原文核对"
+        }
+      ]
+    },
+    {
+      "cn_name": "玉米（ZEA MAYS）淀粉",
+      "inci_name": "ZEA MAYS (CORN) STARCH",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": []
+    },
+    {
+      "cn_name": "卵磷脂",
+      "inci_name": "LECITHIN",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": []
+    },
+    {
+      "cn_name": "苯乙烯/丙烯酸（酯）类共聚物",
+      "inci_name": "STYRENE/ACRYLATES COPOLYMER",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": []
+    },
+    {
+      "cn_name": "PEG-60 氢化蓖麻油",
+      "inci_name": "PEG-60 HYDROGENATED CASTOR OIL",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": []
+    },
+    {
+      "cn_name": "叔丁醇",
+      "inci_name": "T-BUTYL ALCOHOL",
+      "cas_no": null,
+      "cir_conc_low": null,
+      "cir_conc_high": null,
+      "assertions": []
+    },
+    {
+      "cn_name": "碳酸二辛酯",
+      "inci_name": "DICAPRYLYL CARBONATE",
+      "cas_no": null,
+      "cir_conc_low": 0.3,
+      "cir_conc_high": 34.5,
+      "assertions": []
+    },
+    {
+      "cn_name": "聚硅氧烷-11",
+      "inci_name": "POLYSILICONE-11",
+      "cas_no": null,
+      "cir_conc_low": 0.025,
+      "cir_conc_high": 19.9,
+      "assertions": [
+        {
+          "efficacy": "安全评估：现行使用方式和浓度下安全（CIR 评估；行业调查使用浓度区间 0.025%-19.9%，非安全限值）",
+          "evidence": {
+            "type": "white_paper",
+            "title": "Safety Assessment of Polysilicone-11 as Used in Cosmetics（IJT 43(Suppl. 3):120-127, 2024）",
+            "source": "Cosmetic Ingredient Review",
+            "year": 2024,
+            "url": "https://cir-reports.cir-safety.org/view-attachment?id=2f642466-295a-f8b4-9eb2-57d9fa78bbe7",
+            "excerpt": "**, Daniel C. Liebler***, James G. Marks***, Lisa A. Peterson***, Ronald C. Shank***, † Thomas J. Slaga**, Paul W. Snyder**, Monice Fiume , and †† Bart Heldreth Abstract TheExpertPanelforCosmeticIngredientSafety(Panel)assessedthesafetyofPolysilicone-11asusedincosmeticformulations. Thisingredientisreportedtofunctionasafilmformer.ThePanelconsideredtheavailabledataandconcludedthatPolysilicone- 11 is safe in cosmetics in the present practices of use and concentration described in this safety assessment. Keywords Cosmetics, Safety, Cosmetic Ingredient Review, Expert Panel for Cosmetic Ingredient Safety, Polysilicone-11 Introduction Foruseincosmetics,copolymerssuchasPolysilicone-11, aretypicallysuppliedtofinishinghousesasswollengels(i.e., ThisisasafetyassessmentofPolysilicone-11asusedincosmetic trade name mixtures) that contain 1 or more solvents (e.g., formula … Results of the concentration of use survey conducted by Council in 2018, and updated in 2019, indicate Polysilicone-11isusedatamaximumconcentration of up to 19."
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "CIR（美国化妆品原料评价委员会）专家小组安全评估结论，为行业自评机构意见而非监管限值；浓度来自 PCPC 行业使用调查，非功效起效浓度；浓度数值经人工与报告原文核对"
+        }
+      ]
+    }
+  ]
+}

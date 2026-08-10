@@ -1,0 +1,25 @@
+{
+  "ingredients": [
+    {
+      "cn_name": "羟丙基四氢吡喃三醇（玻色因）",
+      "inci_name": "HYDROXYPROPYL TETRAHYDROPYRANTRIOL",
+      "cas_no": "439685-79-7",
+      "assertions": [
+        {
+          "efficacy": "促糖胺聚糖（GAGs，含透明质酸）合成（体外成纤维细胞，专利申请人自述）",
+          "evidence": {
+            "type": "patent",
+            "title": "WO2002051828A2 / EP1345919B1 Novel C-glycoside derivatives and use thereof（L'Oréal，优先权 2000-12-22，已到期）",
+            "source": "WIPO/EPO（L'Oréal 专利申请）",
+            "year": 2002,
+            "url": "https://data.epo.org/publication-server/rest/v1.2/patents/EP1345919NWB1/document.pdf",
+            "excerpt": "权利要求 5：le dérivé C-glycoside est le C-β-D-xylopyranoside-2-hydroxy-propane（即玻色因本体）。[0002] 用途：刺激成纤维细胞/角质形成细胞合成含 D-葡萄糖胺残基的糖胺聚糖（尤其透明质酸）及蛋白聚糖。实验例（[0156]-[0158]，成纤维细胞放射性葡萄糖胺掺入）：la C-β-D-xylopyranoside-2-hydroxy-propane stimule l'incorporation de glucosamine radioactive aux concentrations de 0.1; 0.3 et 1 mM（[0156] 表中 1 mM 为对照的 169%，p<0.01；0.3 mM 为 139%，p<0.05）；[0159] Ainsi, les dérivés C-glycosides selon l'invention stimulent l'incorporation de glucosamine radioactive ce qui indique une néosynthèse de glycosaminoglycannes。"
+          },
+          "effective_conc_low": null,
+          "effective_conc_high": null,
+          "note": "专利申请人自述数据，未经同行评议；体外实验（成纤维细胞放射性葡萄糖胺掺入），浓度单位为 mM 不可直接换算为化妆品添加浓度"
+        }
+      ]
+    }
+  ]
+}
