@@ -24,9 +24,9 @@ export default function ClaimCard({ claim: c, nmpaId, anchorId, doses }) {
   ].filter(([, v]) => v)
 
   return (
-    <div id={anchorId} className="scroll-mt-24 bg-white/50 border border-white/70 rounded-2xl p-4 md:p-5 mb-4">
+    <div id={anchorId} className="scroll-mt-24 fairy-panel p-4 md:p-5 mb-4">
       <div className="flex items-center gap-2.5 flex-wrap">
-        <span className="font-display text-[17px] bg-rosewood-soft text-rosewood px-3.5 py-1 rounded-full">
+        <span className="fairy-chip font-display !text-[15px] !px-3.5 !py-1">
           {c.claim}
         </span>
         <span className={tier.cls} title={c.eval_category ? `NMPA 公示评价类别：${c.eval_category}` : '备案摘要未公示评价类别'}>
@@ -41,7 +41,7 @@ export default function ClaimCard({ claim: c, nmpaId, anchorId, doses }) {
           {doses.map(({ est, d }, i) => <DoseChart key={i} est={est} d={d} />)}
         </div>
       ) : (
-        <div className="mt-3 bg-white/40 rounded-2xl px-4 py-2.5 text-xs text-pearl-ink-3 leading-relaxed border border-white/60">
+        <div className="mt-3 fairy-panel-dim px-4 py-2.5 text-xs text-pearl-ink-3 leading-relaxed">
           该宣称未匹配到带文献起效浓度的成分剂量判定——查不到本身也是信号，不做猜测。
         </div>
       )}
@@ -54,14 +54,14 @@ export default function ClaimCard({ claim: c, nmpaId, anchorId, doses }) {
           </div>
         ))}
         {c.result_summary && (
-          <div className="md:col-span-2 lg:col-span-3 bg-white/40 rounded-2xl px-3.5 py-2.5 border border-white/60">
+          <div className="md:col-span-2 lg:col-span-3 fairy-panel-dim px-3.5 py-2.5">
             <div className="text-pearl-ink-3 text-xs mb-0.5">试验结果简述</div>
             <div className="text-[13px] text-pearl-ink-2">{c.result_summary}</div>
           </div>
         )}
       </div>
-      <div className="mt-3 pt-2.5 border-t border-dashed border-[#e2d8cc] text-xs text-pearl-ink-3 flex flex-wrap gap-x-1.5 items-center">
-        出处：<b className="text-[#2f7a68] font-semibold">NMPA《功效宣称依据摘要》</b>
+      <div className="mt-3 pt-2.5 border-t border-dashed border-[rgba(138,90,106,0.25)] text-xs text-pearl-ink-3 flex flex-wrap gap-x-1.5 items-center">
+        出处：<b className="text-[#3d7a54] font-semibold">NMPA《功效宣称依据摘要》</b>
         {nmpaId && <span>（备案号 {nmpaId}）</span>}
       </div>
     </div>

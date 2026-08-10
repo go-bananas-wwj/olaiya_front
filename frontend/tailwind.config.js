@@ -38,9 +38,9 @@ export default {
       },
       fontFamily: {
         sans: ['-apple-system', 'PingFang SC', 'Microsoft YaHei', 'Noto Sans CJK SC', 'sans-serif'],
-        // 珍珠贝母：标题站酷快乐体 / 正文 Quicksand+Noto Sans SC / 数字 Baloo 2
+        // 首页童话风：正文站酷快乐体优先（扩展子集覆盖 GB2312 一级字）/ 数字 Baloo 2
         display: ['ZCOOL KuaiLe', 'PingFang SC', 'sans-serif'],
-        pearl: ['Quicksand', 'Noto Sans SC', 'PingFang SC', 'sans-serif'],
+        pearl: ['ZCOOL KuaiLe', 'Quicksand', 'Noto Sans SC', 'PingFang SC', 'sans-serif'],
         num: ['Baloo 2', 'Quicksand', 'sans-serif'],
       },
     },

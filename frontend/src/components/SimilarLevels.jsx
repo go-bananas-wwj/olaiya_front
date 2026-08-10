@@ -22,7 +22,7 @@ const pct = (s) => `${(s * 100).toFixed(1)}%`
 
 function SimCard({ item, meta, productId }) {
   return (
-    <div className="bg-white/50 hover:bg-white/80 rounded-2xl px-3.5 py-2.5 transition-colors border border-white/60">
+    <div className="fairy-panel hover:bg-white/75 px-3.5 py-2.5 transition-colors">
       <Link to={`/products/${item.id}`} className="block">
         <div className="flex items-baseline justify-between gap-2">
           <div className="text-sm font-medium leading-snug text-pearl-ink">{item.name}</div>
@@ -53,7 +53,7 @@ function LevelColumn({ level, data, note, productId }) {
       <p className="text-xs text-pearl-ink-3 leading-relaxed mt-1.5">{level.desc}</p>
       <div className="mt-3 space-y-2">
         {level.key === 'l2' && !data.l2.available ? (
-          <div className="bg-white/40 text-pearl-ink-3 rounded-2xl px-3.5 py-2.5 text-xs leading-relaxed border border-white/60">
+          <div className="fairy-panel-dim text-pearl-ink-3 px-3.5 py-2.5 text-xs leading-relaxed">
             {data.l2.reason}
           </div>
         ) : (

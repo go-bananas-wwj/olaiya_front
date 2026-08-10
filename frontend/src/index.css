@@ -33,51 +33,128 @@
 }
 
 @layer components {
-  /* —— 珍珠贝母：仅产品详情页使用，不影响全局 .card 等旧类 —— */
+  /* —— 首页童话风：对标 lab/hero-demo/src/styles.css（.ing-card/.ing-badge/.ing-chip/.btn）—— */
   .pearl-page {
-    @apply relative bg-pearl text-pearl-ink font-pearl -mx-5 -my-6 px-5 py-6 min-h-[calc(100vh-4rem)] overflow-hidden;
+    @apply relative text-pearl-ink font-pearl -mx-5 -my-6 px-5 py-6 min-h-[calc(100vh-4rem)] overflow-hidden;
   }
-  /* 静态淡虹彩径向光斑（粉/青绿/薰衣草，无动画） */
+  /* 静态极淡径向光斑（薰衣草/蔷薇粉，无动画；页面底色在 body 的 fixed 渐变上） */
   .pearl-page::before {
     content: '';
     @apply absolute inset-0 pointer-events-none;
     background:
-      radial-gradient(42rem 30rem at 8% -6%, rgba(176, 106, 138, .16), transparent 60%),
-      radial-gradient(38rem 28rem at 96% 12%, rgba(111, 174, 158, .18), transparent 60%),
-      radial-gradient(46rem 34rem at 50% 108%, rgba(138, 122, 184, .16), transparent 62%);
+      radial-gradient(40rem 28rem at 10% -5%, rgba(138, 122, 184, .16), transparent 60%),
+      radial-gradient(42rem 30rem at 95% 15%, rgba(176, 106, 138, .14), transparent 60%);
   }
+  /* 卡片：对标 .ing-card */
   .glass-card {
-    @apply relative bg-white/60 backdrop-blur-md rounded-3xl p-6 md:p-7 mb-5
-      shadow-[0_2px_6px_rgba(61,47,42,.05),0_16px_40px_rgba(61,47,42,.08)]
-      border border-white/70;
+    @apply relative rounded-[22px] p-6 md:p-7 mb-5;
+    background: rgba(255, 255, 255, 0.62);
+    border: 2px solid rgba(138, 90, 106, 0.22);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    box-shadow: 0 24px 48px -20px rgba(61, 47, 42, 0.35), 0 4px 14px -6px rgba(176, 106, 138, 0.25);
+    animation: fairy-fade-up 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
   }
+  /* 区块标题：快乐体 + 小圆点装饰（对标 .ing-dot） */
   .pearl-title {
     @apply font-display text-lg mb-4 flex items-center gap-2 text-pearl-ink tracking-wide;
   }
   .pearl-title::before {
     content: '';
-    @apply w-1.5 h-4 rounded-full bg-gradient-to-b from-rosewood to-iris inline-block flex-shrink-0;
+    @apply w-3.5 h-3.5 rounded-full inline-block flex-shrink-0;
+    background: linear-gradient(135deg, #b06a8a, #8a7ab8);
+    border: 2px solid rgba(255, 255, 255, 0.9);
+    box-shadow: 0 2px 6px rgba(61, 47, 42, 0.25);
   }
+  /* 关键标题文字渐变（对标 .grad） */
+  .grad-text {
+    background: linear-gradient(102deg, #b06a8a 12%, #8a7ab8 88%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  /* 徽章：对标 .ing-badge（1.5px 虚线描边 + 淡色底，圆角 14px） */
   .pearl-badge {
-    @apply inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium whitespace-nowrap;
+    @apply inline-flex items-center gap-1 px-2.5 py-0.5 rounded-[14px] text-xs font-medium whitespace-nowrap border-[1.5px] border-dashed;
   }
   .pearl-badge-ok {
-    @apply pearl-badge bg-mint-soft text-[#2f7a68];
+    @apply pearl-badge;
+    background: rgba(126, 200, 150, 0.14);
+    border-color: rgba(70, 150, 100, 0.5);
+    color: #3d7a54;
   }
   .pearl-badge-warn {
-    @apply pearl-badge bg-[#fdf0dd] text-[#a76b1c];
+    @apply pearl-badge;
+    background: rgba(255, 179, 71, 0.14);
+    border-color: rgba(214, 138, 40, 0.55);
+    color: #a06818;
   }
   .pearl-badge-bad {
-    @apply pearl-badge bg-[#fae3e3] text-[#b04a4a];
+    @apply pearl-badge;
+    background: rgba(240, 140, 140, 0.14);
+    border-color: rgba(200, 90, 90, 0.5);
+    color: #a04a4a;
+  }
+  .pearl-badge-info {
+    @apply pearl-badge;
+    background: rgba(127, 212, 255, 0.14);
+    border-color: rgba(70, 140, 190, 0.5);
+    color: #3a6a92;
   }
   .pearl-badge-muted {
-    @apply pearl-badge bg-[#efe9e1] text-pearl-ink-3;
+    @apply pearl-badge text-pearl-ink-3;
+    background: rgba(61, 47, 42, 0.05);
+    border-color: rgba(61, 47, 42, 0.22);
   }
   .pearl-badge-iris {
-    @apply pearl-badge bg-iris-soft text-iris;
+    @apply pearl-badge;
+    background: rgba(138, 122, 184, 0.12);
+    border-color: rgba(138, 122, 184, 0.45);
+    color: #6a5a98;
   }
+  /* 提示条：沿用 warn 徽章的虚线语言 */
   .pearl-notice {
-    @apply bg-[#fdf0dd]/80 text-[#8a5a1a] rounded-2xl px-4 py-2.5 text-xs leading-relaxed mb-4;
+    @apply rounded-[14px] px-4 py-2.5 text-xs leading-relaxed mb-4;
+    background: rgba(255, 179, 71, 0.14);
+    border: 1.5px dashed rgba(214, 138, 40, 0.55);
+    color: #a06818;
+  }
+  /* 功效 chip：对标 .ing-chip */
+  .fairy-chip {
+    @apply inline-flex items-center text-xs tracking-wide px-3 py-1 rounded-full;
+    background: rgba(176, 106, 138, 0.12);
+    border: 1px solid rgba(176, 106, 138, 0.3);
+    color: #8a4a68;
+  }
+  /* 卡片内嵌小面板：蔷薇木淡描边取代纯白边 */
+  .fairy-panel {
+    @apply bg-white/50 rounded-2xl;
+    border: 1px solid rgba(138, 90, 106, 0.15);
+  }
+  .fairy-panel-dim {
+    @apply bg-white/40 rounded-2xl;
+    border: 1px solid rgba(138, 90, 106, 0.12);
+  }
+  /* 胶囊按钮：对标 .btn-primary / .btn-ghost */
+  .btn-fairy {
+    @apply inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-full font-pearl text-sm tracking-wider transition-all;
+    background: #3d2f2a;
+    color: #f6f0ea;
+    box-shadow: 0 14px 30px -14px rgba(61, 47, 42, 0.55);
+  }
+  .btn-fairy:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 20px 38px -14px rgba(61, 47, 42, 0.6);
+  }
+  .btn-fairy-ghost {
+    @apply inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-full font-pearl text-sm tracking-wider transition-all;
+    border: 1.5px solid rgba(176, 106, 138, 0.75);
+    color: #9c5578;
+    background: rgba(255, 255, 255, 0.14);
+  }
+  .btn-fairy-ghost:hover {
+    background: rgba(176, 106, 138, 0.1);
+    transform: translateY(-2px);
   }
 }
 
@@ -138,7 +215,35 @@
 }
 
 body {
-  @apply bg-bg text-ink leading-relaxed;
+  @apply text-ink leading-relaxed;
+  /* 全站外壳底色：对标首页 .fallback-sky（薰衣草→粉→珍珠，fixed 不随滚动） */
+  background: linear-gradient(180deg, #dccdf0 0%, #f6d9e2 52%, #f3ede6 100%) fixed;
+}
+
+/* 卡片入场 fade-up（童话风弹性曲线，仅入场/hover 使用） */
+@keyframes fairy-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .glass-card {
+    animation: none;
+  }
+  .btn-fairy,
+  .btn-fairy-ghost {
+    transition: none;
+  }
+  .btn-fairy:hover,
+  .btn-fairy-ghost:hover {
+    transform: none;
+  }
 }
 
 /* 事件卡入场动画（圆桌讨论流等逐条出现的场景） */

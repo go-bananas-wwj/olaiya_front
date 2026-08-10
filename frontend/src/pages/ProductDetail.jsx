@@ -36,10 +36,10 @@ function claimStatus(doses) {
 
 // —— 核验结论条（判决卡）：聚合宣称与浓度判定，点击锚点滚动 ——
 const STATUS_META = {
-  effective: { text: '剂量达标', cls: 'bg-mint-soft text-[#2f7a68] border-mint/30' },
-  uncertain: { text: '剂量存疑', cls: 'bg-[#fdf0dd] text-[#a76b1c] border-[#e8c48a]' },
-  insufficient: { text: '剂量不足', cls: 'bg-[#fae3e3] text-[#b04a4a] border-[#e8b4b4]' },
-  unknown: { text: '无法判定', cls: 'bg-[#efe9e1] text-pearl-ink-3 border-[#ddd2c4]' },
+  effective: { text: '剂量达标', cls: 'pearl-badge-ok' },
+  uncertain: { text: '剂量存疑', cls: 'pearl-badge-warn' },
+  insufficient: { text: '剂量不足', cls: 'pearl-badge-bad' },
+  unknown: { text: '无法判定', cls: 'pearl-badge-muted' },
 }
 
 function scrollTo(id) {
@@ -64,13 +64,15 @@ function VerdictBar({ claims, conc }) {
       <h2 className="pearl-title">核验结论</h2>
       <div className="text-sm text-pearl-ink-2 leading-relaxed">
         <b className="font-num">{claims.length}</b> 条宣称：
-        <b className="text-[#2f7a68] font-num mx-1">{counts.effective}</b>条剂量达标 ·
-        <b className="text-[#a76b1c] font-num mx-1">{counts.uncertain}</b>条剂量存疑 ·
-        <b className="text-[#b04a4a] font-num mx-1">{counts.insufficient}</b>条剂量不足 ·
+        <b className="text-[#3d7a54] font-num mx-1">{counts.effective}</b>条剂量达标 ·
+        <b className="text-[#a06818] font-num mx-1">{counts.uncertain}</b>条剂量存疑 ·
+        <b className="text-[#a04a4a] font-num mx-1">{counts.insufficient}</b>条剂量不足 ·
         <b className="text-pearl-ink-3 font-num mx-1">{counts.unknown}</b>条无法判定
       </div>
       {conc.loading ? (
         <div className="mt-2 text-xs text-pearl-ink-3 leading-relaxed">浓度数据加载中…</div>
+      ) : conc.error ? (
+        <div className="mt-2 text-xs text-pearl-ink-3 leading-relaxed">浓度数据加载失败，剂量判定暂不可用——不猜测。</div>
       ) : !estimates && (
         <div className="mt-2 text-xs text-pearl-ink-3 leading-relaxed">
           该产品无浓度推断数据（无官方降序成分表），宣称剂量一律「无法判定」——查不到本身也是信号，不做猜测。
@@ -82,7 +84,7 @@ function VerdictBar({ claims, conc }) {
             key={e.i}
             type="button"
             onClick={() => scrollTo(`claim-${e.i}`)}
-            className={`pearl-badge border cursor-pointer hover:brightness-95 transition ${STATUS_META[e.status].cls}`}
+            className={`${STATUS_META[e.status].cls} cursor-pointer hover:brightness-95 transition`}
             title="点击滚动到对应宣称卡"
           >
             {e.claim.claim}
@@ -118,7 +120,7 @@ function IngredientTable({ ingredients }) {
         <table className="w-full border-collapse">
           <thead>
             <tr>
-              <th className="text-left text-pearl-ink-3 font-semibold text-xs px-2.5 py-2 border-b-2 border-[#e2d8cc] whitespace-nowrap">
+              <th className="text-left text-pearl-ink-3 font-semibold text-xs px-2.5 py-2 border-b-2 border-[rgba(138,90,106,0.18)] whitespace-nowrap">
                 成分名称
                 <button
                   type="button"
@@ -128,16 +130,16 @@ function IngredientTable({ ingredients }) {
                   {showInci ? '收起英文原名' : '展开看英文原名'}
                 </button>
               </th>
-              <th className="text-left text-pearl-ink-3 font-semibold text-xs px-2.5 py-2 border-b-2 border-[#e2d8cc]">安全风险</th>
-              <th className="text-left text-pearl-ink-3 font-semibold text-xs px-2.5 py-2 border-b-2 border-[#e2d8cc]">活性成分</th>
-              <th className="text-left text-pearl-ink-3 font-semibold text-xs px-2.5 py-2 border-b-2 border-[#e2d8cc]">使用目的</th>
-              <th className="text-left text-pearl-ink-3 font-semibold text-xs px-2.5 py-2 border-b-2 border-[#e2d8cc]">证据</th>
+              <th className="text-left text-pearl-ink-3 font-semibold text-xs px-2.5 py-2 border-b-2 border-[rgba(138,90,106,0.18)]">安全风险</th>
+              <th className="text-left text-pearl-ink-3 font-semibold text-xs px-2.5 py-2 border-b-2 border-[rgba(138,90,106,0.18)]">活性成分</th>
+              <th className="text-left text-pearl-ink-3 font-semibold text-xs px-2.5 py-2 border-b-2 border-[rgba(138,90,106,0.18)]">使用目的</th>
+              <th className="text-left text-pearl-ink-3 font-semibold text-xs px-2.5 py-2 border-b-2 border-[rgba(138,90,106,0.18)]">证据</th>
             </tr>
           </thead>
           <tbody>
             {visible.map((ing) => (
-              <tr key={ing.ingredient_id} className={ing.has_evidence ? 'bg-mint-soft/40 hover:bg-mint-soft/70' : 'hover:bg-white/40'}>
-                <td className="px-2.5 py-2 border-b border-[#ece3d8] text-sm align-top">
+              <tr key={ing.ingredient_id} className={ing.has_evidence ? 'bg-[rgba(126,200,150,0.1)] hover:bg-[rgba(126,200,150,0.2)]' : 'hover:bg-white/40'}>
+                <td className="px-2.5 py-2 border-b border-[rgba(138,90,106,0.1)] text-sm align-top">
                   {ing.has_evidence ? (
                     <Link to={`/ingredients/${ing.ingredient_id}`} className="text-rosewood font-medium hover:underline">
                       {ing.cn_name || ing.inci_name}
@@ -149,14 +151,14 @@ function IngredientTable({ ingredients }) {
                     <div className="text-xs text-pearl-ink-3">{ing.inci_name}</div>
                   )}
                 </td>
-                <td className="px-2.5 py-2 border-b border-[#ece3d8] text-sm align-top font-num tabular-nums">{ing.safety_risk ?? '—'}</td>
-                <td className="px-2.5 py-2 border-b border-[#ece3d8] text-sm align-top">
+                <td className="px-2.5 py-2 border-b border-[rgba(138,90,106,0.1)] text-sm align-top font-num tabular-nums">{ing.safety_risk ?? '—'}</td>
+                <td className="px-2.5 py-2 border-b border-[rgba(138,90,106,0.1)] text-sm align-top">
                   {ing.is_active
-                    ? <span className="text-[#2f7a68] font-semibold">活性</span>
+                    ? <span className="text-[#3d7a54] font-semibold">活性</span>
                     : <span className="text-pearl-ink-3">—</span>}
                 </td>
-                <td className="px-2.5 py-2 border-b border-[#ece3d8] text-sm align-top">{ing.purpose ?? '—'}</td>
-                <td className="px-2.5 py-2 border-b border-[#ece3d8] text-sm align-top">
+                <td className="px-2.5 py-2 border-b border-[rgba(138,90,106,0.1)] text-sm align-top">{ing.purpose ?? '—'}</td>
+                <td className="px-2.5 py-2 border-b border-[rgba(138,90,106,0.1)] text-sm align-top">
                   {ing.has_evidence
                     ? <Link to={`/ingredients/${ing.ingredient_id}`} className="pearl-badge-ok hover:ring-1 hover:ring-mint">有文献证据 →</Link>
                     : <span className="text-pearl-ink-3 text-xs">—</span>}
@@ -170,7 +172,7 @@ function IngredientTable({ ingredients }) {
         <button
           type="button"
           onClick={() => setExpanded(true)}
-          className="mt-3 w-full py-2.5 rounded-2xl bg-white/50 border border-white/70 text-sm text-iris font-medium hover:bg-white/80 transition"
+          className="btn-fairy-ghost mt-3 w-full"
         >
           展开全部 {ingredients.length} 种 ↓
         </button>
@@ -179,7 +181,7 @@ function IngredientTable({ ingredients }) {
         <button
           type="button"
           onClick={() => setExpanded(false)}
-          className="mt-3 w-full py-2.5 rounded-2xl bg-white/50 border border-white/70 text-sm text-pearl-ink-3 hover:bg-white/80 transition"
+          className="btn-fairy-ghost mt-3 w-full"
         >
           收起 ↑
         </button>
@@ -216,7 +218,7 @@ export default function ProductDetail() {
 
         {/* 产品头卡 */}
         <div className="glass-card mt-3">
-          <div className="font-display text-2xl md:text-3xl text-pearl-ink tracking-wide">{p.name}</div>
+          <div className="font-display text-2xl md:text-3xl grad-text tracking-wide inline-block">{p.name}</div>
           <div className="text-[13px] text-pearl-ink-2 mt-2 flex flex-wrap gap-x-4 gap-y-1">
             <span>品牌：<b>{p.brand}</b></span>
             {p.nmpa_id && <span>备案号：<b>{p.nmpa_id}</b></span>}
@@ -225,7 +227,7 @@ export default function ProductDetail() {
           {kv.length > 0 && (
             <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3 mt-4">
               {kv.map(([k, v]) => (
-                <div key={k} className="bg-white/50 rounded-2xl px-3.5 py-2.5 border border-white/60">
+                <div key={k} className="fairy-panel px-3.5 py-2.5">
                   <div className="text-pearl-ink-3 text-xs mb-0.5">{k}</div>
                   <div className="text-pearl-ink text-[13px] break-all">{v}</div>
                 </div>

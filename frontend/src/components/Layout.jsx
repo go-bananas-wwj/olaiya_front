@@ -13,22 +13,26 @@ const NAV = [
 export default function Layout() {
   return (
     <div className="min-h-screen flex flex-col">
-      <header className="bg-gradient-to-br from-brand-deep via-brand-dark to-brand text-white">
-        <div className="max-w-6xl mx-auto px-5 pt-7 pb-5">
-          <div className="flex flex-wrap items-center gap-x-8 gap-y-4 justify-between">
-            <h1 className="text-2xl tracking-wide flex items-center gap-3 font-bold">
-              <span className="w-9 h-9 rounded-[10px] bg-white/15 inline-flex items-center justify-center text-lg">真</span>
+      <header className="bg-white/40 backdrop-blur-md border-b border-[rgba(138,90,106,0.15)]">
+        <div className="max-w-6xl mx-auto px-5 pt-5 pb-4">
+          <div className="flex flex-wrap items-center gap-x-8 gap-y-3 justify-between">
+            <h1 className="font-display text-xl tracking-[0.28em] text-pearl-ink flex items-center gap-3">
+              <span className="w-9 h-9 rounded-full bg-gradient-to-br from-rosewood to-iris text-white inline-flex items-center justify-center text-base border-2 border-white/90 shadow-[0_2px_6px_rgba(61,47,42,0.25)]">
+                真
+              </span>
               成分真言
             </h1>
-            <nav className="flex gap-1">
+            <nav className="flex gap-1 flex-wrap font-pearl">
               {NAV.map((n) => (
                 <NavLink
                   key={n.to}
                   to={n.to}
                   end={n.end}
                   className={({ isActive }) =>
-                    `px-4 py-1.5 rounded-full text-sm transition-colors ${
-                      isActive ? 'bg-white/20 font-semibold' : 'text-white/75 hover:bg-white/10 hover:text-white'
+                    `px-4 py-1.5 rounded-full text-sm tracking-wider transition-colors ${
+                      isActive
+                        ? 'bg-rosewood/15 text-rosewood font-semibold'
+                        : 'text-pearl-ink hover:bg-white/50'
                     }`
                   }
                 >
@@ -37,14 +41,9 @@ export default function Layout() {
               ))}
             </nav>
           </div>
-          <p className="mt-3 text-[13px] text-[#cfc6f0] max-w-3xl">
+          <p className="mt-2.5 text-[13px] text-pearl-ink-2 max-w-3xl">
             敢说真话的成分核验平台：每条功效断言都挂真实文献。
           </p>
-          <div className="flex flex-wrap gap-2 mt-3.5 text-xs">
-            <span className="bg-white/10 border border-white/20 px-3 py-1 rounded-full">
-              数据链路：<b className="text-[#ffd98a] font-semibold">NMPA 备案公示</b> → 盖德镜像采集 → 本地证据库 → API → 本页面
-            </span>
-          </div>
         </div>
       </header>
 
@@ -52,8 +51,9 @@ export default function Layout() {
         <Outlet />
       </main>
 
-      <footer className="text-center text-xs text-ink-3 pb-8 px-5">
-        成分真言 · 欧莱雅美妆科技黑客松 2026 · 数据来源于 NMPA 备案公示镜像，仅供研究演示
+      <footer className="text-center text-xs text-pearl-ink-3 pb-8 px-5 space-y-1 font-pearl">
+        <div>数据链路：NMPA 备案公示 → 盖德镜像采集 → 本地证据库 → API → 本页面</div>
+        <div>成分真言 · 欧莱雅美妆科技黑客松 2026 · 数据来源于 NMPA 备案公示镜像，仅供研究演示</div>
       </footer>
     </div>
   )

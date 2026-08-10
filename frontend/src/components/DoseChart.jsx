@@ -34,7 +34,7 @@ export default function DoseChart({ est, d, compact = false }) {
     : `估计含量约 ${fmt(est.low)}–${fmt(est.high)}%（估计值）· 文献没给起效浓度 → ${v.text}`
 
   return (
-    <div className={compact ? '' : 'bg-white/50 rounded-2xl px-4 py-3 border border-white/70'}>
+    <div className={compact ? '' : 'fairy-panel px-4 py-3'}>
       <div className="flex items-baseline justify-between gap-3 flex-wrap">
         <div className="text-sm font-semibold text-pearl-ink">
           {est.cn_name || est.inci_name}
@@ -44,9 +44,9 @@ export default function DoseChart({ est, d, compact = false }) {
       </div>
 
       {/* bullet chart：灰带 = 推断区间（估计），竖线 = 文献起效线 */}
-      <div className="relative h-3.5 mt-2.5 rounded-full bg-[#e7ded4]">
+      <div className="relative h-3.5 mt-2.5 rounded-full bg-[#ddd0c0]">
         <div
-          className="absolute top-0.5 bottom-0.5 rounded-full bg-[#b9aa99]"
+          className="absolute top-0.5 bottom-0.5 rounded-full bg-[#a3937f]"
           style={{ left: `${l}%`, width: `${Math.max(r - l, 1)}%` }}
           title={`推断浓度区间 ${fmt(est.low)}% – ${fmt(est.high)}%（估计值）`}
         />
@@ -71,7 +71,7 @@ export default function DoseChart({ est, d, compact = false }) {
         <div className="mt-1.5 text-[11px] text-pearl-ink-3 flex flex-wrap gap-x-4 gap-y-0.5">
           <span>横轴对数刻度 {AXIS_MIN}%–{AXIS_MAX}%</span>
           <span>
-            <span className="inline-block w-2.5 h-2 rounded-sm bg-[#b9aa99] align-middle mr-1" />
+            <span className="inline-block w-2.5 h-2 rounded-sm bg-[#a3937f] align-middle mr-1" />
             推断区间（估计）
           </span>
           {hasLine && (

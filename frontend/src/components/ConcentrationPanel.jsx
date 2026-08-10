@@ -16,7 +16,7 @@ export default function ConcentrationPanel({ conc }) {
       ) : error ? (
         <div className="pearl-notice !mb-0">浓度推断数据加载失败（{error}）</div>
       ) : !data.inferred ? (
-        <div className="bg-white/40 text-pearl-ink-3 rounded-2xl px-4 py-2.5 text-xs leading-relaxed border border-white/60">
+        <div className="fairy-panel-dim text-pearl-ink-3 px-4 py-2.5 text-xs leading-relaxed">
           该产品暂无官方降序成分表，未做浓度推断——查不到本身也是信号，不伪造位次。
         </div>
       ) : (
@@ -24,7 +24,7 @@ export default function ConcentrationPanel({ conc }) {
           <div className="text-xs text-pearl-ink-3 mb-3 flex flex-wrap gap-x-4 gap-y-1">
             <span>横轴为对数刻度（0.01% – 100%）</span>
             <span>
-              <span className="inline-block w-2.5 h-2 rounded-sm bg-[#b9aa99] align-middle mr-1" />
+              <span className="inline-block w-2.5 h-2 rounded-sm bg-[#a3937f] align-middle mr-1" />
               推断区间（估计）
             </span>
             <span>
@@ -48,7 +48,7 @@ export default function ConcentrationPanel({ conc }) {
 function EstimateCard({ est }) {
   const hasDose = est.dose && est.dose.length > 0
   return (
-    <div className="bg-white/50 rounded-2xl px-4 py-3 border border-white/70">
+    <div className="fairy-panel px-4 py-3">
       {hasDose ? (
         <div className="space-y-2.5">
           {est.dose.map((d, i) => <DoseChart key={i} est={est} d={d} compact />)}
@@ -71,7 +71,7 @@ function EstimateCard({ est }) {
         </div>
       )}
       {est.disclosed_conc != null && (
-        <div className="mt-2 text-xs text-[#2f7a68]">
+        <div className="mt-2 text-xs text-[#3d7a54]">
           官方披露浓度锚点 <span className="font-num font-semibold tabular-nums">{fmt(est.disclosed_conc)}%</span>
         </div>
       )}
