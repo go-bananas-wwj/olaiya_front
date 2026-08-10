@@ -32,7 +32,6 @@ export default function ClaimCard({ claim: c, nmpaId, anchorId, doses }) {
         <span className={tier.cls} title={c.eval_category ? `NMPA 公示评价类别：${c.eval_category}` : '备案摘要未公示评价类别'}>
           {tier.icon} {tier.text}
         </span>
-        {c.eval_category && <span className="text-xs text-pearl-ink-3">{c.eval_category}</span>}
       </div>
 
       {/* hero 位：剂量对照条（够不够量，一眼可见） */}
@@ -42,7 +41,7 @@ export default function ClaimCard({ claim: c, nmpaId, anchorId, doses }) {
         </div>
       ) : (
         <div className="mt-3 fairy-panel-dim px-4 py-2.5 text-xs text-pearl-ink-3 leading-relaxed">
-          该宣称未匹配到带文献起效浓度的成分剂量判定——查不到本身也是信号，不做猜测。
+          未匹配到剂量判定，不做猜测。
         </div>
       )}
 

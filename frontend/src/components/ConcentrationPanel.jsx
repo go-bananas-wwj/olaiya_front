@@ -10,30 +10,30 @@ export default function ConcentrationPanel({ conc }) {
   return (
     <div className="glass-card">
       <h2 className="pearl-title">浓度推断（估计值）</h2>
-      <div className="pearl-notice">以下浓度为模型估计值，非官方数据</div>
+      <div className="pearl-notice">均为模型估计值，非官方数据</div>
       {loading ? (
         <Loading />
       ) : error ? (
         <div className="pearl-notice !mb-0">浓度推断数据加载失败（{error}）</div>
       ) : !data.inferred ? (
         <div className="fairy-panel-dim text-pearl-ink-3 px-4 py-2.5 text-xs leading-relaxed">
-          该产品暂无官方降序成分表，未做浓度推断——查不到本身也是信号，不伪造位次。
+          无官方降序成分表，不做浓度推断——不伪造位次。
         </div>
       ) : (
         <>
           <div className="text-xs text-pearl-ink-3 mb-3 flex flex-wrap gap-x-4 gap-y-1">
-            <span>横轴为对数刻度（0.01% – 100%）</span>
+            <span>对数刻度 0.01%–100%</span>
             <span>
               <span className="inline-block w-2.5 h-2 rounded-sm bg-[#a3937f] align-middle mr-1" />
               推断区间（估计）
             </span>
             <span>
               <span className="inline-block w-0.5 h-2.5 bg-rosewood rounded-full align-middle mr-1" />
-              文献起效线
+              起效线
             </span>
             <span>
               <span className="inline-block w-0.5 h-2.5 bg-mint rounded-full align-middle mr-1" />
-              官方披露锚点
+              官方锚点
             </span>
           </div>
           <div className="space-y-2.5">
@@ -66,13 +66,13 @@ function EstimateCard({ est }) {
             <span className="pearl-badge-muted">无剂量判定</span>
           </div>
           <div className="text-xs text-pearl-ink-2 mt-1.5 font-num tabular-nums">
-            估计含量约 {fmt(est.low)}–{fmt(est.high)}%（估计值）· 证据库无该成分起效浓度文献
+            约 {fmt(est.low)}–{fmt(est.high)}%（估计）· 无起效浓度文献
           </div>
         </div>
       )}
       {est.disclosed_conc != null && (
         <div className="mt-2 text-xs text-[#3d7a54]">
-          官方披露浓度锚点 <span className="font-num font-semibold tabular-nums">{fmt(est.disclosed_conc)}%</span>
+          官方锚点 <span className="font-num font-semibold tabular-nums">{fmt(est.disclosed_conc)}%</span>
         </div>
       )}
       {est.cost_per_effective_dose != null && (

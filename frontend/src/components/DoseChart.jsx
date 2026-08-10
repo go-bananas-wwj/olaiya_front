@@ -30,8 +30,8 @@ export default function DoseChart({ est, d, compact = false }) {
   const hasLine = d.eff_low != null
 
   const plain = hasLine
-    ? `估计含量约 ${fmt(est.low)}–${fmt(est.high)}%（估计值）· 文献说 ${fmt(d.eff_low)}% 起就有用 → ${v.text}`
-    : `估计含量约 ${fmt(est.low)}–${fmt(est.high)}%（估计值）· 文献没给起效浓度 → ${v.text}`
+    ? `约 ${fmt(est.low)}–${fmt(est.high)}%（估计）· 起效线 ${fmt(d.eff_low)}%`
+    : `约 ${fmt(est.low)}–${fmt(est.high)}%（估计）· 文献无起效线`
 
   return (
     <div className={compact ? '' : 'fairy-panel px-4 py-3'}>

@@ -72,10 +72,10 @@ function VerdictBar({ claims, conc }) {
       {conc.loading ? (
         <div className="mt-2 text-xs text-pearl-ink-3 leading-relaxed">浓度数据加载中…</div>
       ) : conc.error ? (
-        <div className="mt-2 text-xs text-pearl-ink-3 leading-relaxed">浓度数据加载失败，剂量判定暂不可用——不猜测。</div>
+        <div className="mt-2 text-xs text-pearl-ink-3 leading-relaxed">浓度数据加载失败，暂不判定。</div>
       ) : !estimates && (
         <div className="mt-2 text-xs text-pearl-ink-3 leading-relaxed">
-          该产品无浓度推断数据（无官方降序成分表），宣称剂量一律「无法判定」——查不到本身也是信号，不做猜测。
+          无官方降序成分表，宣称剂量一律「无法判定」——查不到不猜测。
         </div>
       )}
       <div className="mt-3 flex flex-wrap gap-2">
@@ -92,7 +92,7 @@ function VerdictBar({ claims, conc }) {
         ))}
       </div>
       <div className="mt-2 text-xs text-pearl-ink-3 leading-relaxed">
-        判定口径：宣称按功效主干词匹配成分剂量判定，命中多条时取最差档（宁保守、不错放）。
+        口径：宣称匹配成分剂量判定，取最差档（保守）。
       </div>
     </div>
   )
@@ -113,8 +113,7 @@ function IngredientTable({ ingredients }) {
     <div className="glass-card">
       <h2 className="pearl-title">产品成分表（{ingredients.length} 种）</h2>
       <div className="pearl-notice">
-        带 <span className="pearl-badge-ok mx-1">有文献证据</span> 徽章的成分在证据库中有功效断言与文献支撑，点击查看证据链。
-        「安全风险/活性/使用目的」为镜像站标注列。
+        绿色行 = 有文献证据，点成分名看证据链。
       </div>
       <div className="overflow-x-auto">
         <table className="w-full border-collapse">

@@ -22,7 +22,7 @@ export default function Layout() {
               </span>
               成分真言
             </h1>
-            <nav className="flex gap-1 flex-wrap font-pearl">
+            <nav className="flex gap-1 flex-wrap font-display">
               {NAV.map((n) => (
                 <NavLink
                   key={n.to}
@@ -51,7 +51,7 @@ export default function Layout() {
         <Outlet />
       </main>
 
-      <footer className="text-center text-xs text-pearl-ink-3 pb-8 px-5 space-y-1 font-pearl">
+      <footer className="text-center text-xs text-pearl-ink-3 pb-8 px-5 space-y-1 font-display">
         <div>数据链路：NMPA 备案公示 → 盖德镜像采集 → 本地证据库 → API → 本页面</div>
         <div>成分真言 · 欧莱雅美妆科技黑客松 2026 · 数据来源于 NMPA 备案公示镜像，仅供研究演示</div>
       </footer>
