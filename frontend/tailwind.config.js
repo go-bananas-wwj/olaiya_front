@@ -4,6 +4,17 @@ export default {
   theme: {
     extend: {
       colors: {
+        // —— 珍珠贝母设计语言（产品详情页）——
+        pearl: '#f3ede6',
+        'pearl-ink': '#3d2f2a',
+        'pearl-ink-2': '#7a6a60',
+        'pearl-ink-3': '#a89a8e',
+        rosewood: '#b06a8a',
+        'rosewood-soft': '#f5e3ec',
+        iris: '#8a7ab8',
+        'iris-soft': '#e9e4f6',
+        mint: '#6fae9e',
+        'mint-soft': '#dff0eb',
         bg: '#f6f5fa',
         card: '#ffffff',
         ink: '#1c1a2e',
@@ -27,6 +38,10 @@ export default {
       },
       fontFamily: {
         sans: ['-apple-system', 'PingFang SC', 'Microsoft YaHei', 'Noto Sans CJK SC', 'sans-serif'],
+        // 珍珠贝母：标题站酷快乐体 / 正文 Quicksand+Noto Sans SC / 数字 Baloo 2
+        display: ['ZCOOL KuaiLe', 'PingFang SC', 'sans-serif'],
+        pearl: ['Quicksand', 'Noto Sans SC', 'PingFang SC', 'sans-serif'],
+        num: ['Baloo 2', 'Quicksand', 'sans-serif'],
       },
     },
   },

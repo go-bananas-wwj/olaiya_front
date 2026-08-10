@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 import { api } from '../api'
 import { Loading, LoadError } from '../components/common'
 
@@ -49,6 +49,15 @@ export default function Compare() {
   const [idB, setIdB] = useState(null)
   const [detailA, setDetailA] = useState(null)
   const [detailB, setDetailB] = useState(null)
+  // 支持 #/compare?a=1&b=2 预选（产品详情页「加入对比」跳入；HashRouter 下 query 在 hash 内）
+  const [searchParams] = useSearchParams()
+
+  useEffect(() => {
+    const a = Number(searchParams.get('a'))
+    const b = Number(searchParams.get('b'))
+    if (Number.isInteger(a) && a > 0) setIdA(a)
+    if (Number.isInteger(b) && b > 0) setIdB(b)
+  }, [searchParams])
 
   useEffect(() => {
     api.products().then(setProducts).catch((e) => setListError(e.message))

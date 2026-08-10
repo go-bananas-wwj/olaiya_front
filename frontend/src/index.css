@@ -2,6 +2,85 @@
 @tailwind components;
 @tailwind utilities;
 
+/* —— 珍珠贝母设计语言字体（产品详情页）—— */
+@font-face {
+  font-family: 'ZCOOL KuaiLe';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(/fonts/zcool-kuaile-400-subset.woff2) format('woff2');
+}
+@font-face {
+  font-family: 'Quicksand';
+  font-style: normal;
+  font-weight: 300 700;
+  font-display: swap;
+  src: url(/fonts/quicksand-var.woff2) format('woff2');
+}
+@font-face {
+  font-family: 'Noto Sans SC';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url(/fonts/noto-sans-sc-var-subset.woff2) format('woff2');
+}
+@font-face {
+  font-family: 'Baloo 2';
+  font-style: normal;
+  font-weight: 400 800;
+  font-display: swap;
+  src: url(/fonts/baloo-2-var.woff2) format('woff2');
+}
+
+@layer components {
+  /* —— 珍珠贝母：仅产品详情页使用，不影响全局 .card 等旧类 —— */
+  .pearl-page {
+    @apply relative bg-pearl text-pearl-ink font-pearl -mx-5 -my-6 px-5 py-6 min-h-[calc(100vh-4rem)] overflow-hidden;
+  }
+  /* 静态淡虹彩径向光斑（粉/青绿/薰衣草，无动画） */
+  .pearl-page::before {
+    content: '';
+    @apply absolute inset-0 pointer-events-none;
+    background:
+      radial-gradient(42rem 30rem at 8% -6%, rgba(176, 106, 138, .16), transparent 60%),
+      radial-gradient(38rem 28rem at 96% 12%, rgba(111, 174, 158, .18), transparent 60%),
+      radial-gradient(46rem 34rem at 50% 108%, rgba(138, 122, 184, .16), transparent 62%);
+  }
+  .glass-card {
+    @apply relative bg-white/60 backdrop-blur-md rounded-3xl p-6 md:p-7 mb-5
+      shadow-[0_2px_6px_rgba(61,47,42,.05),0_16px_40px_rgba(61,47,42,.08)]
+      border border-white/70;
+  }
+  .pearl-title {
+    @apply font-display text-lg mb-4 flex items-center gap-2 text-pearl-ink tracking-wide;
+  }
+  .pearl-title::before {
+    content: '';
+    @apply w-1.5 h-4 rounded-full bg-gradient-to-b from-rosewood to-iris inline-block flex-shrink-0;
+  }
+  .pearl-badge {
+    @apply inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium whitespace-nowrap;
+  }
+  .pearl-badge-ok {
+    @apply pearl-badge bg-mint-soft text-[#2f7a68];
+  }
+  .pearl-badge-warn {
+    @apply pearl-badge bg-[#fdf0dd] text-[#a76b1c];
+  }
+  .pearl-badge-bad {
+    @apply pearl-badge bg-[#fae3e3] text-[#b04a4a];
+  }
+  .pearl-badge-muted {
+    @apply pearl-badge bg-[#efe9e1] text-pearl-ink-3;
+  }
+  .pearl-badge-iris {
+    @apply pearl-badge bg-iris-soft text-iris;
+  }
+  .pearl-notice {
+    @apply bg-[#fdf0dd]/80 text-[#8a5a1a] rounded-2xl px-4 py-2.5 text-xs leading-relaxed mb-4;
+  }
+}
+
 @layer components {
   .card {
     @apply bg-card rounded-card shadow-card p-6 md:p-7 mb-5;
