@@ -1,0 +1,52 @@
+{
+  "source": {
+    "doc": "NMPA 化妆品功效宣称法定类别：法规定义（2021年第49号公告《化妆品分类规则和分类目录》附表1）+ 法定评价方法要求（2021年第50号公告《化妆品功效宣称评价规范》附1《化妆品功效宣称评价项目要求》及第七至十一条）",
+    "official_url_49": "https://www.nmpa.gov.cn/xxgk/fgwj/xzhgfxwj/20210409160151122.html",
+    "official_url_50": "https://www.nmpa.gov.cn/xxgk/fgwj/xzhgfxwj/20210409160321110.html",
+    "mirror_chain": "nmpa.gov.cn 反爬（412）。49号公告原文 PDF 经镜像 www.kzcos.com/upload/image/20211009/20211009094389198919.pdf 取得（与 hzpwjc.cn/49.html 转载全文逐条比对一致，存 data/raw/nmpa/classification_rules_2021_49.pdf）；50号公告附件《化妆品功效宣称评价规范》PDF 经厦门市食品药品质量检验研究院镜像 www.xmifdc.org.cn/zcfg/hzp/202403/P020240306614546038934.pdf 取得（存 data/raw/nmpa/efficacy_eval_2021_50.pdf，20页，附1评价项目要求表在第8页）",
+    "version_note": "两份文件均为 2021-04-09 发布、2021-05-01 施行的原始版本。",
+    "verification": "26 条功效类别定义由 49 号公告原文 PDF 提取，与 hzpwjc.cn 转载 HTML 逐条比对一致；评价方法要求按 50 号公告附件 PDF 第 8 页附 1 表格（√=必做，*=可选但至少一项，△=可搭配）及第七条（感官直接识别可免予公布摘要）人工转录，转录后与 PDF 原文逐行复核。",
+    "collected_at": "2026-08-10"
+  },
+  "eval_requirement_legend": {
+    "human_required": "应当通过人体功效评价试验方式进行功效宣称评价（附1 画√必做）",
+    "trial_required_any": "应当通过化妆品功效宣称评价试验方式（人体功效评价试验/消费者使用测试/实验室试验任选至少一项，附1 画*），可搭配文献资料或研究数据（附1 画△）",
+    "any_method": "可以通过文献资料调研、研究数据分析或者化妆品功效宣称评价试验等方式进行评价（附1 四栏均画*）",
+    "exempt_sensory": "能够通过视觉、嗅觉等感官直接识别，可免予公布产品功效宣称依据的摘要（第七条）"
+  },
+  "categories": [
+    {"code": "01", "name": "染发", "definition": "以改变头发颜色为目的，使用后即时清洗不能恢复头发原有颜色", "eval_requirement": "exempt_sensory", "eval_note": "第七条列举的感官直接识别功效，可免予公布功效宣称依据的摘要"},
+    {"code": "02", "name": "烫发", "definition": "用于改变头发弯曲度（弯曲或拉直），并维持相对稳定。注：清洗后即恢复头发原有形态的产品，不属于此类", "eval_requirement": "exempt_sensory", "eval_note": "第七条列举的感官直接识别功效，可免予公布功效宣称依据的摘要"},
+    {"code": "03", "name": "祛斑美白", "definition": "有助于减轻或减缓皮肤色素沉着，达到皮肤美白增白效果；通过物理遮盖形式达到皮肤美白增白效果。注：含改善因色素沉积导致痘印的产品", "eval_requirement": "human_required", "eval_note": "附1 第1项：人体功效评价试验为必做（√）；仅通过物理遮盖作用发挥祛斑美白功效且在标签中明示为物理作用的，可免予提交产品功效宣称评价资料（附1 注①/第七条）；应由化妆品注册和备案检验机构按强制性国家标准、技术规范开展并出具报告（第十条）"},
+    {"code": "04", "name": "防晒", "definition": "用于保护皮肤、口唇免受特定紫外线所带来的损伤。注：婴幼儿和儿童的防晒化妆品作用部位仅限皮肤", "eval_requirement": "human_required", "eval_note": "附1 第2项：人体功效评价试验为必做（√）；应由化妆品注册和备案检验机构按强制性国家标准、技术规范开展并出具报告（第十条）"},
+    {"code": "05", "name": "防脱发", "definition": "有助于改善或减少头发脱落。注：调节激素影响的产品，促进生发作用的产品，不属于化妆品", "eval_requirement": "human_required", "eval_note": "附1 第3项：人体功效评价试验为必做（√）；应由化妆品注册和备案检验机构按强制性国家标准、技术规范开展并出具报告（第十条）"},
+    {"code": "06", "name": "祛痘", "definition": "有助于减少或减缓粉刺（含黑头或白头）的发生；有助于粉刺发生后皮肤的恢复。注：调节激素影响的、杀（抗、抑）菌的和消炎的产品，不属于化妆品", "eval_requirement": "human_required", "eval_note": "附1 第4项：人体功效评价试验为必做（√）"},
+    {"code": "07", "name": "滋养", "definition": "有助于为施用部位提供滋养作用。注：通过其他功效间接达到滋养作用的产品，不属于此类", "eval_requirement": "human_required", "eval_note": "附1 第5项：人体功效评价试验为必做（√）；如功效宣称作用部位仅为头发的，可选择体外真发进行评价（附1 注②）"},
+    {"code": "08", "name": "修护", "definition": "有助于维护施用部位保持正常状态。注：用于疤痕、烫伤、烧伤、破损等损伤部位的产品，不属于化妆品", "eval_requirement": "human_required", "eval_note": "附1 第6项：人体功效评价试验为必做（√）；如功效宣称作用部位仅为头发的，可选择体外真发进行评价（附1 注②）"},
+    {"code": "09", "name": "清洁", "definition": "用于除去施用部位表面的污垢及附着物", "eval_requirement": "exempt_sensory", "eval_note": "第七条列举的感官直接识别功效，可免予公布功效宣称依据的摘要"},
+    {"code": "10", "name": "卸妆", "definition": "用于除去施用部位的彩妆等其他化妆品", "eval_requirement": "exempt_sensory", "eval_note": "第七条列举的感官直接识别功效，可免予公布功效宣称依据的摘要"},
+    {"code": "11", "name": "保湿", "definition": "用于补充或增强施用部位水分、油脂等成分含量；有助于保持施用部位水分含量或减少水分流失", "eval_requirement": "any_method", "eval_note": "附1 第14项：人体功效评价试验/消费者使用测试/实验室试验/文献资料或研究数据四栏均画*，任选其一即可（第八条：仅具有保湿和护发功效的，可通过文献资料调研、研究数据分析或功效宣称评价试验等方式评价）"},
+    {"code": "12", "name": "美容修饰", "definition": "用于暂时改变施用部位外观状态，达到美化、修饰等作用，清洁卸妆后可恢复原状。注：人造指甲或固体装饰物类等产品（如：假睫毛等），不属于化妆品", "eval_requirement": "exempt_sensory", "eval_note": "第七条列举的感官直接识别功效，可免予公布功效宣称依据的摘要"},
+    {"code": "13", "name": "芳香", "definition": "具有芳香成分，有助于修饰体味，可增加香味", "eval_requirement": "exempt_sensory", "eval_note": "第七条列举的感官直接识别功效，可免予公布功效宣称依据的摘要"},
+    {"code": "14", "name": "除臭", "definition": "有助于减轻或遮盖体臭。注：单纯通过抑制微生物生长达到除臭目的产品，不属于化妆品", "eval_requirement": "exempt_sensory", "eval_note": "第七条列举的感官直接识别功效，可免予公布功效宣称依据的摘要"},
+    {"code": "15", "name": "抗皱", "definition": "有助于减缓皮肤皱纹产生或使皱纹变得不明显", "eval_requirement": "trial_required_any", "eval_note": "附1 第7项：人体功效评价试验/消费者使用测试/实验室试验画*（至少选一项），文献资料或研究数据画△（可搭配）；第九条：应当通过功效宣称评价试验方式，可同时结合文献资料或研究数据分析结果"},
+    {"code": "16", "name": "紧致", "definition": "有助于保持皮肤的紧实度、弹性", "eval_requirement": "trial_required_any", "eval_note": "附1 第8项：同抗皱（* 至少一项 + △ 可搭配）；第九条同"},
+    {"code": "17", "name": "舒缓", "definition": "有助于改善皮肤刺激等状态", "eval_requirement": "trial_required_any", "eval_note": "附1 第9项：同抗皱（* 至少一项 + △ 可搭配）；第九条同"},
+    {"code": "18", "name": "控油", "definition": "有助于减缓施用部位皮脂分泌和沉积，或使施用部位出油现象不明显", "eval_requirement": "trial_required_any", "eval_note": "附1 第10项：同抗皱（* 至少一项 + △ 可搭配）；第九条同"},
+    {"code": "19", "name": "去角质", "definition": "有助于促进皮肤角质的脱落或促进角质更新", "eval_requirement": "trial_required_any", "eval_note": "附1 第11项：同抗皱（* 至少一项 + △ 可搭配）；第九条同；通过物理方式去角质且在标签上明确标识仅具物理作用的，可免予公布摘要（第七条）"},
+    {"code": "20", "name": "爽身", "definition": "有助于保持皮肤干爽或增强皮肤清凉感。注：针对病理性多汗的产品，不属于化妆品", "eval_requirement": "exempt_sensory", "eval_note": "第七条列举的感官直接识别功效，可免予公布功效宣称依据的摘要"},
+    {"code": "21", "name": "护发", "definition": "有助于改善头发、胡须的梳理性，防止静电，保持或增强毛发的光泽", "eval_requirement": "any_method", "eval_note": "附1 第15项：四栏均画*，任选其一即可（第八条：仅具有保湿和护发功效的，可通过文献资料调研等方式评价）"},
+    {"code": "22", "name": "防断发", "definition": "有助于改善或减少头发断裂、分叉；有助于保持或增强头发韧性", "eval_requirement": "trial_required_any", "eval_note": "附1 第12项：同抗皱（* 至少一项 + △ 可搭配）；第九条同"},
+    {"code": "23", "name": "去屑", "definition": "有助于减缓头屑的产生；有助于减少附着于头皮、头发的头屑", "eval_requirement": "trial_required_any", "eval_note": "附1 第13项：同抗皱（* 至少一项 + △ 可搭配）；第九条同"},
+    {"code": "24", "name": "发色护理", "definition": "有助于在染发前后保持头发颜色的稳定。注：为改变头发颜色的产品，不属于此类", "eval_requirement": "exempt_sensory", "eval_note": "第七条列举的感官直接识别功效，可免予公布功效宣称依据的摘要"},
+    {"code": "25", "name": "脱毛", "definition": "用于减少或除去体毛", "eval_requirement": "exempt_sensory", "eval_note": "第七条列举的感官直接识别功效，可免予公布功效宣称依据的摘要"},
+    {"code": "26", "name": "辅助剃须剃毛", "definition": "用于软化、膨胀须发，有助于剃须剃毛时皮肤润滑。注：剃须、剃毛工具不属于化妆品", "eval_requirement": "exempt_sensory", "eval_note": "第七条列举的感官直接识别功效，可免予公布功效宣称依据的摘要"}
+  ],
+  "special_claims": [
+    {"name": "宣称适用敏感皮肤、宣称无泪配方", "eval_note": "附1 第16项：应当通过人体功效评价试验或消费者使用测试的方式进行评价（第十一条）"},
+    {"name": "宣称原料功效（通过宣称原料的功效进行产品功效宣称）", "eval_note": "附1 第17项：四栏均画*；应当开展文献资料调研、研究数据分析或者功效宣称评价试验证实原料具有宣称的功效，且原料的功效宣称应当与产品的功效宣称具有充分的关联性（第十一条）"},
+    {"name": "宣称温和（无刺激）", "eval_note": "附1 第18项：人体/消费者/实验室画*（至少一项），文献资料画△；第九条要求通过功效宣称评价试验方式"},
+    {"name": "宣称量化指标（时间、统计数据等）", "eval_note": "附1 第19项：同宣称温和（* 至少一项 + △ 可搭配）；第九条同"},
+    {"name": "宣称新功效", "eval_note": "附1 第20项：根据具体功效宣称选择合适的评价依据；应由化妆品注册和备案检验机构按强制性国家标准、技术规范规定的试验方法开展并出具报告，使用以外方法的应委托两家及以上机构验证（第十二条）"}
+  ]
+}
