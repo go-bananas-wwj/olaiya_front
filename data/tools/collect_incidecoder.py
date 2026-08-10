@@ -130,6 +130,7 @@ class Fetcher:
         self.delay = delay
         self.cooldown = cooldown
         self.retry_wait = retry_wait
+        self.encoding: str | None = None  # 响应头缺 charset 的站点显式指定（如修丽可官网 utf-8）
         self._last = 0.0
         self.consecutive_failures = 0
 
@@ -147,6 +148,8 @@ class Fetcher:
                 time.sleep(self.retry_wait)
                 continue
             self._last = time.time()
+            if self.encoding:  # 响应头缺 charset 时按指定编码解码（默认 None 不动，保持原行为）
+                resp.encoding = self.encoding
             if resp.status_code == 200:
                 self.consecutive_failures = 0
                 return resp.text

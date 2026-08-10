@@ -117,6 +117,31 @@ def test_disambiguation_by_brand_when_no_ordered(session, tmp_path):
     assert stats["matched"] == 1
 
 
+def test_product_id_exact_channel(session, tmp_path):
+    """product_id 精确通道：match 串失配也能挂到指定产品；brand 对不上则不写。"""
+    p = Product(name="SkinCeuticals Serum 10", brand="修丽可")
+    session.add(p)
+    session.flush()
+    dup = Product(name="SkinCeuticals Serum 10 Aox+", brand="修丽可")
+    session.add(dup)  # 模糊通道会撞同名，精确通道不受影响
+    session.commit()
+    f = _write_price_file(tmp_path, [
+        {"match": "Serum 10（匹配串已漂移）", "product_id": p.id, "brand": "修丽可 SkinCeuticals",
+         "price": 850.0, "spec": "30ml", "price_note": "", "source_url": "https://example.com/s10"},
+        {"match": "绝不存在xyz", "product_id": p.id, "brand": "完全无关品牌",
+         "price": 1.0, "spec": "1ml", "price_note": "", "source_url": "https://example.com/bad"},
+        {"match": "绝不存在xyz", "product_id": 999999, "brand": "修丽可",
+         "price": 1.0, "spec": "1ml", "price_note": "", "source_url": "https://example.com/ghost"},
+    ])
+    stats = load_prices(session, path=f)
+    session.commit()
+    session.expire_all()
+    assert session.get(Product, p.id).price_current == 850.0
+    assert session.get(Product, dup.id).price_current is None  # 同名产品未误写
+    assert stats["matched"] == 1
+    assert stats["unmatched"] == ["绝不存在xyz", "绝不存在xyz"]  # brand 不符与 id 不存在（回退模糊也无候选）都不猜写
+
+
 def test_ambiguous_without_brand_match_reported(session, tmp_path):
     """无法消歧（brand 也不匹配）时不猜写，计入 unmatched。"""
     ing = Ingredient(inci_name="TEST ING AMB", cn_name="测试成分")

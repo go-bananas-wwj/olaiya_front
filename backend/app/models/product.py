@@ -21,6 +21,7 @@ class Product(Base):
     source_url: Mapped[str | None] = mapped_column(String(500), nullable=True)   # 备案数据来源页
     price_current: Mapped[float | None] = mapped_column(Float, nullable=True)  # 人民币元，人工采样
     spec: Mapped[str | None] = mapped_column(String(50), nullable=True)  # 主规格（如 "30ml"/"50g"），随价格采样
+    buy_url: Mapped[str | None] = mapped_column(String(500), nullable=True)  # 官方购买页（如品牌官网产品页）
     note: Mapped[str | None] = mapped_column(Text, nullable=True)  # 如"品牌公布 15%VC+1%VE"
 
 
@@ -76,8 +77,29 @@ class PricePoint(Base):
     product_id: Mapped[int] = mapped_column(ForeignKey("products.id"), index=True)
     date: Mapped[datetime.date] = mapped_column(Date)
     price: Mapped[float] = mapped_column(Float)
-    source: Mapped[str] = mapped_column(String(200))  # 人工采样/联盟API
+    source: Mapped[str] = mapped_column(String(200))  # 人工采样/联盟API/smzdm 好价（含渠道）
     is_manual: Mapped[bool] = mapped_column(default=True)
+
+
+class MarketSnapshot(Base):
+    """口碑/好价时间序列快照（公开渠道采集，当前来源为 smzdm 好价页）。
+
+    value_ratio 是 smzdm「值」投票百分比（值友投票 0-100），不是电商好评率；
+    展示字段命名「值率（smzdm 投票）」。date 可能只有月日、年份按采集日推断
+    （估计值），推断与匹配说明记入 estimate_note（含原始页面 URL）。"""
+
+    __tablename__ = "market_snapshots"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    product_id: Mapped[int] = mapped_column(ForeignKey("products.id"), index=True)
+    date: Mapped[datetime.date] = mapped_column(Date)
+    source: Mapped[str] = mapped_column(String(200))  # 如 "smzdm/京东"（来源/渠道）
+    price: Mapped[float | None] = mapped_column(Float, nullable=True)  # 好价成交价（元）
+    value_ratio: Mapped[float | None] = mapped_column(Float, nullable=True)  # 值率（smzdm 投票）0-100
+    comment_count: Mapped[int | None] = mapped_column(nullable=True)
+    estimate_note: Mapped[str | None] = mapped_column(Text, nullable=True)
+
+    product = relationship("Product")
 
 
 class MergeLog(Base):

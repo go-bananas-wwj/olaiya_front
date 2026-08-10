@@ -1,0 +1,248 @@
+{
+  "generated_at": "2026-08-10T19:14:25",
+  "pages": 31,
+  "matched": [
+    {
+      "slug": "AGEEyeComplex",
+      "product_id": 856,
+      "product_name": "SkinCeuticals A.G.E. Eye Complex",
+      "price": 1040.0,
+      "spec": "15ml",
+      "candidates": 2
+    },
+    {
+      "slug": "AGEInterrupter",
+      "product_id": 73,
+      "product_name": "A.G.E. 面霜（A.G.E. Interrupter）",
+      "price": 1920.0,
+      "spec": "48ml",
+      "candidates": 1
+    },
+    {
+      "slug": "ANTIOXIDANTLIPREPAIR",
+      "product_id": 1292,
+      "product_name": "SkinCeuticals Antioxidant Lip Repair",
+      "price": 500.0,
+      "spec": "10ML",
+      "candidates": 2
+    },
+    {
+      "slug": "BlemishAgeSolution",
+      "product_id": 1079,
+      "product_name": "SkinCeuticals Blemish + Age Solution",
+      "price": 590.0,
+      "spec": "200ml",
+      "candidates": 1
+    },
+    {
+      "slug": "CEferulic",
+      "product_id": 511,
+      "product_name": "SkinCeuticals C E Ferulic",
+      "price": 1720.0,
+      "spec": "30ml",
+      "candidates": 1
+    },
+    {
+      "slug": "ClarifyingClayMasque",
+      "product_id": 1294,
+      "product_name": "SkinCeuticals Clarifying Clay Masque",
+      "price": 580.0,
+      "spec": "60ml",
+      "candidates": 1
+    },
+    {
+      "slug": "DailyMoisture",
+      "product_id": 858,
+      "product_name": "SkinCeuticals Daily Moisture",
+      "price": 880.0,
+      "spec": "60ml",
+      "candidates": 2
+    },
+    {
+      "slug": "EmollienceMoisturize",
+      "product_id": 69,
+      "product_name": "修丽可丰润面霜",
+      "price": 880.0,
+      "spec": "60ml",
+      "candidates": 1
+    },
+    {
+      "slug": "EpidermalRepair",
+      "product_id": 791,
+      "product_name": "SkinCeuticals Epidermal Repair",
+      "price": 620.0,
+      "spec": "40ml",
+      "candidates": 1
+    },
+    {
+      "slug": "EyeBalm",
+      "product_id": 413,
+      "product_name": "SkinCeuticals Eye Balm",
+      "price": 650.0,
+      "spec": "14g",
+      "candidates": 1
+    },
+    {
+      "slug": "GentleCleanserCream",
+      "product_id": 13,
+      "product_name": "修丽可清润温和洁面乳",
+      "price": 490.0,
+      "spec": "190ml",
+      "candidates": 1
+    },
+    {
+      "slug": "HAINTENSIFIER",
+      "product_id": 10,
+      "product_name": "紫米精华（H.A. Intensifier）",
+      "price": 1080.0,
+      "spec": "30ml",
+      "candidates": 2
+    },
+    {
+      "slug": "HydratingB5Masque",
+      "product_id": 398,
+      "product_name": "SkinCeuticals Hydrating B5 Masque",
+      "price": 800.0,
+      "spec": "75ml",
+      "candidates": 1
+    },
+    {
+      "slug": "MetacellRenewalB3",
+      "product_id": 1001,
+      "product_name": "SkinCeuticals Metacell Renewal B3",
+      "price": 1180.0,
+      "spec": "50ml",
+      "candidates": 3
+    },
+    {
+      "slug": "PhytoCorrectiveEssenceMist",
+      "product_id": 1960,
+      "product_name": "SkinCeuticals Phyto Corrective Essence Mist",
+      "price": 520.0,
+      "spec": "50ml",
+      "candidates": 2
+    },
+    {
+      "slug": "PhytoCorrectiveMasque",
+      "product_id": 1378,
+      "product_name": "SkinCeuticals Phyto Corrective Masque",
+      "price": 780.0,
+      "spec": "60ml",
+      "candidates": 2
+    },
+    {
+      "slug": "ResveratrolBE",
+      "product_id": 732,
+      "product_name": "SkinCeuticals Resveratrol B E",
+      "price": 1720.0,
+      "spec": "30ml",
+      "candidates": 1
+    },
+    {
+      "slug": "SERUM10",
+      "product_id": 414,
+      "product_name": "SkinCeuticals Serum 10",
+      "price": 850.0,
+      "spec": "30ml",
+      "candidates": 1
+    },
+    {
+      "slug": "SilymarinCF",
+      "product_id": 549,
+      "product_name": "SkinCeuticals Silymarin CF",
+      "price": 1600.0,
+      "spec": "30g/mL",
+      "candidates": 2
+    },
+    {
+      "slug": "SimplyCleanGel",
+      "product_id": 796,
+      "product_name": "SkinCeuticals Simply Clean Gel",
+      "price": 490.0,
+      "spec": "200ml",
+      "candidates": 2
+    },
+    {
+      "slug": "TripleLipidRestore242",
+      "product_id": 1662,
+      "product_name": "SkinCeuticals Triple Lipid Restore 2:4:2",
+      "price": 1780.0,
+      "spec": "48ML",
+      "candidates": 1
+    }
+  ],
+  "unmatched": [
+    {
+      "slug": "ANTIOXIDANTEYEGEL",
+      "name_cn": "修丽可焕活眼部精华凝露",
+      "price": 980.0,
+      "candidates": []
+    },
+    {
+      "slug": "AdvancedBrighteningUVDefenseSunscreenSPF50",
+      "name_cn": "修丽可臻彩焕亮精华防晒乳",
+      "price": 480.0,
+      "candidates": [
+        {
+          "id": 3294,
+          "name": "SkinCeuticals Advanced Brightening UV Defense Sunscreen SPF50"
+        },
+        {
+          "id": 3336,
+          "name": "SkinCeuticals Advanced Brightening Uv Defense Sunscreen Spf 50"
+        }
+      ]
+    },
+    {
+      "slug": "BlemishAgeDefense",
+      "name_cn": "修丽可多酸焕活复颜精华液",
+      "price": 920.0,
+      "candidates": []
+    },
+    {
+      "slug": "BrighteningUVDefenseSPF35",
+      "name_cn": "修丽可焕彩亮白日光防护霜SPF35",
+      "price": 330.0,
+      "candidates": []
+    },
+    {
+      "slug": "DriscolorationDefense",
+      "name_cn": "修丽可臻白焕彩精华液",
+      "price": 1080.0,
+      "candidates": []
+    },
+    {
+      "slug": "HydratingB5",
+      "name_cn": "修丽可B5密集保湿凝胶",
+      "price": 820.0,
+      "candidates": []
+    },
+    {
+      "slug": "PhloretinCF",
+      "name_cn": "修丽可臻白焕亮日间精华液",
+      "price": 1720.0,
+      "candidates": []
+    },
+    {
+      "slug": "PhytoCorrective",
+      "name_cn": "修丽可植萃舒缓修复精华露",
+      "price": 625.0,
+      "candidates": []
+    },
+    {
+      "slug": "SoothingCleanserFoam",
+      "name_cn": "修丽可舒缓泡沫洁面",
+      "price": 490.0,
+      "candidates": []
+    },
+    {
+      "slug": "UltraFacialDefenseSPF50",
+      "name_cn": "修丽可菁致容颜日光防晒乳SPF50+ PA++++",
+      "price": 350.0,
+      "candidates": []
+    }
+  ],
+  "skipped_existing_source_url": [
+    "CEferulic"
+  ]
+}

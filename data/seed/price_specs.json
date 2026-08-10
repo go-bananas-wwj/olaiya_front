@@ -1,6 +1,6 @@
 {
-  "_说明": "每起效成本功能用：17 个有序产品的官方零售价 + 主规格 + 来源。手工采样（2026-07），只查公开页面，未批量爬取电商。所有 source_url 均经 FetchURL 实际打开验证。价格口径：「官方标价」=品牌官网/官方旗舰店/京东自营页面价；「参考价（人工采样 2026-07）」=官方渠道促销/比价页采样价。页面价会随促销波动，入库时建议连同采样日期写入 price_points。",
-  "_版本": "v1",
+  "_说明": "每起效成本功能用：17 个有序产品的官方零售价 + 主规格 + 来源。手工采样（2026-07），只查公开页面，未批量爬取电商。所有 source_url 均经 FetchURL 实际打开验证。价格口径：「官方标价」=品牌官网/官方旗舰店/京东自营页面价；「参考价（人工采样 2026-07）」=官方渠道促销/比价页采样价。页面价会随促销波动，入库时建议连同采样日期写入 price_points。｜v2 增量（2026-08-10）：修丽可中国官网全量产品页机器采集（collect_skinceuticals_cn.py → build_skinceuticals_price_seed.py），slug/中文名规则匹配，未匹配不猜；buy_url 即官网产品页",
+  "_版本": "v2",
   "_采样日期": "2026-07",
   "items": [
     {
@@ -9,7 +9,9 @@
       "price": 1720.0,
       "spec": "30ml",
       "price_note": "官方标价（修丽可中国官网现价；官网已更名「修丽可维生素CE复合焕颜精华液」，即原 CE Ferulic 修护精华，旧标价 1490 已涨）",
-      "source_url": "https://www.skinceuticals.com.cn/productdtl/productdtl-CEferulic.html"
+      "source_url": "https://www.skinceuticals.com.cn/productdtl/productdtl-CEferulic.html",
+      "buy_url": "https://www.skinceuticals.com.cn/productdtl/productdtl-CEferulic.html",
+      "product_id": 511
     },
     {
       "match": "烟酰胺10%+锌1%",
@@ -96,16 +98,18 @@
       "brand": "修丽可 SkinCeuticals",
       "price": 1920.0,
       "spec": "48ml",
-      "price_note": "官方标价（修丽可京东自营旗舰店页面价，2025-10 采样 1920 元；官网同名「紧致提升精华霜」同价）",
-      "source_url": "https://guangdiu.com/detail.php?id=24043673&kf=m"
+      "price_note": "官方标价（修丽可京东自营旗舰店页面价，2025-10 采样 1920 元；官网同名「紧致提升精华霜」同价）｜product_id 精确通道（去重合并后 match 串漂移补挂，2026-08-10）",
+      "source_url": "https://guangdiu.com/detail.php?id=24043673&kf=m",
+      "product_id": 73
     },
     {
       "match": "光感小白瓶",
       "brand": "OLAY 玉兰油",
       "price": 229.0,
       "spec": "30ml",
-      "price_note": "官方标价（京东页面价，2024-12 采样 229 元，划线价 259；水感透白光塑精华露第三代）",
-      "source_url": "https://www.smzdm.com/p/137459411/"
+      "price_note": "官方标价（京东页面价，2024-12 采样 229 元，划线价 259；水感透白光塑精华露第三代）｜product_id 精确通道（去重合并后 match 串漂移补挂，2026-08-10）",
+      "source_url": "https://www.smzdm.com/p/137459411/",
+      "product_id": 2810
     },
     {
       "match": "20霜",
@@ -138,6 +142,206 @@
       "spec": "50ml",
       "price_note": "官方标价（京东页面价，2025-03 采样；红妍肌活精华露第四代/红腰子 4.0，京东大促券后约 750）",
       "source_url": "https://www.smzdm.com/p/143962136/"
+    },
+    {
+      "match": "SkinCeuticals A.G.E. Eye Complex",
+      "brand": "修丽可",
+      "price": 1040.0,
+      "spec": "15ml",
+      "price_note": "官方标价（修丽可中国官网产品页，2026-08-10 机器采集；站点陈旧 sitemap lastmod 2023-06，价格现行性另经抽查）",
+      "source_url": "https://www.skinceuticals.com.cn/productdtl/productdtl-AGEEyeComplex.html",
+      "buy_url": "https://www.skinceuticals.com.cn/productdtl/productdtl-AGEEyeComplex.html",
+      "product_id": 856
+    },
+    {
+      "match": "A.G.E. 面霜（A.G.E. Interrupter）",
+      "brand": "修丽可",
+      "price": 1920.0,
+      "spec": "48ml",
+      "price_note": "官方标价（修丽可中国官网产品页，2026-08-10 机器采集；站点陈旧 sitemap lastmod 2023-06，价格现行性另经抽查：自营渠道约 1760 元，差约 8%，官方标价口径基本可信）",
+      "source_url": "https://www.skinceuticals.com.cn/productdtl/productdtl-AGEInterrupter.html",
+      "buy_url": "https://www.skinceuticals.com.cn/productdtl/productdtl-AGEInterrupter.html",
+      "product_id": 73
+    },
+    {
+      "match": "SkinCeuticals Antioxidant Lip Repair",
+      "brand": "修丽可",
+      "price": 500.0,
+      "spec": "10ml",
+      "price_note": "官方标价（修丽可中国官网产品页，2026-08-10 机器采集；站点陈旧 sitemap lastmod 2023-06，价格现行性另经抽查）",
+      "source_url": "https://www.skinceuticals.com.cn/productdtl/productdtl-ANTIOXIDANTLIPREPAIR.html",
+      "buy_url": "https://www.skinceuticals.com.cn/productdtl/productdtl-ANTIOXIDANTLIPREPAIR.html",
+      "product_id": 1292
+    },
+    {
+      "match": "SkinCeuticals Blemish + Age Solution",
+      "brand": "修丽可",
+      "price": 590.0,
+      "spec": "200ml",
+      "price_note": "官方标价（修丽可中国官网产品页，2026-08-10 机器采集；站点陈旧 sitemap lastmod 2023-06，价格现行性另经抽查）",
+      "source_url": "https://www.skinceuticals.com.cn/productdtl/productdtl-BlemishAgeSolution.html",
+      "buy_url": "https://www.skinceuticals.com.cn/productdtl/productdtl-BlemishAgeSolution.html",
+      "product_id": 1079
+    },
+    {
+      "match": "SkinCeuticals Clarifying Clay Masque",
+      "brand": "修丽可",
+      "price": 580.0,
+      "spec": "60ml",
+      "price_note": "官方标价（修丽可中国官网产品页，2026-08-10 机器采集；站点陈旧 sitemap lastmod 2023-06，价格现行性另经抽查）",
+      "source_url": "https://www.skinceuticals.com.cn/productdtl/productdtl-ClarifyingClayMasque.html",
+      "buy_url": "https://www.skinceuticals.com.cn/productdtl/productdtl-ClarifyingClayMasque.html",
+      "product_id": 1294
+    },
+    {
+      "match": "SkinCeuticals Daily Moisture",
+      "brand": "修丽可",
+      "price": 880.0,
+      "spec": "60ml",
+      "price_note": "官方标价（修丽可中国官网产品页，2026-08-10 机器采集；站点陈旧 sitemap lastmod 2023-06，价格现行性另经抽查）",
+      "source_url": "https://www.skinceuticals.com.cn/productdtl/productdtl-DailyMoisture.html",
+      "buy_url": "https://www.skinceuticals.com.cn/productdtl/productdtl-DailyMoisture.html",
+      "product_id": 858
+    },
+    {
+      "match": "修丽可丰润面霜",
+      "brand": "修丽可",
+      "price": 880.0,
+      "spec": "60ml",
+      "price_note": "官方标价（修丽可中国官网产品页，2026-08-10 机器采集；站点陈旧 sitemap lastmod 2023-06，价格现行性另经抽查）",
+      "source_url": "https://www.skinceuticals.com.cn/productdtl/productdtl-EmollienceMoisturize.html",
+      "buy_url": "https://www.skinceuticals.com.cn/productdtl/productdtl-EmollienceMoisturize.html",
+      "product_id": 69
+    },
+    {
+      "match": "SkinCeuticals Epidermal Repair",
+      "brand": "修丽可",
+      "price": 620.0,
+      "spec": "40ml",
+      "price_note": "官方标价（修丽可中国官网产品页，2026-08-10 机器采集；站点陈旧 sitemap lastmod 2023-06，价格现行性另经抽查）",
+      "source_url": "https://www.skinceuticals.com.cn/productdtl/productdtl-EpidermalRepair.html",
+      "buy_url": "https://www.skinceuticals.com.cn/productdtl/productdtl-EpidermalRepair.html",
+      "product_id": 791
+    },
+    {
+      "match": "SkinCeuticals Eye Balm",
+      "brand": "修丽可",
+      "price": 650.0,
+      "spec": "14g",
+      "price_note": "官方标价（修丽可中国官网产品页，2026-08-10 机器采集；站点陈旧 sitemap lastmod 2023-06，价格现行性另经抽查）",
+      "source_url": "https://www.skinceuticals.com.cn/productdtl/productdtl-EyeBalm.html",
+      "buy_url": "https://www.skinceuticals.com.cn/productdtl/productdtl-EyeBalm.html",
+      "product_id": 413
+    },
+    {
+      "match": "修丽可清润温和洁面乳",
+      "brand": "修丽可",
+      "price": 490.0,
+      "spec": "190ml",
+      "price_note": "官方标价（修丽可中国官网产品页，2026-08-10 机器采集；站点陈旧 sitemap lastmod 2023-06，价格现行性另经抽查）",
+      "source_url": "https://www.skinceuticals.com.cn/productdtl/productdtl-GentleCleanserCream.html",
+      "buy_url": "https://www.skinceuticals.com.cn/productdtl/productdtl-GentleCleanserCream.html",
+      "product_id": 13
+    },
+    {
+      "match": "紫米精华（H.A. Intensifier）",
+      "brand": "修丽可",
+      "price": 1080.0,
+      "spec": "30ml",
+      "price_note": "官方标价（修丽可中国官网产品页，2026-08-10 机器采集；站点陈旧 sitemap lastmod 2023-06，价格现行性另经抽查）",
+      "source_url": "https://www.skinceuticals.com.cn/productdtl/productdtl-HAINTENSIFIER.html",
+      "buy_url": "https://www.skinceuticals.com.cn/productdtl/productdtl-HAINTENSIFIER.html",
+      "product_id": 10
+    },
+    {
+      "match": "SkinCeuticals Hydrating B5 Masque",
+      "brand": "修丽可",
+      "price": 800.0,
+      "spec": "75ml",
+      "price_note": "官方标价（修丽可中国官网产品页，2026-08-10 机器采集；站点陈旧 sitemap lastmod 2023-06，价格现行性另经抽查）",
+      "source_url": "https://www.skinceuticals.com.cn/productdtl/productdtl-HydratingB5Masque.html",
+      "buy_url": "https://www.skinceuticals.com.cn/productdtl/productdtl-HydratingB5Masque.html",
+      "product_id": 398
+    },
+    {
+      "match": "SkinCeuticals Metacell Renewal B3",
+      "brand": "修丽可",
+      "price": 1180.0,
+      "spec": "50ml",
+      "price_note": "官方标价（修丽可中国官网产品页，2026-08-10 机器采集；站点陈旧 sitemap lastmod 2023-06，价格现行性另经抽查）",
+      "source_url": "https://www.skinceuticals.com.cn/productdtl/productdtl-MetacellRenewalB3.html",
+      "buy_url": "https://www.skinceuticals.com.cn/productdtl/productdtl-MetacellRenewalB3.html",
+      "product_id": 1001
+    },
+    {
+      "match": "SkinCeuticals Phyto Corrective Essence Mist",
+      "brand": "修丽可",
+      "price": 520.0,
+      "spec": "50ml",
+      "price_note": "官方标价（修丽可中国官网产品页，2026-08-10 机器采集；站点陈旧 sitemap lastmod 2023-06，价格现行性另经抽查）",
+      "source_url": "https://www.skinceuticals.com.cn/productdtl/productdtl-PhytoCorrectiveEssenceMist.html",
+      "buy_url": "https://www.skinceuticals.com.cn/productdtl/productdtl-PhytoCorrectiveEssenceMist.html",
+      "product_id": 1960
+    },
+    {
+      "match": "SkinCeuticals Phyto Corrective Masque",
+      "brand": "修丽可",
+      "price": 780.0,
+      "spec": "60ml",
+      "price_note": "官方标价（修丽可中国官网产品页，2026-08-10 机器采集；站点陈旧 sitemap lastmod 2023-06，价格现行性另经抽查）",
+      "source_url": "https://www.skinceuticals.com.cn/productdtl/productdtl-PhytoCorrectiveMasque.html",
+      "buy_url": "https://www.skinceuticals.com.cn/productdtl/productdtl-PhytoCorrectiveMasque.html",
+      "product_id": 1378
+    },
+    {
+      "match": "SkinCeuticals Resveratrol B E",
+      "brand": "修丽可",
+      "price": 1720.0,
+      "spec": "30ml",
+      "price_note": "官方标价（修丽可中国官网产品页，2026-08-10 机器采集；站点陈旧 sitemap lastmod 2023-06，价格现行性另经抽查：京东原价约 1660 元，差约 4%，基本可信）",
+      "source_url": "https://www.skinceuticals.com.cn/productdtl/productdtl-ResveratrolBE.html",
+      "buy_url": "https://www.skinceuticals.com.cn/productdtl/productdtl-ResveratrolBE.html",
+      "product_id": 732
+    },
+    {
+      "match": "SkinCeuticals Serum 10",
+      "brand": "修丽可",
+      "price": 850.0,
+      "spec": "30ml",
+      "price_note": "官方标价（修丽可中国官网产品页，2026-08-10 机器采集；站点陈旧 sitemap lastmod 2023-06，价格现行性另经抽查）",
+      "source_url": "https://www.skinceuticals.com.cn/productdtl/productdtl-SERUM10.html",
+      "buy_url": "https://www.skinceuticals.com.cn/productdtl/productdtl-SERUM10.html",
+      "product_id": 414
+    },
+    {
+      "match": "SkinCeuticals Silymarin CF",
+      "brand": "修丽可",
+      "price": 1600.0,
+      "spec": "30g/mL",
+      "price_note": "官方标价（修丽可中国官网产品页，2026-08-10 机器采集；站点陈旧 sitemap lastmod 2023-06，价格现行性另经抽查）",
+      "source_url": "https://www.skinceuticals.com.cn/productdtl/productdtl-SilymarinCF.html",
+      "buy_url": "https://www.skinceuticals.com.cn/productdtl/productdtl-SilymarinCF.html",
+      "product_id": 549
+    },
+    {
+      "match": "SkinCeuticals Simply Clean Gel",
+      "brand": "修丽可",
+      "price": 490.0,
+      "spec": "200ml",
+      "price_note": "官方标价（修丽可中国官网产品页，2026-08-10 机器采集；站点陈旧 sitemap lastmod 2023-06，价格现行性另经抽查）",
+      "source_url": "https://www.skinceuticals.com.cn/productdtl/productdtl-SimplyCleanGel.html",
+      "buy_url": "https://www.skinceuticals.com.cn/productdtl/productdtl-SimplyCleanGel.html",
+      "product_id": 796
+    },
+    {
+      "match": "SkinCeuticals Triple Lipid Restore 2:4:2",
+      "brand": "修丽可",
+      "price": 1780.0,
+      "spec": "48ml",
+      "price_note": "官方标价（修丽可中国官网产品页，2026-08-10 机器采集；站点陈旧 sitemap lastmod 2023-06，价格现行性另经抽查；⚠️存疑：该条目抽查自营渠道约 1209 元，官网价偏离约 32%，站点陈旧可能失真）",
+      "source_url": "https://www.skinceuticals.com.cn/productdtl/productdtl-TripleLipidRestore242.html",
+      "buy_url": "https://www.skinceuticals.com.cn/productdtl/productdtl-TripleLipidRestore242.html",
+      "product_id": 1662
     }
   ]
 }

@@ -17,7 +17,7 @@ from sqlalchemy.orm import Session
 from .db import SessionLocal, init_db
 from .models.evidence import Evidence
 from .models.ingredient import EfficacyAssertion, Ingredient
-from .models.product import Product, ProductClaim, ProductIngredient
+from .models.product import MarketSnapshot, Product, ProductClaim, ProductIngredient
 from .services.dosecheck import dose_verdicts
 from .services.llm_gateway import LLMGateway, LLMUnavailableError
 from .services.rag_qa import answer_question
@@ -266,6 +266,7 @@ def product_detail(product_id: int, db: Session = Depends(get_db)):
         "source_url": p.source_url,
         "price_current": p.price_current,
         "spec": p.spec,
+        "buy_url": p.buy_url,
         "note": p.note,
         "ingredients": [{
             "ingredient_id": l.ingredient_id,
@@ -303,6 +304,33 @@ def product_concentration(product_id: int, db: Session = Depends(get_db)):
     return {"product_id": product_id, "inferred": True,
             "price": p.price_current, "spec": p.spec,
             "estimates": estimates}
+
+
+@app.get("/api/products/{product_id}/market")
+def product_market(product_id: int, db: Session = Depends(get_db)):
+    """口碑/好价时间序列（当前来源 smzdm 好价页）：最新快照 + 历史点。
+
+    value_ratio 为值率（smzdm 投票，值友「值/不值」投票百分比），不是电商好评率；
+    price 为该渠道好价成交价（促销价有时效，过期件在 estimate_note 标注）；
+    部分日期仅月日、年份按采集日推断（估计值，见 estimate_note）。
+    无快照时 latest=null、history=[]。
+    """
+    p = db.get(Product, product_id)
+    if p is None:
+        raise HTTPException(status_code=404, detail="产品不存在")
+    snaps = (db.query(MarketSnapshot)
+             .filter_by(product_id=p.id)
+             .order_by(MarketSnapshot.date.desc(), MarketSnapshot.id.desc()).all())
+
+    def _snap(s: MarketSnapshot) -> dict:
+        return {"date": s.date.isoformat(), "source": s.source, "price": s.price,
+                "value_ratio": s.value_ratio, "comment_count": s.comment_count,
+                "estimate_note": s.estimate_note}
+
+    return {"product_id": product_id,
+            "latest": _snap(snaps[0]) if snaps else None,
+            "history": [_snap(s) for s in snaps[1:]],
+            "note": "value_ratio 为值率（smzdm 投票）；价格为渠道好价，促销价有时效"}
 
 
 @app.get("/api/products/{product_id}/fingerprint")
