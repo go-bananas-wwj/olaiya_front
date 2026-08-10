@@ -122,8 +122,8 @@ def list_ingredients(q: str | None = None, has_evidence: str | None = None,
 
 
 @app.get("/api/ingredients/{ingredient_id}")
-def ingredient_detail(ingredient_id: int, product_limit: int = 50,
-                      product_offset: int = 0,
+def ingredient_detail(ingredient_id: int, product_limit: int = Query(50, ge=0),
+                      product_offset: int = Query(0, ge=0),
                       db: Session = Depends(get_db)):
     """成分详情。含该成分的产品默认只给前 50 条（product_total 为去重总数），
     可用 product_limit / product_offset 翻页，product_limit=0 表示不限。"""

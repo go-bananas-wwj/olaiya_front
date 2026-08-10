@@ -194,6 +194,14 @@ def test_ingredients_negative_limit_offset_422(client):
     assert client.get("/api/ingredients", params={"limit": 0, "offset": 0}).status_code == 200
 
 
+def test_ingredient_detail_negative_product_pagination_422(client, session):
+    """成分详情的 product_limit/product_offset 同样校验 ge=0（与列表接口行为统一）。"""
+    ing = session.query(Ingredient).first()
+    assert client.get(f"/api/ingredients/{ing.id}", params={"product_limit": -1}).status_code == 422
+    assert client.get(f"/api/ingredients/{ing.id}", params={"product_offset": -5}).status_code == 422
+    assert client.get(f"/api/ingredients/{ing.id}", params={"product_limit": 0}).status_code == 200
+
+
 # ---------- /api/ingredients/{id} 产品分页 ----------
 
 

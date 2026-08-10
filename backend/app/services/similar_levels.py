@@ -25,6 +25,7 @@
 
 from __future__ import annotations
 
+import logging
 import math
 import os
 import threading
@@ -42,12 +43,15 @@ from .fingerprint import dose_factor
 _snapshot_lock = threading.Lock()
 _snapshot_cache: dict | None = None
 
+_logger = logging.getLogger(__name__)
+
 
 def _db_signature() -> tuple[str, int] | None:
     """缓存失效签名：sqlite 为 (库文件绝对路径, mtime_ns)。
 
     非 sqlite URL、:memory: 或文件不可 stat 时返回 None —— 无失效信号，
     缓存退化为进程级永久（跑批后需重启进程），docstring 已注明。
+    sqlite 相对路径按进程 CWD 解析，stat 失败会记 warning（可能启动目录不对）。
     """
     url = settings.database_url
     if not url.startswith("sqlite:///"):
@@ -57,7 +61,8 @@ def _db_signature() -> tuple[str, int] | None:
         return None
     try:
         return (os.path.abspath(path), os.stat(path).st_mtime_ns)
-    except OSError:
+    except OSError as exc:
+        _logger.warning("similar-levels 缓存失效签名不可用（stat 失败，缓存退化为进程级永久）: %s", exc)
         return None
 
 

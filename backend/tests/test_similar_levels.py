@@ -295,6 +295,14 @@ def test_db_signature_non_sqlite_is_none(monkeypatch):
     assert similar_levels._db_signature() is None
 
 
+def test_db_signature_stat_failure_warns(monkeypatch, caplog, tmp_path):
+    """库文件不可 stat（如启动目录不对）：签名为 None 且记 warning，不静默退化。"""
+    monkeypatch.setattr(settings, "database_url", f"sqlite:///{tmp_path}/missing.db")
+    with caplog.at_level("WARNING", logger="app.services.similar_levels"):
+        assert similar_levels._db_signature() is None
+    assert any("stat 失败" in r.message for r in caplog.records)
+
+
 def test_snapshot_thread_safe(session, toy):
     """多线程并发请求：结果一致且无异常（快照读写有锁）。"""
     pid = toy["p1"].id
