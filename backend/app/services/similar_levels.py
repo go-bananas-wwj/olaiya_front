@@ -15,20 +15,80 @@
 
 三个级别均为「一次批量查询取全库数据 + 内存计算」（每级 ≤2 条 SQL：数据查询 +
 产品信息查询），禁止 N+1 循环单查。得分统一 round(4)，排序 (-score, id) 保证确定性。
+
+全库数据（成分集合 / 剂量向量 / 功效指纹）经模块级快照缓存（_snapshot_section）：
+产品/成分数据只在离线 loader 跑批时变化，服务运行期只读，故首次请求惰性构建后
+各请求 O(1) 命中（仅剩产品信息查询）；sqlite 库文件 mtime 为失效签名，loader 跑批
+改写库文件后下次请求自动重建；非 sqlite URL（如 PostgreSQL）退化为进程级永久缓存，
+跑批后需重启进程生效。读写均在锁内，FastAPI 线程池下并发安全。
 """
 
 from __future__ import annotations
 
 import math
+import os
+import threading
 
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
+from ..config import settings
 from ..models.ingredient import EfficacyAssertion
 from ..models.product import Product, ProductIngredient
 from .efficacy_canon import OTHER, canonicalize
 from .evidence_level import REGULATION
 from .fingerprint import dose_factor
+
+_snapshot_lock = threading.Lock()
+_snapshot_cache: dict | None = None
+
+
+def _db_signature() -> tuple[str, int] | None:
+    """缓存失效签名：sqlite 为 (库文件绝对路径, mtime_ns)。
+
+    非 sqlite URL、:memory: 或文件不可 stat 时返回 None —— 无失效信号，
+    缓存退化为进程级永久（跑批后需重启进程），docstring 已注明。
+    """
+    url = settings.database_url
+    if not url.startswith("sqlite:///"):
+        return None
+    path = url[len("sqlite:///"):]
+    if not path or path == ":memory:":
+        return None
+    try:
+        return (os.path.abspath(path), os.stat(path).st_mtime_ns)
+    except OSError:
+        return None
+
+
+def _snapshot_section(session: Session, name: str):
+    """取全库快照的一个区段（sets 成分集合 / vecs 剂量向量 / fps 功效指纹）。
+
+    按区段惰性构建（每区段一条全库 SQL，保持各级别「数据查询 + 产品信息查询」的
+    语句数口径），签名失效后整份快照作废、各区段随用随重建。
+    快照内容均为纯 dict/set 基本类型，与 ORM session 无关，可跨请求安全复用；
+    构建与读取都在锁内：并发请求每区段最多构建一次，不会读到半成品。
+    """
+    global _snapshot_cache
+    sig = _db_signature()
+    with _snapshot_lock:
+        if _snapshot_cache is None or _snapshot_cache["sig"] != sig:
+            _snapshot_cache = {"sig": sig}
+        if name not in _snapshot_cache:
+            if name == "sets":
+                _snapshot_cache[name] = _ingredient_sets(session)
+            elif name == "vecs":
+                _snapshot_cache[name] = _dose_vectors(session)
+            else:
+                _snapshot_cache[name] = _batch_fingerprints(session)
+        return _snapshot_cache[name]
+
+
+def reset_similar_levels_cache() -> None:
+    """清空快照缓存（测试与维护用；正常失效由 mtime 签名自动处理）。"""
+    global _snapshot_cache
+    with _snapshot_lock:
+        _snapshot_cache = None
 
 
 def _products_by_id(session: Session, ids: list[int]) -> dict[int, Product]:
@@ -54,7 +114,7 @@ def level1_jaccard(session: Session, product_id: int, k: int = 5) -> list[dict]:
     返回 [{id, name, brand, score, shared, union}]，score = shared/union（round 4）。
     零交集产品不入选；目标无成分时返回空列表。
     """
-    sets = _ingredient_sets(session)
+    sets = _snapshot_section(session, "sets")
     target = sets.get(product_id, set())
     if not target:
         return []
@@ -103,7 +163,7 @@ def level2_dose(session: Session, product_id: int, k: int = 5) -> dict:
     候选池仅含有推断浓度的产品；零共享成分（score 0）不入选。
     可用时返回 {"available": True, "similar": [{id, name, brand, score}]}。
     """
-    vecs = _dose_vectors(session)
+    vecs = _snapshot_section(session, "vecs")
     target = vecs.get(product_id)
     if not target:
         return {"available": False,
@@ -180,7 +240,7 @@ def level3_fingerprint(session: Session, product_id: int, k: int = 5) -> list[di
     min(双方得分) 降序的前 3 个（相似主要来自哪些功效方向）。
     目标或候选排除「其他」后为空向量的不参与比对（无功效信号可比对）。
     """
-    fps = _batch_fingerprints(session)
+    fps = _snapshot_section(session, "fps")
     target = {d: v for d, v in fps.get(product_id, {}).items() if d != OTHER}
     if not target:
         return []

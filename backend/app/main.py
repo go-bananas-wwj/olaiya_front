@@ -81,7 +81,7 @@ def stats(db: Session = Depends(get_db)):
 
 @app.get("/api/ingredients")
 def list_ingredients(q: str | None = None, has_evidence: str | None = None,
-                     limit: int = 0, offset: int = 0,
+                     limit: int = Query(0, ge=0), offset: int = Query(0, ge=0),
                      db: Session = Depends(get_db)):
     """成分列表。断言计数用聚合子查询一次出（避免逐成分 COUNT 的 N+1）。
 
@@ -190,7 +190,8 @@ def list_brands(db: Session = Depends(get_db)):
 
 @app.get("/api/products")
 def list_products(q: str | None = None, brand: str | None = None,
-                  has_claims: str | None = None, limit: int = 0, offset: int = 0,
+                  has_claims: str | None = None, limit: int = Query(0, ge=0),
+                  offset: int = Query(0, ge=0),
                   db: Session = Depends(get_db)):
     """产品列表。claim/成分计数用聚合子查询一次出（避免逐产品两条 COUNT 的 N+1）。
 

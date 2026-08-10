@@ -8,16 +8,30 @@
 - 无 N+1：每个级别批量计算，SQL 语句数 ≤3。
 """
 
+import os
+import threading
+
 import pytest
 from fastapi.testclient import TestClient
 from sqlalchemy import event
 
-from app.db import engine
+from app.config import settings
+from app.db import SessionLocal, engine
 from app.main import app, get_db
 from app.models.evidence import Evidence, EvidenceType
 from app.models.ingredient import EfficacyAssertion, Ingredient
 from app.models.product import Product, ProductIngredient
-from app.services.similar_levels import level1_jaccard, level2_dose, level3_fingerprint
+from app.services import similar_levels
+from app.services.similar_levels import (level1_jaccard, level2_dose, level3_fingerprint,
+                                         reset_similar_levels_cache)
+
+
+@pytest.fixture(autouse=True)
+def _clean_cache():
+    """每个用例前后清空快照缓存，保证用例间隔离。"""
+    reset_similar_levels_cache()
+    yield
+    reset_similar_levels_cache()
 
 
 def _mk(session, name, brand, ingredients):
@@ -214,6 +228,98 @@ def test_no_n_plus_one(session, toy):
 def test_no_n_plus_one_l2(session, dose_toy):
     _, n2 = _count_statements(lambda: level2_dose(session, dose_toy["q1"].id, k=5))
     assert n2 <= 3, f"L2 发出 {n2} 条 SQL，疑似 N+1"
+
+
+# ---------- 全库快照缓存（P1：惰性构建 + mtime 失效 + 线程安全） ----------
+
+def _all_levels(session, pid, k=5):
+    """同一产品的三级结果打包（dict/list 全等比较即逐字段相等）。"""
+    return (level1_jaccard(session, pid, k=k),
+            level2_dose(session, pid, k=k),
+            level3_fingerprint(session, pid, k=k))
+
+
+@pytest.mark.parametrize("key", ["p1", "p5", "p4"])
+def test_cache_hit_identical_to_forced_recompute(session, toy, key):
+    """缓存路径与强制重算路径结果逐字段一致。
+
+    代表性产品：p1 成分多（3 个）、p5 成分少（1 个）、p4 无功效断言（仅「其他」族）。
+    """
+    pid = toy[key].id
+    first = _all_levels(session, pid)   # 首次：惰性构建缓存
+    second = _all_levels(session, pid)  # 二次：缓存命中
+    assert first == second
+    reset_similar_levels_cache()        # 强制重算路径
+    recomputed = _all_levels(session, pid)
+    assert second == recomputed
+
+
+def test_cache_hit_avoids_full_scan(session, toy, monkeypatch):
+    """第二次调用不再做全库数据查询（仅产品信息查询）。"""
+    calls = []
+    real = similar_levels._ingredient_sets
+
+    def _spy(s):
+        calls.append(1)
+        return real(s)
+
+    monkeypatch.setattr(similar_levels, "_ingredient_sets", _spy)
+    level1_jaccard(session, toy["p1"].id, k=5)
+    level1_jaccard(session, toy["p1"].id, k=5)
+    assert len(calls) == 1, f"全库扫描被重复执行：{len(calls)} 次"
+
+
+def test_db_mtime_change_triggers_rebuild(session, toy, monkeypatch):
+    """库文件 mtime 变化（模拟 loader 跑批改库）后下次请求自动重建缓存。"""
+    calls = []
+    real = similar_levels._ingredient_sets
+
+    def _spy(s):
+        calls.append(1)
+        return real(s)
+
+    monkeypatch.setattr(similar_levels, "_ingredient_sets", _spy)
+    level1_jaccard(session, toy["p1"].id, k=5)
+    assert len(calls) == 1
+    # touch 库文件：mtime 向后拨 5 秒，模拟跑批改写
+    db_path = settings.database_url[len("sqlite:///"):]
+    st = os.stat(db_path)
+    os.utime(db_path, ns=(st.st_atime_ns, st.st_mtime_ns + 5_000_000_000))
+    level1_jaccard(session, toy["p1"].id, k=5)
+    assert len(calls) == 2, "mtime 变化后缓存未重建"
+
+
+def test_db_signature_non_sqlite_is_none(monkeypatch):
+    """非 sqlite URL：签名为 None（进程级永久缓存，docstring 已注明）。"""
+    monkeypatch.setattr(settings, "database_url", "postgresql://u:p@localhost/cfz")
+    assert similar_levels._db_signature() is None
+
+
+def test_snapshot_thread_safe(session, toy):
+    """多线程并发请求：结果一致且无异常（快照读写有锁）。"""
+    pid = toy["p1"].id
+    expected = level1_jaccard(session, pid, k=5)
+    reset_similar_levels_cache()
+    results, errors = [], []
+
+    def _worker():
+        s = SessionLocal()
+        try:
+            results.append(_all_levels(s, pid))
+        except Exception as e:  # pragma: no cover - 失败时断言暴露
+            errors.append(e)
+        finally:
+            s.close()
+
+    threads = [threading.Thread(target=_worker) for _ in range(8)]
+    for t in threads:
+        t.start()
+    for t in threads:
+        t.join()
+    assert not errors
+    assert len(results) == 8
+    assert all(r[0] == expected for r in results)
+    assert all(r == results[0] for r in results)
 
 
 # ---------- API ----------

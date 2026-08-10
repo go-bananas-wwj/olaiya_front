@@ -170,6 +170,14 @@ def test_ingredients_pagination_counts_and_filter(client, session):
     assert no_ev["total"] == body["total"] - 5
 
 
+def test_products_negative_limit_offset_422(client):
+    """limit/offset 为负：参数校验 422（ge=0），不下推到 SQL。"""
+    assert client.get("/api/products", params={"limit": -1}).status_code == 422
+    assert client.get("/api/products", params={"offset": -5}).status_code == 422
+    # 0 仍合法（limit=0 表示不限）
+    assert client.get("/api/products", params={"limit": 0, "offset": 0}).status_code == 200
+
+
 def test_ingredients_query_count_constant(client, session):
     _, n1 = _count_selects(lambda: client.get("/api/ingredients", params={"limit": 1}))
     for i in range(10):
@@ -178,6 +186,12 @@ def test_ingredients_query_count_constant(client, session):
     _, n2 = _count_selects(lambda: client.get("/api/ingredients", params={"limit": 1}))
     assert n1 == n2, f"查询数随数据量增长：{n1} -> {n2}"
     assert n2 <= 3, f"单页成分列表不应超过 3 条 SELECT，实际 {n2}"
+
+
+def test_ingredients_negative_limit_offset_422(client):
+    assert client.get("/api/ingredients", params={"limit": -1}).status_code == 422
+    assert client.get("/api/ingredients", params={"offset": -5}).status_code == 422
+    assert client.get("/api/ingredients", params={"limit": 0, "offset": 0}).status_code == 200
 
 
 # ---------- /api/ingredients/{id} 产品分页 ----------
