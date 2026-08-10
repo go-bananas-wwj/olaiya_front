@@ -4,10 +4,17 @@
 由 data/tools/extract_iecic_pdf.py + data/tools/build_inci_cn_map.py 产出，禁止 LLM 机翻）。
 
 清洗规则（normalize_inci）：
-- 去空括号 `[]` 后缀、去 `<N%` 浓度尾巴、去 `->` 尾巴、去尾部 `*`/`^` 标记；
+- 去空括号 `[]` 后缀、去 `<N%` 浓度尾巴、去 `->` 尾巴、去尾部 `*`/`^` 标记、去前导 `*`/`^`
+  营销标记（`*VITAMIN C`→`VITAMIN C`；剥完仍无映射的保持剥后干净名，不猜翻译）；
 - 反斜杠多语名（英\\拉丁\\法，如 `WATER\\AQUA\\EAU`）与含 EXTRAIT 的斜杠/无分隔双语名
   取英文 INCI 段；弯引号归直引号；首尾空白与内部多余空格归一；
 - `[NANO]` 是有效纳米标识，保留不动；普通斜杠共聚物名（CAPRYLIC/CAPRIC ...）不动。
+
+附加规范化（resolve_bilingual 入口）：
+- 欧莱雅内部配方码括号 `(F.I.L. xxx/1)` 剥除后走既有规则，剥除的码记入 merge_log（不丢信息）；
+- USAN→INCI 别名（data/seed/usan_inci_alias.json，NIH PubChem 同 CID 同义词双向核验产出，
+  构建器 data/tools/build_usan_alias.py）：AVOBENZONE/OCTISALATE 等美国 USAN 名规范化到
+  IECIC 键后走既有合并/回填。别名只用于匹配，中文名永远来自 IECIC 映射。
 
 斜杠/括号双语名规则（resolve_bilingual，美式 dual labeling，如 PARFUM/FRAGRANCE、
 TITANIUM DIOXIDE (CI 77891)）：全名精确命中 IECIC 映射的不动（共聚物 CAPRYLIC/CAPRIC ...）；
@@ -18,7 +25,10 @@ TITANIUM DIOXIDE (CI 77891)）：全名精确命中 IECIC 映射的不动（共�
 非命中段疑似拉丁双名（属+种）不动、命中键与非命中段共享 ≥2 个物质词（同物种不同部位/
 粗细度）不动、形态词（OIL/EXTRACT/BUTTER...）不一致且无共享物质词不动、PEG/PPG 段
 （共聚物命名）不动、括号主段含 ,;()/[]· （多成分拼接）不动；XXX (NANO) 归一到 [NANO] 形态；
-括号移位形态（BUTYROSPERMUM PARKII (SHEA BUTTER)）仅当移位后精确命中 IECIC 键才采用。
+括号移位形态（BUTYROSPERMUM PARKII (SHEA BUTTER)）仅当移位后精确命中 IECIC 键才采用；
+工艺限定词括号（HYDROLYZED/FERMENTED 等）仅当 IECIC 有对应工艺条目（如 HYDROLYZED XXX）
+才映射过去，否则保持原样不吞工艺词；括号内是 CI 号而主段未命中映射时同样保持原样
+（防 ORANGE 5 LAKE (CI 45370) 色淀变体被吞）。
 无法判定的一律保持原样。
 
 合并规则：清洗后与库内其他成分行撞名（大小写无关）时合并——product_ingredients 与
@@ -52,7 +62,18 @@ _EMPTY_BRACKET = re.compile(r"\s*\[\s*\]\s*$")
 _CONC_TAIL = re.compile(r"\s*<\s*\d+(?:\.\d+)?\s*%\s*$")
 _ARROW_TAIL = re.compile(r"\s*->.*$")
 _STAR_TAIL = re.compile(r"[\s*^]*[*^]+$")  # 尾部 */^ 标记（如 NIACINAMIDE*、XXX^**）
+_STAR_HEAD = re.compile(r"^[*^\s]+")  # 前导 */^ 营销标记（如 *VITAMIN C、^**PRO-VITAMIN B5）
 _EXTRAIT_TAIL = re.compile(r"\s+EXTRAIT\s+.*$", re.IGNORECASE)
+_FIL_PAREN = re.compile(r"\s*\(((?:CODE )?F\.I\.L\.:? [^()]*)\)\s*$", re.IGNORECASE)  # 欧莱雅内部配方码
+ALIAS_SEED_PATH = Path(__file__).resolve().parents[1] / "seed" / "usan_inci_alias.json"
+
+# 工艺限定词括号：XXX (HYDROLYZED)/(FERMENTED)。能映射到 IECIC 对应条目才动
+# （候选键仍须过 resolver 精确命中，绝不猜）；没有对应条目就保持原样，不吞工艺词。
+_PROCESS_PAREN = {
+    "HYDROLYZED": lambda main: [f"HYDROLYZED {main}"],
+    "HYDROLYSED": lambda main: [f"HYDROLYZED {main}"],
+    "FERMENTED": lambda main: [f"{main} FERMENT"],
+}
 
 # —— 双语名规范化（resolve_bilingual）用 ——
 _BRACKET_SEG = re.compile(r"\s*(?:\([^()]*\)|\[[^\[\]]*\])")  # 圆/方括号段（含 (NANO)/[NANO]）
@@ -85,6 +106,7 @@ def normalize_inci(name: str) -> str:
     s = _CONC_TAIL.sub("", s)
     s = _ARROW_TAIL.sub("", s)
     s = _STAR_TAIL.sub("", s)
+    s = _STAR_HEAD.sub("", s)  # 前导营销标记：剥后仍无映射就保持剥后干净名，不猜翻译
     return _WS.sub(" ", s).strip()
 
 
@@ -93,7 +115,7 @@ def load_seed(path: Path = SEED_PATH) -> dict:
 
 
 class InciResolver:
-    """IECIC 映射查询：精确键 → 结尾句点变体（ALCOHOL DENAT vs ALCOHOL DENAT.）→
+    """IECIC 映射查询：精确键 → 结尾句点变体（ALCOHOL DENAT vs ALCOHOL DENAT. 双向）→
     去括号段精确键（含 [NANO]）→ 去括号派生键（仅无歧义）。
     派生键同样来自 IECIC 条目（如 BUTYROSPERMUM PARKII (SHEA) BUTTER 派生出
     BUTYROSPERMUM PARKII BUTTER），多条目坍缩到同一派生键且中文名不一致的弃用。"""
@@ -115,6 +137,8 @@ class InciResolver:
             return k
         if k + "." in self.map:  # 结尾句点变体（ALCOHOL DENAT vs ALCOHOL DENAT.）
             return k + "."
+        if k.endswith(".") and k[:-1] in self.map:  # 反向句点变体（TRIETHANOLAMINE.）
+            return k[:-1]
         sk = _BRACKET_SEG.sub("", k).strip()
         if sk != k and sk in self.map:
             return sk
@@ -156,12 +180,27 @@ def _one_hit_ok(hit_key: str, other_seg: str) -> bool:
     return True
 
 
-def resolve_bilingual(name: str, resolver: InciResolver) -> tuple[str, str | None]:
+def resolve_bilingual(name: str, resolver: InciResolver,
+                      aliases: dict[str, str] | None = None) -> tuple[str, str | None]:
     """斜杠/括号双语名规范化：返回 (新 inci_name, 日志标记 or None)。
-    全名精确命中映射（共聚物等）与无法判定的形态都保持原样。规则见模块 docstring。"""
+    全名精确命中映射（共聚物等）与无法判定的形态都保持原样。规则见模块 docstring。
+    aliases：USAN→INCI 别名表（data/seed/usan_inci_alias.json，PubChem 同 CID 核验，
+    键大写、值为 IECIC 规范键），仅用于规范化匹配，中文名永远来自 IECIC 映射。"""
+    tags: list[str] = []
     s = normalize_inci(name)
+    m_fil = _FIL_PAREN.search(s)
+    if m_fil:  # 欧莱雅内部配方码括号：剥除后记日志（码不丢），再走既有规则
+        tags.append(f"fil({m_fil.group(1)})")
+        s = _WS.sub(" ", _FIL_PAREN.sub("", s)).strip()
     if s.upper() in resolver.map:
-        return s, None  # (a) 全名精确命中，不动
+        return s, "+".join(tags) or None  # (a) 全名精确命中，不动（可能仅剥了 F.I.L.）
+    if aliases and s.upper() in aliases:
+        tags.append("usan-alias")
+        return aliases[s.upper()], "+".join(tags)  # USAN 名规范化到 IECIC 键
+    if s.endswith("."):
+        r = resolver.resolve(s)  # 尾部句点变体（TRIETHANOLAMINE.）：命中规范键则归一
+        if r:
+            return r, "+".join(tags) or None
 
     if "/" in s:
         segs = [seg.strip() for seg in s.split("/") if seg.strip()]
@@ -172,7 +211,7 @@ def resolve_bilingual(name: str, resolver: InciResolver) -> tuple[str, str | Non
                 (hseg, hk) = got[0]
                 oseg = next(seg for seg, k in hits if not k)
                 if _one_hit_ok(hk, oseg):
-                    return hk, f"slash-one({oseg} 未命中)"
+                    return hk, "+".join(tags + [f"slash-one({oseg} 未命中)"])
             elif len(got) >= 2:  # 两段都命中；≥3 段须 ≥2 命中（多语同物才处理，混配不动）
                 uniq: list[tuple[str, str]] = []
                 for seg, k in got:
@@ -182,41 +221,50 @@ def resolve_bilingual(name: str, resolver: InciResolver) -> tuple[str, str | Non
                 pick_seg, pick_key = (nonci or uniq)[0]
                 others = [k for _, k in uniq if k != pick_key]
                 if not others:
-                    return pick_key, "slash-same"  # 双段同键（含 [NANO]/括号变体）
+                    return pick_key, "+".join(tags + ["slash-same"])  # 双段同键（含 [NANO]/括号变体）
                 if len({resolver.cn_of(k) for _, k in uniq}) == 1:
-                    return pick_key, "slash-same-cn"
+                    return pick_key, "+".join(tags + ["slash-same-cn"])
                 # 中文名不同：CI 号段直取（与 INCI 名段无共享物质词）；非 CI 段要求
                 # 与其他命中段无共享物质词（ROYAL JELLY/ROYAL JELLY EXTRACT 这类不同物不动）
                 if _CI_NUM.match(pick_key):
-                    return pick_key, f"slash-ambiguous(candidates={[k for _, k in uniq]})"
+                    return pick_key, "+".join(tags + [f"slash-ambiguous(candidates={[k for _, k in uniq]})"])
                 other_segs = [seg for seg, k in uniq if k != pick_key]
                 if all(not (_substance_tokens(pick_seg) & _substance_tokens(o))
                        for o in other_segs):
-                    return pick_key, f"slash-ambiguous(candidates={[k for _, k in uniq]})"
-        return s, None
+                    return pick_key, "+".join(tags + [f"slash-ambiguous(candidates={[k for _, k in uniq]})"])
+        return s, "+".join(tags) or None
 
     m = _TRAILING_PAREN.match(s)
     if m:
         main, inner = m.group(1).strip(), m.group(2).strip()
         if not _COMPOSITE.search(main):  # 主段含拼接符 = 多成分串，不动
             km, ki = resolver.resolve(main), resolver.resolve(inner)
+            # 工艺限定词括号（HYDROLYZED/FERMENTED 等）：仅当能映射到 IECIC 对应
+            # 工艺条目（如 HYDROLYZED XXX）才动，否则保持原样，不让 paren-main 吞工艺词
+            if inner.upper() in _PROCESS_PAREN:
+                for cand in _PROCESS_PAREN[inner.upper()](main):
+                    kc = resolver.resolve(cand)
+                    if kc:
+                        return kc, "+".join(tags + [f"paren-process({inner} -> {kc})"])
+                return s, "+".join(tags) or None
             if inner.upper() == "NANO" and km:
-                return f"{km} [NANO]", "paren-nano"  # 归一到既有 [NANO] 形态
+                return f"{km} [NANO]", "+".join(tags + ["paren-nano"])  # 归一到既有 [NANO] 形态
             if km and ki and km != ki:
                 nonci = [k for k in (km, ki) if not _CI_NUM.match(k)]
                 pick = nonci[0] if nonci else km  # 主段优先，CI 号让位 INCI 名
-                return pick, f"paren-ambiguous({main!r}|{inner!r} -> {pick!r})"
+                return pick, "+".join(tags + [f"paren-ambiguous({main!r}|{inner!r} -> {pick!r})"])
             if km:
-                return km, "paren-main"
-            if ki:
-                return ki, "paren-inner"
+                return km, "+".join(tags + ["paren-main"])
+            if ki and not _CI_NUM.match(ki):
+                return ki, "+".join(tags + ["paren-inner"])
+            # 括号内是 CI 号而主段未命中映射：保持原样（防 ORANGE 5 LAKE (CI 45370) 色淀变体被吞）
             # 括号移位形态：BUTYROSPERMUM PARKII (SHEA BUTTER) -> 试 (SHEA) BUTTER
             words = inner.split()
             if len(words) >= 2:
                 kc = resolver.resolve(f"{main} ({words[0]}) {' '.join(words[1:])}")
                 if kc and "(" in kc:  # 仅接受移位后精确命中带括号的 IECIC 键
-                    return kc, "paren-shift"
-    return s, None
+                    return kc, "+".join(tags + ["paren-shift"])
+    return s, "+".join(tags) or None
 
 
 def _merge_into(session: Session, keeper: Ingredient, dup: Ingredient, stats: dict) -> None:
@@ -244,25 +292,30 @@ def _merge_into(session: Session, keeper: Ingredient, dup: Ingredient, stats: di
 
 
 def run_cleanup(session: Session, seed: dict | None = None,
-                seed_path: Path = SEED_PATH) -> dict:
-    """清洗 + 合并 + 回填 cn_name，返回统计。幂等。"""
+                seed_path: Path = SEED_PATH,
+                aliases: dict[str, str] | None = None) -> dict:
+    """清洗 + 合并 + 回填 cn_name，返回统计。幂等。
+    aliases：USAN→INCI 别名表（键大写 → IECIC 规范键），只用于规范化匹配。"""
     if seed is None:
         seed = load_seed(seed_path)
     mapping = seed["map"]  # 键已由 build_inci_cn_map.norm_inci 规范化
     resolver = InciResolver(mapping)
     stats: dict = {"renamed": 0, "merged": 0, "backfilled": 0, "already_cn": 0,
                    "cn_synced": 0, "cn_tail_cleaned": 0, "bilingual": 0,
+                   "usan_alias": 0, "fil_stripped": 0,
                    "unmapped": 0, "unmapped_names": set(), "merge_log": []}
 
     # —— 阶段一：规范化 inci_name（含斜杠/括号双语规则），撞名合并 ——
     resolved: dict[int, str] = {}
     groups: dict[str, list[Ingredient]] = {}
     for row in session.query(Ingredient).order_by(Ingredient.id).all():
-        new_name, tag = resolve_bilingual(row.inci_name, resolver)
+        new_name, tag = resolve_bilingual(row.inci_name, resolver, aliases=aliases)
         resolved[row.id] = new_name
         if tag:
             stats["merge_log"].append(f"{tag} #{row.id} {row.inci_name!r} -> {new_name!r}")
             stats["bilingual"] += 1
+            stats["usan_alias"] += "usan-alias" in tag
+            stats["fil_stripped"] += "fil(" in tag
         groups.setdefault(new_name.upper(), []).append(row)
     for key, grp in groups.items():
         cleaned = resolved[grp[0].id]
@@ -346,17 +399,28 @@ def coverage_report(session: Session, map_keys: set[str] | None = None,
             "links": len(links), "links_cn": links_cn, "top_unmapped": unmapped[:30]}
 
 
+def load_aliases(path: Path = ALIAS_SEED_PATH) -> dict[str, str]:
+    """USAN→INCI 别名表（data/seed/usan_inci_alias.json，PubChem 同 CID 核验）。
+    文件缺失时返回空表（别名是增量机制，不是必需依赖）。"""
+    if not Path(path).exists():
+        return {}
+    raw = json.loads(Path(path).read_text(encoding="utf-8"))
+    return {k.upper(): v for k, v in raw.get("alias", {}).items()}
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("--seed", default=str(SEED_PATH), help="映射 seed 路径")
+    parser.add_argument("--alias", default=str(ALIAS_SEED_PATH), help="USAN 别名 seed 路径")
     parser.add_argument("--dry-run", action="store_true", help="只统计不写库")
     args = parser.parse_args()
 
     init_db()
     seed = load_seed(Path(args.seed))
     resolver = InciResolver(seed["map"])
+    aliases = load_aliases(Path(args.alias))
     with SessionLocal() as s:
-        stats = run_cleanup(s, seed=seed)
+        stats = run_cleanup(s, seed=seed, aliases=aliases)
         rep = coverage_report(s, map_keys=set(seed["map"]), resolver=resolver)
         if args.dry_run:
             s.rollback()
@@ -365,6 +429,7 @@ def main() -> None:
     print(f"清洗改名={stats['renamed']} 合并删除={stats['merged']} "
           f"回填中文名={stats['backfilled']} 已有中文跳过={stats['already_cn']} "
           f"双语规范化={stats['bilingual']} "
+          f"（其中 USAN别名={stats['usan_alias']} F.I.L.剥除={stats['fil_stripped']}） "
           f"cn对齐={stats['cn_synced']} cn去尾={stats['cn_tail_cleaned']} "
           f"未映射={stats['unmapped']}{'（dry-run 已回滚）' if args.dry_run else ''}")
     for line in stats["merge_log"]:

@@ -255,3 +255,158 @@ def test_run_cleanup_idempotent(session):
     assert (s2["cn_synced"], s2["cn_tail_cleaned"]) == (0, 0)
     assert session.query(Ingredient).count() == 3
     assert session.query(Ingredient).filter_by(inci_name="GLYCERIN").one().cn_name == "甘油"
+
+
+# —— backlog 四项：前导营销标记 / USAN 别名 / F.I.L. 配方码 / 工艺括号护栏 ——
+
+BACKLOG_SEED = {"map": {
+    "SODIUM HYALURONATE": {"cn_name": "透明质酸钠", "iecic_serial": "00011"},
+    "ALLANTOIN": {"cn_name": "尿囊素", "iecic_serial": "00012"},
+    "PARFUM": {"cn_name": "香精", "iecic_serial": "00013"},
+    "FRAGRANCE": {"cn_name": "香精", "iecic_serial": "00014"},
+    "BUTYL METHOXYDIBENZOYLMETHANE": {"cn_name": "丁基甲氧基二苯甲酰基甲烷", "iecic_serial": "00015"},
+    "CAMELLIA OLEIFERA SEED EXTRACT": {"cn_name": "油茶（CAMELLIA OLEIFERA）籽提取物",
+                                       "iecic_serial": "00016"},
+    "HYDROLYZED WHEAT PROTEIN": {"cn_name": "水解小麦蛋白", "iecic_serial": "00017"},
+    "WHEAT PROTEIN": {"cn_name": "小麦蛋白", "iecic_serial": "00018"},
+    "CI 45370": {"cn_name": "CI 45370", "iecic_serial": "00019"},
+    "TRIETHANOLAMINE": {"cn_name": "三乙醇胺", "iecic_serial": "00020"},
+}}
+
+ALIASES = {"AVOBENZONE": "BUTYL METHOXYDIBENZOYLMETHANE"}
+
+
+@pytest.mark.parametrize("raw,expected", [
+    ("*VITAMIN C", "VITAMIN C"),                # 前导营销星号
+    ("**PEPTIDE", "PEPTIDE"),
+    ("^*VITAMIN E", "VITAMIN E"),               # ^ 与 * 混合前导
+    ("* SODIUM HYALURONATE", "SODIUM HYALURONATE"),  # 星号 + 空白
+    ("GLYCERIN", "GLYCERIN"),                   # 无前导不动
+])
+def test_normalize_inci_leading_star(raw, expected):
+    assert normalize_inci(raw) == expected
+
+
+def test_leading_star_backfill_and_cn_sync(session):
+    """前导星号剥除后命中映射：回填中文名；无中文占位 cn 同步为剥后干净名。"""
+    session.add_all([
+        Ingredient(inci_name="* SODIUM HYALURONATE", cn_name="* SODIUM HYALURONATE"),
+        Ingredient(inci_name="*PITERA", cn_name="*PITERA"),  # 品牌专有名：只去星不猜翻译
+    ])
+    session.flush()
+    stats = run_cleanup(session, seed=BACKLOG_SEED, aliases=ALIASES)
+    session.commit()
+    sh = session.query(Ingredient).filter_by(inci_name="SODIUM HYALURONATE").one()
+    assert sh.cn_name == "透明质酸钠"
+    pit = session.query(Ingredient).filter_by(inci_name="PITERA").one()
+    assert pit.cn_name == "PITERA"  # 保持剥后干净名，未映射
+    assert stats["unmapped"] == 1
+
+
+def test_usan_alias_normalized_to_iecic_key(session):
+    """USAN 别名规范化到 IECIC 键并回填中文名；与既有规范名行撞名合并。"""
+    session.add_all([
+        Ingredient(inci_name="AVOBENZONE", cn_name="AVOBENZONE"),
+        Ingredient(inci_name="BUTYL METHOXYDIBENZOYLMETHANE", cn_name="丁基甲氧基二苯甲酰基甲烷"),
+    ])
+    session.flush()
+    stats = run_cleanup(session, seed=BACKLOG_SEED, aliases=ALIASES)
+    session.commit()
+    rows = session.query(Ingredient).all()
+    assert len(rows) == 1
+    assert rows[0].inci_name == "BUTYL METHOXYDIBENZOYLMETHANE"
+    assert rows[0].cn_name == "丁基甲氧基二苯甲酰基甲烷"
+    assert stats["usan_alias"] == 1 and stats["merged"] == 1
+    assert any("usan-alias" in line for line in stats["merge_log"])
+
+
+def test_unknown_alias_not_touched(session):
+    """不在别名表的名字不受影响（拿不准不动）。"""
+    session.add(Ingredient(inci_name="OCTISALATE", cn_name="OCTISALATE"))
+    session.flush()
+    stats = run_cleanup(session, seed=BACKLOG_SEED, aliases=ALIASES)  # 表里没有 OCTISALATE
+    session.commit()
+    assert session.query(Ingredient).one().inci_name == "OCTISALATE"
+    assert stats["usan_alias"] == 0
+
+
+def test_fil_code_stripped_and_logged(session):
+    """欧莱雅 F.I.L. 内部配方码剥除后走既有规则，剥除的码记入 merge_log。"""
+    session.add_all([
+        Ingredient(inci_name="ALLANTOIN (F.I.L. N70045146/1)", cn_name="ALLANTOIN (F.I.L. N70045146/1)"),
+        Ingredient(inci_name="PARFUM/FRAGRANCE (F.I.L. B234194/1)",
+                   cn_name="PARFUM/FRAGRANCE (F.I.L. B234194/1)"),
+    ])
+    session.flush()
+    stats = run_cleanup(session, seed=BACKLOG_SEED, aliases=ALIASES)
+    session.commit()
+    allantoin = session.query(Ingredient).filter_by(inci_name="ALLANTOIN").one()
+    assert allantoin.cn_name == "尿囊素"
+    parfum = session.query(Ingredient).filter_by(inci_name="PARFUM").one()
+    assert parfum.cn_name == "香精"  # 剥码后走斜杠双语规则
+    assert stats["fil_stripped"] == 2
+    log = " ".join(stats["merge_log"])
+    assert "N70045146/1" in log and "B234194/1" in log  # 码不丢
+
+
+def test_fil_code_variants(session):
+    """F.I.L. 变体：CODE 前缀与 F.I.L.: 冒号形态同样剥除并记日志。"""
+    session.add_all([
+        Ingredient(inci_name="ALLANTOIN (CODE F.I.L. D229186/1)",
+                   cn_name="ALLANTOIN (CODE F.I.L. D229186/1)"),
+        Ingredient(inci_name="PARFUM/FRAGRANCE (F.I.L.: B257115/1)",
+                   cn_name="PARFUM/FRAGRANCE (F.I.L.: B257115/1)"),
+    ])
+    session.flush()
+    stats = run_cleanup(session, seed=BACKLOG_SEED, aliases=ALIASES)
+    session.commit()
+    assert session.query(Ingredient).filter_by(inci_name="ALLANTOIN").one().cn_name == "尿囊素"
+    assert session.query(Ingredient).filter_by(inci_name="PARFUM").one().cn_name == "香精"
+    assert stats["fil_stripped"] == 2
+    log = " ".join(stats["merge_log"])
+    assert "D229186/1" in log and "B257115/1" in log
+
+
+def test_process_paren_kept_when_no_iecic_process_entry(session):
+    """工艺限定词括号：IECIC 无对应发酵/水解条目时保持原样，不让 paren-main 吞工艺词。"""
+    session.add(Ingredient(inci_name="CAMELLIA OLEIFERA SEED EXTRACT (FERMENTED)",
+                           cn_name="CAMELLIA OLEIFERA SEED EXTRACT (FERMENTED)"))
+    session.flush()
+    run_cleanup(session, seed=BACKLOG_SEED, aliases=ALIASES)
+    session.commit()
+    row = session.query(Ingredient).one()
+    assert row.inci_name == "CAMELLIA OLEIFERA SEED EXTRACT (FERMENTED)"  # 工艺词保留
+
+
+def test_process_paren_mapped_to_iecic_process_entry(session):
+    """工艺限定词括号：IECIC 有对应 HYDROLYZED 条目时映射过去。"""
+    session.add(Ingredient(inci_name="WHEAT PROTEIN (HYDROLYZED)", cn_name="WHEAT PROTEIN (HYDROLYZED)"))
+    session.flush()
+    stats = run_cleanup(session, seed=BACKLOG_SEED, aliases=ALIASES)
+    session.commit()
+    row = session.query(Ingredient).one()
+    assert row.inci_name == "HYDROLYZED WHEAT PROTEIN"
+    assert row.cn_name == "水解小麦蛋白"
+    assert any("paren-process" in line for line in stats["merge_log"])
+
+
+def test_trailing_dot_variant_resolved(session):
+    """尾部句点变体（TRIETHANOLAMINE.）经 resolver 命中无句点 IECIC 键。"""
+    session.add(Ingredient(inci_name="TRIETHANOLAMINE. (F.I.L. B215279/1)",
+                           cn_name="TRIETHANOLAMINE. (F.I.L. B215279/1)"))
+    session.flush()
+    stats = run_cleanup(session, seed=BACKLOG_SEED, aliases=ALIASES)
+    session.commit()
+    row = session.query(Ingredient).one()
+    assert row.inci_name == "TRIETHANOLAMINE"
+    assert row.cn_name == "三乙醇胺"
+    assert any("B215279/1" in line for line in stats["merge_log"])
+
+
+def test_ci_lake_variant_kept_when_main_unmapped(session):
+    """括号内是 CI 号且主段未命中映射：保持原样，防色淀变体被 paren-inner 吞。"""
+    session.add(Ingredient(inci_name="ORANGE 5 LAKE (CI 45370)", cn_name="ORANGE 5 LAKE (CI 45370)"))
+    session.flush()
+    run_cleanup(session, seed=BACKLOG_SEED, aliases=ALIASES)
+    session.commit()
+    assert session.query(Ingredient).one().inci_name == "ORANGE 5 LAKE (CI 45370)"

@@ -1,0 +1,22 @@
+{
+ "source": {
+  "name": "NIH PubChem PUG REST — compound/name/{alias}/synonyms",
+  "url_template": "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/{alias}/synonyms/JSON",
+  "retrieved": "2026-08-10",
+  "raw_cache": "data/raw/pubchem_usan/{ALIAS}.json",
+  "rule": "同一 CID（同一物质）同义词中恰好命中唯一 IECIC 2021 键才接受别名；零/多命中拒收",
+  "spot_check": "全量 9 条逐条与 PubChem 同 CID 同义词原文核对（非抽样，总数少于 10 条故全查）：AVOBENZONE→CID 51040 同义词含 'Butyl methoxydibenzoylmethane'；OCTISALATE→'Ethylhexyl salicylate'（亦名 Octyl salicylate）；OCTINOXATE→'Ethylhexyl methoxycinnamate'；OXYBENZONE→'Benzophenone-3'；ENSULIZOLE→'Phenylbenzimidazole sulfonic acid'；MERADIMATE→'Menthyl anthranilate'；ECAMSULE→'Terephthalylidene dicamphor sulfonic acid'（Mexoryl SX）；BEMOTRIZINOL→'Bis-ethylhexyloxyphenol methoxyphenyl triazine'（Tinosorb S）；TROLAMINE→'Triethanolamine'（TEA）。均为 FDA 防晒专论/药品通用名体系下公认可查的 USAN↔INCI 对应，且接受条件已限定为同一 PubChem CID 下唯一 IECIC 键命中，无人工猜测。"
+ },
+ "alias": {
+  "AVOBENZONE": "BUTYL METHOXYDIBENZOYLMETHANE",
+  "OCTISALATE": "ETHYLHEXYL SALICYLATE",
+  "OCTINOXATE": "ETHYLHEXYL METHOXYCINNAMATE",
+  "OXYBENZONE": "BENZOPHENONE-3",
+  "ENSULIZOLE": "PHENYLBENZIMIDAZOLE SULFONIC ACID",
+  "MERADIMATE": "MENTHYL ANTHRANILATE",
+  "ECAMSULE": "TEREPHTHALYLIDENE DICAMPHOR SULFONIC ACID",
+  "BEMOTRIZINOL": "BIS-ETHYLHEXYLOXYPHENOL METHOXYPHENYL TRIAZINE",
+  "TROLAMINE": "TRIETHANOLAMINE"
+ },
+ "rejected": {}
+}
