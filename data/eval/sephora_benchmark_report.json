@@ -1,0 +1,752 @@
+{
+  "dataset": {
+    "source_url": "https://raw.githubusercontent.com/yerramsettysuchita/Cosmetics-Ingredient-Analysis-and-Content-Based-Recommendation-System/main/cosmetics.csv",
+    "csv": "/root/workspace/olaiya/data/raw/sephora/cosmetics.csv",
+    "products": 1472,
+    "vocab_size": 6156,
+    "labels": [
+      "Cleanser",
+      "Eye cream",
+      "Face Mask",
+      "Moisturizer",
+      "Sun protect",
+      "Treatment"
+    ],
+    "note": "Sephora 公开教学数据集；成分表按含量降序（FDA 标签法规）"
+  },
+  "environment": {
+    "skip_embed": false,
+    "embed_device": "npu:0 bf16 (ASCEND_RT_VISIBLE_DEVICES=2)"
+  },
+  "k": 10,
+  "metrics_note": "无功效 ground truth，全部为代理指标：skin_jaccard 最接近平替语义。dupe：高价半区 = 价格 ≥ 中位数；判定 = Top-K 内更便宜且成分 Jaccard ≥ 0.5；最优平替 = 成分 Jaccard 最高者（非最低价者）。dupe 含同品牌候选（正装→Mini 容量装是平凡平替，会抬高发现率），dupe_xbrand 为排除同品牌的跨品牌口径，两口径并列给出不藏",
+  "methods": {
+    "onehot": {
+      "dim": 6156,
+      "build_sec": 0.084,
+      "same_label_rate": 0.3149,
+      "skin_jaccard": 0.4147,
+      "sim_p10": 0.0404,
+      "sim_p50": 0.3381,
+      "sim_p90": 0.5783,
+      "dupe": {
+        "premium_count": 736,
+        "dupe_found_rate": 0.1807,
+        "mean_saving_ratio": 0.3741,
+        "threshold_ingredient_jaccard": 0.5,
+        "examples": [
+          {
+            "target": {
+              "name": "The Concentrate",
+              "brand": "LA MER",
+              "price": 370.0,
+              "label": "Treatment"
+            },
+            "dupes_in_topk": [
+              {
+                "name": "The Concentrate Mini",
+                "brand": "LA MER",
+                "price": 190.0,
+                "ingredient_jaccard": 1.0
+              }
+            ]
+          },
+          {
+            "target": {
+              "name": "The Regenerating Serum",
+              "brand": "LA MER",
+              "price": 345.0,
+              "label": "Treatment"
+            },
+            "dupes_in_topk": [
+              {
+                "name": "The Lifting and Firming Mask",
+                "brand": "LA MER",
+                "price": 250.0,
+                "ingredient_jaccard": 0.787
+              },
+              {
+                "name": "The Lifting and Firming Mask Mini",
+                "brand": "LA MER",
+                "price": 75.0,
+                "ingredient_jaccard": 0.75
+              }
+            ]
+          },
+          {
+            "target": {
+              "name": "Little Miss Miracle Limited-Edition Crème de la Mer",
+              "brand": "LA MER",
+              "price": 325.0,
+              "label": "Moisturizer"
+            },
+            "dupes_in_topk": [
+              {
+                "name": "Crème de la Mer",
+                "brand": "LA MER",
+                "price": 175.0,
+                "ingredient_jaccard": 1.0
+              },
+              {
+                "name": "Crème de la Mer Mini",
+                "brand": "LA MER",
+                "price": 85.0,
+                "ingredient_jaccard": 1.0
+              }
+            ]
+          },
+          {
+            "target": {
+              "name": "Future Solution LX Intensive Firming Contour Serum",
+              "brand": "SHISEIDO",
+              "price": 300.0,
+              "label": "Treatment"
+            },
+            "dupes_in_topk": []
+          },
+          {
+            "target": {
+              "name": "Crème Ancienne®",
+              "brand": "FRESH",
+              "price": 290.0,
+              "label": "Moisturizer"
+            },
+            "dupes_in_topk": []
+          }
+        ]
+      },
+      "dupe_xbrand": {
+        "premium_count": 736,
+        "dupe_found_rate": 0.0163,
+        "mean_saving_ratio": 0.644,
+        "threshold_ingredient_jaccard": 0.5,
+        "examples": [
+          {
+            "target": {
+              "name": "The Concentrate",
+              "brand": "LA MER",
+              "price": 370.0,
+              "label": "Treatment"
+            },
+            "dupes_in_topk": []
+          },
+          {
+            "target": {
+              "name": "The Regenerating Serum",
+              "brand": "LA MER",
+              "price": 345.0,
+              "label": "Treatment"
+            },
+            "dupes_in_topk": []
+          },
+          {
+            "target": {
+              "name": "Little Miss Miracle Limited-Edition Crème de la Mer",
+              "brand": "LA MER",
+              "price": 325.0,
+              "label": "Moisturizer"
+            },
+            "dupes_in_topk": []
+          },
+          {
+            "target": {
+              "name": "Future Solution LX Intensive Firming Contour Serum",
+              "brand": "SHISEIDO",
+              "price": 300.0,
+              "label": "Treatment"
+            },
+            "dupes_in_topk": []
+          },
+          {
+            "target": {
+              "name": "Crème Ancienne®",
+              "brand": "FRESH",
+              "price": 290.0,
+              "label": "Moisturizer"
+            },
+            "dupes_in_topk": []
+          }
+        ]
+      }
+    },
+    "tfidf": {
+      "dim": 6156,
+      "build_sec": 0.143,
+      "same_label_rate": 0.3211,
+      "skin_jaccard": 0.4345,
+      "sim_p10": 0.0146,
+      "sim_p50": 0.1582,
+      "sim_p90": 0.4628,
+      "dupe": {
+        "premium_count": 736,
+        "dupe_found_rate": 0.1807,
+        "mean_saving_ratio": 0.3741,
+        "threshold_ingredient_jaccard": 0.5,
+        "examples": [
+          {
+            "target": {
+              "name": "The Concentrate",
+              "brand": "LA MER",
+              "price": 370.0,
+              "label": "Treatment"
+            },
+            "dupes_in_topk": [
+              {
+                "name": "The Concentrate Mini",
+                "brand": "LA MER",
+                "price": 190.0,
+                "ingredient_jaccard": 1.0
+              }
+            ]
+          },
+          {
+            "target": {
+              "name": "The Regenerating Serum",
+              "brand": "LA MER",
+              "price": 345.0,
+              "label": "Treatment"
+            },
+            "dupes_in_topk": [
+              {
+                "name": "The Lifting and Firming Mask",
+                "brand": "LA MER",
+                "price": 250.0,
+                "ingredient_jaccard": 0.787
+              },
+              {
+                "name": "The Lifting and Firming Mask Mini",
+                "brand": "LA MER",
+                "price": 75.0,
+                "ingredient_jaccard": 0.75
+              }
+            ]
+          },
+          {
+            "target": {
+              "name": "Little Miss Miracle Limited-Edition Crème de la Mer",
+              "brand": "LA MER",
+              "price": 325.0,
+              "label": "Moisturizer"
+            },
+            "dupes_in_topk": [
+              {
+                "name": "Crème de la Mer",
+                "brand": "LA MER",
+                "price": 175.0,
+                "ingredient_jaccard": 1.0
+              },
+              {
+                "name": "Crème de la Mer Mini",
+                "brand": "LA MER",
+                "price": 85.0,
+                "ingredient_jaccard": 1.0
+              }
+            ]
+          },
+          {
+            "target": {
+              "name": "Future Solution LX Intensive Firming Contour Serum",
+              "brand": "SHISEIDO",
+              "price": 300.0,
+              "label": "Treatment"
+            },
+            "dupes_in_topk": []
+          },
+          {
+            "target": {
+              "name": "Crème Ancienne®",
+              "brand": "FRESH",
+              "price": 290.0,
+              "label": "Moisturizer"
+            },
+            "dupes_in_topk": []
+          }
+        ]
+      },
+      "dupe_xbrand": {
+        "premium_count": 736,
+        "dupe_found_rate": 0.0163,
+        "mean_saving_ratio": 0.644,
+        "threshold_ingredient_jaccard": 0.5,
+        "examples": [
+          {
+            "target": {
+              "name": "The Concentrate",
+              "brand": "LA MER",
+              "price": 370.0,
+              "label": "Treatment"
+            },
+            "dupes_in_topk": []
+          },
+          {
+            "target": {
+              "name": "The Regenerating Serum",
+              "brand": "LA MER",
+              "price": 345.0,
+              "label": "Treatment"
+            },
+            "dupes_in_topk": []
+          },
+          {
+            "target": {
+              "name": "Little Miss Miracle Limited-Edition Crème de la Mer",
+              "brand": "LA MER",
+              "price": 325.0,
+              "label": "Moisturizer"
+            },
+            "dupes_in_topk": []
+          },
+          {
+            "target": {
+              "name": "Future Solution LX Intensive Firming Contour Serum",
+              "brand": "SHISEIDO",
+              "price": 300.0,
+              "label": "Treatment"
+            },
+            "dupes_in_topk": []
+          },
+          {
+            "target": {
+              "name": "Crème Ancienne®",
+              "brand": "FRESH",
+              "price": 290.0,
+              "label": "Moisturizer"
+            },
+            "dupes_in_topk": []
+          }
+        ]
+      }
+    },
+    "rank_decay": {
+      "dim": 6156,
+      "build_sec": 0.132,
+      "same_label_rate": 0.3226,
+      "skin_jaccard": 0.4133,
+      "sim_p10": 0.0314,
+      "sim_p50": 0.5238,
+      "sim_p90": 0.706,
+      "dupe": {
+        "premium_count": 736,
+        "dupe_found_rate": 0.178,
+        "mean_saving_ratio": 0.3809,
+        "threshold_ingredient_jaccard": 0.5,
+        "examples": [
+          {
+            "target": {
+              "name": "The Concentrate",
+              "brand": "LA MER",
+              "price": 370.0,
+              "label": "Treatment"
+            },
+            "dupes_in_topk": [
+              {
+                "name": "The Concentrate Mini",
+                "brand": "LA MER",
+                "price": 190.0,
+                "ingredient_jaccard": 1.0
+              }
+            ]
+          },
+          {
+            "target": {
+              "name": "The Regenerating Serum",
+              "brand": "LA MER",
+              "price": 345.0,
+              "label": "Treatment"
+            },
+            "dupes_in_topk": [
+              {
+                "name": "The Lifting and Firming Mask",
+                "brand": "LA MER",
+                "price": 250.0,
+                "ingredient_jaccard": 0.787
+              },
+              {
+                "name": "The Lifting and Firming Mask Mini",
+                "brand": "LA MER",
+                "price": 75.0,
+                "ingredient_jaccard": 0.75
+              }
+            ]
+          },
+          {
+            "target": {
+              "name": "Little Miss Miracle Limited-Edition Crème de la Mer",
+              "brand": "LA MER",
+              "price": 325.0,
+              "label": "Moisturizer"
+            },
+            "dupes_in_topk": [
+              {
+                "name": "Crème de la Mer",
+                "brand": "LA MER",
+                "price": 175.0,
+                "ingredient_jaccard": 1.0
+              },
+              {
+                "name": "Crème de la Mer Mini",
+                "brand": "LA MER",
+                "price": 85.0,
+                "ingredient_jaccard": 1.0
+              }
+            ]
+          },
+          {
+            "target": {
+              "name": "Future Solution LX Intensive Firming Contour Serum",
+              "brand": "SHISEIDO",
+              "price": 300.0,
+              "label": "Treatment"
+            },
+            "dupes_in_topk": []
+          },
+          {
+            "target": {
+              "name": "Crème Ancienne®",
+              "brand": "FRESH",
+              "price": 290.0,
+              "label": "Moisturizer"
+            },
+            "dupes_in_topk": []
+          }
+        ]
+      },
+      "dupe_xbrand": {
+        "premium_count": 736,
+        "dupe_found_rate": 0.0163,
+        "mean_saving_ratio": 0.644,
+        "threshold_ingredient_jaccard": 0.5,
+        "examples": [
+          {
+            "target": {
+              "name": "The Concentrate",
+              "brand": "LA MER",
+              "price": 370.0,
+              "label": "Treatment"
+            },
+            "dupes_in_topk": []
+          },
+          {
+            "target": {
+              "name": "The Regenerating Serum",
+              "brand": "LA MER",
+              "price": 345.0,
+              "label": "Treatment"
+            },
+            "dupes_in_topk": []
+          },
+          {
+            "target": {
+              "name": "Little Miss Miracle Limited-Edition Crème de la Mer",
+              "brand": "LA MER",
+              "price": 325.0,
+              "label": "Moisturizer"
+            },
+            "dupes_in_topk": []
+          },
+          {
+            "target": {
+              "name": "Future Solution LX Intensive Firming Contour Serum",
+              "brand": "SHISEIDO",
+              "price": 300.0,
+              "label": "Treatment"
+            },
+            "dupes_in_topk": []
+          },
+          {
+            "target": {
+              "name": "Crème Ancienne®",
+              "brand": "FRESH",
+              "price": 290.0,
+              "label": "Moisturizer"
+            },
+            "dupes_in_topk": []
+          }
+        ]
+      }
+    },
+    "bge_m3": {
+      "dim": 1024,
+      "build_sec": 27.332,
+      "same_label_rate": 0.301,
+      "skin_jaccard": 0.4105,
+      "sim_p10": 0.7802,
+      "sim_p50": 0.8937,
+      "sim_p90": 0.9366,
+      "dupe": {
+        "premium_count": 736,
+        "dupe_found_rate": 0.1685,
+        "mean_saving_ratio": 0.3738,
+        "threshold_ingredient_jaccard": 0.5,
+        "examples": [
+          {
+            "target": {
+              "name": "The Concentrate",
+              "brand": "LA MER",
+              "price": 370.0,
+              "label": "Treatment"
+            },
+            "dupes_in_topk": [
+              {
+                "name": "The Concentrate Mini",
+                "brand": "LA MER",
+                "price": 190.0,
+                "ingredient_jaccard": 1.0
+              }
+            ]
+          },
+          {
+            "target": {
+              "name": "The Regenerating Serum",
+              "brand": "LA MER",
+              "price": 345.0,
+              "label": "Treatment"
+            },
+            "dupes_in_topk": []
+          },
+          {
+            "target": {
+              "name": "Little Miss Miracle Limited-Edition Crème de la Mer",
+              "brand": "LA MER",
+              "price": 325.0,
+              "label": "Moisturizer"
+            },
+            "dupes_in_topk": [
+              {
+                "name": "Crème de la Mer",
+                "brand": "LA MER",
+                "price": 175.0,
+                "ingredient_jaccard": 1.0
+              },
+              {
+                "name": "Crème de la Mer Mini",
+                "brand": "LA MER",
+                "price": 85.0,
+                "ingredient_jaccard": 1.0
+              }
+            ]
+          },
+          {
+            "target": {
+              "name": "Future Solution LX Intensive Firming Contour Serum",
+              "brand": "SHISEIDO",
+              "price": 300.0,
+              "label": "Treatment"
+            },
+            "dupes_in_topk": []
+          },
+          {
+            "target": {
+              "name": "Crème Ancienne®",
+              "brand": "FRESH",
+              "price": 290.0,
+              "label": "Moisturizer"
+            },
+            "dupes_in_topk": []
+          }
+        ]
+      },
+      "dupe_xbrand": {
+        "premium_count": 736,
+        "dupe_found_rate": 0.0136,
+        "mean_saving_ratio": 0.819,
+        "threshold_ingredient_jaccard": 0.5,
+        "examples": [
+          {
+            "target": {
+              "name": "The Concentrate",
+              "brand": "LA MER",
+              "price": 370.0,
+              "label": "Treatment"
+            },
+            "dupes_in_topk": []
+          },
+          {
+            "target": {
+              "name": "The Regenerating Serum",
+              "brand": "LA MER",
+              "price": 345.0,
+              "label": "Treatment"
+            },
+            "dupes_in_topk": []
+          },
+          {
+            "target": {
+              "name": "Little Miss Miracle Limited-Edition Crème de la Mer",
+              "brand": "LA MER",
+              "price": 325.0,
+              "label": "Moisturizer"
+            },
+            "dupes_in_topk": []
+          },
+          {
+            "target": {
+              "name": "Future Solution LX Intensive Firming Contour Serum",
+              "brand": "SHISEIDO",
+              "price": 300.0,
+              "label": "Treatment"
+            },
+            "dupes_in_topk": []
+          },
+          {
+            "target": {
+              "name": "Crème Ancienne®",
+              "brand": "FRESH",
+              "price": 290.0,
+              "label": "Moisturizer"
+            },
+            "dupes_in_topk": []
+          }
+        ]
+      }
+    },
+    "hybrid_tfidf_bge": {
+      "dim": 7180,
+      "build_sec": 0.0,
+      "same_label_rate": 0.3321,
+      "skin_jaccard": 0.4236,
+      "sim_p10": 0.4063,
+      "sim_p50": 0.5076,
+      "sim_p90": 0.6794,
+      "dupe": {
+        "premium_count": 736,
+        "dupe_found_rate": 0.1821,
+        "mean_saving_ratio": 0.3648,
+        "threshold_ingredient_jaccard": 0.5,
+        "examples": [
+          {
+            "target": {
+              "name": "The Concentrate",
+              "brand": "LA MER",
+              "price": 370.0,
+              "label": "Treatment"
+            },
+            "dupes_in_topk": [
+              {
+                "name": "The Concentrate Mini",
+                "brand": "LA MER",
+                "price": 190.0,
+                "ingredient_jaccard": 1.0
+              }
+            ]
+          },
+          {
+            "target": {
+              "name": "The Regenerating Serum",
+              "brand": "LA MER",
+              "price": 345.0,
+              "label": "Treatment"
+            },
+            "dupes_in_topk": [
+              {
+                "name": "The Lifting and Firming Mask",
+                "brand": "LA MER",
+                "price": 250.0,
+                "ingredient_jaccard": 0.787
+              },
+              {
+                "name": "The Lifting and Firming Mask Mini",
+                "brand": "LA MER",
+                "price": 75.0,
+                "ingredient_jaccard": 0.75
+              }
+            ]
+          },
+          {
+            "target": {
+              "name": "Little Miss Miracle Limited-Edition Crème de la Mer",
+              "brand": "LA MER",
+              "price": 325.0,
+              "label": "Moisturizer"
+            },
+            "dupes_in_topk": [
+              {
+                "name": "Crème de la Mer",
+                "brand": "LA MER",
+                "price": 175.0,
+                "ingredient_jaccard": 1.0
+              },
+              {
+                "name": "Crème de la Mer Mini",
+                "brand": "LA MER",
+                "price": 85.0,
+                "ingredient_jaccard": 1.0
+              }
+            ]
+          },
+          {
+            "target": {
+              "name": "Future Solution LX Intensive Firming Contour Serum",
+              "brand": "SHISEIDO",
+              "price": 300.0,
+              "label": "Treatment"
+            },
+            "dupes_in_topk": []
+          },
+          {
+            "target": {
+              "name": "Crème Ancienne®",
+              "brand": "FRESH",
+              "price": 290.0,
+              "label": "Moisturizer"
+            },
+            "dupes_in_topk": []
+          }
+        ]
+      },
+      "dupe_xbrand": {
+        "premium_count": 736,
+        "dupe_found_rate": 0.0163,
+        "mean_saving_ratio": 0.7128,
+        "threshold_ingredient_jaccard": 0.5,
+        "examples": [
+          {
+            "target": {
+              "name": "The Concentrate",
+              "brand": "LA MER",
+              "price": 370.0,
+              "label": "Treatment"
+            },
+            "dupes_in_topk": []
+          },
+          {
+            "target": {
+              "name": "The Regenerating Serum",
+              "brand": "LA MER",
+              "price": 345.0,
+              "label": "Treatment"
+            },
+            "dupes_in_topk": []
+          },
+          {
+            "target": {
+              "name": "Little Miss Miracle Limited-Edition Crème de la Mer",
+              "brand": "LA MER",
+              "price": 325.0,
+              "label": "Moisturizer"
+            },
+            "dupes_in_topk": []
+          },
+          {
+            "target": {
+              "name": "Future Solution LX Intensive Firming Contour Serum",
+              "brand": "SHISEIDO",
+              "price": 300.0,
+              "label": "Treatment"
+            },
+            "dupes_in_topk": []
+          },
+          {
+            "target": {
+              "name": "Crème Ancienne®",
+              "brand": "FRESH",
+              "price": 290.0,
+              "label": "Moisturizer"
+            },
+            "dupes_in_topk": []
+          }
+        ]
+      }
+    }
+  }
+}
