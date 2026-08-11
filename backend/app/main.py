@@ -24,6 +24,8 @@ from .services.rag_qa import answer_question
 from .services.roundtable import run_roundtable
 from .services.verify_loop import verify_answer
 from .services.fingerprint import compute_fingerprint
+from .services.evidence_profile import evidence_profile
+from .services.scorecard import substitute_scorecard
 from .services.similar_levels import level1_jaccard, level2_dose, level3_fingerprint
 from .services.similarity import search_ingredients, search_products
 from .services.transdermal import get_transdermal_info
@@ -394,6 +396,62 @@ def product_similar_levels(product_id: int, k: int = Query(5, ge=1, le=50),
         "l2": level2_dose(db, product_id, k=k),
         "l3": level3_fingerprint(db, product_id, k=k),
         "note": "功效指纹基于 35+ 成分证据库，覆盖深度见各产品 coverage",
+    }
+
+
+@app.get("/api/products/{product_id}/evidence-profile")
+def product_evidence_profile(product_id: int, db: Session = Depends(get_db)):
+    """证据充分度面板（借鉴 EWG「数据充分度」维度）：产品功效断言按证据层级分布。
+
+    全部 9 个层级键都返回（含 0 计数），按证据强度默认分降序；unknown 如实展示
+    （「不知道」是一等公民，不隐藏）；ratio = count / assertions_total。
+    前端据此渲染分布条与分级徽章（label 已附中文名）。
+    """
+    p = db.get(Product, product_id)
+    if p is None:
+        raise HTTPException(status_code=404, detail="产品不存在")
+    return {"product_id": product_id, **evidence_profile(db, product_id)}
+
+
+@app.get("/api/products/{product_id}/substitutes")
+def product_substitutes(product_id: int, k: int = Query(5, ge=1, le=50),
+                        db: Session = Depends(get_db)):
+    """白盒平替得分卡：成分+功效+价格三维组合得分，每维可拆解（借鉴匹配得分卡，白盒化）。
+
+    score = 归一化权重加权和（默认 成分 0.5 / 功效 0.3 / 价格 0.2），任一维不可用时
+    该维 null 且权重在可用维上重归一化（weights_used 记录实际权重，诚实降级不伪造）。
+    零成分交集产品不入选；目标无成分表时 substitutes=[] + reason 降级。
+    分数为相对排序信号，非功效承诺。
+    """
+    p = db.get(Product, product_id)
+    if p is None:
+        raise HTTPException(status_code=404, detail="产品不存在")
+    return {"product_id": product_id, **substitute_scorecard(db, product_id, k=k),
+            "note": "分数为成分/功效/价格三维的相对排序信号，非功效承诺；缺失维度诚实降级"}
+
+
+@app.get("/api/ingredients/{ingredient_id}/penetration")
+def ingredient_penetration(ingredient_id: int, db: Session = Depends(get_db)):
+    """成分渗透率统计（借鉴 INCI Beauty「出现在 X% 产品中」）。
+
+    penetration = 含该成分的产品数 / 库中有成分表的产品总数（round 4）；
+    avg_position 只统计 position 非空的关联（NULL 位次不计入），无则为 null。
+    """
+    ing = db.get(Ingredient, ingredient_id)
+    if ing is None:
+        raise HTTPException(status_code=404, detail="成分不存在")
+    total = (db.query(func.count(func.distinct(ProductIngredient.product_id)))
+             .scalar()) or 0
+    cnt, avg_pos = (db.query(func.count(func.distinct(ProductIngredient.product_id)),
+                             func.avg(ProductIngredient.position))
+                    .filter(ProductIngredient.ingredient_id == ingredient_id).one())
+    return {
+        "ingredient_id": ingredient_id,
+        "inci_name": ing.inci_name, "cn_name": ing.cn_name,
+        "product_count": cnt, "total_products": total,
+        "penetration": round(cnt / total, 4) if total else 0,
+        "avg_position": round(avg_pos, 1) if avg_pos is not None else None,
+        "note": "渗透率 = 含该成分的产品数 / 库中有成分表的产品总数",
     }
 
 
