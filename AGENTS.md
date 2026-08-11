@@ -49,7 +49,7 @@ web/                前端构建产物（进 git）
 
 1. 功效断言必须挂真实证据（DB 层 NOT NULL + SQLite 外键强制）；文献必须真实可查，禁止编造
 2. paper 类证据入库前必须过机器核验（`data/tools/verify_evidence.py`，PMID→NCBI 标题比对）
-3. 推断浓度是估计值，输出与展示必须带「估计」语义；无官方降序成分表的产品不做浓度推断，不伪造位次
+3. 推断浓度是估计值，输出与展示必须带「估计」语义；无官方降序成分表的产品不做浓度推断，不伪造位次；展示层保守化（2026-08-11 拍板）：位次与 1% 线区域（全量/微量）是官方事实、突出展示，百分比区间估计降级为次级信息不单独突出
 4. 不爬取天猫/京东/美丽修行等明确禁止的平台；采集礼貌延时（≥4s/页），触发限流立即熔断冷却
 5. 弱证据（口服/动物/体外/复方）必须在 note 字段如实标注；断言另有结构化列 `evidence_level`/`evidence_strength`（规则集中在 `app/services/evidence_level.py`，回填用 `data/tools/backfill_evidence_level.py`），拿不准一律落 `unknown`，禁止猜测；规范功效族列 `efficacy_canonical`（规则在 `app/services/efficacy_canon.py`，回填用 `data/tools/backfill_efficacy_canonical.py`），功效指纹按规范族聚合并排除法规/防腐族断言
 6. 成分中文化只用 IECIC 2021 官方映射（`data/seed/inci_cn_map.json`，来源与抽查核对说明在文件 source 字段；PDF 提取 `data/tools/extract_iecic_pdf.py` 需 pdfplumber，生成 `data/tools/build_inci_cn_map.py`），禁止 LLM 机翻成分名；清洗回填用 `data/loaders/inci_cn_loader.py`（幂等，未命中保持原样）。成分别名（USAN 名 / CERAMIDE 2013 更名前旧名 / 其他俗名 → IECIC 键）只用 PubChem 同 CID 双向核验的 `data/seed/usan_inci_alias.json`（多段结构 alias/alias_ceramide/alias_common，构建 `data/tools/build_usan_alias.py`，同 CID 唯一 IECIC 命中才接受、多 CID 拒收，原始响应存 `data/raw/pubchem_usan/`），别名只用于匹配，中文名仍只出自 IECIC 映射；拼写/标点变体走 loader 折叠形唯一命中（数字保留、CJK 保留、损坏 IECIC 键黑名单 `_CORRUPT_IECIC_KEYS` 除外）
