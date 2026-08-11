@@ -1,9 +1,10 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { api } from '../api'
 import { useFetch, Loading, LoadError } from '../components/common'
 import ClaimCard from '../components/ClaimCard'
 import ConcentrationPanel from '../components/ConcentrationPanel'
+import IngredientList from '../components/IngredientList'
 import SimilarLevels from '../components/SimilarLevels'
 
 // —— 宣称 ↔ 剂量判定匹配（纯前端聚合现有 API 字段，不伪造）——
@@ -98,102 +99,14 @@ function VerdictBar({ claims, conc }) {
   )
 }
 
-// —— 成分表 skim 模式：有证据优先置顶，默认前 8 行 ——
-const SKIM_COUNT = 8
-
-function IngredientTable({ ingredients }) {
-  const [expanded, setExpanded] = useState(false)
-  const [showInci, setShowInci] = useState(false)
-  const sorted = [...ingredients].sort((a, b) =>
-    (b.has_evidence - a.has_evidence) || ((a.position ?? 1e9) - (b.position ?? 1e9)))
-  const visible = expanded ? sorted : sorted.slice(0, SKIM_COUNT)
-  const hidden = sorted.length - visible.length
-
-  return (
-    <div className="glass-card">
-      <h2 className="pearl-title">产品成分表（{ingredients.length} 种）</h2>
-      <div className="pearl-notice">
-        绿色行 = 有文献证据，点成分名看证据链。
-      </div>
-      <div className="overflow-x-auto">
-        <table className="w-full border-collapse">
-          <thead>
-            <tr>
-              <th className="text-left text-pearl-ink-3 font-semibold text-xs px-2.5 py-2 border-b-2 border-[rgba(138,90,106,0.18)] whitespace-nowrap">
-                成分名称
-                <button
-                  type="button"
-                  onClick={() => setShowInci((v) => !v)}
-                  className="ml-2 text-iris hover:underline font-normal"
-                >
-                  {showInci ? '收起英文原名' : '展开看英文原名'}
-                </button>
-              </th>
-              <th className="text-left text-pearl-ink-3 font-semibold text-xs px-2.5 py-2 border-b-2 border-[rgba(138,90,106,0.18)]">安全风险</th>
-              <th className="text-left text-pearl-ink-3 font-semibold text-xs px-2.5 py-2 border-b-2 border-[rgba(138,90,106,0.18)]">活性成分</th>
-              <th className="text-left text-pearl-ink-3 font-semibold text-xs px-2.5 py-2 border-b-2 border-[rgba(138,90,106,0.18)]">使用目的</th>
-              <th className="text-left text-pearl-ink-3 font-semibold text-xs px-2.5 py-2 border-b-2 border-[rgba(138,90,106,0.18)]">证据</th>
-            </tr>
-          </thead>
-          <tbody>
-            {visible.map((ing) => (
-              <tr key={ing.ingredient_id} className={ing.has_evidence ? 'bg-[rgba(126,200,150,0.1)] hover:bg-[rgba(126,200,150,0.2)]' : 'hover:bg-white/40'}>
-                <td className="px-2.5 py-2 border-b border-[rgba(138,90,106,0.1)] text-sm align-top">
-                  {ing.has_evidence ? (
-                    <Link to={`/ingredients/${ing.ingredient_id}`} className="text-rosewood font-medium hover:underline">
-                      {ing.cn_name || ing.inci_name}
-                    </Link>
-                  ) : (
-                    ing.cn_name || ing.inci_name
-                  )}
-                  {showInci && ing.inci_name && ing.cn_name && ing.inci_name !== ing.cn_name && (
-                    <div className="text-xs text-pearl-ink-3">{ing.inci_name}</div>
-                  )}
-                </td>
-                <td className="px-2.5 py-2 border-b border-[rgba(138,90,106,0.1)] text-sm align-top font-num tabular-nums">{ing.safety_risk ?? '—'}</td>
-                <td className="px-2.5 py-2 border-b border-[rgba(138,90,106,0.1)] text-sm align-top">
-                  {ing.is_active
-                    ? <span className="text-[#3d7a54] font-semibold">活性</span>
-                    : <span className="text-pearl-ink-3">—</span>}
-                </td>
-                <td className="px-2.5 py-2 border-b border-[rgba(138,90,106,0.1)] text-sm align-top">{ing.purpose ?? '—'}</td>
-                <td className="px-2.5 py-2 border-b border-[rgba(138,90,106,0.1)] text-sm align-top">
-                  {ing.has_evidence
-                    ? <Link to={`/ingredients/${ing.ingredient_id}`} className="pearl-badge-ok hover:ring-1 hover:ring-mint">有文献证据 →</Link>
-                    : <span className="text-pearl-ink-3 text-xs">—</span>}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-      {hidden > 0 && !expanded && (
-        <button
-          type="button"
-          onClick={() => setExpanded(true)}
-          className="btn-fairy-ghost mt-3 w-full"
-        >
-          展开全部 {ingredients.length} 种 ↓
-        </button>
-      )}
-      {expanded && sorted.length > SKIM_COUNT && (
-        <button
-          type="button"
-          onClick={() => setExpanded(false)}
-          className="btn-fairy-ghost mt-3 w-full"
-        >
-          收起 ↑
-        </button>
-      )}
-    </div>
-  )
-}
-
 export default function ProductDetail() {
   const { id } = useParams()
   const { data: p, loading, error } = useFetch(() => api.product(id), [id])
   // 浓度数据页面级预取：判决条 / 宣称卡 hero / 浓度区块共用同一份
   const conc = useFetch(() => api.productConcentration(id), [id])
+  // 成分行内展开的档案懒加载缓存（{ [ingredientId]: {status, data} }），换产品时清空
+  const [ingCache, setIngCache] = useState({})
+  useEffect(() => { setIngCache({}) }, [id])
 
   if (loading) return <div className="pearl-page"><div className="glass-card relative"><Loading /></div></div>
   if (error) return <div className="pearl-page"><div className="glass-card relative"><LoadError error={error} /></div></div>
@@ -270,7 +183,7 @@ export default function ProductDetail() {
 
         <ConcentrationPanel conc={conc} />
 
-        <IngredientTable ingredients={p.ingredients} />
+        <IngredientList ingredients={p.ingredients} cache={ingCache} setCache={setIngCache} />
 
         <SimilarLevels productId={id} />
       </div>
