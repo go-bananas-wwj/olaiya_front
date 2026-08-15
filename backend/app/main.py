@@ -7,8 +7,8 @@ tmux new-session -d -s cfz-web -c /root/workspace/olaiya \\
 import json
 from pathlib import Path
 
-from fastapi import Depends, FastAPI, File, HTTPException, Query, UploadFile
-from fastapi.responses import StreamingResponse
+from fastapi import Depends, FastAPI, File, HTTPException, Query, Request, UploadFile
+from fastapi.responses import RedirectResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field, field_validator
 from sqlalchemy import func, or_, select
@@ -585,6 +585,14 @@ app.mount("/lab", StaticFiles(directory="lab/hero-demo/dist", html=True), name="
 
 # 页面线框参考图（lab/wireframes 纯静态，设计评审用）
 app.mount("/wireframes", StaticFiles(directory="lab/wireframes", html=True), name="wireframes")
+
+
+# 无尾斜杠直达路径重定向（StaticFiles 挂载根不匹配无斜杠路径，会落进 "/" 挂载 404）
+@app.get("/lab", include_in_schema=False)
+@app.get("/wireframes", include_in_schema=False)
+def static_root_redirect(request: Request):
+    return RedirectResponse(f"{request.url.path}/")
+
 
 # 静态前端（/web 目录，纯静态页，数据全部经 /api 获取）
 app.mount("/", StaticFiles(directory="web", html=True), name="web")
