@@ -8,7 +8,7 @@ import { Loading } from './common'
 //   3. 敏感肌含酒精/香精/高浓度酸 -15/项（成分名规则匹配，口径见下）
 //   4. 每起效成本低于同诉求中位 +10（需跨产品中位统计，一期前端不可得 → 不参与计分，如实灰显）
 //   5. 无成分证据支撑的宣称 -10/项
-// 肤质档案存 localStorage「yj_profile」= {skin, goals}；算出的分缓存「yj_match_{id}」供列表角标用。
+// 肤质档案存 localStorage「yj_profile」= {skin, goals}；算出的分缓存「yj_match_{id}」= {score, profileKey} 供列表角标用。
 
 const PROFILE_KEY = 'yj_profile'
 
@@ -51,6 +51,17 @@ export function readProfile() {
     if (p && SKINS.includes(p.skin) && Array.isArray(p.goals)) return p
   } catch { /* 损坏档案视为未设置 */ }
   return null
+}
+
+// 档案指纹（djb2 简易哈希）：角标缓存与当前档案绑定，档案变更后旧缓存分不再显示
+export function profileKey() {
+  try {
+    const raw = localStorage.getItem(PROFILE_KEY)
+    if (!raw) return null
+    let h = 5381
+    for (let i = 0; i < raw.length; i++) h = ((h << 5) + h + raw.charCodeAt(i)) | 0
+    return String(h)
+  } catch { return null }
 }
 
 const stem = (s) => (s || '').split(/[（(]/)[0].trim()
@@ -248,17 +259,18 @@ export default function MatchScore({ product, conc, fp }) {
   const [modalOpen, setModalOpen] = useState(false)
 
   const ready = !conc.loading && !fp.loading && profile
+  // 指纹接口失败（fp.error）时不给分：fp.data=null 会被当空指纹计分，宣称全吃「无成分证据支撑」，依据与事实不符
   const result = useMemo(
-    () => (ready ? computeScore({ product, conc, fpData: fp.data, profile }) : null),
+    () => (ready && !fp.error ? computeScore({ product, conc, fpData: fp.data, profile }) : null),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [ready, product.id, conc.data, fp.data, profile]
+    [ready, fp.error, product.id, conc.data, fp.data, profile]
   )
 
-  // 缓存得分供产品库卡片角标使用（纯 localStorage，零额外请求）
+  // 缓存得分供产品库卡片角标使用（纯 localStorage，零额外请求；绑定档案指纹，档案变更即失效）
   useEffect(() => {
     if (result && profile) {
       try {
-        localStorage.setItem(`yj_match_${product.id}`, JSON.stringify({ score: result.score }))
+        localStorage.setItem(`yj_match_${product.id}`, JSON.stringify({ score: result.score, profileKey: profileKey() }))
       } catch { /* 存储不可用时跳过角标缓存 */ }
     }
   }, [result, profile, product.id])
@@ -283,6 +295,8 @@ export default function MatchScore({ product, conc, fp }) {
         </div>
       ) : !ready ? (
         <Loading />
+      ) : fp.error ? (
+        <div className="pearl-notice !mb-0">功效指纹数据加载失败（{fp.error}）——不给分，不猜测。</div>
       ) : insufficient ? (
         <div className="pearl-notice !mb-0">数据不足，仅供参考（无宣称摘要且无浓度推断）——不给分，不猜测。</div>
       ) : (

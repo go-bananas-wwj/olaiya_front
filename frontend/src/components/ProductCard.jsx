@@ -1,13 +1,16 @@
 import { Link } from 'react-router-dom'
+import { profileKey } from './MatchScore'
 
 // 匹配分角标（降级方案）：匹配分需详情/指纹/浓度三接口，列表页逐产品请求=N+1 拖慢列表。
 // 改为纯 localStorage：已设肤质档案（yj_profile）时，访问过详情页的产品显示缓存分
-// （详情页 MatchScore 算完写入 yj_match_{id}），未访问过的提示「匹配分详情页可见」。
+// （详情页 MatchScore 算完写入 yj_match_{id} = {score, profileKey}）；缓存档案指纹与当前
+// 档案不一致（含旧版无 profileKey 的缓存）视为失效，与未访问过一样提示「匹配分详情页可见」。
 function matchBadge(id) {
   try {
-    if (!localStorage.getItem('yj_profile')) return null
+    const key = profileKey()
+    if (!key) return null
     const cached = JSON.parse(localStorage.getItem(`yj_match_${id}`) || 'null')
-    if (cached && typeof cached.score === 'number') {
+    if (cached && typeof cached.score === 'number' && cached.profileKey === key) {
       return <span className="pearl-badge-iris">匹配 <span className="font-num">{cached.score}</span></span>
     }
     return <span className="pearl-badge-muted">匹配分详情页可见</span>
