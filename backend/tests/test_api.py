@@ -87,7 +87,7 @@ def test_product_not_found(client):
 def test_frontend_page_served(client):
     r = client.get("/")
     assert r.status_code == 200
-    assert "成分真言" in r.text
+    assert "颜鉴" in r.text
 
 
 # —— Part 4：统计 / 过滤 / 成分-产品关联 / 证据标记 ——
