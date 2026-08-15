@@ -2,11 +2,12 @@
 
 用法：
     .venv/bin/python data/tools/ocr_pdfs.py PDF [PDF ...] \
-        --pages 1-20,50,100-105 --out data/raw/ocr/out.jsonl [--dpi 250]
+        --pages 1-20,50,100-105 --out data/raw/ocr/out.jsonl [--dpi 250] [--boxes]
 
 行为：
 - 逐页渲染 → OCR → 立即丢弃位图，图片不落盘（内存流式处理）。
-- 每页一行 JSONL：{"pdf": ..., "page": ..., "text": ..., "ocr_ms": ...}，追加写。
+- 每页一行 JSONL：{"pdf", "page", "text", "ocr_ms"}，追加写。
+- --boxes 额外输出 width/height 与行级 lines[{box, text, score}]（双栏重排用）。
 - --pages 支持逗号分隔的页码/区间（1-based，含端点）；缺省为全部页。
 - 断点续跑：输出文件已存在的 (pdf, page) 自动跳过。
 
@@ -55,7 +56,8 @@ def load_done(out_path: Path) -> set[tuple[str, int]]:
     return done
 
 
-def ocr_pdf(pdf_path: str, pages: list[int], engine: RapidOCR, out_fh, dpi: int) -> None:
+def ocr_pdf(pdf_path: str, pages: list[int], engine: RapidOCR, out_fh, dpi: int,
+            boxes: bool = False) -> None:
     doc = fitz.open(pdf_path)
     zoom = dpi / 72.0
     mat = fitz.Matrix(zoom, zoom)
@@ -68,10 +70,16 @@ def ocr_pdf(pdf_path: str, pages: list[int], engine: RapidOCR, out_fh, dpi: int)
         ocr_ms = int((time.perf_counter() - t0) * 1000)
         # result: list[[box, text, score]] 或 None；按阅读顺序拼接
         text = "\n".join(line[1] for line in result) if result else ""
-        out_fh.write(json.dumps(
-            {"pdf": pdf_path, "page": pno, "text": text, "ocr_ms": ocr_ms},
-            ensure_ascii=False,
-        ) + "\n")
+        rec: dict = {"pdf": pdf_path, "page": pno, "text": text, "ocr_ms": ocr_ms}
+        if boxes:
+            # 行级包围盒（四点像素坐标），供双栏重排等版式还原使用
+            rec["width"], rec["height"] = pix.width, pix.height
+            rec["lines"] = [
+                {"box": [[round(x, 1), round(y, 1)] for x, y in line[0]],
+                 "text": line[1], "score": round(float(line[2]), 4)}
+                for line in (result or [])
+            ]
+        out_fh.write(json.dumps(rec, ensure_ascii=False) + "\n")
         out_fh.flush()
         del img, pix  # 位图只活在内存，立即释放
     doc.close()
@@ -83,6 +91,7 @@ def main() -> None:
     ap.add_argument("--pages", default=None, help="页码范围，如 1-20,50,100-105（1-based，缺省全部）")
     ap.add_argument("--out", required=True, help="输出 JSONL 路径（追加写，支持断点续跑）")
     ap.add_argument("--dpi", type=int, default=250, help="渲染 DPI（200-300 之间质量/速度折中）")
+    ap.add_argument("--boxes", action="store_true", help="额外输出行级包围盒 lines（双栏重排用）")
     args = ap.parse_args()
 
     out_path = Path(args.out)
@@ -100,7 +109,7 @@ def main() -> None:
             pages = parse_pages(args.pages, total) if args.pages else list(range(1, total + 1))
             todo = [p for p in pages if (pdf_path, p) not in done]
             print(f"[run] {pdf_path}: {len(todo)}/{len(pages)} pages todo", file=sys.stderr)
-            ocr_pdf(pdf_path, todo, engine, out_fh, args.dpi)
+            ocr_pdf(pdf_path, todo, engine, out_fh, args.dpi, boxes=args.boxes)
 
 
 if __name__ == "__main__":

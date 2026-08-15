@@ -1,4 +1,4 @@
-"""证据：论文 / 专利 / 法规 / 白皮书 / 官方数据库。每条功效断言必须挂一条证据。"""
+"""证据：论文 / 专利 / 法规 / 白皮书 / 官方数据库 / 原料商资料 / 工具书。每条功效断言必须挂一条证据。"""
 
 import enum
 
@@ -16,6 +16,7 @@ class EvidenceType(str, enum.Enum):
     WHITE_PAPER = "white_paper"
     DATABASE = "database"  # 官方数据库词表（如 CosIng 功能分类）；申报分类，非功效实证
     SUPPLIER = "supplier"  # 原料商产品资料宣称；未经同行评议，强制 unknown 降级通道
+    BOOK = "book"  # 行业参考工具书（原料手册等）记载；二手汇编非原始研究，强制 unknown
 
 
 class Evidence(Base):

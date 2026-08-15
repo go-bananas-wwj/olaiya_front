@@ -32,12 +32,12 @@ def ensure_columns() -> None:
 def backfill_session(session: Session) -> Counter:
     """全量重算所有断言的层级/强度，返回层级分布（未提交，调用方负责 commit）。
 
-    降级通道（patent / supplier 证据）的断言强制 unknown 是人工规则，不被重算覆盖
+    降级通道（patent / supplier / book 证据）的断言强制 unknown 是人工规则，不被重算覆盖
     （note 商品名/生产商等字段偶然含「体外/动物」等关键词也不升级，与铁律口径一致）。
     """
     dist: Counter = Counter()
     for a in session.query(EfficacyAssertion).all():
-        if a.evidence.type in (EvidenceType.PATENT, EvidenceType.SUPPLIER):
+        if a.evidence.type in (EvidenceType.PATENT, EvidenceType.SUPPLIER, EvidenceType.BOOK):
             dist[UNKNOWN] += 1
             continue
         level = classify_evidence_level(a.note, a.evidence)
