@@ -158,7 +158,9 @@ function verdictMap(conc) {
 
 const sameVerdicts = (a, b) => a.length === b.length && a.every((v) => b.includes(v))
 
-function VerdictBadges({ verdicts }) {
+// inferred=false 表示该侧产品未做浓度推断（无判定可言），与「已推断但无功效断言」区分开
+function VerdictBadges({ verdicts, inferred = true }) {
+  if (!inferred) return <span className="badge-muted">未推断</span>
   if (!verdicts || verdicts.length === 0) return <span className="badge-muted">含</span>
   return (
     <span className="flex flex-wrap gap-1 justify-end">
@@ -253,12 +255,13 @@ export default function Compare() {
   const costB = useMemo(() => minCost(concB), [concB])
 
   // 成分 diff 行：默认只显示差异行（一款独有 / 剂量判定不同），开关显示全部
+  const bothInferred = !!(concA?.inferred && concB?.inferred)
   const rows = useMemo(() => {
     if (!detailA || !detailB) return null
     const mapB = new Map(detailB.ingredients.map((i) => [i.ingredient_id, i]))
     const vA = verdictMap(concA)
     const vB = verdictMap(concB)
-    const bothInferred = vA !== null && vB !== null
+    const both = vA !== null && vB !== null
     const out = []
     const seen = new Set()
     for (const i of detailA.ingredients) {
@@ -266,13 +269,15 @@ export default function Compare() {
       const inB = mapB.has(i.ingredient_id)
       const va = vA?.get(i.ingredient_id) ?? []
       const vb = inB ? (vB?.get(i.ingredient_id) ?? []) : []
-      const verdictDiff = inB && bothInferred && !sameVerdicts(va, vb)
+      const verdictDiff = inB && both && !sameVerdicts(va, vb)
       out.push({
         ing: i,
         inA: true,
         inB,
         va,
         vb,
+        inferredA: vA !== null,
+        inferredB: vB !== null,
         only: inB ? null : 'A',
         isDiff: !inB || verdictDiff,
         hasEvidence: i.has_evidence || (inB && mapB.get(i.ingredient_id).has_evidence),
@@ -282,6 +287,7 @@ export default function Compare() {
       if (seen.has(i.ingredient_id)) continue
       out.push({
         ing: i, inA: false, inB: true, va: [], vb: vB?.get(i.ingredient_id) ?? [],
+        inferredA: vA !== null, inferredB: vB !== null,
         only: 'B', isDiff: true, hasEvidence: i.has_evidence,
       })
     }
@@ -372,7 +378,11 @@ export default function Compare() {
             默认只显示差异行：一款独有，或剂量判定不同（判定基于推断浓度，估计值）。
           </div>
           {visibleRows.length === 0 ? (
-            <div className="notice !mb-0">两款产品成分与剂量判定完全一致。</div>
+            <div className="notice !mb-0">
+              {bothInferred
+                ? '两款产品成分与剂量判定完全一致。'
+                : '两款产品成分完全一致（剂量判定数据不足，未对比）。'}
+            </div>
           ) : (
             <div className="border border-line rounded-xl overflow-hidden max-h-[520px] overflow-y-auto">
               <div className="grid grid-cols-[1fr_auto_auto] items-center gap-2 px-3 py-2 border-b border-line text-xs text-ink-3">
@@ -396,10 +406,10 @@ export default function Compare() {
                     {r.only && <span className="badge-muted">仅 {r.only}</span>}
                   </div>
                   <div className="w-28 text-right">
-                    {r.inA ? <VerdictBadges verdicts={r.va} /> : <span className="text-ink-3">—</span>}
+                    {r.inA ? <VerdictBadges verdicts={r.va} inferred={r.inferredA} /> : <span className="text-ink-3">—</span>}
                   </div>
                   <div className="w-28 text-right">
-                    {r.inB ? <VerdictBadges verdicts={r.vb} /> : <span className="text-ink-3">—</span>}
+                    {r.inB ? <VerdictBadges verdicts={r.vb} inferred={r.inferredB} /> : <span className="text-ink-3">—</span>}
                   </div>
                 </div>
               ))}
