@@ -79,7 +79,7 @@ export default function Home() {
       <div className="glass-card">
         <div className="flex items-center justify-between mb-1">
           <h2 className="pearl-title !mb-0">功效证据榜</h2>
-          <Link to="/rankings" className="text-xs text-rosewood hover:underline flex-shrink-0">
+          <Link to="/rankings#board" className="text-xs text-rosewood hover:underline flex-shrink-0">
             完整榜单 →
           </Link>
         </div>

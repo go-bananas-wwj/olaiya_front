@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { useEffect, useRef, useState } from 'react'
+import { Link, useLocation } from 'react-router-dom'
 import { api } from '../api'
 import { useFetch, Loading, LoadError } from './common'
 
@@ -12,15 +12,36 @@ const TABS = [
 ]
 
 export default function EfficacyBoard({ limit = 5 }) {
-  const [tab, setTab] = useState(0)
+  const location = useLocation()
+  const rootRef = useRef(null)
+  // 锚点深链：#board-美白 等直达对应 Tab（排行榜页入站/外部分享）。
+  // location.hash 是 percent-encoded，比较前须解码
+  const hash = decodeURIComponent(location.hash || '')
+  const hashTab = TABS.findIndex(([label]) => hash === `#board-${label}`)
+  const [tab, setTab] = useState(hashTab >= 0 ? hashTab : 0)
   const canon = TABS[tab][1]
   const { data, loading, error } = useFetch(
     () => api.rankingsEfficacy(canon, limit),
     [canon, limit]
   )
 
+  // 同页哈希跳转（如 /rankings → /rankings#board-保湿 不触发 remount）：锚点变化时切 Tab
+  useEffect(() => {
+    if (hashTab >= 0 && hashTab !== tab) setTab(hashTab)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [hashTab])
+
+  // 入站锚点跳转：内容异步渲染，原生锚点定位不到，数据落地后手动滚动
+  useEffect(() => {
+    if (!data) return
+    if (hash === '#board' || hashTab >= 0) {
+      rootRef.current?.scrollIntoView({ block: 'start' })
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data, hash])
+
   return (
-    <div>
+    <div ref={rootRef} id={`board-${TABS[tab][0]}`} className="scroll-mt-24">
       <div className="flex flex-wrap gap-2 mb-4">
         {TABS.map(([label], i) => (
           <button
