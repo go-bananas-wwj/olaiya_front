@@ -12,7 +12,7 @@ from fastapi import Depends, FastAPI, File, HTTPException, Query, Request, Uploa
 from fastapi.responses import RedirectResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field, field_validator
-from sqlalchemy import func, or_, select
+from sqlalchemy import case, func, or_, select
 from sqlalchemy.orm import Session, joinedload
 
 from .db import SessionLocal, init_db
@@ -414,26 +414,70 @@ def efficacy_ranking(canon: str, limit: int = Query(20, ge=1, le=100),
     """
     if canon not in RANKING_CANONS:
         raise HTTPException(status_code=422, detail=f"未知功效族: {canon}")
+    # SQL 聚合下推主路径：efficacy_canonical 列已回填（2026-08-15 实测真实库
+    # NULL 占比 0/2211），直接按列 group by，避免全量 join 后 Python 内存聚合
+    # （旧实现真实库 33-43s）。evidence_level 可能为 NULL，SQL NULL != 'regulation'
+    # 为 UNKNOWN 会被误排除，故显式保留 NULL（与原 Python `== REGULATION` 语义一致）。
+    not_regulation = or_(EfficacyAssertion.evidence_level.is_(None),
+                         EfficacyAssertion.evidence_level != REGULATION)
+    human_case = case(
+        (EfficacyAssertion.evidence_level.in_(HUMAN_EVIDENCE_LEVELS), 1), else_=0)
     rows = db.execute(
-        select(ProductIngredient.product_id, ProductIngredient.ingredient_id,
-               EfficacyAssertion)
+        select(ProductIngredient.product_id,
+               func.count(func.distinct(ProductIngredient.ingredient_id)),
+               func.sum(human_case))
         .join(EfficacyAssertion,
               EfficacyAssertion.ingredient_id == ProductIngredient.ingredient_id)
-        .options(joinedload(EfficacyAssertion.evidence))
+        .join(Evidence, Evidence.id == EfficacyAssertion.evidence_id)
+        .where(EfficacyAssertion.efficacy_canonical == canon,
+               not_regulation,
+               Evidence.type != EvidenceType.SUPPLIER)
+        .group_by(ProductIngredient.product_id)
     ).all()
-    agg: dict[int, dict] = {}  # product_id -> {"ingredients": set, "human": int}
-    for pid, iid, a in rows:
-        canonical = a.efficacy_canonical or canonicalize(a.efficacy)
-        if canonical != canon:
-            continue
-        if a.evidence_level == REGULATION or a.evidence.type == EvidenceType.SUPPLIER:
-            continue
-        slot = agg.setdefault(pid, {"ingredients": set(), "human": 0})
-        slot["ingredients"].add(iid)
-        if a.evidence_level in HUMAN_EVIDENCE_LEVELS:
-            slot["human"] += 1
+    agg: dict[int, list[int]] = {  # product_id -> [成分命中数, 真人级断言数]
+        pid: [hits, human or 0] for pid, hits, human in rows
+    }
+    # canonicalize 兜底：canonical 为 NULL 的断言无法在 SQL 侧映射（Python 函数），
+    # 单独扫 NULL 子集；命中的产品整产品回退 Python 重算（覆盖 SQL 结果），
+    # 保证「成分数按集合去重」语义与纯 Python 实现完全一致；真实库 NULL=0 时
+    # 此分支零开销。
+    null_rows = db.execute(
+        select(ProductIngredient.product_id, ProductIngredient.ingredient_id,
+               EfficacyAssertion.efficacy, EfficacyAssertion.evidence_level)
+        .join(EfficacyAssertion,
+              EfficacyAssertion.ingredient_id == ProductIngredient.ingredient_id)
+        .join(Evidence, Evidence.id == EfficacyAssertion.evidence_id)
+        .where(EfficacyAssertion.efficacy_canonical.is_(None),
+               not_regulation,
+               Evidence.type != EvidenceType.SUPPLIER)
+    ).all()
+    fallback_pids = {pid for pid, _iid, efficacy, _lvl in null_rows
+                     if canonicalize(efficacy) == canon}
+    for pid in fallback_pids:
+        prows = db.execute(
+            select(ProductIngredient.ingredient_id, EfficacyAssertion)
+            .join(EfficacyAssertion,
+                  EfficacyAssertion.ingredient_id == ProductIngredient.ingredient_id)
+            .options(joinedload(EfficacyAssertion.evidence))
+            .where(ProductIngredient.product_id == pid)
+        ).unique().all()
+        ingredients: set[int] = set()
+        human = 0
+        for iid, a in prows:
+            canonical = a.efficacy_canonical or canonicalize(a.efficacy)
+            if canonical != canon:
+                continue
+            if a.evidence_level == REGULATION or a.evidence.type == EvidenceType.SUPPLIER:
+                continue
+            ingredients.add(iid)
+            if a.evidence_level in HUMAN_EVIDENCE_LEVELS:
+                human += 1
+        if ingredients:
+            agg[pid] = [len(ingredients), human]
+        else:
+            agg.pop(pid, None)
     ranked = sorted(
-        ((pid, len(s["ingredients"]), s["human"]) for pid, s in agg.items()),
+        ((pid, s[0], s[1]) for pid, s in agg.items()),
         key=lambda t: (-(t[1] + 3 * t[2]), t[0]),
     )
     page = ranked[:limit]
