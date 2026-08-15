@@ -1,0 +1,3504 @@
+{
+  "stats": {
+    "records": 791,
+    "skipped_no_purpose": 0,
+    "skipped_no_endpunc": 26,
+    "skipped_cn_latin": 1,
+    "table_truncated": 17,
+    "tail_stripped": 51,
+    "superscript_suspect": 2,
+    "entry_no_normalized": 0,
+    "whitelist_applied": 12,
+    "cn_latin_stripped": 11,
+    "matched_cn": 112,
+    "matched_alias": 23,
+    "matched_en": 49,
+    "matched": 184,
+    "assertions_new": 0,
+    "assertions_existing": 184,
+    "evidence_new": 0
+  },
+  "odd_entry_nos": [],
+  "unmatched": [
+    {
+      "entry_no": "1-1-001",
+      "cn_name": "橄榄油",
+      "en_name": "Olive oil",
+      "page": 8
+    },
+    {
+      "entry_no": "1-1-004",
+      "cn_name": "花生油",
+      "en_name": "Peanut oil",
+      "page": 9
+    },
+    {
+      "entry_no": "1-1-005",
+      "cn_name": "棉籽油",
+      "en_name": "Cottonseed oil",
+      "page": 10
+    },
+    {
+      "entry_no": "1-1-006",
+      "cn_name": "茶籽油",
+      "en_name": "Teaseed oil",
+      "page": 10
+    },
+    {
+      "entry_no": "1-1-011",
+      "cn_name": "棕榈仁油",
+      "en_name": "Palm kcrncloil",
+      "page": 13
+    },
+    {
+      "entry_no": "1-1-012",
+      "cn_name": "可可脂",
+      "en_name": "Cacao butter",
+      "page": 13
+    },
+    {
+      "entry_no": "1-1-016",
+      "cn_name": "小麦胚芽油",
+      "en_name": "Wheat plumule oil",
+      "page": 15
+    },
+    {
+      "entry_no": "1-1-018",
+      "cn_name": "巴西棕榈蜡",
+      "en_name": "Carnauba wax",
+      "page": 16
+    },
+    {
+      "entry_no": "1-1-019",
+      "cn_name": "小烛树蜡",
+      "en_name": "Candellila wax",
+      "page": 17
+    },
+    {
+      "entry_no": "1-1-020",
+      "cn_name": "木蜡",
+      "en_name": "Japancss wax",
+      "page": 17
+    },
+    {
+      "entry_no": "1-1-021",
+      "cn_name": "水貂油",
+      "en_name": "Mink oil",
+      "page": 17
+    },
+    {
+      "entry_no": "1-1-022",
+      "cn_name": "海龟油",
+      "en_name": "Turtle oil",
+      "page": 18
+    },
+    {
+      "entry_no": "1-1-023",
+      "cn_name": "蛇油",
+      "en_name": "Snake oil",
+      "page": 18
+    },
+    {
+      "entry_no": "1-1-024",
+      "cn_name": "蛋黄油",
+      "en_name": "Egg oil",
+      "page": 19
+    },
+    {
+      "entry_no": "1-1-025",
+      "cn_name": "牛脂",
+      "en_name": "Tallows",
+      "page": 19
+    },
+    {
+      "entry_no": "1-1-026",
+      "cn_name": "猪脂",
+      "en_name": "Lard",
+      "page": 19
+    },
+    {
+      "entry_no": "1-1-027",
+      "cn_name": "鹿脂",
+      "en_name": "Deer fat",
+      "page": 20
+    },
+    {
+      "entry_no": "1-1-030",
+      "cn_name": "马脂",
+      "en_name": "Horse fat",
+      "page": 22
+    },
+    {
+      "entry_no": "1-1-032",
+      "cn_name": "鲸蜡",
+      "en_name": "Spermacetiwax",
+      "page": 23
+    },
+    {
+      "entry_no": "1-1-033",
+      "cn_name": "虫胶蜡",
+      "en_name": "Shellac wax",
+      "page": 23
+    },
+    {
+      "entry_no": "1-1-035",
+      "cn_name": "凡士林",
+      "en_name": "Vaseline",
+      "page": 24
+    },
+    {
+      "entry_no": "1-1-040",
+      "cn_name": "液体羊毛脂",
+      "en_name": "Liquid lanolin",
+      "page": 27
+    },
+    {
+      "entry_no": "1-1-041",
+      "cn_name": "硬质羊毛脂",
+      "en_name": "Hardlanolin",
+      "page": 28
+    },
+    {
+      "entry_no": "1-1-043",
+      "cn_name": "羊毛脂酸",
+      "en_name": "Ianolin fatty acid",
+      "page": 29
+    },
+    {
+      "entry_no": "1-1-045",
+      "cn_name": "聚氧乙烯羊毛脂",
+      "en_name": "Polyoxyethylene lanolin",
+      "page": 30
+    },
+    {
+      "entry_no": "1-1-047",
+      "cn_name": "聚氧乙烯羊毛醇醚",
+      "en_name": "Ethoxylated lanolin alcohol",
+      "page": 31
+    },
+    {
+      "entry_no": "1-1-048",
+      "cn_name": "聚氧丙烯羊毛醇醚",
+      "en_name": "Propoxylated lanolin alcohol",
+      "page": 32
+    },
+    {
+      "entry_no": "1-1-049",
+      "cn_name": "氢化羊毛脂",
+      "en_name": "Hydrogenated lanolin",
+      "page": 32
+    },
+    {
+      "entry_no": "1-1-050",
+      "cn_name": "乙氧基化氢化羊毛脂",
+      "en_name": "Ethoxylated hydrogenated lanolin",
+      "page": 33
+    },
+    {
+      "entry_no": "1-1-052",
+      "cn_name": "二甲基硅油",
+      "en_name": "Polydimethysiloxane",
+      "page": 34
+    },
+    {
+      "entry_no": "1-1-053",
+      "cn_name": "八甲基硅油",
+      "en_name": "Octamethyl cyclotetr- asiloxane",
+      "page": 35
+    },
+    {
+      "entry_no": "1-1-054",
+      "cn_name": "水溶性硅油",
+      "en_name": "Water soluble silicon oil",
+      "page": 35
+    },
+    {
+      "entry_no": "1-1-055",
+      "cn_name": "甲基苯基聚硅氧烷",
+      "en_name": "Methyl phenyl polysiloxane",
+      "page": 35
+    },
+    {
+      "entry_no": "1-1-056",
+      "cn_name": "甲基含氢硅油",
+      "en_name": "Methyl hydrogen polysiloxane oil",
+      "page": 36
+    },
+    {
+      "entry_no": "1-1-063",
+      "cn_name": "芥酸",
+      "en_name": "Erucic acid",
+      "page": 38
+    },
+    {
+      "entry_no": "1-1-064",
+      "cn_name": "癸酸",
+      "en_name": "Decanoic acid",
+      "page": 39
+    },
+    {
+      "entry_no": "1-1-073",
+      "cn_name": "十四醇乳酸酯",
+      "en_name": "Myristyllactate",
+      "page": 42
+    },
+    {
+      "entry_no": "1-1-074",
+      "cn_name": "十六醇乳酸酯",
+      "en_name": "Cetyl lactate",
+      "page": 42
+    },
+    {
+      "entry_no": "1-1-079",
+      "cn_name": "硬脂酸单甘油酯",
+      "en_name": "Glycerine monos- tearate",
+      "page": 45
+    },
+    {
+      "entry_no": "1-1-080",
+      "cn_name": "硬脂酸聚乙二醇酯",
+      "en_name": "Polyethyleneg- lycol stearate",
+      "page": 46
+    },
+    {
+      "entry_no": "1-1-083",
+      "cn_name": "辛酸/癸酸甘油酯",
+      "en_name": "Glycerol capry- late/caprate",
+      "page": 47
+    },
+    {
+      "entry_no": "1-1-084",
+      "cn_name": "日油三油酸酯",
+      "en_name": "Glycerol trioleate",
+      "page": 47
+    },
+    {
+      "entry_no": "1-2-002",
+      "cn_name": "轻质碳酸镁美",
+      "en_name": "ILight magnesium car- bonate",
+      "page": 48
+    },
+    {
+      "entry_no": "1-2-003",
+      "cn_name": "重质碳酸镁",
+      "en_name": "Heavy magnesium carbonate",
+      "page": 49
+    },
+    {
+      "entry_no": "1-2-016",
+      "cn_name": "焦磷酸钙",
+      "en_name": "Calcium pyrophosphate",
+      "page": 55
+    },
+    {
+      "entry_no": "1-3-003",
+      "cn_name": "瓜尔豆胶",
+      "en_name": "Guar gum",
+      "page": 58
+    },
+    {
+      "entry_no": "1-3-004",
+      "cn_name": "阿拉伯胶",
+      "en_name": "Arabic gum",
+      "page": 58
+    },
+    {
+      "entry_no": "1-3-006",
+      "cn_name": "黄耆胶",
+      "en_name": "Tragacanth gum",
+      "page": 59
+    },
+    {
+      "entry_no": "1-3-007",
+      "cn_name": "淀粉",
+      "en_name": "Starch",
+      "page": 60
+    },
+    {
+      "entry_no": "1-3-009",
+      "cn_name": "紫胶",
+      "en_name": "Shellac",
+      "page": 61
+    },
+    {
+      "entry_no": "1-3-010",
+      "cn_name": "海藻酸钠",
+      "en_name": "Sodium alginate",
+      "page": 62
+    },
+    {
+      "entry_no": "1-3-011",
+      "cn_name": "明胶",
+      "en_name": "Gelatin",
+      "page": 63
+    },
+    {
+      "entry_no": "1-3-014",
+      "cn_name": "羧甲基纤维素钠CMC·Na",
+      "en_name": "",
+      "page": 65
+    },
+    {
+      "entry_no": "1-3-018",
+      "cn_name": "聚纤维素醚季铵盐",
+      "en_name": "Polymet-cc- JR400",
+      "page": 69
+    },
+    {
+      "entry_no": "1-3-022",
+      "cn_name": "聚氧乙烯",
+      "en_name": "Polyethylene oxide",
+      "page": 71
+    },
+    {
+      "entry_no": "1-3-023",
+      "cn_name": "乙烯基吡咯烷酮/乙酸乙烯酯共聚物",
+      "en_name": "Vinyl pyrrolidone/Vinyl acetate copolymer",
+      "page": 72
+    },
+    {
+      "entry_no": "1-3-024",
+      "cn_name": "卡波树脂",
+      "en_name": "Carbopol resin",
+      "page": 73
+    },
+    {
+      "entry_no": "1-4-008",
+      "cn_name": "二氯二氟甲烷",
+      "en_name": "Dichlorodifluorometh- ane",
+      "page": 82
+    },
+    {
+      "entry_no": "1-4-009",
+      "cn_name": "叫氟二氯乙烷",
+      "en_name": "Tetrafluorodichlo- roethane",
+      "page": 82
+    },
+    {
+      "entry_no": "1-4-010",
+      "cn_name": "乙二醇单乙醚",
+      "en_name": "Ethylene glycol monocthyl cthcr",
+      "page": 82
+    },
+    {
+      "entry_no": "1-4-011",
+      "cn_name": "二甘醇单乙醚",
+      "en_name": "Diethylene glycol monoethyl ether",
+      "page": 83
+    },
+    {
+      "entry_no": "1-4-012",
+      "cn_name": "内酮",
+      "en_name": "Acetone",
+      "page": 83
+    },
+    {
+      "entry_no": "1-4-013",
+      "cn_name": "甲基异丁基酮",
+      "en_name": "Methylisobutylke- tone",
+      "page": 84
+    },
+    {
+      "entry_no": "1-4-014",
+      "cn_name": "醋酸乙酯",
+      "en_name": "Ethyl acetate",
+      "page": 85
+    },
+    {
+      "entry_no": "1-4-015",
+      "cn_name": "醋酸丁酯",
+      "en_name": "n-Butyl acetate",
+      "page": 85
+    },
+    {
+      "entry_no": "1-4-016",
+      "cn_name": "乙酸戊酯指",
+      "en_name": "Amyl acetate",
+      "page": 86
+    },
+    {
+      "entry_no": "1-4-017",
+      "cn_name": "邻苯二甲酸二丁酯",
+      "en_name": "Dibutyl phthalate",
+      "page": 86
+    },
+    {
+      "entry_no": "1-4-019",
+      "cn_name": "：甲苯",
+      "en_name": "Xylene",
+      "page": 87
+    },
+    {
+      "entry_no": "2-1-001",
+      "cn_name": "C12~14脂肪醇硫酸铵",
+      "en_name": "NAS",
+      "page": 89
+    },
+    {
+      "entry_no": "2-1-002",
+      "cn_name": "Ci2脂肪醇聚氧乙烯醚硫酸铵",
+      "en_name": "NAES",
+      "page": 89
+    },
+    {
+      "entry_no": "2-1-003",
+      "cn_name": "十二烷基硫酸二乙醇胺盐",
+      "en_name": "DLS",
+      "page": 89
+    },
+    {
+      "entry_no": "2-1-004",
+      "cn_name": "十二烷基硫酸三乙醇胺",
+      "en_name": "LST",
+      "page": 90
+    },
+    {
+      "entry_no": "2-1-005",
+      "cn_name": "脂肪醇聚氧乙烯醚羧酸盐",
+      "en_name": "AEC",
+      "page": 90
+    },
+    {
+      "entry_no": "2-1-007",
+      "cn_name": "醇醚邻苯：:甲酸单酯钠盐",
+      "en_name": "PAES",
+      "page": 91
+    },
+    {
+      "entry_no": "2-1-008",
+      "cn_name": "酰化肽",
+      "en_name": "Acyl peptide",
+      "page": 91
+    },
+    {
+      "entry_no": "2-1-009",
+      "cn_name": "月桂酸一乙醇酰胺硫酸钠",
+      "en_name": "Dode- canoyl monoethanolamide sulfate sodi- um salt",
+      "page": 92
+    },
+    {
+      "entry_no": "2-1-010",
+      "cn_name": "(钠）盐",
+      "en_name": "Polyoxypropylene n-octyl ether sodiosulfosuccinic acid mo- noester",
+      "page": 92
+    },
+    {
+      "entry_no": "2-1-011",
+      "cn_name": "十六醇琥珀酸单酯磺酸钠",
+      "en_name": "Sulfo- monohexadecyl succinate disodium salt",
+      "page": 93
+    },
+    {
+      "entry_no": "2-1-012",
+      "cn_name": "磺基琥珀酸单月桂酯：.钠",
+      "en_name": "Disodi- um monolauryl sulfosuccinate",
+      "page": 93
+    },
+    {
+      "entry_no": "2-1-013",
+      "cn_name": "磺基琥珀酸单酯二钠盐403",
+      "en_name": "Sulfo- succinate 403",
+      "page": 93
+    },
+    {
+      "entry_no": "2-1-015",
+      "cn_name": "琥珀酸酯203",
+      "en_name": "Sulfosuccinatc 203",
+      "page": 94
+    },
+    {
+      "entry_no": "2-1-016",
+      "cn_name": "酸单酯铵盐",
+      "en_name": "Polyoxyethylene alkyl ether sodiosulfosuccinate monoester ammonium salt",
+      "page": 95
+    },
+    {
+      "entry_no": "2-1-017",
+      "cn_name": "油酰胺磺基琥珀酸单酯二钠盐",
+      "en_name": "Di- sodium oleoylamido sulfosuccinate",
+      "page": 95
+    },
+    {
+      "entry_no": "2-1-018",
+      "cn_name": "N-酰基谷氨酸钾盐",
+      "en_name": "Potassium N-acylglutamate",
+      "page": 96
+    },
+    {
+      "entry_no": "2-1-019",
+      "cn_name": "氨基酸表面活性剂聚玛牌",
+      "en_name": "Amino acid Surfactant Jiuma Brand",
+      "page": 96
+    },
+    {
+      "entry_no": "2-1-020",
+      "cn_name": "吡咯烷酮羧酸钠",
+      "en_name": "Sodium pyrroli- donecarboxylate",
+      "page": 97
+    },
+    {
+      "entry_no": "2-1-023",
+      "cn_name": "醇醚磷酸单酯",
+      "en_name": "Surfactant MAP",
+      "page": 98
+    },
+    {
+      "entry_no": "2-1-024",
+      "cn_name": "醇醚磷酸单酯钾（钠）盐",
+      "en_name": "Surfac- tant MAPK (Na)",
+      "page": 99
+    },
+    {
+      "entry_no": "2-1-025",
+      "cn_name": "酚醚磷酸单酯",
+      "en_name": "Surfactant MAPP",
+      "page": 99
+    },
+    {
+      "entry_no": "2-1-026",
+      "cn_name": "壬基酚醚磷酸单酯乙醇胺盐",
+      "en_name": "Nonyl- phenol polyoxyethylene ether phosphor- ic monoester ethanolamine salt",
+      "page": 100
+    },
+    {
+      "entry_no": "2-1-027",
+      "cn_name": "工基酚醚磷酸单酯铵盐",
+      "en_name": "Nonyl- phenol polyoxyethylene ether phos- phoric monoester ammonium salt",
+      "page": 100
+    },
+    {
+      "entry_no": "2-1-028",
+      "cn_name": "醇醚磷酸单酯乙醇胺盐",
+      "en_name": "Fatty al- cohol polyoxyethylene ether phos- phoric monoester ethanolamine salt",
+      "page": 101
+    },
+    {
+      "entry_no": "2-1-029",
+      "cn_name": "醇醚磷酸单酯铵盐",
+      "en_name": "Fatty alcohol polyoxyethylene ether phosphoric monoester ammonium salt",
+      "page": 101
+    },
+    {
+      "entry_no": "2-1-030",
+      "cn_name": "酚醚磷酸单酯钠（钾）盐",
+      "en_name": "Nonyl- phenol polyoxyethylene ether phos- phoric monoester sodium (potassi- um） salt",
+      "page": 102
+    },
+    {
+      "entry_no": "2-1-031",
+      "cn_name": "合酯及其盐",
+      "en_name": "Dodecyl polyoxyeth- ylene ether phosphate, ester and salt",
+      "page": 102
+    },
+    {
+      "entry_no": "2-1-032",
+      "cn_name": "乳化剂",
+      "en_name": "HR-S1Emulsifier HR-Si",
+      "page": 103
+    },
+    {
+      "entry_no": "2-1-033",
+      "cn_name": "邻苯二甲酸单月桂醇酯钠盐",
+      "en_name": "Sodi- um monolauryl phthalatc",
+      "page": 103
+    },
+    {
+      "entry_no": "2-1-034",
+      "cn_name": "「一（碳）烯酸锌",
+      "en_name": "Zinc undeclenoate",
+      "page": 104
+    },
+    {
+      "entry_no": "2-1-035",
+      "cn_name": "N-Ci2~1s酰基谷氨酸钠",
+      "en_name": "Sodium N- C12- 1s acylglutamate",
+      "page": 104
+    },
+    {
+      "entry_no": "2-1-036",
+      "cn_name": "N-月桂酰L-天（门）冬氨酸钠",
+      "en_name": "So- dium N-lauroyl-I-aspartate",
+      "page": 104
+    },
+    {
+      "entry_no": "2-1-037",
+      "cn_name": "N-月桂酰L-丙氨酸钠",
+      "en_name": "Sodium N- lauroyl-L-alaninate",
+      "page": 105
+    },
+    {
+      "entry_no": "2-1-038",
+      "cn_name": "N-硬脂酰基谷氨酸单钠盐",
+      "en_name": "Mono- sodium N-stearoyl glutamate",
+      "page": 105
+    },
+    {
+      "entry_no": "2-1-039",
+      "cn_name": "N-椰子酰基谷氨酸单钠盐",
+      "en_name": "Mono- sodium N-cocoacyl glutamate",
+      "page": 106
+    },
+    {
+      "entry_no": "2-1-040",
+      "cn_name": "N-混合脂肪酰基谷氨酸单钠",
+      "en_name": "Mon- osodium N-mixed fatty acylgluta- mate",
+      "page": 106
+    },
+    {
+      "entry_no": "2-1-041",
+      "cn_name": "长直链烷基芳醚磺酸钠",
+      "en_name": "THSpccif- ic Surfactant HT",
+      "page": 107
+    },
+    {
+      "entry_no": "2-1-042",
+      "cn_name": "壬基酚聚氧乙烯（7）醚磷酸酯",
+      "en_name": "Polyoxyethylene （7） nonylphenol ether phosphate",
+      "page": 107
+    },
+    {
+      "entry_no": "2-1-043",
+      "cn_name": "乳化剂VO系列产品",
+      "en_name": "Emulsifier VO series",
+      "page": 108
+    },
+    {
+      "entry_no": "2-1-044",
+      "cn_name": "乳化剂",
+      "en_name": "OPE-15EmulsifierOPE-15",
+      "page": 108
+    },
+    {
+      "entry_no": "2-1-045",
+      "cn_name": "聚氧乙烯硬脂酸酯",
+      "en_name": "Polyoxyethyl- ene stearate",
+      "page": 109
+    },
+    {
+      "entry_no": "2-1-046",
+      "cn_name": "乙二醇单硬脂酸酯",
+      "en_name": "Ethylene gly col monostearate",
+      "page": 109
+    },
+    {
+      "entry_no": "2-1-047",
+      "cn_name": "聚乙二醇（400）双硬脂酸酯",
+      "en_name": "Po- lyethyleneglycol （400） bisstearate",
+      "page": 109
+    },
+    {
+      "entry_no": "2-1-048",
+      "cn_name": "聚乙二醇（600）双月桂酸酯",
+      "en_name": "Poly- ethyleneglycol （600） bislaurate",
+      "page": 110
+    },
+    {
+      "entry_no": "2-1-049",
+      "cn_name": "的共聚物",
+      "en_name": "Copolymer of polyethyl- eneglycol bistearate and DMAEMA",
+      "page": 110
+    },
+    {
+      "entry_no": "2-1-050",
+      "cn_name": "硬脂酸聚乙二醇酯",
+      "en_name": "Polyethyleneg- lycol stearate",
+      "page": 110
+    },
+    {
+      "entry_no": "2-1-053",
+      "cn_name": "聚氧乙烯甘油醚单硬脂酸酯",
+      "en_name": "Polyoxyethyleneglycerineether monostearate",
+      "page": 112
+    },
+    {
+      "entry_no": "2-1-054",
+      "cn_name": "苯甲酸十二（烷）醇酯",
+      "en_name": "Dodecyl benzoate",
+      "page": 112
+    },
+    {
+      "entry_no": "2-1-055",
+      "cn_name": "酯",
+      "en_name": "N-Lauroyl glutaminic acid di- ester",
+      "page": 113
+    },
+    {
+      "entry_no": "2-1-056",
+      "cn_name": "酯",
+      "en_name": "N-Lauroyl glutaminic acid di- ester",
+      "page": 113
+    },
+    {
+      "entry_no": "2-1-057",
+      "cn_name": "苯甲酸脂肪醇酯",
+      "en_name": "Fattyalcohol benzoate",
+      "page": 113
+    },
+    {
+      "entry_no": "2-1-058",
+      "cn_name": "双硬脂酸甘油酯",
+      "en_name": "Glycerine dis- tearate",
+      "page": 114
+    },
+    {
+      "entry_no": "2-1-059",
+      "cn_name": "斯盘-20",
+      "en_name": "Span 20",
+      "page": 114
+    },
+    {
+      "entry_no": "2-1-060",
+      "cn_name": "斯盘-60",
+      "en_name": "Span 60",
+      "page": 115
+    },
+    {
+      "entry_no": "2-1-061",
+      "cn_name": "化妆品级斯盘-60",
+      "en_name": "Span 60 of cos- metic grade; Span 60 of food grade",
+      "page": 116
+    },
+    {
+      "entry_no": "2-1-062",
+      "cn_name": "斯盘-65",
+      "en_name": "Span 65",
+      "page": 116
+    },
+    {
+      "entry_no": "2-1-063",
+      "cn_name": "斯盘-80",
+      "en_name": "Span 80",
+      "page": 117
+    },
+    {
+      "entry_no": "2-1-064",
+      "cn_name": "斯盘-83",
+      "en_name": "Span 83",
+      "page": 118
+    },
+    {
+      "entry_no": "2-1-065",
+      "cn_name": "斯盘-85",
+      "en_name": "Span 85",
+      "page": 118
+    },
+    {
+      "entry_no": "2-1-066",
+      "cn_name": "吐温-20",
+      "en_name": "Tween 20",
+      "page": 119
+    },
+    {
+      "entry_no": "2-1-067",
+      "cn_name": "吐温-40",
+      "en_name": "Tween 40",
+      "page": 119
+    },
+    {
+      "entry_no": "2-1-068",
+      "cn_name": "吐温-60",
+      "en_name": "Tween 60",
+      "page": 119
+    },
+    {
+      "entry_no": "2-1-069",
+      "cn_name": "叶温-61",
+      "en_name": "Tween 61",
+      "page": 120
+    },
+    {
+      "entry_no": "2-1-070",
+      "cn_name": "吐温-80",
+      "en_name": "Twccn 80",
+      "page": 120
+    },
+    {
+      "entry_no": "2-1-071",
+      "cn_name": "脂肪酸单乙醇酰胺安",
+      "en_name": "Fatty acid mo- noethanolamide",
+      "page": 121
+    },
+    {
+      "entry_no": "2-1-072",
+      "cn_name": "椰子油烷醇酰胺",
+      "en_name": "Coconut oil acid diethanol amide",
+      "page": 121
+    },
+    {
+      "entry_no": "2-1-073",
+      "cn_name": "1：1型椰子油脂肪酸单乙醇酰胺",
+      "en_name": "Coconut fatty acid mono ethano- lamide 1:1 type",
+      "page": 122
+    },
+    {
+      "entry_no": "2-1-074",
+      "cn_name": "1：1型十二酸二乙醇酰胺",
+      "en_name": "Dode- cyl acid diethanolamide l : 1 type",
+      "page": 122
+    },
+    {
+      "entry_no": "2-1-075",
+      "cn_name": "1：2型月桂酸二乙醇酰胺",
+      "en_name": "Lauro yldiethanolamide, 1:2 type",
+      "page": 123
+    },
+    {
+      "entry_no": "2-1-076",
+      "cn_name": "月桂酸单乙醇酰胺",
+      "en_name": "Lauroylmono ethanolamide",
+      "page": 123
+    },
+    {
+      "entry_no": "2-1-077",
+      "cn_name": "酯",
+      "en_name": "Polyoxyethylene methyl gluco- side sesqui-stearate",
+      "page": 124
+    },
+    {
+      "entry_no": "2-1-078",
+      "cn_name": "甲基葡萄糖苷硬脂酸酯MS",
+      "en_name": "",
+      "page": 124
+    },
+    {
+      "entry_no": "2-1-079",
+      "cn_name": "乙二醇葡萄糖甘硬脂酸酯",
+      "en_name": "Hydroxy- ethyloxy-α(or β)-D-pyranoside stea- rate",
+      "page": 125
+    },
+    {
+      "entry_no": "2-1-080",
+      "cn_name": "内二醇葡萄糖甘硬脂酸酯",
+      "en_name": "Hydro- xypropyloxy-α (or β)-D-pyranoside stearate",
+      "page": 126
+    },
+    {
+      "entry_no": "2-1-081",
+      "cn_name": "十二烷基",
+      "en_name": "Dodecyl polyglucoside",
+      "page": 126
+    },
+    {
+      "entry_no": "2-1-082",
+      "cn_name": "Cg~16烷基葡萄糖苷Cg~16",
+      "en_name": "alkyl glu- coside",
+      "page": 127
+    },
+    {
+      "entry_no": "2-1-083",
+      "cn_name": "Cs~n烷基葡萄糖苷Cg~",
+      "en_name": "loalkyl glu- coside",
+      "page": 128
+    },
+    {
+      "entry_no": "2-1-084",
+      "cn_name": "琥珀酸月桂醇醚单酯",
+      "en_name": "Polyoxyeth- ylene dodecyl ether succinate mo- noester",
+      "page": 128
+    },
+    {
+      "entry_no": "2-1-085",
+      "cn_name": "甘油葡萄糖甘硬脂酸酯",
+      "en_name": "Glycerol glucoside stearate",
+      "page": 129
+    },
+    {
+      "entry_no": "2-1-086",
+      "cn_name": "聚氧乙烯貂油",
+      "en_name": "Polyoxyethylene mink oil ether",
+      "page": 129
+    },
+    {
+      "entry_no": "2-1-087",
+      "cn_name": "月桂酸甘油酯聚氧乙烯（30）醚",
+      "en_name": "LIAPolyoxyethylene (30) glycer- ine mono and diaurate (mixture)",
+      "page": 130
+    },
+    {
+      "entry_no": "2-1-088",
+      "cn_name": "月桂酸甘油酯聚氧乙烯（78）醚",
+      "en_name": "LIB Polyoxyethylene （78） glycerine monoand dilaurate (mixture)",
+      "page": 131
+    },
+    {
+      "entry_no": "2-1-089",
+      "cn_name": "棕榈酸单乙醇酰胺",
+      "en_name": "Palmitamide MEA",
+      "page": 131
+    },
+    {
+      "entry_no": "2-1-090",
+      "cn_name": "硬脂酸甘露醇酐酯",
+      "en_name": "Mannitan stea- rate",
+      "page": 132
+    },
+    {
+      "entry_no": "2-1-092",
+      "cn_name": "貂油酸甲酯",
+      "en_name": "Methyl mink oil acid ester",
+      "page": 133
+    },
+    {
+      "entry_no": "2-1-093",
+      "cn_name": "貂油酸异丙酯",
+      "en_name": "Isopropyl mink oil acid ester",
+      "page": 133
+    },
+    {
+      "entry_no": "2-1-094",
+      "cn_name": "1629阳离子表面活性剂",
+      "en_name": "Cationic surfactant 1629",
+      "page": 133
+    },
+    {
+      "entry_no": "2-1-095",
+      "cn_name": "TC-8阳离子表面活性剂",
+      "en_name": "Cationic Surfactant TC-8",
+      "page": 134
+    },
+    {
+      "entry_no": "2-1-096",
+      "cn_name": "氯化十八烷基三甲基铵",
+      "en_name": "Octadecyl trimethyl ammonium chloride",
+      "page": 134
+    },
+    {
+      "entry_no": "2-1-097",
+      "cn_name": "氯化十六烷基三甲基铵",
+      "en_name": "Palmityl trimethyl ammonium chloride",
+      "page": 134
+    },
+    {
+      "entry_no": "2-1-098",
+      "cn_name": "氯化十六～十八烷基三甲基铵",
+      "en_name": "Hexadecyl ～ octadecyl trimethyl ammonium chloride",
+      "page": 135
+    },
+    {
+      "entry_no": "2-1-099",
+      "cn_name": "氯化二羟内基二甲基十二烷基铵",
+      "en_name": "Dimethyl  dihydroxypropyl dodecyl ammonium chloride",
+      "page": 135
+    },
+    {
+      "entry_no": "2-1-100",
+      "cn_name": "氯化双二十烷基二甲基铵",
+      "en_name": "Dieico- syl dimethyl ammonium chloride",
+      "page": 135
+    },
+    {
+      "entry_no": "2-1-101",
+      "cn_name": "氯化二甲基双十六～十八烷基铵",
+      "en_name": "Dihexadecyl-octadecyl dimethyl am- monium chloride",
+      "page": 136
+    },
+    {
+      "entry_no": "2-1-104",
+      "cn_name": "聚物",
+      "en_name": "Dimethyldiallyl ammonium chloride acrylamide copolymer",
+      "page": 137
+    },
+    {
+      "entry_no": "2-1-105",
+      "cn_name": "甲基铵",
+      "en_name": "Oleamidopropyl dihydro- xypropyl dimethyl",
+      "page": 137
+    },
+    {
+      "entry_no": "2-1-106",
+      "cn_name": "基铵Oleoylamidopropyl-2, ",
+      "en_name": "di- hydroxypropyl dimethyl ammonium chloride",
+      "page": 138
+    },
+    {
+      "entry_no": "2-1-107",
+      "cn_name": "乙基硫酸油酰胺内基二甲基乙基铵",
+      "en_name": "Oleoylamidopropyl dimethyl ethyl ammonium ethyl sulfate",
+      "page": 138
+    },
+    {
+      "entry_no": "2-1-109",
+      "cn_name": "CD-4901貂油酰胺内基胺-水解蛋白",
+      "en_name": "Mink-amidopropyl dimethylamine hydrolyzcd collagcn",
+      "page": 139
+    },
+    {
+      "entry_no": "2-1-110",
+      "cn_name": "阳离子蛋白肽",
+      "en_name": "Quaternised protein",
+      "page": 139
+    },
+    {
+      "entry_no": "2-1-111",
+      "cn_name": "阳离子瓜耳胶",
+      "en_name": "Guar-hydroxyprop- yl trimethyl ammonium chloride",
+      "page": 139
+    },
+    {
+      "entry_no": "2-1-112",
+      "cn_name": "阳离子聚合物",
+      "en_name": "SJR-400Cation Pol- ymer JR-400",
+      "page": 140
+    },
+    {
+      "entry_no": "2-1-113",
+      "cn_name": "单油酸三乙醇胺酯",
+      "en_name": "Triethano- lamine oleate",
+      "page": 140
+    },
+    {
+      "entry_no": "2-1-114",
+      "cn_name": "阳离子表面活性剂DNP系列",
+      "en_name": "Cat- ionic Surfactant DNP (series)",
+      "page": 141
+    },
+    {
+      "entry_no": "2-1-115",
+      "cn_name": "阳离子乳化剂",
+      "en_name": "SPP-200Cationic Emulsifier SPP-200， new type",
+      "page": 141
+    },
+    {
+      "entry_no": "2-1-116",
+      "cn_name": "基铵",
+      "en_name": "Cationic protein",
+      "page": 141
+    },
+    {
+      "entry_no": "2-1-117",
+      "cn_name": "十二烷基二羟乙基甜菜碱C12-14",
+      "en_name": "aldyl dihydroxyethyl betaine",
+      "page": 142
+    },
+    {
+      "entry_no": "2-1-118",
+      "cn_name": "十八烷基：羟乙基甜菜碱C16~18",
+      "en_name": "aldyl dihydroxyethyl betaine",
+      "page": 143
+    },
+    {
+      "entry_no": "2-1-119",
+      "cn_name": "酰胺基乙基)铵乙酸盐",
+      "en_name": "N-Dodecyl- N-( 2-hydroxycthyl )-N-( 2-formyl- amine ethyl)ammonium acetate",
+      "page": 143
+    },
+    {
+      "entry_no": "2-1-120",
+      "cn_name": "氧化椰油酰胺基丙基胺",
+      "en_name": "Cocoamide propylamine oxide",
+      "page": 144
+    },
+    {
+      "entry_no": "2-1-121",
+      "cn_name": "椰油羟乙基磺酸钠",
+      "en_name": "Geropon As-",
+      "page": 144
+    },
+    {
+      "entry_no": "2-1-122",
+      "cn_name": "氧化」八烷基二甲基胺",
+      "en_name": "Dimethyl octadecylamine oxide",
+      "page": 144
+    },
+    {
+      "entry_no": "2-1-123",
+      "cn_name": "GD-4501椰油酰二乙醇胺氧化胺",
+      "en_name": "N,N-Diethanol cocoalkanolamide oxide",
+      "page": 145
+    },
+    {
+      "entry_no": "2-1-124",
+      "cn_name": "「二烷基氧基羟丙基甜菜碱",
+      "en_name": "Do- decylalkoxyl hydroxypropylene be- taine",
+      "page": 145
+    },
+    {
+      "entry_no": "2-1-125",
+      "cn_name": "十烷基氧基羟丙基甜菜碱",
+      "en_name": "Decy- lalkoxyl hydroxypropylene betaine",
+      "page": 146
+    },
+    {
+      "entry_no": "2-1-126",
+      "cn_name": "N-烷基-β氨基丙酰二乙醇胺N",
+      "en_name": "Alkyl-β aminopropiondiethanolamine",
+      "page": 147
+    },
+    {
+      "entry_no": "2-1-127",
+      "cn_name": "氧化月桂酰胺基丙胺",
+      "en_name": "Laurylami- dopropylamine oxide",
+      "page": 147
+    },
+    {
+      "entry_no": "2-1-128",
+      "cn_name": "N-Ci2~1s酰基谷氨酸",
+      "en_name": "N-C12- 1s acyl glutamic acid",
+      "page": 148
+    },
+    {
+      "entry_no": "2-1-129",
+      "cn_name": "羟乙基癸酸咪唑啉甜菜碱",
+      "en_name": "Hydroxyethyl-2-nonyl imidazoline betaine",
+      "page": 148
+    },
+    {
+      "entry_no": "2-1-130",
+      "cn_name": "羟乙基肉豆蔻酸咪唑啉甜菜碱",
+      "en_name": "Hydroxyethyl-2-tridecanyl imidazo- linc bctainc",
+      "page": 149
+    },
+    {
+      "entry_no": "2-1-131",
+      "cn_name": "羟乙基棕榈酸咪唑啉甜菜碱",
+      "en_name": "Hydroxyethyl-2-pentadecyl imidazo- line betaine",
+      "page": 150
+    },
+    {
+      "entry_no": "2-2-001",
+      "cn_name": "艾蒿油",
+      "en_name": "Absinthe oil",
+      "page": 150
+    },
+    {
+      "entry_no": "2-2-003",
+      "cn_name": "八角茴香净油（L.CO法）",
+      "en_name": "Star an- ise absolute",
+      "page": 151
+    },
+    {
+      "entry_no": "2-2-004",
+      "cn_name": "八角茴香油",
+      "en_name": "Anise star oil",
+      "page": 151
+    },
+    {
+      "entry_no": "2-2-005",
+      "cn_name": "白柠檬油",
+      "en_name": "Lime oil",
+      "page": 152
+    },
+    {
+      "entry_no": "2-2-006",
+      "cn_name": "白丁香浸膏",
+      "en_name": "Amurlilac concret",
+      "page": 152
+    },
+    {
+      "entry_no": "2-2-007",
+      "cn_name": "白兰花油",
+      "en_name": "Michelia oil",
+      "page": 152
+    },
+    {
+      "entry_no": "2-2-008",
+      "cn_name": "白兰花浸膏",
+      "en_name": "Michelia concrete",
+      "page": 152
+    },
+    {
+      "entry_no": "2-2-009",
+      "cn_name": "白兰叶油",
+      "en_name": "Michelia leaf oil",
+      "page": 153
+    },
+    {
+      "entry_no": "2-2-010",
+      "cn_name": "柏木油",
+      "en_name": "Cedar wood oil",
+      "page": 153
+    },
+    {
+      "entry_no": "2-2-011",
+      "cn_name": "薄荷油",
+      "en_name": "Mint oil",
+      "page": 153
+    },
+    {
+      "entry_no": "2-2-012",
+      "cn_name": "薄荷素油",
+      "en_name": "Dementholized mint oil",
+      "page": 154
+    },
+    {
+      "entry_no": "2-2-013",
+      "cn_name": "苍术硬脂Atractylodes oil;",
+      "en_name": "Atrac- tylis oil",
+      "page": 154
+    },
+    {
+      "entry_no": "2-2-014",
+      "cn_name": "草木桦浸膏",
+      "en_name": "Yellowmeliotusex- tract",
+      "page": 155
+    },
+    {
+      "entry_no": "2-2-015",
+      "cn_name": "橙叶油",
+      "en_name": "Petitgrain oil",
+      "page": 155
+    },
+    {
+      "entry_no": "2-2-016",
+      "cn_name": "丁香净油（L.CO，法）",
+      "en_name": "Clove ab- solute",
+      "page": 155
+    },
+    {
+      "entry_no": "2-2-017",
+      "cn_name": "丁香油",
+      "en_name": "Clove oil",
+      "page": 155
+    },
+    {
+      "entry_no": "2-2-018",
+      "cn_name": "丁香罗勒油",
+      "en_name": "Basil oil eugenol type",
+      "page": 156
+    },
+    {
+      "entry_no": "2-2-019",
+      "cn_name": "大花茉莉浸膏",
+      "en_name": "Jasmine concrete",
+      "page": 156
+    },
+    {
+      "entry_no": "2-2-020",
+      "cn_name": "冬青油",
+      "en_name": "Wintergreen oil",
+      "page": 156
+    },
+    {
+      "entry_no": "2-2-021",
+      "cn_name": "当归净油（浸膏）",
+      "en_name": "Angclica absolutc (concrete)",
+      "page": 157
+    },
+    {
+      "entry_no": "2-2-022",
+      "cn_name": "当归净油（L.CO法）",
+      "en_name": "Chinese an- gelica cordate absolute",
+      "page": 157
+    },
+    {
+      "entry_no": "2-2-023",
+      "cn_name": "地衣酸",
+      "en_name": "Usnic acid",
+      "page": 157
+    },
+    {
+      "entry_no": "2-2-024",
+      "cn_name": "地檀香油",
+      "en_name": "Forest gravillea oil",
+      "page": 158
+    },
+    {
+      "entry_no": "2-2-025",
+      "cn_name": "玳花油",
+      "en_name": "Dai dai flower oil",
+      "page": 158
+    },
+    {
+      "entry_no": "2-2-026",
+      "cn_name": "玳玳叶油",
+      "en_name": "Petitgrain dai-dai oil",
+      "page": 158
+    },
+    {
+      "entry_no": "2-2-027",
+      "cn_name": "风信子浸膏（净油）",
+      "en_name": "Hyacinthcon- crete (absolute)",
+      "page": 159
+    },
+    {
+      "entry_no": "2-2-028",
+      "cn_name": "芳油",
+      "en_name": "Ho oil",
+      "page": 159
+    },
+    {
+      "entry_no": "2-2-029",
+      "cn_name": "枫乔浸膏",
+      "en_name": "Asian styrax concrete",
+      "page": 159
+    },
+    {
+      "entry_no": "2-2-030",
+      "cn_name": "甘松油",
+      "en_name": "Spikenard oil",
+      "page": 160
+    },
+    {
+      "entry_no": "2-2-031",
+      "cn_name": "桂花浸膏",
+      "en_name": "Osmanthus concrete",
+      "page": 160
+    },
+    {
+      "entry_no": "2-2-032",
+      "cn_name": "红橘油",
+      "en_name": "Tangerine oil",
+      "page": 160
+    },
+    {
+      "entry_no": "2-2-033",
+      "cn_name": "胡萝卜籽油",
+      "en_name": "Carrot seed oil",
+      "page": 161
+    },
+    {
+      "entry_no": "2-2-034",
+      "cn_name": "海狸香",
+      "en_name": "Castoreum",
+      "page": 161
+    },
+    {
+      "entry_no": "2-2-035",
+      "cn_name": "黄樟油",
+      "en_name": "Sassafras oil",
+      "page": 161
+    },
+    {
+      "entry_no": "2-2-036",
+      "cn_name": "黄兰净油",
+      "en_name": "Champaca absolute",
+      "page": 162
+    },
+    {
+      "entry_no": "2-2-037",
+      "cn_name": "黄葵净油",
+      "en_name": "Abelmoschus moschatus absolute",
+      "page": 162
+    },
+    {
+      "entry_no": "2-2-038",
+      "cn_name": "黄葵油",
+      "en_name": "Abelmoschus moschatus oil",
+      "page": 163
+    },
+    {
+      "entry_no": "2-2-039",
+      "cn_name": "黄蒿精油",
+      "en_name": "Virgate wormwood oil",
+      "page": 163
+    },
+    {
+      "entry_no": "2-2-040",
+      "cn_name": "藿香油",
+      "en_name": "Patchouly oil",
+      "page": 163
+    },
+    {
+      "entry_no": "2-2-041",
+      "cn_name": "九里香浸膏",
+      "en_name": "Murraya paniculata con- crete",
+      "page": 164
+    },
+    {
+      "entry_no": "2-2-042",
+      "cn_name": "金合欢浸膏",
+      "en_name": "Cassia concrete",
+      "page": 164
+    },
+    {
+      "entry_no": "2-2-043",
+      "cn_name": "姜油",
+      "en_name": "Ginger oil",
+      "page": 164
+    },
+    {
+      "entry_no": "2-2-044",
+      "cn_name": "橘子油",
+      "en_name": "Mandarin oil",
+      "page": 165
+    },
+    {
+      "entry_no": "2-2-046",
+      "cn_name": "菊花浸膏",
+      "en_name": "Chrysanthemum concrete",
+      "page": 165
+    },
+    {
+      "entry_no": "2-2-047",
+      "cn_name": "枯茗油",
+      "en_name": "Cuminoil",
+      "page": 166
+    },
+    {
+      "entry_no": "2-2-048",
+      "cn_name": "龙涎香",
+      "en_name": "Ambergris tincture",
+      "page": 166
+    },
+    {
+      "entry_no": "2-2-049",
+      "cn_name": "灵猫香",
+      "en_name": "Civet",
+      "page": 166
+    },
+    {
+      "entry_no": "2-2-050",
+      "cn_name": "留兰香油",
+      "en_name": "Spearmint oil",
+      "page": 166
+    },
+    {
+      "entry_no": "2-2-051",
+      "cn_name": "铃兰浸膏",
+      "en_name": "Lily of the valley con- crete",
+      "page": 167
+    },
+    {
+      "entry_no": "2-2-052",
+      "cn_name": "蜡梅净油",
+      "en_name": "Wintersweet absolute",
+      "page": 167
+    },
+    {
+      "entry_no": "2-2-053",
+      "cn_name": "木香根油",
+      "en_name": "Costus root oil",
+      "page": 167
+    },
+    {
+      "entry_no": "2-2-054",
+      "cn_name": "米兰花油",
+      "en_name": "Aglaia oil",
+      "page": 168
+    },
+    {
+      "entry_no": "2-2-055",
+      "cn_name": "玫瑰香叶油",
+      "en_name": "Pelargonium rosum oil",
+      "page": 168
+    },
+    {
+      "entry_no": "2-2-056",
+      "cn_name": "玫瑰油",
+      "en_name": "Rose oil",
+      "page": 169
+    },
+    {
+      "entry_no": "2-2-057",
+      "cn_name": "牡荆油",
+      "en_name": "Hempleaf negundo chaste- tree oil",
+      "page": 169
+    },
+    {
+      "entry_no": "2-2-058",
+      "cn_name": "茉莉浸膏",
+      "en_name": "Jasmine concrete",
+      "page": 169
+    },
+    {
+      "entry_no": "2-2-059",
+      "cn_name": "墨红净油",
+      "en_name": "Crimson glory rose ab- solute",
+      "page": 170
+    },
+    {
+      "entry_no": "2-2-060",
+      "cn_name": "墨红浸膏",
+      "en_name": "Crimson glory rose con- crete",
+      "page": 170
+    },
+    {
+      "entry_no": "2-2-061",
+      "cn_name": "柠檬按叶油",
+      "en_name": "Citriodoraoil",
+      "page": 170
+    },
+    {
+      "entry_no": "2-2-062",
+      "cn_name": "柠檬油",
+      "en_name": "Lemon oil",
+      "page": 171
+    },
+    {
+      "entry_no": "2-2-063",
+      "cn_name": "楠叶油",
+      "en_name": "Machilusleaf oil",
+      "page": 171
+    },
+    {
+      "entry_no": "2-2-064",
+      "cn_name": "七里香浸膏",
+      "en_name": "Qilixiang concrete",
+      "page": 171
+    },
+    {
+      "entry_no": "2-2-065",
+      "cn_name": "芹菜籽净油（I.CO2法）",
+      "en_name": "Celery seed absolute",
+      "page": 171
+    },
+    {
+      "entry_no": "2-2-066",
+      "cn_name": "芹菜籽油",
+      "en_name": "Celery seed oil",
+      "page": 172
+    },
+    {
+      "entry_no": "2-2-067",
+      "cn_name": "肉豆蔻精油（L.CO，法）",
+      "en_name": "Nutmeg absolute",
+      "page": 172
+    },
+    {
+      "entry_no": "2-2-068",
+      "cn_name": "肉桂油",
+      "en_name": "Cassia oil",
+      "page": 172
+    },
+    {
+      "entry_no": "2-2-069",
+      "cn_name": "山莉油",
+      "en_name": "Pearleverlasting oil",
+      "page": 173
+    },
+    {
+      "entry_no": "2-2-070",
+      "cn_name": "山苍子油",
+      "en_name": "Litsea cubeba oil",
+      "page": 173
+    },
+    {
+      "entry_no": "2-2-071",
+      "cn_name": "水貂香膏酊",
+      "en_name": "Mink balsamic tinc- ture",
+      "page": 173
+    },
+    {
+      "entry_no": "2-2-072",
+      "cn_name": "水仙浸膏",
+      "en_name": "Narcissus concrete",
+      "page": 174
+    },
+    {
+      "entry_no": "2-2-073",
+      "cn_name": "生姜净油（L.CO，法）",
+      "en_name": "Ginger ab- solute",
+      "page": 174
+    },
+    {
+      "entry_no": "2-2-075",
+      "cn_name": "树苔浸膏",
+      "en_name": "Tree moss concrete",
+      "page": 175
+    },
+    {
+      "entry_no": "2-2-076",
+      "cn_name": "素馨浸膏",
+      "en_name": "Jasminunmofficinaleflower concrete",
+      "page": 175
+    },
+    {
+      "entry_no": "2-2-077",
+      "cn_name": "麝香",
+      "en_name": "Musk",
+      "page": 175
+    },
+    {
+      "entry_no": "2-2-078",
+      "cn_name": "麝鼠香膏",
+      "en_name": "Muskzibatabalsam",
+      "page": 176
+    },
+    {
+      "entry_no": "2-2-080",
+      "cn_name": "檀香净油（I.CO法）",
+      "en_name": "Sandalwood absolute",
+      "page": 176
+    },
+    {
+      "entry_no": "2-2-081",
+      "cn_name": "檀香油Sandalwoodoil（yellow）",
+      "en_name": "",
+      "page": 177
+    },
+    {
+      "entry_no": "2-2-082",
+      "cn_name": "晚香玉净油",
+      "en_name": "Tuberose absolute",
+      "page": 177
+    },
+    {
+      "entry_no": "2-2-083",
+      "cn_name": "晚香玉浸膏",
+      "en_name": "Tuberose concrete",
+      "page": 178
+    },
+    {
+      "entry_no": "2-2-084",
+      "cn_name": "万寿菊精油",
+      "en_name": "Tagetes oil",
+      "page": 178
+    },
+    {
+      "entry_no": "2-2-085",
+      "cn_name": "小茴香油",
+      "en_name": "Fenneloil",
+      "page": 178
+    },
+    {
+      "entry_no": "2-2-086",
+      "cn_name": "血（桧）柏木油",
+      "en_name": "Chinese juniper oil",
+      "page": 179
+    },
+    {
+      "entry_no": "2-2-087",
+      "cn_name": "香叶油",
+      "en_name": "Geranium oil",
+      "page": 179
+    },
+    {
+      "entry_no": "2-2-088",
+      "cn_name": "香茅油由",
+      "en_name": "Citronella oil",
+      "page": 179
+    },
+    {
+      "entry_no": "2-2-089",
+      "cn_name": "香石竹净油",
+      "en_name": "Carnation absolute",
+      "page": 180
+    },
+    {
+      "entry_no": "2-2-090",
+      "cn_name": "香紫苏油",
+      "en_name": "Clary sage oil",
+      "page": 180
+    },
+    {
+      "entry_no": "2-2-091",
+      "cn_name": "香附油",
+      "en_name": "Cyperus oil",
+      "page": 180
+    },
+    {
+      "entry_no": "2-2-092",
+      "cn_name": "香柠檬薄荷油",
+      "en_name": "Bergamot mint oil",
+      "page": 181
+    },
+    {
+      "entry_no": "2-2-093",
+      "cn_name": "香根油",
+      "en_name": "Vetiver oil",
+      "page": 181
+    },
+    {
+      "entry_no": "2-2-094",
+      "cn_name": "香油",
+      "en_name": "Elsholtzia patrini oil",
+      "page": 181
+    },
+    {
+      "entry_no": "2-2-095",
+      "cn_name": "香草浸膏",
+      "en_name": "Orthodon chinensis concrete",
+      "page": 181
+    },
+    {
+      "entry_no": "2-2-096",
+      "cn_name": "悬钩子蔷薇花净油",
+      "en_name": "Eubatus rubus orse flower absolute",
+      "page": 182
+    },
+    {
+      "entry_no": "2-2-097",
+      "cn_name": "悬钩子蔷薇花浸膏",
+      "en_name": "BEubatus rubus rose flower concrete",
+      "page": 182
+    },
+    {
+      "entry_no": "2-2-099",
+      "cn_name": "月桂叶油",
+      "en_name": "Laurelleaf oil",
+      "page": 183
+    },
+    {
+      "entry_no": "2-2-101",
+      "cn_name": "芜荽子油",
+      "en_name": "I Coriander seed oil",
+      "page": 184
+    },
+    {
+      "entry_no": "2-2-102",
+      "cn_name": "鱼香草油",
+      "en_name": "Sweet basil",
+      "page": 184
+    },
+    {
+      "entry_no": "2-2-103",
+      "cn_name": "岩蔷薇浸膏",
+      "en_name": "Iabdanumconcrete",
+      "page": 184
+    },
+    {
+      "entry_no": "2-2-104",
+      "cn_name": "岩桂油",
+      "en_name": "Cinnamomum petrophi- lum oil",
+      "page": 185
+    },
+    {
+      "entry_no": "2-2-105",
+      "cn_name": "鸢尾油",
+      "en_name": "Orris oil",
+      "page": 185
+    },
+    {
+      "entry_no": "2-2-106",
+      "cn_name": "柚皮油",
+      "en_name": "Pomelo oil",
+      "page": 185
+    },
+    {
+      "entry_no": "2-2-107",
+      "cn_name": "烟花净油",
+      "en_name": "Tobacco flower absolute",
+      "page": 186
+    },
+    {
+      "entry_no": "2-2-108",
+      "cn_name": "野香橡叶油",
+      "en_name": "Lemonlikecitrusleaf oil",
+      "page": 186
+    },
+    {
+      "entry_no": "2-2-109",
+      "cn_name": "栀子花浸膏",
+      "en_name": "Gardenia concrete",
+      "page": 187
+    },
+    {
+      "entry_no": "2-2-110",
+      "cn_name": "紫苏油",
+      "en_name": "Perilla herb oil",
+      "page": 187
+    },
+    {
+      "entry_no": "2-2-111",
+      "cn_name": "紫穗槐油",
+      "en_name": "Falseindigo oil",
+      "page": 187
+    },
+    {
+      "entry_no": "2-2-112",
+      "cn_name": "紫罗兰叶浸膏",
+      "en_name": "Violetleaves con- crete",
+      "page": 187
+    },
+    {
+      "entry_no": "2-2-113",
+      "cn_name": "天然4-甲基愈创木酚",
+      "en_name": "Natural 4- methylguaiacol; Cresol",
+      "page": 188
+    },
+    {
+      "entry_no": "2-2-114",
+      "cn_name": "天然4-乙基愈创木酚",
+      "en_name": "Natural 4- ethyl guaiacol",
+      "page": 188
+    },
+    {
+      "entry_no": "2-2-115",
+      "cn_name": "天然愈创木酚",
+      "en_name": "Natural guaiacol",
+      "page": 188
+    },
+    {
+      "entry_no": "2-2-116",
+      "cn_name": "大然香兰素",
+      "en_name": "Natural vanillin",
+      "page": 188
+    },
+    {
+      "entry_no": "2-2-118",
+      "cn_name": "乙位石竹烯β",
+      "en_name": "Caryophyllene",
+      "page": 189
+    },
+    {
+      "entry_no": "2-2-119",
+      "cn_name": "长叶烯",
+      "en_name": "Longifolene",
+      "page": 189
+    },
+    {
+      "entry_no": "2-2-120",
+      "cn_name": "异长叶烯希",
+      "en_name": "Isolongifolene",
+      "page": 190
+    },
+    {
+      "entry_no": "2-2-121",
+      "cn_name": "溴代苏合乔烯",
+      "en_name": "Bromostyrol",
+      "page": 190
+    },
+    {
+      "entry_no": "2-2-122",
+      "cn_name": "二苯甲烷",
+      "en_name": "Diphenyl methane",
+      "page": 190
+    },
+    {
+      "entry_no": "2-2-125",
+      "cn_name": "乙位萘甲醚β",
+      "en_name": "Naphthol methyl ether",
+      "page": 192
+    },
+    {
+      "entry_no": "2-2-126",
+      "cn_name": "乙位萘乙醚β",
+      "en_name": "Naphthol ethyl ether",
+      "page": 192
+    },
+    {
+      "entry_no": "2-2-127",
+      "cn_name": "二苯醚",
+      "en_name": "Diphcnyl oxidc",
+      "page": 192
+    },
+    {
+      "entry_no": "2-2-128",
+      "cn_name": "对甲基茴香醚",
+      "en_name": "p-Methylanisole",
+      "page": 193
+    },
+    {
+      "entry_no": "2-2-129",
+      "cn_name": "异丁香酚苄醚",
+      "en_name": "Benzyl isoeugenol",
+      "page": 193
+    },
+    {
+      "entry_no": "2-2-130",
+      "cn_name": "氧化玫瑰",
+      "en_name": "Rose oxide",
+      "page": 193
+    },
+    {
+      "entry_no": "2-2-131",
+      "cn_name": "檀香醚",
+      "en_name": "Methoxy elgenol",
+      "page": 194
+    },
+    {
+      "entry_no": "2-2-132",
+      "cn_name": "茉莉醚",
+      "en_name": "p-Tolyl benzyl ether",
+      "page": 194
+    },
+    {
+      "entry_no": "2-2-133",
+      "cn_name": "降龙涎香醚1,5,5,",
+      "en_name": "Tetramethyl- 13-oxatricyclo[8. 3.0.0. 4.9] tride- cane",
+      "page": 195
+    },
+    {
+      "entry_no": "2-2-134",
+      "cn_name": "问甲基二苯醚",
+      "en_name": "m-Cresol  phenyl ether",
+      "page": 195
+    },
+    {
+      "entry_no": "2-2-135",
+      "cn_name": "甲基柏木醚",
+      "en_name": "Cedryl methyl ether",
+      "page": 196
+    },
+    {
+      "entry_no": "2-2-136",
+      "cn_name": "环氧柏木烷",
+      "en_name": "Andrane",
+      "page": 196
+    },
+    {
+      "entry_no": "2-2-137",
+      "cn_name": "埃林塔尔",
+      "en_name": "Elintaal",
+      "page": 196
+    },
+    {
+      "entry_no": "2-2-138",
+      "cn_name": "埃林塔尔",
+      "en_name": "NElintaal N",
+      "page": 197
+    },
+    {
+      "entry_no": "2-2-139",
+      "cn_name": "叶醇",
+      "en_name": "Leaf alcohol",
+      "page": 197
+    },
+    {
+      "entry_no": "2-2-140",
+      "cn_name": "癸醇",
+      "en_name": "Decyl alcohol",
+      "page": 198
+    },
+    {
+      "entry_no": "2-2-144",
+      "cn_name": "大茴香醇",
+      "en_name": "Anisyl alcohol",
+      "page": 199
+    },
+    {
+      "entry_no": "2-2-145",
+      "cn_name": "二甲基基甲醇",
+      "en_name": "Dimethyl benzyl carbinol",
+      "page": 200
+    },
+    {
+      "entry_no": "2-2-148",
+      "cn_name": "橙花醇",
+      "en_name": "Nerol",
+      "page": 201
+    },
+    {
+      "entry_no": "2-2-150",
+      "cn_name": "玫瑰醇",
+      "en_name": "Rhodinol",
+      "page": 202
+    },
+    {
+      "entry_no": "2-2-152",
+      "cn_name": "dl-香茅醇",
+      "en_name": "dl-Citronellol",
+      "page": 203
+    },
+    {
+      "entry_no": "2-2-153",
+      "cn_name": "消旋薄荷脑",
+      "en_name": "dl-Menthol",
+      "page": 204
+    },
+    {
+      "entry_no": "2-2-155",
+      "cn_name": "龙脑",
+      "en_name": "Borncol",
+      "page": 204
+    },
+    {
+      "entry_no": "2-2-156",
+      "cn_name": "柏木脑",
+      "en_name": "Cedrol",
+      "page": 205
+    },
+    {
+      "entry_no": "2-2-157",
+      "cn_name": "洋茉莉醇",
+      "en_name": "Piperonyl alcohol",
+      "page": 205
+    },
+    {
+      "entry_no": "2-2-158",
+      "cn_name": "香根醇",
+      "en_name": "Rootanol",
+      "page": 205
+    },
+    {
+      "entry_no": "2-2-159",
+      "cn_name": "香紫苏醇",
+      "en_name": "Sclarcol",
+      "page": 206
+    },
+    {
+      "entry_no": "2-2-160",
+      "cn_name": "檀香醇Santalol (α-and β)",
+      "en_name": "",
+      "page": 206
+    },
+    {
+      "entry_no": "2-2-161",
+      "cn_name": "檀香210",
+      "en_name": "Sandalore",
+      "page": 207
+    },
+    {
+      "entry_no": "2-2-162",
+      "cn_name": "月桂醛",
+      "en_name": "Lauric aldehyde",
+      "page": 207
+    },
+    {
+      "entry_no": "2-2-165",
+      "cn_name": "α-戊基桂醛α",
+      "en_name": "Amylcinnamaldehyde",
+      "page": 208
+    },
+    {
+      "entry_no": "2-2-166",
+      "cn_name": "龙葵醛",
+      "en_name": "Hydratropic aldehyde",
+      "page": 209
+    },
+    {
+      "entry_no": "2-2-167",
+      "cn_name": "铃兰醛",
+      "en_name": "Lilial",
+      "page": 209
+    },
+    {
+      "entry_no": "2-2-168",
+      "cn_name": "兔耳草醛",
+      "en_name": "Cyclamen aldehyde",
+      "page": 209
+    },
+    {
+      "entry_no": "2-2-169",
+      "cn_name": "洋茉莉醛",
+      "en_name": "Piperonal",
+      "page": 210
+    },
+    {
+      "entry_no": "2-2-173",
+      "cn_name": "新铃兰醛",
+      "en_name": "Lyral",
+      "page": 212
+    },
+    {
+      "entry_no": "2-2-174",
+      "cn_name": "柑青醛",
+      "en_name": "Myrac aldehyde",
+      "page": 212
+    },
+    {
+      "entry_no": "2-2-175",
+      "cn_name": "艾薇醛",
+      "en_name": "Evertal",
+      "page": 212
+    },
+    {
+      "entry_no": "2-2-176",
+      "cn_name": "新洋茉莉醛",
+      "en_name": "Helional piperonyl propanal",
+      "page": 213
+    },
+    {
+      "entry_no": "2-2-177",
+      "cn_name": "乙位环高柠檬醛β",
+      "en_name": "Homocyclocitral",
+      "page": 213
+    },
+    {
+      "entry_no": "2-2-179",
+      "cn_name": "苯乙酮",
+      "en_name": "Acetophenone",
+      "page": 214
+    },
+    {
+      "entry_no": "2-2-180",
+      "cn_name": "α-二氢突厥酮α",
+      "en_name": "Damascone",
+      "page": 214
+    },
+    {
+      "entry_no": "2-2-181",
+      "cn_name": "p大马烯酮β",
+      "en_name": "Damascenone",
+      "page": 215
+    },
+    {
+      "entry_no": "2-2-182",
+      "cn_name": "鸢尾酮",
+      "en_name": "Irone",
+      "page": 215
+    },
+    {
+      "entry_no": "2-2-183",
+      "cn_name": "紫罗兰酮",
+      "en_name": "Ionone",
+      "page": 216
+    },
+    {
+      "entry_no": "2-2-184",
+      "cn_name": "橙花酮",
+      "en_name": "Nerone",
+      "page": 216
+    },
+    {
+      "entry_no": "2-2-186",
+      "cn_name": "二苯甲酮",
+      "en_name": "Benzophenone",
+      "page": 217
+    },
+    {
+      "entry_no": "2-2-187",
+      "cn_name": "对甲基苯乙酮",
+      "en_name": "p-Methylacetophcnonc",
+      "page": 217
+    },
+    {
+      "entry_no": "2-2-188",
+      "cn_name": "覆盆子酮4-(",
+      "en_name": "p-Hydroxyphenyl)- 2-butanone",
+      "page": 218
+    },
+    {
+      "entry_no": "2-2-189",
+      "cn_name": "胡椒基丙酮",
+      "en_name": "Piperonyl acetone",
+      "page": 218
+    },
+    {
+      "entry_no": "2-2-190",
+      "cn_name": "药草酮",
+      "en_name": "Herbac",
+      "page": 219
+    },
+    {
+      "entry_no": "2-2-191",
+      "cn_name": "异长叶烷酮",
+      "en_name": "Isolongifolane ketone",
+      "page": 219
+    },
+    {
+      "entry_no": "2-2-192",
+      "cn_name": "异长叶烯酮",
+      "en_name": "Isolongifolenone",
+      "page": 220
+    },
+    {
+      "entry_no": "2-2-193",
+      "cn_name": "柏木酮",
+      "en_name": "Cedranone",
+      "page": 220
+    },
+    {
+      "entry_no": "2-2-194",
+      "cn_name": "甲基柏木酮",
+      "en_name": "Methyl cedryl ketone",
+      "page": 220
+    },
+    {
+      "entry_no": "2-2-195",
+      "cn_name": "顺式茉莉酮",
+      "en_name": "cis-Jasmone",
+      "page": 221
+    },
+    {
+      "entry_no": "2-2-196",
+      "cn_name": "庚醛乙二醇缩醛",
+      "en_name": "Heptanal ethyl- ene glycol acetate",
+      "page": 221
+    },
+    {
+      "entry_no": "2-2-197",
+      "cn_name": "辛醛二甲缩醛",
+      "en_name": "Octanal dimethyl acetal",
+      "page": 222
+    },
+    {
+      "entry_no": "2-2-198",
+      "cn_name": "苯乙醛二甲缩醛",
+      "en_name": "Phenylacetalde- hyde dimethyl acetal",
+      "page": 222
+    },
+    {
+      "entry_no": "2-2-199",
+      "cn_name": "α-戊基桂醛二甲缩醛α",
+      "en_name": "Amylcin namic aldehyde dimethyl acetal",
+      "page": 222
+    },
+    {
+      "entry_no": "2-2-200",
+      "cn_name": "柠檬醛二乙缩醛",
+      "en_name": "Citral diethyl acetal",
+      "page": 223
+    },
+    {
+      "entry_no": "2-2-201",
+      "cn_name": "柠檬醛二甲缩醛",
+      "en_name": "Citral dimethyl acetal",
+      "page": 223
+    },
+    {
+      "entry_no": "2-2-202",
+      "cn_name": "茴香醛二甲缩醛",
+      "en_name": "Anisaldehyde dime- thyl acetal",
+      "page": 224
+    },
+    {
+      "entry_no": "2-2-203",
+      "cn_name": "蘑茹醛2-(oα",
+      "en_name": "Methylbenzyl)-4-methyl- 1,3-dioxolane",
+      "page": 224
+    },
+    {
+      "entry_no": "2-2-205",
+      "cn_name": "风信了素",
+      "en_name": "Fthoxy- I-phenylethoxy ethane",
+      "page": 225
+    },
+    {
+      "entry_no": "2-2-206",
+      "cn_name": "苹果酯",
+      "en_name": "Fructone",
+      "page": 225
+    },
+    {
+      "entry_no": "2-2-207",
+      "cn_name": "吉普缩酮",
+      "en_name": "Kiparcnal",
+      "page": 226
+    },
+    {
+      "entry_no": "2-2-208",
+      "cn_name": "苯乙酸",
+      "en_name": "Phenylacetic acid",
+      "page": 226
+    },
+    {
+      "entry_no": "2-2-210",
+      "cn_name": "甲酸香叶酯",
+      "en_name": "Geranyl formate",
+      "page": 227
+    },
+    {
+      "entry_no": "2-2-211",
+      "cn_name": "甲酸香茅酯",
+      "en_name": "Citronellyl formate",
+      "page": 227
+    },
+    {
+      "entry_no": "2-2-212",
+      "cn_name": "阿弗曼酯",
+      "en_name": "Aphermate",
+      "page": 228
+    },
+    {
+      "entry_no": "2-2-213",
+      "cn_name": "乙酸叶醇酯",
+      "en_name": "cis-3-Hexenyl acetate",
+      "page": 228
+    },
+    {
+      "entry_no": "2-2-214",
+      "cn_name": "乙酸卡酯",
+      "en_name": "Benzyl acetate",
+      "page": 229
+    },
+    {
+      "entry_no": "2-2-215",
+      "cn_name": "乙酸苯乙酯",
+      "en_name": "Benzyl carbinylacetat",
+      "page": 229
+    },
+    {
+      "entry_no": "2-2-216",
+      "cn_name": "乙酸桂酯",
+      "en_name": "Cinnamyl acetate",
+      "page": 229
+    },
+    {
+      "entry_no": "2-2-217",
+      "cn_name": "乙酸松油酯",
+      "en_name": "Terpinyl acetate",
+      "page": 230
+    },
+    {
+      "entry_no": "2-2-218",
+      "cn_name": "乙酸龙脑酯",
+      "en_name": "Bornyl acetate",
+      "page": 230
+    },
+    {
+      "entry_no": "2-2-221",
+      "cn_name": "乙酸对叔丁基环已酯",
+      "en_name": "Vertcnex",
+      "page": 232
+    },
+    {
+      "entry_no": "2-2-222",
+      "cn_name": "乙酸邻叔丁基环已酯()",
+      "en_name": "tert-Butyl cyclohexyl acetate",
+      "page": 232
+    },
+    {
+      "entry_no": "2-2-223",
+      "cn_name": "乙酸香根酯",
+      "en_name": "Damascate",
+      "page": 233
+    },
+    {
+      "entry_no": "2-2-224",
+      "cn_name": "乙酸琥珀酯",
+      "en_name": "Amboryl acetate",
+      "page": 233
+    },
+    {
+      "entry_no": "2-2-225",
+      "cn_name": "乙酸阿弗曼酯",
+      "en_name": "Rosamusk",
+      "page": 234
+    },
+    {
+      "entry_no": "2-2-226",
+      "cn_name": "乙酸十氢萘酯",
+      "en_name": "Decalinyl acetate",
+      "page": 234
+    },
+    {
+      "entry_no": "2-2-227",
+      "cn_name": "乙酸柏木酯",
+      "en_name": "Cedryl acetate",
+      "page": 234
+    },
+    {
+      "entry_no": "2-2-228",
+      "cn_name": "结晶玫瑰",
+      "en_name": "Rosone",
+      "page": 235
+    },
+    {
+      "entry_no": "2-2-229",
+      "cn_name": "丙酸香叶酯Geranyl propionate;",
+      "en_name": "trans-3,7-Dimethyl-2,6-octadien-1- yl propanoate",
+      "page": 235
+    },
+    {
+      "entry_no": "2-2-230",
+      "cn_name": "丁酸叶醇酯",
+      "en_name": "cis-3-Hexenyl n-buty- rate",
+      "page": 236
+    },
+    {
+      "entry_no": "2-2-231",
+      "cn_name": "丁酸苄酯",
+      "en_name": "Benzylbutanoate",
+      "page": 236
+    },
+    {
+      "entry_no": "2-2-232",
+      "cn_name": "丁酸香叶酯",
+      "en_name": "Geranyl butyrate",
+      "page": 236
+    },
+    {
+      "entry_no": "2-2-233",
+      "cn_name": "异丁酸对甲酚酯",
+      "en_name": "p-Tolyl isobu- tyrate",
+      "page": 237
+    },
+    {
+      "entry_no": "2-2-234",
+      "cn_name": "2-甲基戊酸苯乙酯",
+      "en_name": "Phenylethyl 2- methylpentanoate",
+      "page": 237
+    },
+    {
+      "entry_no": "2-2-235",
+      "cn_name": "2-千烯酸甲酯",
+      "en_name": "Neofolipone",
+      "page": 237
+    },
+    {
+      "entry_no": "2-2-236",
+      "cn_name": "苯甲酸甲酯",
+      "en_name": "Methyl benzoate",
+      "page": 238
+    },
+    {
+      "entry_no": "2-2-237",
+      "cn_name": "苯甲酸乙酯",
+      "en_name": "Ethylbenzoate",
+      "page": 238
+    },
+    {
+      "entry_no": "2-2-238",
+      "cn_name": "苯甲酸叶醇酯",
+      "en_name": "cis-3-Hexenyl ben- zoate",
+      "page": 239
+    },
+    {
+      "entry_no": "2-2-240",
+      "cn_name": "苯乙酸乙酯",
+      "en_name": "Ethyl phcnylacctatc",
+      "page": 239
+    },
+    {
+      "entry_no": "2-2-241",
+      "cn_name": "苯乙酸对甲酚酯",
+      "en_name": "p-Tolyl phenyl acetate",
+      "page": 240
+    },
+    {
+      "entry_no": "2-2-242",
+      "cn_name": "桂酸乙酯",
+      "en_name": "Ethyl cinnamate",
+      "page": 240
+    },
+    {
+      "entry_no": "2-2-243",
+      "cn_name": "水杨酸丁酯",
+      "en_name": "Butyl salicylate",
+      "page": 241
+    },
+    {
+      "entry_no": "2-2-244",
+      "cn_name": "水杨酸异丁酯",
+      "en_name": "Isobutyl salicylate",
+      "page": 241
+    },
+    {
+      "entry_no": "2-2-245",
+      "cn_name": "水杨酸异戊酯",
+      "en_name": "Isoamyl salicylate",
+      "page": 241
+    },
+    {
+      "entry_no": "2-2-246",
+      "cn_name": "水杨酸已酯",
+      "en_name": "Hexyl salicylate",
+      "page": 242
+    },
+    {
+      "entry_no": "2-2-247",
+      "cn_name": "水杨酸叶醇酯",
+      "en_name": "cis-3-Hexenyl salic- ylate",
+      "page": 242
+    },
+    {
+      "entry_no": "2-2-249",
+      "cn_name": "水杨酸苯乙酯β",
+      "en_name": "Phenyl ethyl sa- licylate",
+      "page": 243
+    },
+    {
+      "entry_no": "2-2-250",
+      "cn_name": "水杨酸环已酯",
+      "en_name": "Cyclohexyl salicy- late",
+      "page": 243
+    },
+    {
+      "entry_no": "2-2-251",
+      "cn_name": "茉莉酯",
+      "en_name": "Jasmonyl",
+      "page": 244
+    },
+    {
+      "entry_no": "2-2-252",
+      "cn_name": "二氢茉莉酮酸甲酯",
+      "en_name": "Methyl di- hydrojasmonata",
+      "page": 244
+    },
+    {
+      "entry_no": "2-2-253",
+      "cn_name": "橙花素",
+      "en_name": "Aurantiol",
+      "page": 244
+    },
+    {
+      "entry_no": "2-2-254",
+      "cn_name": "-壬内酯",
+      "en_name": "y-Nonalactone",
+      "page": 245
+    },
+    {
+      "entry_no": "2-2-255",
+      "cn_name": "十一内酯台",
+      "en_name": "y-Undecalactone",
+      "page": 245
+    },
+    {
+      "entry_no": "2-2-257",
+      "cn_name": "吲哚",
+      "en_name": "Indole",
+      "page": 246
+    },
+    {
+      "entry_no": "2-2-258",
+      "cn_name": "3-甲基吲哚",
+      "en_name": "Methylindole",
+      "page": 246
+    },
+    {
+      "entry_no": "2-2-259",
+      "cn_name": "柠檬睛",
+      "en_name": "Lemonile",
+      "page": 247
+    },
+    {
+      "entry_no": "2-2-260",
+      "cn_name": "大茴香腈",
+      "en_name": "Anisonitrile",
+      "page": 247
+    },
+    {
+      "entry_no": "2-2-261",
+      "cn_name": "茉莉素",
+      "en_name": "Amyl cinnamic aldehyde methyl-anthranilate schiffbase",
+      "page": 248
+    },
+    {
+      "entry_no": "2-2-262",
+      "cn_name": "二甲苯麝香",
+      "en_name": "Musk xylene",
+      "page": 248
+    },
+    {
+      "entry_no": "2-2-263",
+      "cn_name": "酮麝香",
+      "en_name": "Muskketone",
+      "page": 249
+    },
+    {
+      "entry_no": "2-2-264",
+      "cn_name": "葵子麝香",
+      "en_name": "Musk ambrette",
+      "page": 249
+    },
+    {
+      "entry_no": "2-2-265",
+      "cn_name": "萨利麝香",
+      "en_name": "Celestolide",
+      "page": 249
+    },
+    {
+      "entry_no": "2-2-266",
+      "cn_name": "佳乐麝香",
+      "en_name": "Galaxolide",
+      "page": 250
+    },
+    {
+      "entry_no": "2-2-267",
+      "cn_name": "粉檀麝香",
+      "en_name": "Phantolide",
+      "page": 250
+    },
+    {
+      "entry_no": "2-2-268",
+      "cn_name": "昆仑麝香",
+      "en_name": "Ethylene glycol brassy- late cyclic diester",
+      "page": 251
+    },
+    {
+      "entry_no": "2-2-269",
+      "cn_name": "麝香-105",
+      "en_name": "Musk-105",
+      "page": 251
+    },
+    {
+      "entry_no": "2-2-270",
+      "cn_name": "麝香",
+      "en_name": "MMusk-M",
+      "page": 251
+    },
+    {
+      "entry_no": "2-2-271",
+      "cn_name": "麝香",
+      "en_name": "FMusk-F",
+      "page": 252
+    },
+    {
+      "entry_no": "2-2-272",
+      "cn_name": "麝香-LMusk-I",
+      "en_name": "",
+      "page": 252
+    },
+    {
+      "entry_no": "2-2-273",
+      "cn_name": "吐纳麝香",
+      "en_name": "Musk AHMT",
+      "page": 253
+    },
+    {
+      "entry_no": "2-2-274",
+      "cn_name": "皂用玫瑰香精",
+      "en_name": "Soap rose fragrance",
+      "page": 253
+    },
+    {
+      "entry_no": "2-2-275",
+      "cn_name": "皂用茉莉香精",
+      "en_name": "Soap jasmin fra- grance",
+      "page": 254
+    },
+    {
+      "entry_no": "2-2-276",
+      "cn_name": "皂用馥奇香精",
+      "en_name": "Soap fougere fra- grance",
+      "page": 254
+    },
+    {
+      "entry_no": "2-2-277",
+      "cn_name": "皂用檀香香精",
+      "en_name": "Soap sandal fra- grance",
+      "page": 254
+    },
+    {
+      "entry_no": "2-2-278",
+      "cn_name": "皂用百花茉莉香精",
+      "en_name": "Soap jasmin bouquet fragrance",
+      "page": 255
+    },
+    {
+      "entry_no": "2-2-279",
+      "cn_name": "膏霜用茉莉香精",
+      "en_name": "Cream jasmin fragrance",
+      "page": 255
+    },
+    {
+      "entry_no": "2-2-280",
+      "cn_name": "膏霜用玫瑰檀香香精",
+      "en_name": "Cream rose- sandal fragrance",
+      "page": 255
+    },
+    {
+      "entry_no": "2-2-281",
+      "cn_name": "膏霜用玫瑰香精",
+      "en_name": "Cream rose fra- grance",
+      "page": 256
+    },
+    {
+      "entry_no": "2-2-282",
+      "cn_name": "膏霜用白兰香精",
+      "en_name": "Cream michelia fra- grance",
+      "page": 256
+    },
+    {
+      "entry_no": "2-3-001",
+      "cn_name": "二氧化锆",
+      "en_name": "Zirconium 0xide",
+      "page": 256
+    },
+    {
+      "entry_no": "2-3-002",
+      "cn_name": "叶绿素",
+      "en_name": "Chlorophyll",
+      "page": 257
+    },
+    {
+      "entry_no": "2-3-003",
+      "cn_name": "叶绿素",
+      "en_name": "Copper chlorophyll",
+      "page": 257
+    },
+    {
+      "entry_no": "2-3-007",
+      "cn_name": "还原红1",
+      "en_name": "Vat red 1",
+      "page": 259
+    },
+    {
+      "entry_no": "2-3-008",
+      "cn_name": "食品红1",
+      "en_name": "Food red1",
+      "page": 259
+    },
+    {
+      "entry_no": "2-3-009",
+      "cn_name": "食品红7",
+      "en_name": "Food red 7",
+      "page": 260
+    },
+    {
+      "entry_no": "2-3-010",
+      "cn_name": "食品红8",
+      "en_name": "Foodred8",
+      "page": 261
+    },
+    {
+      "entry_no": "2-3-012",
+      "cn_name": "食品红 14",
+      "en_name": "Food red14",
+      "page": 262
+    },
+    {
+      "entry_no": "2-3-013",
+      "cn_name": "食品红17",
+      "en_name": "Foodred17",
+      "page": 262
+    },
+    {
+      "entry_no": "2-3-016",
+      "cn_name": "食品黄4",
+      "en_name": "Foodyellow4",
+      "page": 264
+    },
+    {
+      "entry_no": "2-3-017",
+      "cn_name": "食品橙3",
+      "en_name": "Foodorange3",
+      "page": 265
+    },
+    {
+      "entry_no": "2-3-018",
+      "cn_name": "食品蓝 1",
+      "en_name": "Food blue 1",
+      "page": 266
+    },
+    {
+      "entry_no": "2-3-019",
+      "cn_name": "食品蓝2",
+      "en_name": "Foodblue 2",
+      "page": 266
+    },
+    {
+      "entry_no": "2-3-020",
+      "cn_name": "荧光桃红",
+      "en_name": "Phloxine",
+      "page": 267
+    },
+    {
+      "entry_no": "2-3-021",
+      "cn_name": "β胡萝卜素",
+      "en_name": "BCarotene",
+      "page": 267
+    },
+    {
+      "entry_no": "2-3-023",
+      "cn_name": "栀子红色素",
+      "en_name": "Gardeniared",
+      "page": 268
+    },
+    {
+      "entry_no": "2-3-024",
+      "cn_name": "栀子绿色素",
+      "en_name": "Gardenia green",
+      "page": 269
+    },
+    {
+      "entry_no": "2-3-025",
+      "cn_name": "栀子蓝色素",
+      "en_name": "Gardeniablue",
+      "page": 269
+    },
+    {
+      "entry_no": "2-3-026",
+      "cn_name": "钛云母珠光颜料",
+      "en_name": "Mica-Titaninm dioxide pearl pigment",
+      "page": 269
+    },
+    {
+      "entry_no": "2-3-027",
+      "cn_name": "氧化铁红",
+      "en_name": "Iron oxide red",
+      "page": 270
+    },
+    {
+      "entry_no": "2-3-028",
+      "cn_name": "氧化铁黄",
+      "en_name": "Iron oxideyellow",
+      "page": 270
+    },
+    {
+      "entry_no": "2-3-029",
+      "cn_name": "氧化铁黑",
+      "en_name": "Iron oxide black",
+      "page": 271
+    },
+    {
+      "entry_no": "2-3-032",
+      "cn_name": "盐基紫 10",
+      "en_name": "Basicviolet10",
+      "page": 272
+    },
+    {
+      "entry_no": "2-3-035",
+      "cn_name": "银朱",
+      "en_name": "RFast red R",
+      "page": 274
+    },
+    {
+      "entry_no": "2-3-036",
+      "cn_name": "喹啉黄",
+      "en_name": "Quinoline yellow2",
+      "page": 274
+    },
+    {
+      "entry_no": "2-3-037",
+      "cn_name": "硝酸银",
+      "en_name": "Silver nitrate",
+      "page": 275
+    },
+    {
+      "entry_no": "2-3-038",
+      "cn_name": "紫草宁",
+      "en_name": "Shikonin",
+      "page": 275
+    },
+    {
+      "entry_no": "2-3-039",
+      "cn_name": "紫胶红色素",
+      "en_name": "Lac dye",
+      "page": 276
+    },
+    {
+      "entry_no": "2-3-040",
+      "cn_name": "群青",
+      "en_name": "Uiramarine blue",
+      "page": 277
+    },
+    {
+      "entry_no": "2-3-041",
+      "cn_name": "酸性红87",
+      "en_name": "Acidred87",
+      "page": 277
+    },
+    {
+      "entry_no": "2-3-042",
+      "cn_name": "酸性绿 25",
+      "en_name": "Acidgreen 25",
+      "page": 278
+    },
+    {
+      "entry_no": "2-3-043",
+      "cn_name": "酸性黄73",
+      "en_name": "Acidyellow73",
+      "page": 278
+    },
+    {
+      "entry_no": "2-3-044",
+      "cn_name": "酸性橙7",
+      "en_name": "Acidorange7",
+      "page": 279
+    },
+    {
+      "entry_no": "2-3-045",
+      "cn_name": "醋酸铅",
+      "en_name": "Lead acetate",
+      "page": 279
+    },
+    {
+      "entry_no": "2-3-046",
+      "cn_name": "颜料红53：1Pigmentred53：1",
+      "en_name": "",
+      "page": 279
+    },
+    {
+      "entry_no": "2-3-047",
+      "cn_name": "颜料红57：1Pigmcntrcd57：1",
+      "en_name": "",
+      "page": 280
+    },
+    {
+      "entry_no": "2-3-048",
+      "cn_name": "颜料红57：2Pigmentred57：2",
+      "en_name": "",
+      "page": 281
+    },
+    {
+      "entry_no": "2-3-049",
+      "cn_name": "颜料红63：1Pigmentred63：l",
+      "en_name": "",
+      "page": 281
+    },
+    {
+      "entry_no": "2-3-050",
+      "cn_name": "颜料橙5",
+      "en_name": "HPigment orange 5",
+      "page": 282
+    },
+    {
+      "entry_no": "2-4-003",
+      "cn_name": "甲酸",
+      "en_name": "Formic acid",
+      "page": 285
+    },
+    {
+      "entry_no": "2-4-005",
+      "cn_name": "丙酸钠",
+      "en_name": "Sodium propionate",
+      "page": 286
+    },
+    {
+      "entry_no": "2-4-006",
+      "cn_name": "内酸钙",
+      "en_name": "Calcium propionate",
+      "page": 287
+    },
+    {
+      "entry_no": "2-4-011",
+      "cn_name": "GMB系列液体复合防腐剂",
+      "en_name": "",
+      "page": 289
+    },
+    {
+      "entry_no": "2-4-012",
+      "cn_name": "多聚甲醛",
+      "en_name": "Paraformaldehyde",
+      "page": 290
+    },
+    {
+      "entry_no": "2-4-017",
+      "cn_name": "凯松",
+      "en_name": "CGKathon CG",
+      "page": 292
+    },
+    {
+      "entry_no": "2-4-019",
+      "cn_name": "脱氢醋酸",
+      "en_name": "Dehydroaceticl acid",
+      "page": 295
+    },
+    {
+      "entry_no": "2-4-021",
+      "cn_name": "氯代丁醇",
+      "en_name": "Chlorobutanol",
+      "page": 296
+    },
+    {
+      "entry_no": "2-4-023",
+      "cn_name": "2,2-溴-2-硝基-1,3-内二醇",
+      "en_name": "Bro- mo-2-nitro-1,3-propandiol",
+      "page": 297
+    },
+    {
+      "entry_no": "2-5-001",
+      "cn_name": "1,3-丁二醇1,",
+      "en_name": "Butanediol",
+      "page": 299
+    },
+    {
+      "entry_no": "2-5-005",
+      "cn_name": "乳酸钠溶液",
+      "en_name": "Sodium lactate solu- tion",
+      "page": 303
+    },
+    {
+      "entry_no": "2-5-006",
+      "cn_name": "DL-吡咯烷酮羧酸钠溶液",
+      "en_name": "Sodium DL-pyrrolidonecarboxylate solution",
+      "page": 303
+    },
+    {
+      "entry_no": "2-5-007",
+      "cn_name": "聚乙：醇",
+      "en_name": "Polyethylene glycol",
+      "page": 303
+    },
+    {
+      "entry_no": "2-6-002",
+      "cn_name": "人胎盘水解液",
+      "en_name": "",
+      "page": 305
+    },
+    {
+      "entry_no": "2-6-003",
+      "cn_name": "L-天冬氨酸",
+      "en_name": "I-Aspartic acid",
+      "page": 305
+    },
+    {
+      "entry_no": "2-6-004",
+      "cn_name": "L-天冬氨酸钠",
+      "en_name": "Monosodium L-as- partate",
+      "page": 306
+    },
+    {
+      "entry_no": "2-6-005",
+      "cn_name": "甘草提取物",
+      "en_name": "Glycyrrhiza extract",
+      "page": 306
+    },
+    {
+      "entry_no": "2-6-007",
+      "cn_name": "甲壳质",
+      "en_name": "Chitin",
+      "page": 307
+    },
+    {
+      "entry_no": "2-6-008",
+      "cn_name": "甲壳素衍生物",
+      "en_name": "Chitosan deriva- tives",
+      "page": 308
+    },
+    {
+      "entry_no": "2-6-009",
+      "cn_name": "红花油",
+      "en_name": "Safflower oil",
+      "page": 309
+    },
+    {
+      "entry_no": "2-6-010",
+      "cn_name": "羊胎盘水解液",
+      "en_name": "",
+      "page": 309
+    },
+    {
+      "entry_no": "2-6-012",
+      "cn_name": "沙棘油",
+      "en_name": "Hippophae oil",
+      "page": 311
+    },
+    {
+      "entry_no": "2-6-013",
+      "cn_name": "丝肽",
+      "en_name": "Silk peptide",
+      "page": 311
+    },
+    {
+      "entry_no": "2-6-014",
+      "cn_name": "丝素",
+      "en_name": "",
+      "page": 313
+    },
+    {
+      "entry_no": "2-6-017",
+      "cn_name": "表皮细胞生长因子",
+      "en_name": "Epidemal growth factor",
+      "page": 315
+    },
+    {
+      "entry_no": "2-6-019",
+      "cn_name": "修饰",
+      "en_name": "SODModifide-SOD",
+      "page": 316
+    },
+    {
+      "entry_no": "2-6-020",
+      "cn_name": "胶原水解物",
+      "en_name": "JCollagen hydrolysate",
+      "page": 316
+    },
+    {
+      "entry_no": "2-6-022",
+      "cn_name": "L-胱氨酸",
+      "en_name": "L-Cystine",
+      "page": 318
+    },
+    {
+      "entry_no": "2-6-024",
+      "cn_name": "脱氧核糖核酸",
+      "en_name": "",
+      "page": 319
+    },
+    {
+      "entry_no": "2-6-025",
+      "cn_name": "蛋膜素",
+      "en_name": "Egg membrance element",
+      "page": 320
+    },
+    {
+      "entry_no": "2-6-026",
+      "cn_name": "植物留醇",
+      "en_name": "Phytosterol",
+      "page": 320
+    },
+    {
+      "entry_no": "2-6-027",
+      "cn_name": "氯化溶菌酶",
+      "en_name": "Lysozyme chloride",
+      "page": 321
+    },
+    {
+      "entry_no": "2-6-029",
+      "cn_name": "D-葡萄糖",
+      "en_name": "D-Glucose",
+      "page": 323
+    },
+    {
+      "entry_no": "2-6-031",
+      "cn_name": "蜂胶",
+      "en_name": "Propolis",
+      "page": 324
+    },
+    {
+      "entry_no": "2-6-041",
+      "cn_name": "DL-丙氨酸",
+      "en_name": "DL-Alanine",
+      "page": 329
+    },
+    {
+      "entry_no": "2-6-047",
+      "cn_name": "视黄醇醋酸酯",
+      "en_name": "Retinol acetate",
+      "page": 331
+    },
+    {
+      "entry_no": "2-6-048",
+      "cn_name": "L-丝氨酸",
+      "en_name": "L-Serine",
+      "page": 332
+    },
+    {
+      "entry_no": "2-6-049",
+      "cn_name": "DL-丝氨酸",
+      "en_name": "DL-Serine",
+      "page": 332
+    },
+    {
+      "entry_no": "2-6-050",
+      "cn_name": "L-蛋氨酸",
+      "en_name": "I-Methionine",
+      "page": 333
+    },
+    {
+      "entry_no": "2-6-051",
+      "cn_name": "DL-蛋氨酸",
+      "en_name": "DL-Methionine",
+      "page": 333
+    },
+    {
+      "entry_no": "2-6-052",
+      "cn_name": "L-赖氨酸盐酸盐",
+      "en_name": "L-Lysine mono- hydrochloride",
+      "page": 334
+    },
+    {
+      "entry_no": "2-6-053",
+      "cn_name": "L-苏氨酸",
+      "en_name": "L-Threonine",
+      "page": 334
+    },
+    {
+      "entry_no": "2-6-055",
+      "cn_name": "吡哆醇盐酸盐",
+      "en_name": "Pyridoxine hydro chloride",
+      "page": 335
+    },
+    {
+      "entry_no": "2-6-057",
+      "cn_name": "肾上腺皮质激素",
+      "en_name": "Corlisone",
+      "page": 337
+    },
+    {
+      "entry_no": "2-6-059",
+      "cn_name": "维生素A油",
+      "en_name": "Vitamin A oil",
+      "page": 337
+    },
+    {
+      "entry_no": "2-6-060",
+      "cn_name": "维生素B",
+      "en_name": "Vitamin B",
+      "page": 338
+    },
+    {
+      "entry_no": "2-6-062",
+      "cn_name": "维生素",
+      "en_name": "CVitaminC",
+      "page": 339
+    },
+    {
+      "entry_no": "2-6-063",
+      "cn_name": "维生素 D",
+      "en_name": "Vitamin D2",
+      "page": 339
+    },
+    {
+      "entry_no": "2-6-064",
+      "cn_name": "维生素",
+      "en_name": "EVitaminE",
+      "page": 339
+    },
+    {
+      "entry_no": "2-6-065",
+      "cn_name": "维生素E烟酸酯",
+      "en_name": "VitaminEnicoti- nate",
+      "page": 340
+    },
+    {
+      "entry_no": "2-6-067",
+      "cn_name": "雌激素",
+      "en_name": "Estrogen",
+      "page": 340
+    },
+    {
+      "entry_no": "2-6-069",
+      "cn_name": "-亚麻酸",
+      "en_name": "y-Linolenic acid",
+      "page": 342
+    },
+    {
+      "entry_no": "2-6-071",
+      "cn_name": "赤霉酸",
+      "en_name": "Gibberellins",
+      "page": 343
+    },
+    {
+      "entry_no": "2-6-072",
+      "cn_name": "谷留醇",
+      "en_name": "Sitosterol",
+      "page": 344
+    },
+    {
+      "entry_no": "2-6-073",
+      "cn_name": "苏木素",
+      "en_name": "Hematoxylin",
+      "page": 345
+    },
+    {
+      "entry_no": "2-6-075",
+      "cn_name": "乳清酸",
+      "en_name": "Orotic acid",
+      "page": 346
+    },
+    {
+      "entry_no": "2-6-081",
+      "cn_name": "松萝酸",
+      "en_name": "Usnic acid",
+      "page": 349
+    },
+    {
+      "entry_no": "2-6-084",
+      "cn_name": "胸腺素",
+      "en_name": "Thymosin",
+      "page": 351
+    },
+    {
+      "entry_no": "2-6-085",
+      "cn_name": "茜草素",
+      "en_name": "Alizarin",
+      "page": 351
+    },
+    {
+      "entry_no": "2-6-089",
+      "cn_name": "黄芩黄素",
+      "en_name": "Baicalein",
+      "page": 353
+    },
+    {
+      "entry_no": "2-7-002",
+      "cn_name": "乙酰苯胺",
+      "en_name": "Acetanilide",
+      "page": 357
+    },
+    {
+      "entry_no": "2-7-004",
+      "cn_name": "对苯：：酚",
+      "en_name": "Hydroquinone",
+      "page": 357
+    },
+    {
+      "entry_no": "2-7-005",
+      "cn_name": "对氨基苯酚",
+      "en_name": "p-Aminophenol",
+      "page": 358
+    },
+    {
+      "entry_no": "2-7-009",
+      "cn_name": "过碳酸钠",
+      "en_name": "Sodium percarbonate",
+      "page": 361
+    },
+    {
+      "entry_no": "2-7-010",
+      "cn_name": "邻氨基苯酚",
+      "en_name": "o-Aminophenol",
+      "page": 362
+    },
+    {
+      "entry_no": "2-7-015",
+      "cn_name": "焦酚",
+      "en_name": "Pyrogallol",
+      "page": 364
+    },
+    {
+      "entry_no": "2-7-016",
+      "cn_name": "苯酚对磺酸锌",
+      "en_name": "Phenol-4-sulfonic acid zinc salt",
+      "page": 365
+    },
+    {
+      "entry_no": "2-7-017",
+      "cn_name": "羟基氯化铝",
+      "en_name": "Aluminium chloro- hydroxide",
+      "page": 365
+    },
+    {
+      "entry_no": "2-7-021",
+      "cn_name": "氯化铝",
+      "en_name": "Aluminium chloride",
+      "page": 367
+    },
+    {
+      "entry_no": "2-7-022",
+      "cn_name": "氯化锌",
+      "en_name": "Zinc chloride",
+      "page": 367
+    },
+    {
+      "entry_no": "2-7-023",
+      "cn_name": "卡拉明",
+      "en_name": "Camamine",
+      "page": 368
+    },
+    {
+      "entry_no": "2-7-025",
+      "cn_name": "2-乙基己基对二甲基氨基苯酸酯",
+      "en_name": "2-Ethylhexyl- p-aminobenzoate",
+      "page": 369
+    },
+    {
+      "entry_no": "2-7-026",
+      "cn_name": "2-乙基己基对甲氧基肉桂酸酯",
+      "en_name": "Ethylhexyl- p-methoxycinnamate",
+      "page": 369
+    },
+    {
+      "entry_no": "2-7-027",
+      "cn_name": "水杨酸苯酯",
+      "en_name": "Phenyl salicylate",
+      "page": 370
+    },
+    {
+      "entry_no": "2-7-030",
+      "cn_name": "2-羟基-4-甲氧基二甲苯酮-5-磺酸",
+      "en_name": "2- Hydroxy-4-methoxybenzophenone 5-sulfonate",
+      "page": 371
+    },
+    {
+      "entry_no": "2-7-031",
+      "cn_name": "2-羟基-4-辛氧基二苯甲酮",
+      "en_name": "Hy- droxy-4-n-octoxy benzophenone",
+      "page": 371
+    },
+    {
+      "entry_no": "2-8-002",
+      "cn_name": "二硫化硒",
+      "en_name": "Selenium disulfide",
+      "page": 372
+    },
+    {
+      "entry_no": "2-8-004",
+      "cn_name": "二甲基亚矾",
+      "en_name": "Dimethyl sulfoxide",
+      "page": 373
+    },
+    {
+      "entry_no": "2-8-005",
+      "cn_name": "氮草酮",
+      "en_name": "Azone laurocapram",
+      "page": 373
+    },
+    {
+      "entry_no": "2-8-009",
+      "cn_name": "DL-苹果酸",
+      "en_name": "DI-Malic acid",
+      "page": 375
+    },
+    {
+      "entry_no": "2-8-012",
+      "cn_name": "硼酸",
+      "en_name": "Boric acid",
+      "page": 377
+    },
+    {
+      "entry_no": "2-8-013",
+      "cn_name": "一乙醇胺",
+      "en_name": "Monoethanolamine",
+      "page": 377
+    },
+    {
+      "entry_no": "2-8-014",
+      "cn_name": "二乙醇胺",
+      "en_name": "Diethanolamine",
+      "page": 378
+    },
+    {
+      "entry_no": "2-8-016",
+      "cn_name": "三异丙醇胺",
+      "en_name": "Triisopropanolamine",
+      "page": 378
+    },
+    {
+      "entry_no": "2-8-018",
+      "cn_name": "白降汞",
+      "en_name": "Mercuric ammonium chlo- ride",
+      "page": 379
+    },
+    {
+      "entry_no": "2-8-020",
+      "cn_name": "D-甘露糖醇",
+      "en_name": "D-Mannitol",
+      "page": 379
+    },
+    {
+      "entry_no": "2-8-022",
+      "cn_name": "邻苯二甲酸二乙酯",
+      "en_name": "Diethylphthalate",
+      "page": 381
+    },
+    {
+      "entry_no": "2-8-023",
+      "cn_name": "茶皂苷",
+      "en_name": "Tea saponin",
+      "page": 382
+    },
+    {
+      "entry_no": "2-8-025",
+      "cn_name": "草酸钠",
+      "en_name": "Sodium oxalate",
+      "page": 382
+    },
+    {
+      "entry_no": "2-8-026",
+      "cn_name": "氧化钙",
+      "en_name": "Calcium oxide",
+      "page": 383
+    },
+    {
+      "entry_no": "2-8-028",
+      "cn_name": "硫化锶",
+      "en_name": "Strontium sulfide",
+      "page": 384
+    },
+    {
+      "entry_no": "2-8-030",
+      "cn_name": "巯基乙酸",
+      "en_name": "Mercaptoacetic acid",
+      "page": 384
+    },
+    {
+      "entry_no": "2-8-031",
+      "cn_name": "硫基乙酸钙",
+      "en_name": "Calcium thioglycollate",
+      "page": 385
+    },
+    {
+      "entry_no": "2-8-032",
+      "cn_name": "硼砂",
+      "en_name": "Borax",
+      "page": 385
+    },
+    {
+      "entry_no": "2-8-033",
+      "cn_name": "溴酸钠",
+      "en_name": "Sodiumbromate",
+      "page": 386
+    },
+    {
+      "entry_no": "2-8-034",
+      "cn_name": "溴酸钾",
+      "en_name": "Potassium bromate",
+      "page": 386
+    },
+    {
+      "entry_no": "2-8-035",
+      "cn_name": "碱式碳酸铋",
+      "en_name": "Bismuth subcarbonate",
+      "page": 387
+    },
+    {
+      "entry_no": "2-8-038",
+      "cn_name": "脂肪酸异丙酯",
+      "en_name": "Isopropyl fatty acid ester",
+      "page": 388
+    },
+    {
+      "entry_no": "2-8-039",
+      "cn_name": "12-羟基硬脂酸胆留醇酯",
+      "en_name": "Choles- tcryl 12-hydroxy stcaratc",
+      "page": 389
+    },
+    {
+      "entry_no": "2-8-041",
+      "cn_name": "硅树脂",
+      "en_name": "Silicone resin",
+      "page": 390
+    },
+    {
+      "entry_no": "2-8-043",
+      "cn_name": "聚氯化二甲基二烯丙基铵",
+      "en_name": "Polydi- methyl diallyl ammonium chloride",
+      "page": 391
+    }
+  ]
+}

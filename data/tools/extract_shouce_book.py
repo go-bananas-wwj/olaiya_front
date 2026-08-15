@@ -28,8 +28,10 @@ import sys
 from collections import defaultdict
 from pathlib import Path
 
-# 条目编号：独立成行或粘在标题行行尾（如「艾蒿油Absinthe oil2-2-001」）
-ENTRY_NO_RE = re.compile(r"^(?P<head>.*?)(?P<no>\d{1,2}-\d{1,2}-\d{3})$")
+# 条目编号：独立成行或粘在标题行行尾（如「艾蒿油Absinthe oil2-2-001」）。
+# 注意用贪婪 head：名称自带数字后缀（吐温-20/斯盘-80）与编号粘连时（「吐温-20Tween 202-1-066」），
+# 懒惰匹配会把名称尾数并进编号（no=02-1-066、en 名被截成 Tween 2）；贪婪取最末合法编号起点可避免。
+ENTRY_NO_RE = re.compile(r"^(?P<head>.*)(?P<no>\d{1,2}-\d{1,2}-\d{3})$")
 SECTION_RE = re.compile(r"^第[0-9一二三四五六七八九十百]+[章节编]")
 SUBSECTION_RE = re.compile(r"^[一二三四五六七八九十]+、")
 CJK_RE = re.compile(r"[一-鿿]")
@@ -70,8 +72,15 @@ def _split_cn_en(frag: str) -> tuple[str, str]:
 
 
 def _clean_cn(cn: str) -> str:
-    """去掉中文名行尾粘连的 ASCII 垃圾（如「…甜菜碱1-」），不改字符本体。"""
-    return re.sub(r"[\d\-\s,.，]+$", "", cn) if CJK_RE.search(cn) else cn
+    """去掉中文名行尾粘连的 ASCII 垃圾（如「…甜菜碱1-」），不改字符本体。
+
+    注意保留名称自身的数字后缀（吐温-20 / 维生素B5）：只剥尾随标点，
+    以及「数字+连字符」的残缺片段（条目编号折行残留，如「甜菜碱1-」→「甜菜碱」）。
+    """
+    if not CJK_RE.search(cn):
+        return cn
+    cn = re.sub(r"[\s,.，]+$", "", cn)
+    return re.sub(r"\d*[-–]$", "", cn)
 
 
 def _valid_cn(cn: str) -> bool:
