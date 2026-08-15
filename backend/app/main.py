@@ -5,6 +5,7 @@ tmux new-session -d -s cfz-web -c /root/workspace/olaiya \\
 """
 
 import json
+import re
 from pathlib import Path
 
 from fastapi import Depends, FastAPI, File, HTTPException, Query, Request, UploadFile
@@ -45,6 +46,9 @@ EFFICACY_KEYWORDS = {
     "防晒": ["防晒"],
 }
 PRODUCT_SORTS = {"claim_count_desc", "ingredient_count_desc"}
+
+# 成分搜索折叠匹配：忽略大小写/空格/连字符（解码页逐成分查询依赖）
+_FOLD_RE = re.compile(r"[\s\-]+")
 
 app = FastAPI(title="成分真言 API", version="0.1.0")
 
@@ -111,8 +115,13 @@ def list_ingredients(q: str | None = None, has_evidence: str | None = None,
             .outerjoin(assert_sq, assert_sq.c.ingredient_id == Ingredient.id))
     if q:
         like = f"%{q}%"
-        stmt = stmt.where(
-            or_(Ingredient.cn_name.like(like), Ingredient.inci_name.like(like)))
+        folded = _FOLD_RE.sub("", q).lower()
+        stmt = stmt.where(or_(
+            Ingredient.cn_name.like(like),
+            Ingredient.inci_name.like(like),
+            func.replace(func.replace(func.lower(Ingredient.inci_name), " ", ""), "-", "")
+                .like(f"%{folded}%"),
+        ))
     if has_evidence == "true":
         stmt = stmt.where(assert_cnt > 0)
     if has_evidence == "false":
