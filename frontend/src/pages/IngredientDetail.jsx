@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { api } from '../api'
 import { useFetch, Loading, LoadError } from '../components/common'
@@ -30,14 +30,20 @@ export default function IngredientDetail() {
   const [loadingMore, setLoadingMore] = useState(false)
   // 相似成分（证据文本语义相似，BGE-M3）：null=加载中/无数据不渲染
   const [similar, setSimilar] = useState(null)
+  // 当前路由 id 的 ref 镜像：闭包里的 useParams id 会过期，在途请求落地时用它比对丢弃跨路由残留
+  const idRef = useRef(id)
+  idRef.current = id
 
   // 路由切换（跳到另一成分页）时重置随旧成分残留的本地态
   useEffect(() => {
+    let alive = true
     setExtraProducts([])
+    setLoadingMore(false)
     setSimilar(null)
     api.ingredientSimilar(id, { k: 5 })
-      .then((d) => setSimilar(d.similar || []))
-      .catch(() => setSimilar([]))
+      .then((d) => alive && setSimilar(d.similar || []))
+      .catch(() => alive && setSimilar([]))
+    return () => { alive = false }
   }, [id])
 
   if (loading) return <div className="card"><Loading /></div>
@@ -47,10 +53,15 @@ export default function IngredientDetail() {
   const productTotal = ing.product_total ?? products.length
   const loadMore = () => {
     setLoadingMore(true)
+    // 记录请求发起时的 id：落地时与 idRef.current 不一致说明已切路由，直接丢弃
+    const reqId = idRef.current
     api.ingredient(id, { product_offset: products.length, product_limit: 100 })
-      .then((d) => setExtraProducts((prev) => [...prev, ...d.products]))
+      .then((d) => {
+        if (reqId !== idRef.current) return
+        setExtraProducts((prev) => [...prev, ...d.products])
+      })
       .catch(() => {})
-      .finally(() => setLoadingMore(false))
+      .finally(() => reqId === idRef.current && setLoadingMore(false))
   }
 
   const priors = PRIOR_DEFS
