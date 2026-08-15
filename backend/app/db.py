@@ -24,6 +24,7 @@ def _enable_sqlite_fk(dbapi_conn, _):
 # create_all 只建新表、不给既有表加列；新增的可空列在这里幂等补登（SQLite/PostgreSQL 通用）
 _ADDITIVE_COLUMNS: dict[str, dict[str, str]] = {
     "products": {"buy_url": "VARCHAR(500)"},
+    "ingredients": {"typical_use_low": "FLOAT", "typical_use_high": "FLOAT"},
 }
 
 

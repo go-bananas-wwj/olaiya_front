@@ -8,3 +8,6 @@ __pycache__/
 data/raw/
 node_modules/
 .superpowers/
+
+# 比赛资料原件（48MB，解析产物进 data/research/）
+欧莱雅比赛/

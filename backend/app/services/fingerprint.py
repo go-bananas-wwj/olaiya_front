@@ -10,16 +10,18 @@
 微量段 ppm 级起效成分 → 1.0（存在即可能起效，与 dosecheck 的 trace_level
 同口径）。指纹分值为相对排序信号，非功效承诺；推断浓度本身是模型估计值。
 
-指纹 purity：法规类断言（evidence_level=regulation）与防腐功效族断言不参与
-计分 —— 「准用防腐剂」等是合规事实而非皮肤功效，其 0.9 的层级默认分会把
-防腐维刷成所有产品的公共高分维，压扁相似度区分度。被排除条目仍入 detail
-并标注 excluded/exclude_reason（诚实原则），coverage 以 excluded_count 计数。
+指纹 purity：法规类断言（evidence_level=regulation）、防腐功效族断言与原料商宣称
+断言（evidence.type=supplier）不参与计分 —— 「准用防腐剂」等是合规事实而非皮肤
+功效，其 0.9 的层级默认分会把防腐维刷成所有产品的公共高分维，压扁相似度区分度；
+原料商宣称未经同行评议（降级通道），不计入证据支撑的功效信号。被排除条目仍入
+detail 并标注 excluded/exclude_reason（诚实原则），coverage 以 excluded_count 计数。
 """
 
 from __future__ import annotations
 
 from sqlalchemy.orm import Session
 
+from ..models.evidence import EvidenceType
 from ..models.ingredient import EfficacyAssertion
 from ..models.product import ProductIngredient
 from .efficacy_canon import canonicalize
@@ -59,12 +61,16 @@ def _exclude_reason(a: EfficacyAssertion, canonical: str) -> str | None:
 
     - 法规类断言（evidence_level == regulation）：合规事实不是皮肤功效；
     - 防腐功效族断言（efficacy 规范名为「防腐」，关键词规则命中即属该族）：
-      防腐是配方稳定性要求，不是对皮肤的功效宣称。
+      防腐是配方稳定性要求，不是对皮肤的功效宣称；
+    - 原料商宣称断言（evidence.type == supplier）：未经同行评议的供应商宣称
+      （降级通道），不计入证据支撑的功效信号。
     """
     if a.evidence_level == REGULATION:
         return "法规类断言，非皮肤功效"
     if canonical == "防腐":
         return "防腐功效族断言，非皮肤功效"
+    if a.evidence.type == EvidenceType.SUPPLIER:
+        return "原料商宣称（未经同行评议），不计入功效指纹"
     return None
 
 

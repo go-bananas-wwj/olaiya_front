@@ -15,6 +15,7 @@ class EvidenceType(str, enum.Enum):
     REGULATION = "regulation"
     WHITE_PAPER = "white_paper"
     DATABASE = "database"  # 官方数据库词表（如 CosIng 功能分类）；申报分类，非功效实证
+    SUPPLIER = "supplier"  # 原料商产品资料宣称；未经同行评议，强制 unknown 降级通道
 
 
 class Evidence(Base):

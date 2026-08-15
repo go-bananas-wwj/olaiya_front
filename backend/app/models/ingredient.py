@@ -20,6 +20,10 @@ class Ingredient(Base):
     cir_conc_low: Mapped[float | None] = mapped_column(Float, nullable=True)         # CIR 使用浓度区间
     cir_conc_high: Mapped[float | None] = mapped_column(Float, nullable=True)
     sccs_limit: Mapped[float | None] = mapped_column(Float, nullable=True)           # SCCS 安全上限
+    # —— 配方实践典型用量区间（单位 %），来自基础配方库 xlsx（配方实例聚合）；
+    # 配方实践参考，非官方限值、非功效起效浓度 ——
+    typical_use_low: Mapped[float | None] = mapped_column(Float, nullable=True)
+    typical_use_high: Mapped[float | None] = mapped_column(Float, nullable=True)
 
 
 class EfficacyAssertion(Base):

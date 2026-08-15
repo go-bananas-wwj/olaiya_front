@@ -148,6 +148,21 @@ def test_l3_empty_fingerprint_returns_empty(session, toy):
     assert level3_fingerprint(session, toy["p4"].id, k=5) == []
 
 
+def test_l3_batch_excludes_supplier(session, toy):
+    """原料商宣称（supplier 降级通道）断言不计入功效指纹——批量路径 _batch_fingerprints。"""
+    ev_sup = Evidence(type=EvidenceType.SUPPLIER, title="原料商资料库·玩具", source="原料商资料")
+    s = Ingredient(inci_name="TOY-SUP", cn_name="玩具商")
+    session.add_all([ev_sup, s])
+    session.flush()
+    session.add(EfficacyAssertion(ingredient_id=s.id, efficacy="美白", evidence_id=ev_sup.id,
+                                  evidence_strength=0.9))
+    p6 = _mk(session, "玩具P6", "玩具牌", [s])
+    session.commit()
+    fps = similar_levels._batch_fingerprints(session)
+    assert p6.id not in fps  # 仅 supplier 断言 → 不产生任何指纹槽位
+    assert level3_fingerprint(session, p6.id, k=5) == []
+
+
 # ---------- L2 剂量级 ----------
 
 @pytest.fixture()

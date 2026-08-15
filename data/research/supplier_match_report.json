@@ -1,0 +1,3599 @@
+{
+  "stats": {
+    "records": 1469,
+    "records_no_function": 436,
+    "components_matched": 670,
+    "components_unmatched": 717,
+    "assertions_new": 0,
+    "assertions_existing": 1729,
+    "evidence_new": 0,
+    "prose_skipped": 3955
+  },
+  "unmatched": [
+    {
+      "product_name": "Tween 85",
+      "sheet": "乳化剂",
+      "component": "POLYSORBATE 85"
+    },
+    {
+      "product_name": "Tween 28",
+      "sheet": "乳化剂",
+      "component": "PEG-80 SORBITAN LAURATE"
+    },
+    {
+      "product_name": "MONTANOV 202",
+      "sheet": "乳化剂",
+      "component": "C20-22 ALCOHOLS"
+    },
+    {
+      "product_name": "SENSANOV WR",
+      "sheet": "乳化剂",
+      "component": "C20-22 ALCOHOLS"
+    },
+    {
+      "product_name": "SENSANOV WR",
+      "sheet": "乳化剂",
+      "component": "C20-22 ALKYL PHOSPHATE"
+    },
+    {
+      "product_name": "SEPIPLUS S",
+      "sheet": "乳化剂",
+      "component": "PEG-7 TRIMETHYLOLPROPANE Coconut Ether"
+    },
+    {
+      "product_name": "Emullium-75A",
+      "sheet": "乳化剂",
+      "component": "单硬脂酸甘油酯/PEG-40失水山梨醇\n 硬脂酸酯/鲸蜡基磷酸酯钾复合物"
+    },
+    {
+      "product_name": "RHEODOL 440V",
+      "sheet": "乳化剂",
+      "component": "山梨醇聚醚-40 四油酸酯"
+    },
+    {
+      "product_name": "KF-6011",
+      "sheet": "乳化剂",
+      "component": "PEG-11甲醚 聚二甲基硅氧烷"
+    },
+    {
+      "product_name": "KF-6048",
+      "sheet": "乳化剂",
+      "component": "鲸蜡基PEG/PPG-10/1 聚二甲基硅氧烷"
+    },
+    {
+      "product_name": "SSG-210SP",
+      "sheet": "乳化剂",
+      "component": "PEG-10/15二甲基硅氧烷交联共聚物二甲基硅氧烷"
+    },
+    {
+      "product_name": "BC 2426",
+      "sheet": "乳化剂",
+      "component": "鲸蜡基PEG/PPG-10/1聚二甲基硅氧烷"
+    },
+    {
+      "product_name": "BC 2582",
+      "sheet": "乳化剂",
+      "component": "鲸蜡基PEG/PPG-10/1聚二甲基硅氧烷"
+    },
+    {
+      "product_name": "BC 99/012",
+      "sheet": "乳化剂",
+      "component": "鲸蜡基PEG/PPG-7/3聚二甲基硅氧烷"
+    },
+    {
+      "product_name": "CERALUTION C",
+      "sheet": "乳化剂",
+      "component": "水,辛酸/癸酸甘油三酯,甘油,鲸蜡硬脂醇聚醚-25,二椰油酰乙二胺PEG-15二硫酸酯二钠,月桂酰乳酰乳酸钠,山嵛醇,甘油硬脂酸酯,甘油硬脂酸酯柠檬酸酯,黄原胶"
+    },
+    {
+      "product_name": "SM3330P",
+      "sheet": "乳化剂",
+      "component": "鲸蜡基PEG/PPG-10/1聚二甲基硅氧烷"
+    },
+    {
+      "product_name": "OLI-9122复合乳化剂",
+      "sheet": "乳化剂",
+      "component": "硬脂醇聚醚-25,硬脂醇聚醚-3,甘油硬脂酸酯,鲸蜡硬脂醇"
+    },
+    {
+      "product_name": "Stabylen 30",
+      "sheet": "乳化剂",
+      "component": "丙烯酸酯类/异癸酸乙烯酯交联聚合物"
+    },
+    {
+      "product_name": "Hostacerin DGMS",
+      "sheet": "乳化剂",
+      "component": "聚甘油-2硬脂酸酯"
+    },
+    {
+      "product_name": "Aristoflex PEA",
+      "sheet": "乳化剂",
+      "component": "聚对苯二甲酸亚丙基酯"
+    },
+    {
+      "product_name": "Hostacerin SAF",
+      "sheet": "乳化剂",
+      "component": "矿油,棕榈酸异丙酯,三月桂醇聚醚-磷酸酯,油菜籽油山梨醇酯类,丙烯酰二甲基牛磺酸铵/VP 共聚物"
+    },
+    {
+      "product_name": "Aristoflex HML",
+      "sheet": "乳化剂",
+      "component": "辛酸/癸酸甘油三酯,丙烯酰二甲基牛磺酸铵/山嵛醇聚醚-25甲基丙烯酸酯交联聚合物"
+    },
+    {
+      "product_name": "Hostaphat KL 340D",
+      "sheet": "乳化剂",
+      "component": "三月桂醇聚醚-磷酸酯"
+    },
+    {
+      "product_name": "Hostaphat KW 340D",
+      "sheet": "乳化剂",
+      "component": "三鲸蜡硬脂醇聚醚-磷酸酯"
+    },
+    {
+      "product_name": "Xyliance小麦乳化剂",
+      "sheet": "乳化剂",
+      "component": "鲸蜡硬脂醇麦秸苷类,鲸蜡硬脂醇"
+    },
+    {
+      "product_name": "Dracorin GOC",
+      "sheet": "乳化剂",
+      "component": "甘油油酸酯柠檬酸酯,辛酸/癸酸甘油三酯"
+    },
+    {
+      "product_name": "CERALUTION H",
+      "sheet": "乳化剂",
+      "component": "山嵛醇,甘油硬脂酸酯,甘油硬脂酸酯柠檬酸酯,二椰油酰乙二胺PEG-15二硫酸酯二钠"
+    },
+    {
+      "product_name": "SM3320P",
+      "sheet": "乳化剂",
+      "component": "PEG-10聚二甲基硅氧烷"
+    },
+    {
+      "product_name": "IMWITOR 375",
+      "sheet": "乳化剂",
+      "component": "甘油柠檬酸酯/乳酸酯/亚油酸酯/油酸酯"
+    },
+    {
+      "product_name": "MARLOWETLVS",
+      "sheet": "乳化剂",
+      "component": "PEG-18 蓖麻油二油酸酯"
+    },
+    {
+      "product_name": "MARLINAT242/90M",
+      "sheet": "乳化剂",
+      "component": "月桂醇聚醚硫酸酯MIPA盐,丙二醇"
+    },
+    {
+      "product_name": "MAP-2401",
+      "sheet": "乳化剂",
+      "component": "月桂醇磷酸酯"
+    },
+    {
+      "product_name": "MAP-30",
+      "sheet": "乳化剂",
+      "component": "月桂醇磷酸酯"
+    },
+    {
+      "product_name": "MAP-K30%",
+      "sheet": "乳化剂",
+      "component": "月桂醇磷酸酯"
+    },
+    {
+      "product_name": "Emulsiphos",
+      "sheet": "乳化剂",
+      "component": "鲸蜡醇磷酸酯钾,氢化棕榈油甘油酯类"
+    },
+    {
+      "product_name": "CERALUTION ES",
+      "sheet": "乳化剂",
+      "component": "鲸蜡硬脂醇聚醚-25,二椰油酰乙二胺PEG-15二硫酸酯二钠"
+    },
+    {
+      "product_name": "HR-S1",
+      "sheet": "乳化剂",
+      "component": "月桂醇磷酸酯"
+    },
+    {
+      "product_name": "Hostacerin EWO",
+      "sheet": "乳化剂",
+      "component": "硬脂酸乙基己酯,聚甘油-2 倍半异硬脂酸酯,霍霍巴油,蜂蜡,硬脂酸镁,三硬脂酸铝,巴西棕榈蜡"
+    },
+    {
+      "product_name": "COSMACOL PSE",
+      "sheet": "乳化剂",
+      "component": "二肉豆蔻醇酒石酸酯,鲸蜡硬脂醇,C12-15 链烷醇聚醚-7,PPG-25-月桂醇聚醚-25"
+    },
+    {
+      "product_name": "IMWITOR 960K",
+      "sheet": "乳化剂",
+      "component": "IMWITOR 960K"
+    },
+    {
+      "product_name": "EMUWIDER®   5",
+      "sheet": "乳化剂",
+      "component": "PEG-5甘油硬脂酸酯"
+    },
+    {
+      "product_name": "EMUWIDER®   20",
+      "sheet": "乳化剂",
+      "component": "PEG-20（和）蔗糖硬脂酸酯"
+    },
+    {
+      "product_name": "EMUWIDER®   K70",
+      "sheet": "乳化剂",
+      "component": "鲸蜡硬脂醇（和）PEG-7硬脂酸酯"
+    },
+    {
+      "product_name": "EMUWIDER®   60",
+      "sheet": "乳化剂",
+      "component": "鲸蜡硬脂醇（和）PEG-5硬脂酸酯"
+    },
+    {
+      "product_name": "EMUWIDER®   640",
+      "sheet": "乳化剂",
+      "component": "PEG-23硬脂酸酯"
+    },
+    {
+      "product_name": "Dermofeel PS",
+      "sheet": "乳化剂",
+      "component": "聚甘油-3硬脂酸酯"
+    },
+    {
+      "product_name": "Dermofeel SL",
+      "sheet": "乳化剂",
+      "component": "硬脂酰乳酸钠"
+    },
+    {
+      "product_name": "Symbio muls GC",
+      "sheet": "乳化剂",
+      "component": "甘油硬脂酸柠檬酯，十六烷醇（棕榈醇），辛葵酸甘油酯"
+    },
+    {
+      "product_name": "Dermofeel G 10 L",
+      "sheet": "乳化剂",
+      "component": "聚甘油-10月桂酸酯"
+    },
+    {
+      "product_name": "ABIL Care 85",
+      "sheet": "乳化剂",
+      "component": "双一聚乙二醇/聚丙二醇-16/16聚乙二醇/聚丙二醇-16/16聚二甲基硅氧烷：辛酸/癸酸甘油三酯   Bis-PEG/PPG-16/16PEG/PPG-16/16Dimethicone;Caprlic/ Capric Triglyceride"
+    },
+    {
+      "product_name": "TEGO Care 450",
+      "sheet": "乳化剂",
+      "component": "聚甘油-3甲基葡糖二硬脂酸酯    Polyglyceryl -3 Methylglucose Distearate"
+    },
+    {
+      "product_name": "S-Face IS-1002P",
+      "sheet": "乳化剂",
+      "component": "聚甘油-10二异硬脂酸酯"
+    },
+    {
+      "product_name": "S-Face IS-1001P",
+      "sheet": "乳化剂",
+      "component": "聚甘油-10异硬脂酸酯"
+    },
+    {
+      "product_name": "S-Face IS-601P",
+      "sheet": "乳化剂",
+      "component": "聚甘油-6异硬脂酸酯"
+    },
+    {
+      "product_name": "S-Face IS-401P",
+      "sheet": "乳化剂",
+      "component": "聚甘油-4异硬脂酸酯"
+    },
+    {
+      "product_name": "S-Face IS-204P",
+      "sheet": "乳化剂",
+      "component": "聚甘油-2四异硬脂酸酯"
+    },
+    {
+      "product_name": "S-Face IS-202P",
+      "sheet": "乳化剂",
+      "component": "聚甘油-2二异硬脂酸酯"
+    },
+    {
+      "product_name": "S-Face IS-201P",
+      "sheet": "乳化剂",
+      "component": "聚甘油-2异硬脂酸酯"
+    },
+    {
+      "product_name": "S-Face O-1001A",
+      "sheet": "乳化剂",
+      "component": "聚甘油-10油酸酯"
+    },
+    {
+      "product_name": "S-Face O-601P",
+      "sheet": "乳化剂",
+      "component": "聚甘油-6油酸酯"
+    },
+    {
+      "product_name": "S-Face O-401P",
+      "sheet": "乳化剂",
+      "component": "聚甘油-4油酸酯"
+    },
+    {
+      "product_name": "S-Face O-201P",
+      "sheet": "乳化剂",
+      "component": "聚甘油-2油酸酯"
+    },
+    {
+      "product_name": "M1001",
+      "sheet": "乳化剂",
+      "component": "聚甘油-10肉豆蔻酸酯"
+    },
+    {
+      "product_name": "Apifil CG",
+      "sheet": "乳化剂",
+      "component": "GATTEFOSSE"
+    },
+    {
+      "product_name": "Emulcire 61 CG",
+      "sheet": "乳化剂",
+      "component": "GATTEFOSSE"
+    },
+    {
+      "product_name": "Hydrolactol 70",
+      "sheet": "乳化剂",
+      "component": "GATTEFOSSE"
+    },
+    {
+      "product_name": "INUTEC SPC1乳化剂 SPC1",
+      "sheet": "乳化剂",
+      "component": "硅酸铝镁、菊粉月桂基氨基甲酸酯、汉生胶、蔗糖月桂酸酯"
+    },
+    {
+      "product_name": "Emulium 22",
+      "sheet": "乳化剂",
+      "component": "GATTEFOSSE"
+    },
+    {
+      "product_name": "Emulium Delta",
+      "sheet": "乳化剂",
+      "component": "GATTEFOSSE"
+    },
+    {
+      "product_name": "Uniqusol® A6",
+      "sheet": "乳化剂",
+      "component": "鲸蜡硬脂醇醚-6"
+    },
+    {
+      "product_name": "Uniqusol® A25",
+      "sheet": "乳化剂",
+      "component": "鲸蜡硬脂醇醚-25"
+    },
+    {
+      "product_name": "SF 1540",
+      "sheet": "乳化剂",
+      "component": "环五硅氧烷（及）PEG/PPG-20/15二甲基硅氧烷"
+    },
+    {
+      "product_name": "SF 1204",
+      "sheet": "乳化剂",
+      "component": "环丁基甲基硅氧烷（D4）环戊基甲基硅氧烷（D5）"
+    },
+    {
+      "product_name": "ABIL® Care 85 ★★",
+      "sheet": "乳化剂",
+      "component": "双-PEG/PPG-16/16 PEG/PPG-16/16 聚二甲基硅氧烷；辛酸/癸酸甘油三酯"
+    },
+    {
+      "product_name": "TEGO® Wipe DE ★★★",
+      "sheet": "乳化剂",
+      "component": "碳酸二乙基己酯；聚甘油-4月桂酸酯；苯氧乙醇；羟苯甲酯；二月桂醇柠檬酸酯；羟苯丁酯；羟苯乙酯；羟苯丙酯；羟苯异丁酯"
+    },
+    {
+      "product_name": "TEGO® Wipe DE PF ★★★",
+      "sheet": "乳化剂",
+      "component": "碳酸二乙基己酯；聚甘油-4月桂酸酯；苯氧乙醇；二月桂醇柠檬酸酯"
+    },
+    {
+      "product_name": "TEGO® Care 450 ★★★",
+      "sheet": "乳化剂",
+      "component": "聚甘油-3甲基葡糖二硬脂酸酯"
+    },
+    {
+      "product_name": "TEGO® Care LTP ★",
+      "sheet": "乳化剂",
+      "component": "山梨坦月桂酸酯；聚甘油-4月桂酸酯；二月桂醇柠檬酸酯"
+    },
+    {
+      "product_name": "TEGO® Care PL 4 ★",
+      "sheet": "乳化剂",
+      "component": "聚甘油-4月桂酸酯"
+    },
+    {
+      "product_name": "TEGIN® G",
+      "sheet": "乳化剂",
+      "component": "乙二醇硬脂酸酯 SE"
+    },
+    {
+      "product_name": "TEGO® Care 215",
+      "sheet": "乳化剂",
+      "component": "鲸蜡硬脂醇聚醚-15；甘油硬脂酸酯"
+    },
+    {
+      "product_name": "ISOLAN® PDI ★",
+      "sheet": "乳化剂",
+      "component": "二异硬脂酰基聚甘油-3 二聚亚油酸酯"
+    },
+    {
+      "product_name": "Imwitor 372P",
+      "sheet": "乳化剂",
+      "component": "白色片状"
+    },
+    {
+      "product_name": "Xyliance",
+      "sheet": "乳化剂",
+      "component": "非离子型乳化剂适合水包油型乳化体系"
+    },
+    {
+      "product_name": "",
+      "sheet": "乳化剂",
+      "component": "双-PEG-15 甲基醚聚二甲基硅氧烷"
+    },
+    {
+      "product_name": "SIMUGEL™ FL",
+      "sheet": "护肤增稠剂",
+      "component": "HYDROXYETHYL ACRYLATE/SODIUM ACRYLOYLDIMETHYL TAURATE COPOLYMER /ISOHEXADECANE\n/POLYSORBATE 60"
+    },
+    {
+      "product_name": "SOLAGUM™ AX",
+      "sheet": "护肤增稠剂",
+      "component": "ACACIA SENEGAL GUM/XANTHAN GUM"
+    },
+    {
+      "product_name": "BALANCE® RCFg",
+      "sheet": "护肤增稠剂",
+      "component": "丙烯酸(酯)类共聚物"
+    },
+    {
+      "product_name": "STRUCTURE® 3001",
+      "sheet": "护肤增稠剂",
+      "component": "丙烯酸(酯)类/鲸蜡醇聚醚-20 衣康酸酯共聚物"
+    },
+    {
+      "product_name": "ACULYN™  38 ★★★",
+      "sheet": "护肤增稠剂",
+      "component": "丙烯酸（酯）类/新癸酸乙烯酯交联聚合物"
+    },
+    {
+      "product_name": "ACULYN™  46",
+      "sheet": "护肤增稠剂",
+      "component": "PEG-150/硬脂醇/SMDI 共聚物"
+    },
+    {
+      "product_name": "THICKAGENT LC ★",
+      "sheet": "护肤增稠剂",
+      "component": "黄原胶/水辉石/纤维素"
+    },
+    {
+      "product_name": "Natpure cellgum plus",
+      "sheet": "护肤增稠剂",
+      "component": "微晶纤维素/纤维素胶/纤维素"
+    },
+    {
+      "product_name": "COVACRYL SP ★★★",
+      "sheet": "护肤增稠剂",
+      "component": "聚丙烯酸"
+    },
+    {
+      "product_name": "NJGEL A-EG ★★",
+      "sheet": "护肤增稠剂",
+      "component": "聚丙烯酸钠(及)C13-14 异链烷烃（及）烷醇聚醚-6"
+    },
+    {
+      "product_name": "NJCARE 305 ★★★",
+      "sheet": "护肤增稠剂",
+      "component": "聚丙烯酸13/聚异丁酯/聚山梨酸酯20"
+    },
+    {
+      "product_name": "NJGEL A-305 ★",
+      "sheet": "护肤增稠剂",
+      "component": "丙烯酰胺/丙烯酸钠共聚物"
+    },
+    {
+      "product_name": "NJGEL C-96 ★★★",
+      "sheet": "护肤增稠剂",
+      "component": "聚季铵盐-37/矿油/十三烷醇聚醚-6"
+    },
+    {
+      "product_name": "NJGEL C-60",
+      "sheet": "护肤增稠剂",
+      "component": "丙烯酰胺丙基三甲基氯化铵/丙烯酸（酯）类共聚物"
+    },
+    {
+      "product_name": "NJGEL C-56",
+      "sheet": "护肤增稠剂",
+      "component": "阳离子丙烯酰胺聚合物"
+    },
+    {
+      "product_name": "NJGEL C-40",
+      "sheet": "护肤增稠剂",
+      "component": "交联聚丙烯酸/聚丙烯钠阳离子拉丝剂"
+    },
+    {
+      "product_name": "GCOM™ Veegum",
+      "sheet": "护肤增稠剂",
+      "component": "硅酸镁铝                  Magnesium Aluminum Silicate"
+    },
+    {
+      "product_name": "GCOM™  MLS",
+      "sheet": "护肤增稠剂",
+      "component": "硅酸镁锂                   Magnesium Lithium Silicate"
+    },
+    {
+      "product_name": "Adeka NOL GT-730",
+      "sheet": "护肤增稠剂",
+      "component": "聚乙二醇-240/HDI共聚物 双-癸基十四烷醇聚醚-20"
+    },
+    {
+      "product_name": "Adeka NOL GT-700",
+      "sheet": "护肤增稠剂",
+      "component": "聚乙二醇-240/HDI共聚物 双-癸基十四烷醇聚醚-20"
+    },
+    {
+      "product_name": "Pemulen TR-2",
+      "sheet": "护肤增稠剂",
+      "component": "丙烯酸酯/C10-30烷基丙烯酸酯交联聚合物"
+    },
+    {
+      "product_name": "Pemulen TR-1",
+      "sheet": "护肤增稠剂",
+      "component": "丙烯酸酯/C10-30烷基丙烯酸酯交联聚合物"
+    },
+    {
+      "product_name": "Carbopol Ultrez 20",
+      "sheet": "护肤增稠剂",
+      "component": "Acrylates / C10-30 Alkyl Acrylates crosspolyme"
+    },
+    {
+      "product_name": "Carbopol Ultrez 21",
+      "sheet": "护肤增稠剂",
+      "component": "Acrylates / C10-30 Alkyl Acrylates crosspolymer"
+    },
+    {
+      "product_name": "Carbopol ETD 2020",
+      "sheet": "护肤增稠剂",
+      "component": "Acrylates / C10-31 Alkyl Acrylates crosspolymer"
+    },
+    {
+      "product_name": "Aristoflex AVC",
+      "sheet": "护肤增稠剂",
+      "component": "SODIUM ACRYLOYLDIMETHYL TAURATE COPOLYMER/VP COPOLYMER"
+    },
+    {
+      "product_name": "AESA",
+      "sheet": "表面活性剂",
+      "component": "AMMONIUM LAURETH SULFATE"
+    },
+    {
+      "product_name": "6501.0",
+      "sheet": "表面活性剂",
+      "component": "COCAMIDE DEA"
+    },
+    {
+      "product_name": "CMEA",
+      "sheet": "表面活性剂",
+      "component": "椰油酰胺甲基MEA"
+    },
+    {
+      "product_name": "AOS",
+      "sheet": "表面活性剂",
+      "component": "SODIUM C12-14 OLEFIN SULFONATE"
+    },
+    {
+      "product_name": "APG",
+      "sheet": "表面活性剂",
+      "component": "ALKYL GLUCOSIDE"
+    },
+    {
+      "product_name": "磺酸",
+      "sheet": "表面活性剂",
+      "component": "DODECYLBENZENE SULFONIC ACID"
+    },
+    {
+      "product_name": "MAPK",
+      "sheet": "表面活性剂",
+      "component": "POTASSIUM LAURYL PHOSPHATE"
+    },
+    {
+      "product_name": "EMAL 0",
+      "sheet": "表面活性剂",
+      "component": "月桂基磺酸钠"
+    },
+    {
+      "product_name": "EMAL AD-25R",
+      "sheet": "表面活性剂",
+      "component": "十二烷基硫酸铵"
+    },
+    {
+      "product_name": "EMAL 20T",
+      "sheet": "表面活性剂",
+      "component": "月桂醇聚醚硫酸酯TEA盐"
+    },
+    {
+      "product_name": "EMAL 20C",
+      "sheet": "表面活性剂",
+      "component": "月桂醇聚醚硫酸酯钠/ 水"
+    },
+    {
+      "product_name": "AKYPO LF 2",
+      "sheet": "表面活性剂",
+      "component": "辛醇聚醚-9 羧酸"
+    },
+    {
+      "product_name": "RHEODOL TW-L120",
+      "sheet": "表面活性剂",
+      "component": "聚氧乙烯失水山梨醇脂肪酸酯"
+    },
+    {
+      "product_name": "RHEODOL TW-O320V",
+      "sheet": "表面活性剂",
+      "component": "聚山梨醇酯-85"
+    },
+    {
+      "product_name": "EMULGEN 707",
+      "sheet": "表面活性剂",
+      "component": "聚氧乙烯烷基醚"
+    },
+    {
+      "product_name": "EMULGEN 709",
+      "sheet": "表面活性剂",
+      "component": "聚氧乙烯烷基醚"
+    },
+    {
+      "product_name": "EMULGEN 1108",
+      "sheet": "表面活性剂",
+      "component": "聚氧乙烯烷基醚"
+    },
+    {
+      "product_name": "EMULGEN 1118S-70",
+      "sheet": "表面活性剂",
+      "component": "聚氧乙烯烷基醚"
+    },
+    {
+      "product_name": "EMULGEN 1135S-70",
+      "sheet": "表面活性剂",
+      "component": "聚氧乙烯烷基醚"
+    },
+    {
+      "product_name": "EMULGEN 1150S-60",
+      "sheet": "表面活性剂",
+      "component": "聚氧乙烯烷基醚"
+    },
+    {
+      "product_name": "EMANON CH-40",
+      "sheet": "表面活性剂",
+      "component": "聚氧乙烯硬化蓖麻油"
+    },
+    {
+      "product_name": "EMANON CH-60(K)",
+      "sheet": "表面活性剂",
+      "component": "聚氧乙烯硬化蓖麻油"
+    },
+    {
+      "product_name": "EMANON 1112",
+      "sheet": "表面活性剂",
+      "component": "PEG-12 月桂酸酯"
+    },
+    {
+      "product_name": "EMANON 3199V",
+      "sheet": "表面活性剂",
+      "component": "PEG-150 月桂酸酯"
+    },
+    {
+      "product_name": "EMANON 3299RV",
+      "sheet": "表面活性剂",
+      "component": "PEG-250 二硬脂酸酯"
+    },
+    {
+      "product_name": "AMINON C-01",
+      "sheet": "表面活性剂",
+      "component": "椰子酰胺"
+    },
+    {
+      "product_name": "AMINON C-01S",
+      "sheet": "表面活性剂",
+      "component": "椰子酰胺"
+    },
+    {
+      "product_name": "AMINON C-11S",
+      "sheet": "表面活性剂",
+      "component": "甲基椰子酰胺"
+    },
+    {
+      "product_name": "QUARTAMIN 24P",
+      "sheet": "表面活性剂",
+      "component": "月桂基三甲基氯化铵/异丙醇"
+    },
+    {
+      "product_name": "AMPHITOL 20N",
+      "sheet": "表面活性剂",
+      "component": "月桂二甲基氧化胺"
+    },
+    {
+      "product_name": "Empigen CDL 60/P",
+      "sheet": "表面活性剂",
+      "component": "月桂两性醋酸钠"
+    },
+    {
+      "product_name": "Empigen CDR 60",
+      "sheet": "表面活性剂",
+      "component": "椰油两性醋酸钠"
+    },
+    {
+      "product_name": "Pureact I-78",
+      "sheet": "表面活性剂",
+      "component": "椰油酰羟乙基磺酸钠"
+    },
+    {
+      "product_name": "GREMAP-95",
+      "sheet": "表面活性剂",
+      "component": "月桂醇磷酸酯"
+    },
+    {
+      "product_name": "GREMAP 30K",
+      "sheet": "表面活性剂",
+      "component": "月桂醇磷酸酯钾"
+    },
+    {
+      "product_name": "638.0",
+      "sheet": "洗涤类添加剂",
+      "component": "聚乙二醇6000双硬脂酸酯。"
+    },
+    {
+      "product_name": "Cerbopol SF-1",
+      "sheet": "洗涤类添加剂",
+      "component": "丙烯酸酯共聚物"
+    },
+    {
+      "product_name": "ELFACOS® GT282S",
+      "sheet": "洗涤类添加剂",
+      "component": "鲸蜡硬脂醇聚醚-60肉豆蔻基甘醇"
+    },
+    {
+      "product_name": "COMIZELL X4",
+      "sheet": "洗涤类添加剂",
+      "component": "羟丙基甲基纤维素（HPMC）"
+    },
+    {
+      "product_name": "TAB-2",
+      "sheet": "洗涤类添加剂",
+      "component": "三氧化牛脂邻苯二甲酸酰胺"
+    },
+    {
+      "product_name": "24小时保湿因子",
+      "sheet": "保湿剂",
+      "component": "1、1,2-戊二醇；2、甘油；3、乳酸钠；4、乳酸; 5、丝氨酸；6、尿素；7、氯化钠；8、尿囊素"
+    },
+    {
+      "product_name": "MG-60",
+      "sheet": "保湿剂",
+      "component": "麦芽寡糖葡糖苷、氢化淀粉水解物"
+    },
+    {
+      "product_name": "YIFN BN-100",
+      "sheet": "保湿剂",
+      "component": "氨基酸保湿剂"
+    },
+    {
+      "product_name": "芦芭胶",
+      "sheet": "保湿剂",
+      "component": "GLYCERIN\n/PROPYLENE GLYCOL/GLYCERYL ACRYLATE/ACRYLIC ACID COPOLYMER"
+    },
+    {
+      "product_name": "芦芭油",
+      "sheet": "保湿剂",
+      "component": "GLYCERYL POLYMETHACRYLATE\n/PROPYLENE GLYCOL\n/PVM/MA COPOLYMER"
+    },
+    {
+      "product_name": "Polyglycerin #310",
+      "sheet": "保湿剂",
+      "component": "聚甘油-4"
+    },
+    {
+      "product_name": "肤可舒",
+      "sheet": "舒敏剂",
+      "component": "山梨醇、红藻门藻提取物、褐藻提取物"
+    },
+    {
+      "product_name": "SymCalmin德敏舒",
+      "sheet": "舒敏剂",
+      "component": "丁二醇,1,2-戊二醇和羟苯基丙酰胺苯甲酸"
+    },
+    {
+      "product_name": "复合植物抗敏剂（专利技术)",
+      "sheet": "舒敏剂",
+      "component": "丁二醇, 水， 积雪草提取物, 虎杖根提取物, 黄芩根提取物, 茶叶提取物, 光果甘草根提取物, 母菊花提取物, 迷迭香叶提取物"
+    },
+    {
+      "product_name": "复合植物抗敏剂（油溶）",
+      "sheet": "舒敏剂",
+      "component": "牛油果树果酯/母菊叶提取物/光果甘草根提取物/\n积雪草提取物/迷迭香叶提取物/维生素E/黄芩根提取物/茶叶提取物/虎杖根提取物"
+    },
+    {
+      "product_name": "POLYPLANT A/I                     复合植物退敏素",
+      "sheet": "舒敏剂",
+      "component": "贯叶连翘（HYPERICUM PERFORATUM）花提取物     母菊（CHAMOMILLA RECUTITA）花提取物            欧锦葵（MALVA SYLVESTRIS）花提取物                       药鼠尾草（SALVIA OFFICINALIS）叶提取物                       西洋接骨木（SAMBUCUS NIGRA）花提取物"
+    },
+    {
+      "product_name": "PRONALEN SENSITIVE\nSKIN                                  复合植物抗敏素",
+      "sheet": "舒敏剂",
+      "component": "圣罗勒（OCIMUM SANCTUM）叶提取物                           水飞蓟（SILYBUM MARIANUM）果提取物"
+    },
+    {
+      "product_name": "油溶红没药醇",
+      "sheet": "舒敏剂",
+      "component": "α-红没药醇"
+    },
+    {
+      "product_name": "水溶红没药醇",
+      "sheet": "舒敏剂",
+      "component": "水溶性红没药醇"
+    },
+    {
+      "product_name": "TEGOSOFT® DEC",
+      "sheet": "常用油酯",
+      "component": "碳酸二乙基己酯"
+    },
+    {
+      "product_name": "TEGOSOFT® E",
+      "sheet": "常用油酯",
+      "component": "PPG-15硬脂醇醚"
+    },
+    {
+      "product_name": "Liponate NPGC-2",
+      "sheet": "常用油酯",
+      "component": "新戊二醇二辛酸酯/二癸酸酯"
+    },
+    {
+      "product_name": "Liponate® 2-DH",
+      "sheet": "常用油酯",
+      "component": "PEG-4 二庚酸酯"
+    },
+    {
+      "product_name": "Cetiol(SQ)角鲨烷",
+      "sheet": "常用油酯",
+      "component": "天然角鲨烷"
+    },
+    {
+      "product_name": "CETIOL S(角鲨烷)",
+      "sheet": "常用油酯",
+      "component": "角鲨烷(精制)"
+    },
+    {
+      "product_name": "Crodamol PTC",
+      "sheet": "常用油酯",
+      "component": "季戊四醇四辛酸酯/四癸酸酯"
+    },
+    {
+      "product_name": "HD",
+      "sheet": "常用油酯",
+      "component": "异构十六烷"
+    },
+    {
+      "product_name": "IPM",
+      "sheet": "常用油酯",
+      "component": "肉豆蔻异丙脂"
+    },
+    {
+      "product_name": "IPP",
+      "sheet": "常用油酯",
+      "component": "棕榈酸异丙脂"
+    },
+    {
+      "product_name": "GTCC",
+      "sheet": "常用油酯",
+      "component": "辛酸/葵酸三甘油酯"
+    },
+    {
+      "product_name": "EHP",
+      "sheet": "常用油酯",
+      "component": "2-ETHYLHEXL PALMITATE"
+    },
+    {
+      "product_name": "DC200(50,100,350,500,1000)",
+      "sheet": "常用油酯",
+      "component": "二甲基硅氧烷"
+    },
+    {
+      "product_name": "DC1401",
+      "sheet": "常用油酯",
+      "component": "环甲基硅烷及二甲基硅氧烷"
+    },
+    {
+      "product_name": "DC345",
+      "sheet": "常用油酯",
+      "component": "环状二甲基硅氧烷"
+    },
+    {
+      "product_name": "IPONATE® OP-26",
+      "sheet": "常用油酯",
+      "component": "PPG-26油酸酯"
+    },
+    {
+      "product_name": "Hydroviton 24",
+      "sheet": "常用油酯",
+      "component": "水,1,2-戊二醇,甘油,乳酸钠,乳酸,丝氨酸,尿素,山梨(糖醇氯化钠,尿囊素"
+    },
+    {
+      "product_name": "SM9010B",
+      "sheet": "常用油酯",
+      "component": "乙烯基聚二甲基硅氧烷,氢化聚二甲基硅氧烷"
+    },
+    {
+      "product_name": "SM9120G",
+      "sheet": "常用油酯",
+      "component": "聚二甲基硅氧烷,聚二甲基硅氧烷/乙烯基聚二甲基硅氧烷交联聚合物"
+    },
+    {
+      "product_name": "COSMACOLETI",
+      "sheet": "常用油酯",
+      "component": "二C12-13醇酒石酸酯"
+    },
+    {
+      "product_name": "Liquid 100液体水鸟油",
+      "sheet": "常用油酯",
+      "component": "鲸蜡硬脂醇乙基己酸酯,肉豆蔻酸异丙酯"
+    },
+    {
+      "product_name": "COSMACOL EBI",
+      "sheet": "常用油酯",
+      "component": "C12-15醇苯甲酸酯"
+    },
+    {
+      "product_name": "COSMACOLETLP",
+      "sheet": "常用油酯",
+      "component": "二肉豆蔻醇酒石酸酯"
+    },
+    {
+      "product_name": "山梨醇",
+      "sheet": "常用油酯",
+      "component": "山梨醇"
+    },
+    {
+      "product_name": "SM9110G",
+      "sheet": "常用油酯",
+      "component": "环五聚二甲基硅氧烷,聚二甲基硅氧烷/乙烯基聚二甲基硅氧烷交联聚合物"
+    },
+    {
+      "product_name": "SM9140G",
+      "sheet": "常用油酯",
+      "component": "环五聚二甲基硅氧烷,聚二甲基硅氧烷/乙烯基聚二甲基硅氧烷交联聚合物"
+    },
+    {
+      "product_name": "SM9150G",
+      "sheet": "常用油酯",
+      "component": "环五聚二甲基硅氧烷,聚二甲基硅氧烷/乙烯基聚二甲基硅氧烷交联聚合物"
+    },
+    {
+      "product_name": "COSMACOL EMI",
+      "sheet": "常用油酯",
+      "component": "二C12-13醇苹果酸酯"
+    },
+    {
+      "product_name": "Corapan TQ",
+      "sheet": "常用油酯",
+      "component": "2,6-萘二甲酸二乙基己酯"
+    },
+    {
+      "product_name": "BC 2237",
+      "sheet": "常用油酯",
+      "component": "环五聚二甲基硅氧烷,三甲基硅烷氧基硅酸酯"
+    },
+    {
+      "product_name": "BC 2231",
+      "sheet": "常用油酯",
+      "component": "环五聚二甲基硅氧烷,聚二甲基硅氧烷醇"
+    },
+    {
+      "product_name": "Velsan D8P-3",
+      "sheet": "常用油酯",
+      "component": "PPG-2 异癸醇聚醚-7羧酸异丙酯"
+    },
+    {
+      "product_name": "Velsan P8-3",
+      "sheet": "常用油酯",
+      "component": "C12-15-链烷醇聚醚-9羧酸异丙酯"
+    },
+    {
+      "product_name": "Velsan SC",
+      "sheet": "常用油酯",
+      "component": "SorbitanCaprylate山梨坦辛酸酯"
+    },
+    {
+      "product_name": "OLI-4421貂油酰胺丙基甜菜碱",
+      "sheet": "常用油酯",
+      "component": "貂油酰胺丙基甜菜碱"
+    },
+    {
+      "product_name": "Vitamolive橄榄维他",
+      "sheet": "常用油酯",
+      "component": "油橄榄果不皂化物"
+    },
+    {
+      "product_name": "Kendi oil夏威夷核果油",
+      "sheet": "常用油酯",
+      "component": "石栗籽油"
+    },
+    {
+      "product_name": "COSMACOL ECI",
+      "sheet": "常用油酯",
+      "component": "三-C12-13烷醇柠檬酸酯"
+    },
+    {
+      "product_name": "Isodragol三异壬酸甘油酯",
+      "sheet": "常用油酯",
+      "component": "三异壬精"
+    },
+    {
+      "product_name": "SM4112P",
+      "sheet": "常用油酯",
+      "component": "双-PEG-18聚二甲基硅氧烷"
+    },
+    {
+      "product_name": "VelsanSoft",
+      "sheet": "常用油酯",
+      "component": "脱乙酰壳多糖单琥珀酰胺"
+    },
+    {
+      "product_name": "Sens' Hyal",
+      "sheet": "常用油酯",
+      "component": "水,根瘤菌胶,透明质酸钠,苯氧乙醇,氯苯甘醚"
+    },
+    {
+      "product_name": "Organic Safflower Oil有机红花油",
+      "sheet": "常用油酯",
+      "component": "红花籽油"
+    },
+    {
+      "product_name": "SF1000N-0.65cst",
+      "sheet": "常用油酯",
+      "component": "二聚硅氧烷"
+    },
+    {
+      "product_name": "SymMollientW/S水溶性油脂",
+      "sheet": "常用油酯",
+      "component": "十三烷醇聚醚-9,PEG-5异壬酸酯,水"
+    },
+    {
+      "product_name": "凡士林",
+      "sheet": "常用油酯",
+      "component": "凡士林"
+    },
+    {
+      "product_name": "MIGLYOLGel B",
+      "sheet": "常用油酯",
+      "component": "辛酸/癸酸甘油三酯,司拉氯铵水辉石,碳酸丙二醇酯"
+    },
+    {
+      "product_name": "VitipureTMFeeling",
+      "sheet": "常用油酯",
+      "component": "壳多糖,β-葡聚糖"
+    },
+    {
+      "product_name": "VitipureTMSensation",
+      "sheet": "常用油酯",
+      "component": "壳多糖,β-葡聚糖"
+    },
+    {
+      "product_name": "Refined Murumuru Butter精炼棕榈酯",
+      "sheet": "常用油酯",
+      "component": "木鲁星果棕籽脂"
+    },
+    {
+      "product_name": "SOFTISAN 645",
+      "sheet": "常用油酯",
+      "component": "双-二甘油多酰基己二酸酯-1"
+    },
+    {
+      "product_name": "Dermofeel BGC",
+      "sheet": "常用油酯",
+      "component": "二辛酸/二葵酸丁二醇酯"
+    },
+    {
+      "product_name": "Dermofeel MCT",
+      "sheet": "常用油酯",
+      "component": "三辛酸甘油酯"
+    },
+    {
+      "product_name": "Dermofeel TC-7",
+      "sheet": "常用油酯",
+      "component": "三庚酸甘油酯"
+    },
+    {
+      "product_name": "Technol ML98",
+      "sheet": "常用油酯",
+      "component": "Hydrogenated Castor Oil Laurate"
+    },
+    {
+      "product_name": "Activemol DOM-R",
+      "sheet": "常用油酯",
+      "component": "Diethylhexyl Maleate"
+    },
+    {
+      "product_name": "Finsolv?BOHS-111",
+      "sheet": "常用油酯",
+      "component": "Ethlhexyl Hydroxystearate Benzoate"
+    },
+    {
+      "product_name": "Finsolv?SLB-101",
+      "sheet": "常用油酯",
+      "component": "Dimethicone PEG/PPG-20/23 benzoate"
+    },
+    {
+      "product_name": "Schercemol NGDO",
+      "sheet": "常用油酯",
+      "component": "Neopentyl Glycol Diethyhexanoate"
+    },
+    {
+      "product_name": "Schercemol TISC",
+      "sheet": "常用油酯",
+      "component": "Triisostearyl Citrate"
+    },
+    {
+      "product_name": "Schercemol SHS",
+      "sheet": "常用油酯",
+      "component": "Isostearyl Hydroxystearate"
+    },
+    {
+      "product_name": "Technol MIS",
+      "sheet": "常用油酯",
+      "component": "氢化蓖麻油异硬脂酸酯"
+    },
+    {
+      "product_name": "Technol MH",
+      "sheet": "常用油酯",
+      "component": "氢化蓖麻油异硬脂酸酯"
+    },
+    {
+      "product_name": "Technol ML98",
+      "sheet": "常用油酯",
+      "component": "氢化蓖麻油月桂酸酯"
+    },
+    {
+      "product_name": "S-Face HSO-101AP",
+      "sheet": "常用油酯",
+      "component": "甘油羟基硬脂酸酯/甘油油酸酯"
+    },
+    {
+      "product_name": "S-Face IS-1005P",
+      "sheet": "常用油酯",
+      "component": "聚甘油-10五异硬脂酸酯"
+    },
+    {
+      "product_name": "PureSyn OF 6",
+      "sheet": "常用油酯",
+      "component": "氢化聚葵烯"
+    },
+    {
+      "product_name": "Jeffsol Glycerine carbonate",
+      "sheet": "常用油酯",
+      "component": "Hydroxymethyl dioxolanone"
+    },
+    {
+      "product_name": "Gemseal 120",
+      "sheet": "常用油酯",
+      "component": "C21-28烷烃"
+    },
+    {
+      "product_name": "Gemseal 70",
+      "sheet": "常用油酯",
+      "component": "C17-23烷烃"
+    },
+    {
+      "product_name": "PureSyn TM OF 3E20",
+      "sheet": "常用油酯",
+      "component": "三甲基丙烷/三辛酸酯/三癸酸酯"
+    },
+    {
+      "product_name": "Finsolv?SLB-201",
+      "sheet": "常用油酯",
+      "component": "Dimethicone PEG-8 Benzoate"
+    },
+    {
+      "product_name": "LexFeel 21",
+      "sheet": "常用油酯",
+      "component": "三羟甲基丙烷三辛酸酯&三癸酸酯"
+    },
+    {
+      "product_name": "LexFeel 350",
+      "sheet": "常用油酯",
+      "component": "二聚季戊四醇六C5-9酸酯类"
+    },
+    {
+      "product_name": "LexFeel 700",
+      "sheet": "常用油酯",
+      "component": "聚酯-4"
+    },
+    {
+      "product_name": "LexFeel D4",
+      "sheet": "常用油酯",
+      "component": "新戊二醇二庚酸酯&异十二烷"
+    },
+    {
+      "product_name": "LexFeel D5",
+      "sheet": "常用油酯",
+      "component": "新戊二醇二庚酸酯&异十二烷"
+    },
+    {
+      "product_name": "LexFeel Natural",
+      "sheet": "常用油酯",
+      "component": "十一碳烯酸庚酯"
+    },
+    {
+      "product_name": "LexFeel Shine",
+      "sheet": "常用油酯",
+      "component": "丙二醇二苯甲酸酯"
+    },
+    {
+      "product_name": "LexSolv A",
+      "sheet": "常用油酯",
+      "component": "新戊二醇二庚酸酯&丙二醇二苯甲酸酯"
+    },
+    {
+      "product_name": "Lexfeel 699",
+      "sheet": "常用油酯",
+      "component": "季戊四醇己二酸酯&癸酸酯&辛酸酯&庚酸酯"
+    },
+    {
+      "product_name": "HD",
+      "sheet": "常用油酯",
+      "component": "Sunn-HD（异构十六烷）（详情请点击）"
+    },
+    {
+      "product_name": "Octyl salicylate",
+      "sheet": "常用油酯",
+      "component": "水杨酸辛酯"
+    },
+    {
+      "product_name": "Methyl salicylate",
+      "sheet": "常用油酯",
+      "component": "水杨酸甲酯"
+    },
+    {
+      "product_name": "Miglyol 840GEL B",
+      "sheet": "常用油酯",
+      "component": "二癸酸酯丙二醇二辛酸酯/二癸酸酯,司拉氯铵水辉石，碳酸丙二醇酯"
+    },
+    {
+      "product_name": "ABIL® B 8851",
+      "sheet": "水溶性油脂",
+      "component": "PEG/PPG-14/4 聚二甲基硅氧烷"
+    },
+    {
+      "product_name": "LIPONATE® SB-50 水溶性乳木果油",
+      "sheet": "水溶性油脂",
+      "component": "PEG-50 牛油树脂"
+    },
+    {
+      "product_name": "Jeffsol Glycerine carbonate",
+      "sheet": "水溶性油脂",
+      "component": "Hydroxymethyl dioxolanone"
+    },
+    {
+      "product_name": "葡萄酵素•谷胱甘肽葡萄酵素•谷胱甘肽",
+      "sheet": "功效性活性成分",
+      "component": "VITIS VINIFERA FERMENTED EXTRACT"
+    },
+    {
+      "product_name": "AQUAXYL",
+      "sheet": "功效性活性成分",
+      "component": "Xylityglucoside"
+    },
+    {
+      "product_name": "SEPICONTROL A5",
+      "sheet": "功效性活性成分",
+      "component": "CINNAMOMUM ZEYLANICUM BARK EXTRACT"
+    },
+    {
+      "product_name": "TIMECODE",
+      "sheet": "功效性活性成分",
+      "component": "PALMITOYL GLYCINE"
+    },
+    {
+      "product_name": "BEAUPLEX VH",
+      "sheet": "功效性活性成分",
+      "component": "AMYLODEXTRIN"
+    },
+    {
+      "product_name": "BeauActive MTP",
+      "sheet": "功效性活性成分",
+      "component": "HYDROLYZED MILK PROTEIN"
+    },
+    {
+      "product_name": "CHROMABRIGHT (ES 291) 吡喃美白剂",
+      "sheet": "功效性活性成分",
+      "component": "DIMETHYLMETHOXY CHROMANYL PALMITATE"
+    },
+    {
+      "product_name": "DECELERINE(ES116)         体毛生长抑制剂",
+      "sheet": "功效性活性成分",
+      "component": "LAURYL ISOQUINOLINIUM BROMIDE"
+    },
+    {
+      "product_name": "DECELERINE(ES116)         体毛生长抑制剂",
+      "sheet": "功效性活性成分",
+      "component": "SODIUM SORBATE"
+    },
+    {
+      "product_name": "EYESERYL SOLUTION （PD 070）祛眼袋活性肽",
+      "sheet": "功效性活性成分",
+      "component": "ACETYL TETRAPEPTIDE-5"
+    },
+    {
+      "product_name": "EYESERYL SOLUTION B（P08-PD070）祛眼袋活性肽",
+      "sheet": "功效性活性成分",
+      "component": "ACETYL TETRAPEPTIDE-5"
+    },
+    {
+      "product_name": "LIPOCHROMAN-6                    （ES 290）                              抗污染净化剂",
+      "sheet": "功效性活性成分",
+      "component": "DIMETHYLMETHOXY CHROMANOL"
+    },
+    {
+      "product_name": "LEUPHASYL  SOLUTION  (PD080)                                            类肉毒素增强剂",
+      "sheet": "功效性活性成分",
+      "component": "PENTAPEPTIDE-18"
+    },
+    {
+      "product_name": "LIPOREDUCTYL                    （ES 600）                           纳米减肥合剂",
+      "sheet": "功效性活性成分",
+      "component": "TEA-HYDROIODIDE"
+    },
+    {
+      "product_name": "LIPOREDUCTYL                    （ES 600）                           纳米减肥合剂",
+      "sheet": "功效性活性成分",
+      "component": "HEDERA HELIX (IVY) EXTRACT"
+    },
+    {
+      "product_name": "LIPOREDUCTYL                    （ES 600）                           纳米减肥合剂",
+      "sheet": "功效性活性成分",
+      "component": "CHONDRUS CRISPUS (CARRAGEENAN)"
+    },
+    {
+      "product_name": "PREVENTHELIA SOLUTION  （PD130）DNA 保护剂",
+      "sheet": "功效性活性成分",
+      "component": "TETRAPEPTIDE-21"
+    },
+    {
+      "product_name": "PMLs CONTAINING Q10 CPK                                       (P02-PL410)                                 辅酶Q10脂质体、",
+      "sheet": "功效性活性成分",
+      "component": "CHONDRUS CRISPUS (CARRAGEENAN)"
+    },
+    {
+      "product_name": "PEELMOIST(ES160)                                            木瓜蛋白酶美白保湿剂",
+      "sheet": "功效性活性成分",
+      "component": "MAGNESIUM LACTATE"
+    },
+    {
+      "product_name": "PLMs CONTAINING VITAMIN K1（1%）                                            （PL 470) 维生素K1脂质体",
+      "sheet": "功效性活性成分",
+      "component": "PHYTONADIONE"
+    },
+    {
+      "product_name": "PLMs CONTAINING VITAMIN K1（1%）                                            （PL 470) 维生素K1脂质体",
+      "sheet": "功效性活性成分",
+      "component": "CHONDRUS CRISPUS (CARRAGEENAN)"
+    },
+    {
+      "product_name": "RETINOL MOLECULAR FILM FLUID (0.3%)                          （ES 295）VA醇分子膜",
+      "sheet": "功效性活性成分",
+      "component": "ETHYLHEXYL COCOATE"
+    },
+    {
+      "product_name": "SERILESINE  SOLUTION GC   (P07-PD060)                              皮肤紧实增厚剂",
+      "sheet": "功效性活性成分",
+      "component": "HEXAPEPTIDE-10"
+    },
+    {
+      "product_name": "TRYLAGEN PCB                      (P11-PD100)                                   胶原蛋白抗皱剂",
+      "sheet": "功效性活性成分",
+      "component": "TRIPEPTIDE-10 CITRULLINE"
+    },
+    {
+      "product_name": "VANISTRYL (PD110)                               妊娠纹治疗合剂",
+      "sheet": "功效性活性成分",
+      "component": "ACETYL TRIPEPTIDE-30 cirtulline"
+    },
+    {
+      "product_name": "VANISTRYL (PD110)                               妊娠纹治疗合剂",
+      "sheet": "功效性活性成分",
+      "component": "PENTAPEPTIDE-18"
+    },
+    {
+      "product_name": "VITAMINIC HSC （ES041）                       含维生素的疏水性神经鞘脂类合剂",
+      "sheet": "功效性活性成分",
+      "component": "ETHYLHEXYL COCOATE"
+    },
+    {
+      "product_name": "VITAMINIC HSC （ES041）                       含维生素的疏水性神经鞘脂类合剂",
+      "sheet": "功效性活性成分",
+      "component": "DIMETHYLMETHOXY CHROMANOL"
+    },
+    {
+      "product_name": "Amion Acid Complex     氨基酸复合物",
+      "sheet": "功效性活性成分",
+      "component": "Lysine/Histidine/arginine/aspartic acid/threonine/serine/glutamic acid/proline/glycine/alanine/valine/methionine/isoleucine/leucine/tyrosine/phenylalanine/CYSTEINE"
+    },
+    {
+      "product_name": "Almond Extract                          杏仁提取液",
+      "sheet": "功效性活性成分",
+      "component": "PRUNUS AMYGDALUS DULCIS \n(SWEET ALMOND) SEED EXTRACT"
+    },
+    {
+      "product_name": "Fructan                                       果聚糖",
+      "sheet": "功效性活性成分",
+      "component": "FRUCTAN"
+    },
+    {
+      "product_name": "Marin Collagen                 海洋胶原蛋白M",
+      "sheet": "功效性活性成分",
+      "component": "Hydrolyzed Collagen"
+    },
+    {
+      "product_name": "Ulmus Extract                           春榆提取液",
+      "sheet": "功效性活性成分",
+      "component": "ULMUS DAVIDIANA ROOT EXTRACT"
+    },
+    {
+      "product_name": "CAFEISILANE C",
+      "sheet": "功效性活性成分",
+      "component": "SILOXANETRIOL ALGINATE"
+    },
+    {
+      "product_name": "D.S.H.CN",
+      "sheet": "功效性活性成分",
+      "component": "DIMETHYLSILANOL HYALURONATE"
+    },
+    {
+      "product_name": "Exsy-ARL",
+      "sheet": "功效性活性成分",
+      "component": "PROLINAMIDOETHYL IMIDAZOLE"
+    },
+    {
+      "product_name": "HYDROXYPROLISILANE CN",
+      "sheet": "功效性活性成分",
+      "component": "METHYLSILANOL HYDROXYPROLINE ASPARTATE"
+    },
+    {
+      "product_name": "IMUDILIN",
+      "sheet": "功效性活性成分",
+      "component": "GLUTAMYLAMIDOETHYL IMIDAZOLE"
+    },
+    {
+      "product_name": "G.P.S",
+      "sheet": "功效性活性成分",
+      "component": "SILANETRIOL TREHALOSE ETHER"
+    },
+    {
+      "product_name": "IBR-Tom® NP 0603",
+      "sheet": "功效性活性成分",
+      "component": "SOLANUM LYCOPERSICUM (TOMATO) FRUIT EXTRACT"
+    },
+    {
+      "product_name": "IBR-CLC® in jojoba oil 0407",
+      "sheet": "功效性活性成分",
+      "component": "SIMMONDSIA CHINENSIS (JOJOBA) SEED OIL\n/SQUALANE\n/DUNALIELLA SALINA EXTRACT"
+    },
+    {
+      "product_name": "IBR-TCLC® 0701 番茄果无色类胡萝卜素",
+      "sheet": "功效性活性成分",
+      "component": "HYDROGENATED POLYDECENE\n/SOLANUM LYCOPERSICUM (TOMATO) FRUIT EXTRACT"
+    },
+    {
+      "product_name": "IBR-Dragon® 0801",
+      "sheet": "功效性活性成分",
+      "component": "HYLOCEREUS UNDATUS FRUIT EXTRACT\n/PHENOXYETHANOL\n/SODIUM METABISULFITE"
+    },
+    {
+      "product_name": "IBR-Snowflake® 1001夏雪片莲鳞茎提取物",
+      "sheet": "功效性活性成分",
+      "component": "WATER/LEUCOJUM AESTIVUM BULB EXTRACT/POTASSIUM SORBATE\n/CHLORPHENESIN"
+    },
+    {
+      "product_name": "GCOM AIoxicoll",
+      "sheet": "功效性活性成分",
+      "component": "碱式氯化铝"
+    },
+    {
+      "product_name": "天然紫外线防护剂",
+      "sheet": "功效性活性成分",
+      "component": "甘油，水，绣线菊提取物"
+    },
+    {
+      "product_name": "皮肤排毒剂",
+      "sheet": "功效性活性成分",
+      "component": "丙二醇，生物类黄酮，意大利甘蓝提取物,\n库拉索芦荟叶提取物"
+    },
+    {
+      "product_name": "酵母β-葡聚糖",
+      "sheet": "功效性活性成分",
+      "component": "丁二醇，水，酵母β-葡聚糖"
+    },
+    {
+      "product_name": "蜗牛分泌物滤液",
+      "sheet": "功效性活性成分",
+      "component": "水，丁二醇，蜗牛分泌物滤液，苯氧乙醇"
+    },
+    {
+      "product_name": "复合植物去红血丝剂",
+      "sheet": "功效性活性成分",
+      "component": "丁二醇，水，积雪草提取物，光果甘草根提取物，山地蒿叶提取物，伞房花序越桔果提取物，银杏叶提取物，狗牙蔷薇果油"
+    },
+    {
+      "product_name": "复合植物祛痘祛粉刺剂",
+      "sheet": "功效性活性成分",
+      "component": "丁二醇，皱叶木兰树皮提取物，茶叶提取物，柚果提取物，罗汉柏枝提取物"
+    },
+    {
+      "product_name": "复合植物雌激素",
+      "sheet": "功效性活性成分",
+      "component": "丁二醇，大豆异黄酮，野葛根提取物，虎杖根提取物，泰国野葛根提取物，总状升麻根提取物，当归根提取物，石榴提取物，红车轴草花提取物"
+    },
+    {
+      "product_name": "复合高效保湿剂",
+      "sheet": "功效性活性成分",
+      "component": "双甘油，水，泛醇，聚季铵盐-51，PCA 钠，山梨（糖）醇，海藻糖，尿素，透明质酸钠"
+    },
+    {
+      "product_name": "豌豆芽干细胞赋活剂",
+      "sheet": "功效性活性成分",
+      "component": "苯氧基丙二醇，水，植物甾醇类,\n卵磷脂，油橄榄果油，角鲨烷，水解豌豆蛋白，\n牛油果树，神经酰胺 3"
+    },
+    {
+      "product_name": "蓝藻抗氧化营养剂",
+      "sheet": "功效性活性成分",
+      "component": "水，甘油，藻提取物"
+    },
+    {
+      "product_name": "皮肤结构性修复剂",
+      "sheet": "功效性活性成分",
+      "component": "酵母提取物，大豆氨基酸"
+    },
+    {
+      "product_name": "桂花提取液",
+      "sheet": "功效性活性成分",
+      "component": "水，1,3-丙二醇，甘油，桂花提取物"
+    },
+    {
+      "product_name": "皮肤更新亮白活性剂",
+      "sheet": "功效性活性成分",
+      "component": "酵母提取物，大豆氨基酸"
+    },
+    {
+      "product_name": "皮肤干细胞培养液",
+      "sheet": "功效性活性成分",
+      "component": "皮肤干细胞培养液"
+    },
+    {
+      "product_name": "TETRUP-L（麦芽四糖）",
+      "sheet": "功效性活性成分",
+      "component": "水解玉米淀粉，水"
+    },
+    {
+      "product_name": "RonaCare Isoquercetin 130149",
+      "sheet": "功效性活性成分",
+      "component": "异栎素"
+    },
+    {
+      "product_name": "RonaCare MAP 130218",
+      "sheet": "功效性活性成分",
+      "component": "抗坏血酸磷酸酯镁/乙二胺四乙酸"
+    },
+    {
+      "product_name": "RonaCare Luremin 130204",
+      "sheet": "功效性活性成分",
+      "component": "山梨（糖）醇/二羟基甲基色原酮"
+    },
+    {
+      "product_name": "RonaCare AP 130163",
+      "sheet": "功效性活性成分",
+      "component": "羟基二甲氧基苯丙二酸二乙基已酯"
+    },
+    {
+      "product_name": "AQUAREGUL'K 水通道蛋白保湿剂",
+      "sheet": "功效性活性成分",
+      "component": "水、PCA钾、刺梨提取物"
+    },
+    {
+      "product_name": "TECA 积雪草提取物",
+      "sheet": "功效性活性成分",
+      "component": "积雪草甙、羟基积雪草酸、积雪草酸"
+    },
+    {
+      "product_name": "TANNIC ACID 100丹宁酸",
+      "sheet": "功效性活性成分",
+      "component": "丹宁酸"
+    },
+    {
+      "product_name": "SYNTRAN 5960",
+      "sheet": "功效性活性成分",
+      "component": "苯乙烯、丙烯酸酯、丙烯酸甲酯铵共聚物、丁二醇、十二烷基硫酸钠"
+    },
+    {
+      "product_name": "SYNTRAN 5190",
+      "sheet": "功效性活性成分",
+      "component": "丙烯酸酯共聚物、丙二醇、十二酸硫酸钠"
+    },
+    {
+      "product_name": "SYNTRAN 5009",
+      "sheet": "功效性活性成分",
+      "component": "苯乙烯、丙烯酸酯、丙烯酸甲酯铵共聚物、丁二醇、十二烷基硫酸钠"
+    },
+    {
+      "product_name": "SOYLIFE EXTRA 大豆胚芽提取物",
+      "sheet": "功效性活性成分",
+      "component": "大豆胚芽提取物"
+    },
+    {
+      "product_name": "SOOTHEX印度植物舒缓剂",
+      "sheet": "功效性活性成分",
+      "component": "二丙二醇、乳香胶"
+    },
+    {
+      "product_name": "SINODOR香茅衍生物",
+      "sheet": "功效性活性成分",
+      "component": "Citronellyl Methylcrotonate 香茅甲基丁烯酸酯"
+    },
+    {
+      "product_name": "SEBUSTOP控油复合物 315",
+      "sheet": "功效性活性成分",
+      "component": "大豆胚芽提取物"
+    },
+    {
+      "product_name": "SCRUB ORANGE 橙皮粉",
+      "sheet": "功效性活性成分",
+      "component": "橙皮粉"
+    },
+    {
+      "product_name": "ROSE HIPS OIL智利纯玫瑰果油",
+      "sheet": "功效性活性成分",
+      "component": "玫瑰果油"
+    },
+    {
+      "product_name": "RICE BRANMITF米糠发酵物",
+      "sheet": "功效性活性成分",
+      "component": "米糠发酵物"
+    },
+    {
+      "product_name": "RHAMNOSOFT 鼠李糖舒缓剂",
+      "sheet": "功效性活性成分",
+      "component": "生物糖胶-2"
+    },
+    {
+      "product_name": "PRINCESS CARE 汉荭鱼腥草提取物",
+      "sheet": "功效性活性成分",
+      "component": "丁二醇、水、汉荭鱼腥草提取物"
+    },
+    {
+      "product_name": "PHYTOVITYL玉米籽提取物 015",
+      "sheet": "功效性活性成分",
+      "component": "水、玉米仁提取物"
+    },
+    {
+      "product_name": "PHYTOSPHINGOSINE 5%OIL SOLUTION 植物鞘氨醇油溶液",
+      "sheet": "功效性活性成分",
+      "component": "植物鞘氨醇、乳酸"
+    },
+    {
+      "product_name": "PHYSIOGENYL 混合PCA",
+      "sheet": "功效性活性成分",
+      "component": "PCA 钠、PCA 镁、 PCA 锌、PCA 锰"
+    },
+    {
+      "product_name": "NUTRIMEL 雪莲提取物",
+      "sheet": "功效性活性成分",
+      "component": "雪莲根提取液"
+    },
+    {
+      "product_name": "NUTELINE水解榛果蛋白",
+      "sheet": "功效性活性成分",
+      "component": "水解榛果蛋白"
+    },
+    {
+      "product_name": "NATURAL ALPHA BISABOLOL 天然α-红没药醇",
+      "sheet": "功效性活性成分",
+      "component": "天然 (-) - α -没药醇"
+    },
+    {
+      "product_name": "MUNGABA绿豆发酵液 3",
+      "sheet": "功效性活性成分",
+      "component": "乳酸杆菌、绿豆发酵物提取液"
+    },
+    {
+      "product_name": "MPG YELLOW MPG 磨粒（黄色）",
+      "sheet": "功效性活性成分",
+      "component": "聚乙烯、羟丙基纤维素、乙烯纤维素、氧化铁"
+    },
+    {
+      "product_name": "MPG WHITE MPG磨粒（白色）",
+      "sheet": "功效性活性成分",
+      "component": "聚乙烯、羟丙基纤维素、乙烯纤维素"
+    },
+    {
+      "product_name": "MPG PINK MPG 磨粒（粉红色）",
+      "sheet": "功效性活性成分",
+      "component": "聚乙烯、羟丙基纤维素、乙烯纤维素、群青"
+    },
+    {
+      "product_name": "MPG GREEN MPG磨粒（绿色）",
+      "sheet": "功效性活性成分",
+      "component": "聚乙烯、羟丙基纤维素、乙烯纤维素、氢氧化铬绿"
+    },
+    {
+      "product_name": "MPG BLUE MPG磨粒（蓝色）",
+      "sheet": "功效性活性成分",
+      "component": "聚乙烯、羟丙基纤维素、乙烯纤维素、群青"
+    },
+    {
+      "product_name": "MIRACETI多功能润肤剂",
+      "sheet": "功效性活性成分",
+      "component": "鲸蜡酯"
+    },
+    {
+      "product_name": "MATURINE 纯植物抗皱复合物",
+      "sheet": "功效性活性成分",
+      "component": "丁二醇、水、香蕉花提取物、积雪草提取物、乙氧基乙二醇"
+    },
+    {
+      "product_name": "MANDRESY EXTRACT醉鱼草提取物",
+      "sheet": "功效性活性成分",
+      "component": "醉鱼草提取物"
+    },
+    {
+      "product_name": "LIPOSOME 1% Q10 辅酶Q10脂质体",
+      "sheet": "功效性活性成分",
+      "component": "甘油、辅酶Q、醋酸盐维他命E、卵磷脂、辛酸/癸酸三甘油酯、乙醇、聚山梨酯 80、水"
+    },
+    {
+      "product_name": "LIGNANET 20 亚麻籽提取物",
+      "sheet": "功效性活性成分",
+      "component": "亚麻籽提取物"
+    },
+    {
+      "product_name": "LAURYDONE PCA月桂酯",
+      "sheet": "功效性活性成分",
+      "component": "月桂基PCA"
+    },
+    {
+      "product_name": "KAVA KAVA 卡瓦提取物",
+      "sheet": "功效性活性成分",
+      "component": "水、丁二醇、卡瓦提取物"
+    },
+    {
+      "product_name": "GLYCOSYL HESPERIDIN 糖基橘皮苷",
+      "sheet": "功效性活性成分",
+      "component": "糖基橘皮苷"
+    },
+    {
+      "product_name": "GLYCOFILM 糖膜保护剂",
+      "sheet": "功效性活性成分",
+      "component": "生物糖胶-4"
+    },
+    {
+      "product_name": "GLUCASOFT 葡聚糖舒缓剂",
+      "sheet": "功效性活性成分",
+      "component": "羧甲基β-葡聚糖钠"
+    },
+    {
+      "product_name": "FLAVOSTERONE大豆异黄酮",
+      "sheet": "功效性活性成分",
+      "component": "水、1,3-丁二醇、大豆胶蛋白"
+    },
+    {
+      "product_name": "FIFLOW BTX 菲氟露 BTX",
+      "sheet": "功效性活性成分",
+      "component": "全氟己烷、全氟代氢化菲、全氟萘烷"
+    },
+    {
+      "product_name": "EXTRA PHYTOVITYL 玉米籽提取物 015",
+      "sheet": "功效性活性成分",
+      "component": "水、玉米仁提取物"
+    },
+    {
+      "product_name": "EVENING PRIMROSESEED POLYPHENOL月见草籽提取物",
+      "sheet": "功效性活性成分",
+      "component": "月见草籽提取物"
+    },
+    {
+      "product_name": "EC8 SILKACID C8 丝氨酸",
+      "sheet": "功效性活性成分",
+      "component": "辛酰基蚕丝氨基酸"
+    },
+    {
+      "product_name": "DEDRAFLOW NI 橄榄复合润肤剂",
+      "sheet": "功效性活性成分",
+      "component": "氢化C6-14烯烃聚合物、橄榄提取物、β-谷甾醇、生育酚"
+    },
+    {
+      "product_name": "CREAGEL EZ7乳化剂EZ-7",
+      "sheet": "功效性活性成分",
+      "component": "聚丙烯酰胺、氢化聚癸烯、月桂醚-7"
+    },
+    {
+      "product_name": "CLARITEA 卡拉里茶提取物",
+      "sheet": "功效性活性成分",
+      "component": "丙二醇、水、白茶提取物"
+    },
+    {
+      "product_name": "CLAIR BLANCHE 2 全效美白复合物 2",
+      "sheet": "功效性活性成分",
+      "component": "水、丁二醇、柠檬酸、亚硫酸钠、熊果苷、乙酰基酪氨酸、虎耳草提取物、牡丹花根提取物、氨丙基抗坏血酸磷酸盐、黄芩提取物、谷胱甘肽"
+    },
+    {
+      "product_name": "CERAMIDES 6 神经酰胺 6",
+      "sheet": "功效性活性成分",
+      "component": "神经酰胺 6II"
+    },
+    {
+      "product_name": "CENNAMIDES水溶性神经酰胺",
+      "sheet": "功效性活性成分",
+      "component": "鞘糖脂、二半乳糖双甘油脂"
+    },
+    {
+      "product_name": "CAOBROMINE 可可内啡肽纤体剂",
+      "sheet": "功效性活性成分",
+      "component": "丁二醇、水、可可内壳提取物"
+    },
+    {
+      "product_name": "CALCIDONEPCA钙",
+      "sheet": "功效性活性成分",
+      "component": "PCA钙"
+    },
+    {
+      "product_name": "C16 SILKACID C16 丝氨酸",
+      "sheet": "功效性活性成分",
+      "component": "Palmytoyl蚕丝氨基酸"
+    },
+    {
+      "product_name": "ANTI EYE-BAG COMPLEX 271 去眼袋复合物",
+      "sheet": "功效性活性成分",
+      "component": "水、丙二醇、斗篷草提取物、常春藤提取物、木贼叶提取物、甘菊花提取物"
+    },
+    {
+      "product_name": "玫瑰纯露",
+      "sheet": "功效性活性成分",
+      "component": "突厥蔷薇（ROSA DAMASCENA）花水"
+    },
+    {
+      "product_name": "有机薰衣草纯露",
+      "sheet": "功效性活性成分",
+      "component": "薰衣草（LAVANDULA ANGUSTIFOLIA）水"
+    },
+    {
+      "product_name": "玫瑰精油",
+      "sheet": "功效性活性成分",
+      "component": "突厥蔷薇（ROSA DAMASCENA）花油"
+    },
+    {
+      "product_name": "薰衣草精油",
+      "sheet": "功效性活性成分",
+      "component": "薰衣草（LAVANDULA ANGUSTIFOLIA）油"
+    },
+    {
+      "product_name": "黄泥",
+      "sheet": "功效性活性成分",
+      "component": "伊利水云母"
+    },
+    {
+      "product_name": "红泥",
+      "sheet": "功效性活性成分",
+      "component": "伊利水云母"
+    },
+    {
+      "product_name": "冰川泥",
+      "sheet": "功效性活性成分",
+      "component": "曼尼古根冰河泥"
+    },
+    {
+      "product_name": "POLYPLANT MOISTURIZING GNBN    复合保湿素",
+      "sheet": "功效性活性成分",
+      "component": "洋常春藤（HEDERA HELIX）叶提取物                      山金车（ARNICA MONTANA）花提取物                               西洋接骨木（SAMBUCUS NIGRA）花提取物                       欧锦葵（MALVA SYLVESTRIS）花提取物                                 阔叶椴（TILIA PLATYPHYLLOS）花提取物                                  黄瓜（CUCUMIS SATIVUS）果                                            药用墙草（PARIETARIA OFFICINALIS）提取物"
+    },
+    {
+      "product_name": "PROVI LACTEO GDBN    酸奶因子",
+      "sheet": "功效性活性成分",
+      "component": "酸乳滤液"
+    },
+    {
+      "product_name": "ERENGEN                              能量素",
+      "sheet": "功效性活性成分",
+      "component": "无患子（SAPINDUS MUKUROSSI）果提取物           刺云实（CAESALPINIA SPINOSA）胶"
+    },
+    {
+      "product_name": "Multimineral\nComplex I\n生命代谢因子",
+      "sheet": "功效性活性成分",
+      "component": "氯化镁                                                                                     氯化钾                                                                                   氯化铝                                                                                      氯化锌                                                                                    硫酸铜                                                                                   氯化锰                                                                               氯化钠                                                                                    赖氨酸"
+    },
+    {
+      "product_name": "POLYPLANT A/S             复合祛脂素",
+      "sheet": "功效性活性成分",
+      "component": "五月牛蒡（ARCTIUM MAJUS）根提取物                 欧刺柏（JUNIPERUS COMMUNIS）果提取物          黄龙胆（GENTIANA LUTEA）根提取物                       麝香草（THYMUS VULGARIS）花/叶提取物"
+    },
+    {
+      "product_name": "AFFIPORE                             油脂平衡素",
+      "sheet": "功效性活性成分",
+      "component": "山布枯（BAROSMA BETULINA）叶提取物"
+    },
+    {
+      "product_name": "SENS FEEL                            感觉因子",
+      "sheet": "功效性活性成分",
+      "component": "毛喉鞘蕊花（COLEUS FORSKOHLII）根提取物               茶（CAMELLIA SINENSIS）叶提取物"
+    },
+    {
+      "product_name": "Nicoitinamide   VB3",
+      "sheet": "功效性活性成分",
+      "component": "烟酰胺             Nicoitinamide"
+    },
+    {
+      "product_name": "GCOM™   L-VC",
+      "sheet": "功效性活性成分",
+      "component": "左璇维生素C                 vitamin C"
+    },
+    {
+      "product_name": "DuPont™ Glypure®",
+      "sheet": "功效性活性成分",
+      "component": "甘醇酸                         Glycolic Acid"
+    },
+    {
+      "product_name": "GCOM™  VCE",
+      "sheet": "功效性活性成分",
+      "component": "VC乙基醚                       Ethyl ascorbic acid"
+    },
+    {
+      "product_name": "GCOM™  Arbutin",
+      "sheet": "功效性活性成分",
+      "component": "熊果苷                       Arbutin"
+    },
+    {
+      "product_name": "GCOM™ HU 50",
+      "sheet": "功效性活性成分",
+      "component": "羟乙基脲            Hydroxyethyl Urea"
+    },
+    {
+      "product_name": "GCOM™ AM-50",
+      "sheet": "功效性活性成分",
+      "component": "氨基酸保湿剂                 betaine"
+    },
+    {
+      "product_name": "ZODM™ GL",
+      "sheet": "功效性活性成分",
+      "component": "β-葡聚糖                  Beta-Glucan"
+    },
+    {
+      "product_name": "燕麦葡聚糖",
+      "sheet": "功效性活性成分",
+      "component": "燕麦葡聚糖"
+    },
+    {
+      "product_name": "GCOM™ Collagen",
+      "sheet": "功效性活性成分",
+      "component": "胶原蛋白                     Collagen"
+    },
+    {
+      "product_name": "GCOM™ Rose Hydrosol",
+      "sheet": "功效性活性成分",
+      "component": "玫瑰纯露                          Rose Hydrosol"
+    },
+    {
+      "product_name": "Treha",
+      "sheet": "功效性活性成分",
+      "component": "海藻糖                       Trehalose"
+    },
+    {
+      "product_name": "ZODM™ Red pigment",
+      "sheet": "功效性活性成分",
+      "component": "白里透红素                       Red pigment"
+    },
+    {
+      "product_name": "ZODM™ OPC-1200",
+      "sheet": "功效性活性成分",
+      "component": "祛红血丝素"
+    },
+    {
+      "product_name": "Heparin Sodium",
+      "sheet": "功效性活性成分",
+      "component": "肝素钠                         Heparin Sodium"
+    },
+    {
+      "product_name": "GCOM™  Aloxicoll",
+      "sheet": "功效性活性成分",
+      "component": "碱式氯化铝"
+    },
+    {
+      "product_name": "witch hazel Distillate",
+      "sheet": "功效性活性成分",
+      "component": "金缕梅纯露                 witch hazel Distillate with"
+    },
+    {
+      "product_name": "NAMIST™  A1",
+      "sheet": "功效性活性成分",
+      "component": "立除味A1"
+    },
+    {
+      "product_name": "NAMIST™  B2",
+      "sheet": "功效性活性成分",
+      "component": "立除味B2"
+    },
+    {
+      "product_name": "DuPont™ Glypure®",
+      "sheet": "功效性活性成分",
+      "component": "甘醇酸                   Glycolic Acid"
+    },
+    {
+      "product_name": "BLACK  C 30",
+      "sheet": "功效性活性成分",
+      "component": "水溶碳黑浆/水溶黑色浆"
+    },
+    {
+      "product_name": "GCOM™  PVCP/65",
+      "sheet": "功效性活性成分",
+      "component": "聚合胶"
+    },
+    {
+      "product_name": "GCOM™  Xylotox",
+      "sheet": "功效性活性成分",
+      "component": "赛罗卡因                        Xylotox"
+    },
+    {
+      "product_name": "GCOM™  Detoxification",
+      "sheet": "功效性活性成分",
+      "component": "排毒素                  Detoxification"
+    },
+    {
+      "product_name": "ZODM™  LC 50 / PS 12",
+      "sheet": "功效性活性成分",
+      "component": "出死皮素"
+    },
+    {
+      "product_name": "GCOM™ Aloes",
+      "sheet": "功效性活性成分",
+      "component": "芦荟粉(200:1)                      Aloes powder"
+    },
+    {
+      "product_name": "ZODM™ CCA-2",
+      "sheet": "功效性活性成分",
+      "component": "环状氨基酸                       cycli camino acids"
+    },
+    {
+      "product_name": "Mcacia powder",
+      "sheet": "功效性活性成分",
+      "component": "美国魔胶粉                      Mcacia powder"
+    },
+    {
+      "product_name": "GCOM™  MASK-A1",
+      "sheet": "功效性活性成分",
+      "component": "骨胶原面膜粉"
+    },
+    {
+      "product_name": "Vitamin B6",
+      "sheet": "功效性活性成分",
+      "component": "维生素B6"
+    },
+    {
+      "product_name": "Vegtens OR",
+      "sheet": "功效性活性成分",
+      "component": "小麦蛋白肽，右旋糖苷糊精，甘露醇"
+    },
+    {
+      "product_name": "水解酪蛋白",
+      "sheet": "功效性活性成分",
+      "component": "casein hydrolysate"
+    },
+    {
+      "product_name": "Adeka甲羟戊酸内酯",
+      "sheet": "功效性活性成分",
+      "component": "Mevalonolactonec"
+    },
+    {
+      "product_name": "Acerola Secrets",
+      "sheet": "功效性活性成分",
+      "component": "GATTEFOSSE"
+    },
+    {
+      "product_name": "Aprispheres",
+      "sheet": "功效性活性成分",
+      "component": "GATTEFOSSE"
+    },
+    {
+      "product_name": "Cytobiol Burdock",
+      "sheet": "功效性活性成分",
+      "component": "GATTEFOSSE"
+    },
+    {
+      "product_name": "Cytobiol Iris A",
+      "sheet": "功效性活性成分",
+      "component": "GATTEFOSSE"
+    },
+    {
+      "product_name": "Lactofil Moist",
+      "sheet": "功效性活性成分",
+      "component": "GATTEFOSSE"
+    },
+    {
+      "product_name": "Lactofil Sensitive",
+      "sheet": "功效性活性成分",
+      "component": "GATTEFOSSE"
+    },
+    {
+      "product_name": "BIO-MARINE ELASTIN",
+      "sheet": "功效性活性成分",
+      "component": "海洋弹力蛋白"
+    },
+    {
+      "product_name": "Unimell-S25",
+      "sheet": "功效性活性成分",
+      "component": "糖胶 (及) 氢化卵磷脂 (及) 二甲基硅油（及)水"
+    },
+    {
+      "product_name": "Unimell-C8",
+      "sheet": "功效性活性成分",
+      "component": "甘油(及) 氢化卵磷脂 (及)神经酰胺 3 (及) 辛酸/癸酸三甘油脂(及)水"
+    },
+    {
+      "product_name": "STAVECTOR Licorice甘草纳米微囊",
+      "sheet": "功效性活性成分",
+      "component": "水（和）醋酸纤维素（和）甘草根提取物（和）壳聚糖"
+    },
+    {
+      "product_name": "STAVECTOR Resveratrol白藜芦醇纳米微囊",
+      "sheet": "功效性活性成分",
+      "component": "水（和）醋酸纤维素（和）白藜芦醇（和）壳聚糖"
+    },
+    {
+      "product_name": "STAVECTOR Ellagic acid鞣花酸纳米微囊",
+      "sheet": "功效性活性成分",
+      "component": "水（和）醋酸纤维素（和）鞣花酸（和）壳聚糖"
+    },
+    {
+      "product_name": "STAVECTOR CO-Q10辅酶Q-10纳米微囊",
+      "sheet": "功效性活性成分",
+      "component": "水（和）醋酸纤维素（和）辅酶Q-10（和）壳聚糖"
+    },
+    {
+      "product_name": "JEJU Bija powder济州榧子粉",
+      "sheet": "功效性活性成分",
+      "component": "济州榧子粉"
+    },
+    {
+      "product_name": "Lotus Germ powder莲子粉",
+      "sheet": "功效性活性成分",
+      "component": "莲子粉"
+    },
+    {
+      "product_name": "Kenaf Cellulose洋麻纤维",
+      "sheet": "功效性活性成分",
+      "component": "洋麻纤维"
+    },
+    {
+      "product_name": "Camellia Seed Powder山茶籽粉",
+      "sheet": "功效性活性成分",
+      "component": "山茶籽粉"
+    },
+    {
+      "product_name": "Ginseng Glycoprotein人参糖蛋白",
+      "sheet": "功效性活性成分",
+      "component": "丁二醇（和）水（和）糖蛋白"
+    },
+    {
+      "product_name": "Green Tea Glycoprotein绿茶糖蛋白",
+      "sheet": "功效性活性成分",
+      "component": "丁二醇（和）水（和）糖蛋白"
+    },
+    {
+      "product_name": "Red Ginseng Glycoprotein红参糖蛋白",
+      "sheet": "功效性活性成分",
+      "component": "丁二醇（和）水（和）糖蛋白"
+    },
+    {
+      "product_name": "Skin plant essence持续生命精华",
+      "sheet": "功效性活性成分",
+      "component": "d"
+    },
+    {
+      "product_name": "Seeproud Complex AA种子萌芽提取液",
+      "sheet": "功效性活性成分",
+      "component": "稻米芽提取液 (和) 大豆芽提取液(和) 芝麻芽提取液(和) 水(和) 1，3-丁二醇"
+    },
+    {
+      "product_name": "",
+      "sheet": "功效性活性成分",
+      "component": "维C乙基醚（3-O-乙基抗坏血酸醚）"
+    },
+    {
+      "product_name": "曲酸衍生物",
+      "sheet": "功效性活性成分",
+      "component": "曲酸二棕榈酸酯"
+    },
+    {
+      "product_name": "曲酸",
+      "sheet": "功效性活性成分",
+      "component": "5-基-2-甲基-1,4-吡喃酮"
+    },
+    {
+      "product_name": "果酸PH90",
+      "sheet": "功效性活性成分",
+      "component": "无色清澈液体天然左旋乳酸"
+    },
+    {
+      "product_name": "果酸钠S/QH60",
+      "sheet": "功效性活性成分",
+      "component": "无色清澈液体天然左旋乳酸"
+    },
+    {
+      "product_name": "BHA",
+      "sheet": "功效性活性成分",
+      "component": "β果酸"
+    },
+    {
+      "product_name": "Vegetan",
+      "sheet": "功效性活性成分",
+      "component": "二羟基丙酮"
+    },
+    {
+      "product_name": "Tourmalina",
+      "sheet": "功效性活性成分",
+      "component": "碧玺石粉"
+    },
+    {
+      "product_name": "ALIS-VAS",
+      "sheet": "功效性活性成分",
+      "component": "水/光甘草果（GLYCYRRHIZA质GLABRA）提取物/桑根（MORUS ALBA）提取物/维生素C磷酸脂钠/​1,2-戊二醇/辛甘醇"
+    },
+    {
+      "product_name": "KLEM AG2",
+      "sheet": "功效性活性成分",
+      "component": "虎杖（POLYGONUM CUSPIDATUMROOT）提取物 /光甘草根（RASPBERRY)提取物/覆盘子（GLYCYRRHIZA GLABRA(LICORICE) LEAF）提取物"
+    },
+    {
+      "product_name": "SEPIWHTE-MSH QD",
+      "sheet": "功效性活性成分",
+      "component": "十一碳酰基苯丙氨酸"
+    },
+    {
+      "product_name": "SENAS-N00263\n曲霉发酵产物取物",
+      "sheet": "功效性活性成分",
+      "component": "水/1.3丁二醇/曲霉（ASPERGILLUS展FERMENT）发酵产物提取物"
+    },
+    {
+      "product_name": "KLEM-CLP",
+      "sheet": "功效性活性成分",
+      "component": "水/海藻（HYDRAN）提取物/黑珍珠（BLACK PEARL POWER）提取物/1.3丁二醇/1.2己二醇"
+    },
+    {
+      "product_name": "VGW-00226\n皮肤亮白剂 VSN",
+      "sheet": "功效性活性成分",
+      "component": "水/白睡莲（NYMPHAEA ALBA）花提取物/棕榈酸维生素A/己基乙基甘油/苯氧乙醇"
+    },
+    {
+      "product_name": "SEPICALM-VGP",
+      "sheet": "功效性活性成分",
+      "component": "白睡莲（NYMPHAEA ALBA）花提取物/棕榈酰脯氨酸钠"
+    },
+    {
+      "product_name": "WCT-00132\n氨基酸美白剂\nAMI-WHITE COMPLEX",
+      "sheet": "功效性活性成分",
+      "component": "1-甲基乙内酰脲-2-酰亚胺"
+    },
+    {
+      "product_name": "EMBLICA",
+      "sheet": "功效性活性成分",
+      "component": "余甘子果（Fructus Phyllantht）提取物"
+    },
+    {
+      "product_name": "FTR-00138\n海茴香干细胞\nCRITHMUM MAITIMUM",
+      "sheet": "功效性活性成分",
+      "component": "海茴香（CRITHMUM MAITIMUM）愈伤组织培养物滤液"
+    },
+    {
+      "product_name": "F-BRIGHTENING COMPLE \nXL102",
+      "sheet": "功效性活性成分",
+      "component": "二裂酵母产物提取物/月见草花提取物/关苍术提取物"
+    },
+    {
+      "product_name": "MOLECULE（ES291）\n吡喃美白剂",
+      "sheet": "功效性活性成分",
+      "component": "二甲基甲氧基苯并二氢吡喃棕榈酸酯"
+    },
+    {
+      "product_name": "Alpiniawhite",
+      "sheet": "植物类提取物",
+      "component": "ALPINIA KATSUMADAI SEED EXTRACT"
+    },
+    {
+      "product_name": "射干",
+      "sheet": "植物类提取物",
+      "component": "BELAMCANDA CHINENSIS ROOT EXTRACT"
+    },
+    {
+      "product_name": "Vitex oil 圣洁霉",
+      "sheet": "植物类提取物",
+      "component": "VITEX AGNUS CASTUS EXTRACT"
+    },
+    {
+      "product_name": "OUBAKU LIQUDI 黄柏",
+      "sheet": "植物类提取物",
+      "component": "OUBAKU EKISU"
+    },
+    {
+      "product_name": "四氢胡椒碱",
+      "sheet": "植物类提取物",
+      "component": "PIPER NIGRUM (PEPPER) SEED EXTRACT"
+    },
+    {
+      "product_name": "楝树叶提取物 Neem leaf Liquid B",
+      "sheet": "植物类提取物",
+      "component": "AZADIRACHTA INDICA LEAF EXTRACT"
+    },
+    {
+      "product_name": "AQUAPHYLINE 三色堇提取物",
+      "sheet": "植物类提取物",
+      "component": "HYDROLYZED VIOLA TRICOLOR EXTRACT"
+    },
+    {
+      "product_name": "polylift",
+      "sheet": "植物类提取物",
+      "component": "PRUNUS ARMENIACA (APRICOT) KERNEL EXTRACT"
+    },
+    {
+      "product_name": "Mulberry root powder          桑树根（粉末）",
+      "sheet": "植物类提取物",
+      "component": "HYDROXYPROPYL CYCLODEXTRIN"
+    },
+    {
+      "product_name": "Punica Granatum Extract 石榴提取液",
+      "sheet": "植物类提取物",
+      "component": "Punica Grantum Extract"
+    },
+    {
+      "product_name": "Mandarin Clear",
+      "sheet": "植物类提取物",
+      "component": "CITRUS RETICULATA (TANGERINE) FRUIT EXTRACT"
+    },
+    {
+      "product_name": "Mangosteen 山竹提取物",
+      "sheet": "植物类提取物",
+      "component": "HYDROLYZED GARCINIA MANGOSTANA FRUIT EXTRACT"
+    },
+    {
+      "product_name": "X6T Bio-lamina Extract头发调理剂",
+      "sheet": "植物类提取物",
+      "component": "LAMINARIA JAPONICA EXTRACT"
+    },
+    {
+      "product_name": "EXCEL HIM 10",
+      "sheet": "植物类提取物",
+      "component": "PHYLLACANTHA FIBROSA EXTRACT"
+    },
+    {
+      "product_name": "Angelica Extract                         当归提取液",
+      "sheet": "植物类提取物",
+      "component": "ANGELICA KEISKEI EXTRACT"
+    },
+    {
+      "product_name": "Ginkgo Biloba Extract         银杏提取物",
+      "sheet": "植物类提取物",
+      "component": "GINKGO BILOBA"
+    },
+    {
+      "product_name": "Hydran III                                海藻提取物",
+      "sheet": "植物类提取物",
+      "component": "LAMINARIA JAPONICA EXTRACT"
+    },
+    {
+      "product_name": "BEE STINGER SECRETION FILTRATE *蜂毒提取物",
+      "sheet": "植物类提取物",
+      "component": "2-HEXANEDIOL/"
+    },
+    {
+      "product_name": "Green Bean Extract 绿豆提取物",
+      "sheet": "植物类提取物",
+      "component": "VIGNA RADIATA SEED EXTRACT"
+    },
+    {
+      "product_name": "MAGNOLIA EXTRACT 天女木兰提取物",
+      "sheet": "植物类提取物",
+      "component": "MAGNOLIA SIEBOLDII EXTRACT"
+    },
+    {
+      "product_name": "YuzunosTM",
+      "sheet": "植物类提取物",
+      "component": "丁二醇，水，香橙果提取物"
+    },
+    {
+      "product_name": "VetoSunTM",
+      "sheet": "植物类提取物",
+      "component": "丁二醇，水，向日葵提取物"
+    },
+    {
+      "product_name": "RedSnow",
+      "sheet": "植物类提取物",
+      "component": "丙二醇，水，山茶花提取物"
+    },
+    {
+      "product_name": "SongyiWhiteTM",
+      "sheet": "植物类提取物",
+      "component": "水，1,2-戊二醇，松口蘑提取物"
+    },
+    {
+      "product_name": "MulaxTM",
+      "sheet": "植物类提取物",
+      "component": "丁二醇，水，紫玉兰花提取物"
+    },
+    {
+      "product_name": "AppleStemTM",
+      "sheet": "植物类提取物",
+      "component": "苹果果实细胞培养物提取物，丁二醇，\n乙基己基甘油，辛酰羥肟酸"
+    },
+    {
+      "product_name": "HerbEx Korean Ginseng Extract",
+      "sheet": "植物类提取物",
+      "component": "丁二醇, 水， 人参根提取物"
+    },
+    {
+      "product_name": "HerbEx Grape Seed Extract",
+      "sheet": "植物类提取物",
+      "component": "丁二醇，水，葡萄籽提取物"
+    },
+    {
+      "product_name": "GORGONIAN EXTRACT® BG 柳珊瑚提取物",
+      "sheet": "植物类提取物",
+      "component": "丁二醇/柳珊瑚(Pseudopterogorgia elisabethae)提取物"
+    },
+    {
+      "product_name": "IBR-Dormin® all natural 0305",
+      "sheet": "植物类提取物",
+      "component": "水仙 (NARCISSUS TAZETTA) 鳞茎提取物"
+    },
+    {
+      "product_name": "IBR-TCLC® in Squalane 0702 番茄果无色类胡萝卜素（角鲨烷）",
+      "sheet": "植物类提取物",
+      "component": "角鲨烷/番茄 (SOLANUM LYCOPERSICUM) 果提取物"
+    },
+    {
+      "product_name": "IBR-CLC® concentrated in squalane 0404",
+      "sheet": "植物类提取物",
+      "component": "角鲨烷/盐生杜氏藻 (DUNALIELLA SALINA) 提取物"
+    },
+    {
+      "product_name": "IBR-Tom® NP 0603",
+      "sheet": "植物类提取物",
+      "component": "番茄（SOLANUM LYCOPERSICUM）果提取物"
+    },
+    {
+      "product_name": "GORGONIAN EXTRACT® BG 柳珊瑚提取物",
+      "sheet": "植物类提取物",
+      "component": "丁二醇/柳珊瑚(Pseudopterogorgia elisabethae)提取物"
+    },
+    {
+      "product_name": "Seaweed Extract墨角藻提取物",
+      "sheet": "植物类提取物",
+      "component": "丁二醇,水,墨角藻提取物"
+    },
+    {
+      "product_name": "Paeonia Extract牡丹提取液",
+      "sheet": "植物类提取物",
+      "component": "乙醇,水,牡丹根提取物"
+    },
+    {
+      "product_name": "Mulberry BarkExtract鸡桑根提取物",
+      "sheet": "植物类提取物",
+      "component": "丁二醇,水,鸡桑根提取物"
+    },
+    {
+      "product_name": "Cattail Extract水烛香蒲提取物",
+      "sheet": "植物类提取物",
+      "component": "丁二醇,水,水烛穗提取物"
+    },
+    {
+      "product_name": "Galamus Rhizome Extract菖蒲提取物",
+      "sheet": "植物类提取物",
+      "component": "水,乙醇,菖蒲根提取物"
+    },
+    {
+      "product_name": "Gardenia Extract栀子提取物",
+      "sheet": "植物类提取物",
+      "component": "丁二醇,栀子果提取物"
+    },
+    {
+      "product_name": "Rose Fruit ExtractBG-50野玫瑰果提取物BG-50",
+      "sheet": "植物类提取物",
+      "component": "水,丁二醇,野蔷薇果提取物"
+    },
+    {
+      "product_name": "Rice Bran Extract米糠提取物",
+      "sheet": "植物类提取物",
+      "component": "水,丁二醇,稻糠提取物"
+    },
+    {
+      "product_name": "Althea Extract药蜀葵提取物",
+      "sheet": "植物类提取物",
+      "component": "丁二醇,水,药蜀葵根提取物"
+    },
+    {
+      "product_name": "Seaweed Extract海带提取物",
+      "sheet": "植物类提取物",
+      "component": "海带提取物"
+    },
+    {
+      "product_name": "Rose Apple Leaf ExtractBG-30蒲桃叶提取物BG-30",
+      "sheet": "植物类提取物",
+      "component": "蒲桃叶提取物"
+    },
+    {
+      "product_name": "Fennel Extract茴香提取物",
+      "sheet": "植物类提取物",
+      "component": "水,乙醇,茴香果提取物"
+    },
+    {
+      "product_name": "菊苣根提取物",
+      "sheet": "植物类提取物",
+      "component": "菊苣根提取物"
+    },
+    {
+      "product_name": "川芎提取液",
+      "sheet": "植物类提取物",
+      "component": "川芎提取液"
+    },
+    {
+      "product_name": "ODD",
+      "sheet": "植物类提取物",
+      "component": "蘑菇提取液/银耳提取液"
+    },
+    {
+      "product_name": "绿茶提取物",
+      "sheet": "植物类提取物",
+      "component": "绿茶提取物"
+    },
+    {
+      "product_name": "Bamboo Exfoliating Extract",
+      "sheet": "植物类提取物",
+      "component": "GATTEFOSSE"
+    },
+    {
+      "product_name": "Fresh Cells Carrots Pfe",
+      "sheet": "植物类提取物",
+      "component": "GATTEFOSSE"
+    },
+    {
+      "product_name": "Fresh Cells Mango Pfe",
+      "sheet": "植物类提取物",
+      "component": "GATTEFOSSE"
+    },
+    {
+      "product_name": "Fresh Cells Pumpkin Pfe",
+      "sheet": "植物类提取物",
+      "component": "GATTEFOSSE"
+    },
+    {
+      "product_name": "Fresh Cells Strawberry Pfe",
+      "sheet": "植物类提取物",
+      "component": "GATTEFOSSE"
+    },
+    {
+      "product_name": "Gatuline A",
+      "sheet": "植物类提取物",
+      "component": "GATTEFOSSE"
+    },
+    {
+      "product_name": "Gatuline In-tense",
+      "sheet": "植物类提取物",
+      "component": "GATTEFOSSE"
+    },
+    {
+      "product_name": "Gatuline RC/ RP/ RC BIO",
+      "sheet": "植物类提取物",
+      "component": "GATTEFOSSE"
+    },
+    {
+      "product_name": "Hema'tite",
+      "sheet": "植物类提取物",
+      "component": "GATTEFOSSE"
+    },
+    {
+      "product_name": "Lemon Secrets",
+      "sheet": "植物类提取物",
+      "component": "GATTEFOSSE"
+    },
+    {
+      "product_name": "Orange Secrets",
+      "sheet": "植物类提取物",
+      "component": "GATTEFOSSE"
+    },
+    {
+      "product_name": "Shikakai water金合欢果天然表活",
+      "sheet": "植物类提取物",
+      "component": "金合欢果提取物"
+    },
+    {
+      "product_name": "LINEFILL                                 皱纹填充素",
+      "sheet": "植物类提取物",
+      "component": "芝麻（SESAMUM INDICUM）籽提取物"
+    },
+    {
+      "product_name": "HOMEOSTATINE                      三次方植物除皱剂",
+      "sheet": "植物类提取物",
+      "component": "扁浒苔（ENTEROMORPHA COMPRESSA）提取物                                           刺云实（CAESALPINIA SPINOSA）胶"
+    },
+    {
+      "product_name": "PRONALEN SPORT\nRE-ENERGIZER\n海洋活力素",
+      "sheet": "植物类提取物",
+      "component": "扁浒苔（ENTEROMORPHA COMPRESSA）提取物"
+    },
+    {
+      "product_name": "PRONALEN FRUIT\nACIDS AHA-5                   复合果酸",
+      "sheet": "植物类提取物",
+      "component": "鸡蛋果（PASSIFLORA EDULIS）果提取物                                                                柠檬（CITRUS LIMON）果提取物"
+    },
+    {
+      "product_name": "Portulaca oleracea Extract马齿苋提取液",
+      "sheet": "植物类提取物",
+      "component": "马齿苋提取液"
+    },
+    {
+      "product_name": "Panax Ginseng Root Extract红参提取液",
+      "sheet": "植物类提取物",
+      "component": "红参提取液"
+    },
+    {
+      "product_name": "Yambean豆薯提取液",
+      "sheet": "植物类提取物",
+      "component": "豆薯提取液"
+    },
+    {
+      "product_name": "Schnewhite花菇提取物",
+      "sheet": "植物类提取物",
+      "component": "花菇提取物"
+    },
+    {
+      "product_name": "Jeju aloe Extract济州芦荟提取液",
+      "sheet": "植物类提取物",
+      "component": "芦荟叶提取物"
+    },
+    {
+      "product_name": "Perilla seed extract紫苏籽提取物",
+      "sheet": "植物类提取物",
+      "component": "紫苏籽提取物"
+    },
+    {
+      "product_name": "Scutellaria Extract黄芩提取液",
+      "sheet": "植物类提取物",
+      "component": "黄芩提取物"
+    },
+    {
+      "product_name": "Flax Peptide Water亚麻籽提取物",
+      "sheet": "植物类提取物",
+      "component": "亚麻籽提取物"
+    },
+    {
+      "product_name": "",
+      "sheet": "植物类提取物",
+      "component": "石榴花提取物"
+    },
+    {
+      "product_name": "SEPIVINOL™ 红酒多酚",
+      "sheet": "植物类提取物",
+      "component": "红酒提取物"
+    },
+    {
+      "product_name": "野菊花提取液",
+      "sheet": "植物类提取物",
+      "component": "野菊花提取液"
+    },
+    {
+      "product_name": "艾叶提取物",
+      "sheet": "植物类提取物",
+      "component": "艾叶提取物"
+    },
+    {
+      "product_name": "红花提取液",
+      "sheet": "植物类提取物",
+      "component": "红花提取液"
+    },
+    {
+      "product_name": "茯苓提取液",
+      "sheet": "植物类提取物",
+      "component": "茯苓提取液"
+    },
+    {
+      "product_name": "金银花提取液",
+      "sheet": "植物类提取物",
+      "component": "金银花提取液"
+    },
+    {
+      "product_name": "板蓝根提取物",
+      "sheet": "植物类提取物",
+      "component": "板蓝根提取物"
+    },
+    {
+      "product_name": "蛇床子提取液",
+      "sheet": "植物类提取物",
+      "component": "蛇床子提取液"
+    },
+    {
+      "product_name": "鼠尾草提取液",
+      "sheet": "植物类提取物",
+      "component": "鼠尾草提取液"
+    },
+    {
+      "product_name": "紫草提取液",
+      "sheet": "植物类提取物",
+      "component": "紫草提取液"
+    },
+    {
+      "product_name": "连翘提取液",
+      "sheet": "植物类提取物",
+      "component": "连翘提取液"
+    },
+    {
+      "product_name": "大黄提取液",
+      "sheet": "植物类提取物",
+      "component": "大黄提取液"
+    },
+    {
+      "product_name": "淡竹叶提取液",
+      "sheet": "植物类提取物",
+      "component": "淡竹叶提取液"
+    },
+    {
+      "product_name": "金盏花提取液",
+      "sheet": "植物类提取物",
+      "component": "金盏花提取液"
+    },
+    {
+      "product_name": "ABIL® B 9950",
+      "sheet": "头发调理剂",
+      "component": "DIMETHICONE PROPYL PG-BETAINE"
+    },
+    {
+      "product_name": "ABIL® Soft AF 100",
+      "sheet": "头发调理剂",
+      "component": "METHOXY PEG/PPG-7/3 AMINOPROPYL DIMETHICONE"
+    },
+    {
+      "product_name": "ABIL® Soft AF 200",
+      "sheet": "头发调理剂",
+      "component": "BIS-AMINOPROPYL DIMETHICONE"
+    },
+    {
+      "product_name": "ABIL® T Quat 60",
+      "sheet": "头发调理剂",
+      "component": "BIS-AMINOPROPYL DIMETHICONE"
+    },
+    {
+      "product_name": "VARISOFT® BTMS Pellets",
+      "sheet": "头发调理剂",
+      "component": "山嵛基三甲基铵甲基硫酸盐；鲸蜡硬脂醇"
+    },
+    {
+      "product_name": "VARISOFT® PATC",
+      "sheet": "头发调理剂",
+      "component": "棕榈酰胺丙基三甲基氯化铵"
+    },
+    {
+      "product_name": "VARISOFT® RTM 50",
+      "sheet": "头发调理剂",
+      "component": "蓖麻醇酸酰胺丙基乙基二甲基铵乙基硫酸盐"
+    },
+    {
+      "product_name": "VARISOFT® W 575 PG",
+      "sheet": "头发调理剂",
+      "component": "聚季铵盐-87"
+    },
+    {
+      "product_name": "Dantuff-C",
+      "sheet": "头发调理剂",
+      "component": "氯咪巴唑"
+    },
+    {
+      "product_name": "Dantuff-K",
+      "sheet": "头发调理剂",
+      "component": "酮康唑（OTC）"
+    },
+    {
+      "product_name": "Vividine",
+      "sheet": "头发调理剂",
+      "component": "吡咯烷基二氨基嘧啶氧化物"
+    },
+    {
+      "product_name": "Co-Guar",
+      "sheet": "头发调理剂",
+      "component": "瓜尔胶羟丙基三甲基氯化铵"
+    },
+    {
+      "product_name": "ARMOCARE® VGH-70",
+      "sheet": "头发调理剂",
+      "component": "二棕榈酰氧乙基二甲基氯化铵"
+    },
+    {
+      "product_name": "pf-95",
+      "sheet": "头发调理剂",
+      "component": "己脒定二羟乙基磺酸盐"
+    },
+    {
+      "product_name": "GafquatHs—100",
+      "sheet": "头发调理剂",
+      "component": "聚季铵盐-28"
+    },
+    {
+      "product_name": "DC2-1352",
+      "sheet": "头发调理剂",
+      "component": "聚二甲基硅氧烷（及）月桂醇聚氧乙烯醚-23（及）C12-15链烷醇聚醚-3"
+    },
+    {
+      "product_name": "SeraShine EM 301",
+      "sheet": "头发调理剂",
+      "component": "氨端聚二甲基硅氧烷和十三醇聚醚-12和西曲氯铵"
+    },
+    {
+      "product_name": "SeraShine EM 203",
+      "sheet": "头发调理剂",
+      "component": "聚二甲基硅氧烷醇和十二烷基苯磺酸三乙醇铵盐"
+    },
+    {
+      "product_name": "SeraShine EM 210",
+      "sheet": "头发调理剂",
+      "component": "聚二甲基硅氧烷醇和十二烷基苯磺酸三乙醇铵盐"
+    },
+    {
+      "product_name": "SeraShine GB 14",
+      "sheet": "头发调理剂",
+      "component": "环戊聚二甲基硅氧烷和聚二甲基硅氧烷"
+    },
+    {
+      "product_name": "SeraShine GB 11",
+      "sheet": "头发调理剂",
+      "component": "环戊聚二甲基硅氧烷和聚二甲基硅氧烷"
+    },
+    {
+      "product_name": "SeraShine EM 305",
+      "sheet": "头发调理剂",
+      "component": "氨端聚二甲基硅氧烷和C12-14链烷醇聚醚-7"
+    },
+    {
+      "product_name": "SeraShine GB 16",
+      "sheet": "头发调理剂",
+      "component": "聚二甲基硅氧烷和聚二甲基硅氧烷"
+    },
+    {
+      "product_name": "SeraShine EM 503",
+      "sheet": "头发调理剂",
+      "component": "聚二甲基硅氧烷和椰油酰胺丙基甜菜碱和十三烷醇聚醚-7和瓜儿胶羟丙基三甲基氯化铵"
+    },
+    {
+      "product_name": "C—14S瓜尔胶/C—162瓜尔胶",
+      "sheet": "头发调理剂",
+      "component": "瓜尔胶羟丙基三甲基氯化铵"
+    },
+    {
+      "product_name": "Laviguat Hold",
+      "sheet": "头发调理剂",
+      "component": "聚季铵盐-46"
+    },
+    {
+      "product_name": "TAB-2",
+      "sheet": "头发调理剂",
+      "component": "二(氢化牛脂基)邻苯二甲酸酰胺"
+    },
+    {
+      "product_name": "Aristoflex® PEA",
+      "sheet": "头发调理剂",
+      "component": "聚对苯二甲酸亚丙基酯"
+    },
+    {
+      "product_name": "Crinipan AD甘宝素",
+      "sheet": "头发调理剂",
+      "component": "氯咪巴唑"
+    },
+    {
+      "product_name": "SURIA ®  MAC",
+      "sheet": "头发调理剂",
+      "component": "马来酸蓖麻油酯                Castor oil, monomaleate"
+    },
+    {
+      "product_name": "Usoft AC97",
+      "sheet": "头发调理剂",
+      "component": "白色或浅黄色粉末"
+    },
+    {
+      "product_name": "Usoft SS",
+      "sheet": "头发调理剂",
+      "component": "白色或浅黄色粉末"
+    },
+    {
+      "product_name": "AUsoft SBA",
+      "sheet": "头发调理剂",
+      "component": "白色或浅黄色片状固体"
+    },
+    {
+      "product_name": "N-Hance VA-14",
+      "sheet": "头发调理剂",
+      "component": "浅黄色粉末"
+    },
+    {
+      "product_name": "N-Hance CCG45",
+      "sheet": "头发调理剂",
+      "component": "浅黄色粉末"
+    },
+    {
+      "product_name": "Usoft CM",
+      "sheet": "头发调理剂",
+      "component": "淡黄色液体"
+    },
+    {
+      "product_name": "Covafix 123",
+      "sheet": "头发调理剂",
+      "component": "丙二醇，苯甲醇。聚季铵盐-80"
+    },
+    {
+      "product_name": "PMX0245/0345",
+      "sheet": "头发调理剂",
+      "component": "无色透明液体"
+    },
+    {
+      "product_name": "BRB 1282S",
+      "sheet": "头发调理剂",
+      "component": "白色乳液"
+    },
+    {
+      "product_name": "BRB 1744",
+      "sheet": "头发调理剂",
+      "component": "白色乳液"
+    },
+    {
+      "product_name": "BRB BG 517",
+      "sheet": "头发调理剂",
+      "component": "无色半透明流动啫喱"
+    },
+    {
+      "product_name": "BRB BG 516",
+      "sheet": "头发调理剂",
+      "component": "无色半透明啫喱"
+    },
+    {
+      "product_name": "DC 556",
+      "sheet": "头发调理剂",
+      "component": "无色透明液体"
+    },
+    {
+      "product_name": "AS8194",
+      "sheet": "头发调理剂",
+      "component": "半透明液体"
+    },
+    {
+      "product_name": "BAICAPIL                                 生发素",
+      "sheet": "头发调理剂",
+      "component": "黄芩（SCUTELLARIA BAICALENSIS）根提取物                  小麦（TRITICUM VULGARE）胚芽提取物                            野大豆（GLYCINE SOJA）胚芽提取物"
+    },
+    {
+      "product_name": "",
+      "sheet": "头发调理剂",
+      "component": "CleanBio-Zinc"
+    },
+    {
+      "product_name": "",
+      "sheet": "头发调理剂",
+      "component": "ARQUAD® PC 268-75 PG"
+    },
+    {
+      "product_name": "BICOCARE GCO",
+      "sheet": "防腐剂",
+      "component": "OCTANEDIOL"
+    },
+    {
+      "product_name": "SIG",
+      "sheet": "防腐剂",
+      "component": "2-甲基-4-异噻唑啉-3-酮、1.2-苯丙异噻唑啉-3-酮"
+    },
+    {
+      "product_name": "euxyl® K 220",
+      "sheet": "防腐剂",
+      "component": "METHYLISOTHIAZOLINONE/ETHYLHEXYLGLYCERIN"
+    },
+    {
+      "product_name": "euxyl® K 350",
+      "sheet": "防腐剂",
+      "component": "PHENOXYETHANOL\n/METHYLPARABEN/ETHYLPARABEN/ETHYLHEXYLGLYCERIN"
+    },
+    {
+      "product_name": "euxyl® K 702",
+      "sheet": "防腐剂",
+      "component": "PHENOXYETHANOL/BENZOIC ACID\n/ETHYLHEXYLGLYCERIN\n/POLYAMINOPROPYL BIGUANIDE"
+    },
+    {
+      "product_name": "euxyl® K 712",
+      "sheet": "防腐剂",
+      "component": "WATER/SODIUM BENZOATE\n/POTASSIUM SORBATE"
+    },
+    {
+      "product_name": "euxyl® K 903",
+      "sheet": "防腐剂",
+      "component": "BENZYL ALCOHOL\n/BENZOIC ACID\n/DEHYDROACETIC ACID"
+    },
+    {
+      "product_name": "A621",
+      "sheet": "防腐剂",
+      "component": "甘油辛酸酯/辛酰羟肟酸/1,2-戊二醇/丙二醇"
+    },
+    {
+      "product_name": "A631",
+      "sheet": "防腐剂",
+      "component": "辛酰羟肟酸/甘油辛酸酯/1,2-戊二醇/丙二醇"
+    },
+    {
+      "product_name": "A91",
+      "sheet": "防腐剂",
+      "component": "甘油辛酸酯/辛酸羟肟酸/丙二醇"
+    },
+    {
+      "product_name": "1,2戊二醇",
+      "sheet": "防腐剂",
+      "component": "1,2戊二醇"
+    },
+    {
+      "product_name": "Dermosoft 688",
+      "sheet": "防腐剂",
+      "component": "茴香酸"
+    },
+    {
+      "product_name": "688-10L",
+      "sheet": "防腐剂",
+      "component": "茴香酸，甘油，茴香酸钠，水"
+    },
+    {
+      "product_name": "Dermosoft 700B",
+      "sheet": "防腐剂",
+      "component": "左旋糖酸，甘油，左旋糖酸钠，水"
+    },
+    {
+      "product_name": "SymDiol 68T馨二醇68T",
+      "sheet": "防腐剂",
+      "component": "1,2-己二醇,辛甘醇,环庚三烯酚酮"
+    },
+    {
+      "product_name": "SymTriol馨三醇",
+      "sheet": "防腐剂",
+      "component": "CaprylylGlycol,1,2Hexanediol,MethylbenzylAlcohol"
+    },
+    {
+      "product_name": "JM-BE 液体复合防腐防霉剂GMB-901-C",
+      "sheet": "防腐剂",
+      "component": "双羟甲基咪唑烷基脲,羟苯甲酯,羟苯丙酯,丙二醇"
+    },
+    {
+      "product_name": "Nipaguard CMB",
+      "sheet": "防腐剂",
+      "component": "三甘醇,苯甲醇,丙二醇,甲基氯异噻唑啉酮,甲基异噻唑啉酮"
+    },
+    {
+      "product_name": "Nipaguard IPP2",
+      "sheet": "防腐剂",
+      "component": "苯氧乙醇,碘丙炔醇丁基氨甲酸酯"
+    },
+    {
+      "product_name": "ISALCHEM 11",
+      "sheet": "防腐剂",
+      "component": "十一烷醇"
+    },
+    {
+      "product_name": "Liquid Glydant Plus",
+      "sheet": "防腐剂",
+      "component": "DMDM 乙内酰脲,碘丙炔醇丁基氨甲酸酯"
+    },
+    {
+      "product_name": "SymOcide PT",
+      "sheet": "防腐剂",
+      "component": "苯氧乙醇,环庚三烯酚酮"
+    },
+    {
+      "product_name": "Lexgard GCP",
+      "sheet": "防腐剂",
+      "component": "甘油辛酸酯&苯乙醇"
+    },
+    {
+      "product_name": "Lexgard HPO",
+      "sheet": "防腐剂",
+      "component": "辛甘醇&己二醇&苯氧乙醇"
+    },
+    {
+      "product_name": "Lexgard NAP",
+      "sheet": "防腐剂",
+      "component": "辛甘醇&苯乙醇"
+    },
+    {
+      "product_name": "Lexgard OE90",
+      "sheet": "防腐剂",
+      "component": "辛甘醇&乙基己基甘油"
+    },
+    {
+      "product_name": "Spectragard",
+      "sheet": "防腐剂",
+      "component": "辛甘醇&己二醇&甲基异噻唑啉酮"
+    },
+    {
+      "product_name": "Spectrastat",
+      "sheet": "防腐剂",
+      "component": "辛酰羟肟酸&辛甘醇&甘油"
+    },
+    {
+      "product_name": "Spectrastat E",
+      "sheet": "防腐剂",
+      "component": "辛酰氧肟酸&乙基己基甘油&甲基丙二醇"
+    },
+    {
+      "product_name": "Spectrastat G",
+      "sheet": "防腐剂",
+      "component": "辛酰氧肟酸&单辛酸甘油酯&甲基丙二醇"
+    },
+    {
+      "product_name": "Spectrastat PHL",
+      "sheet": "防腐剂",
+      "component": "1，2-己二醇&辛酰羟肟酸&1，3-丙二醇"
+    },
+    {
+      "product_name": "Wetfilm",
+      "sheet": "防腐剂",
+      "component": "三甲基戊二醇&己二酸&甘油交联聚合物"
+    },
+    {
+      "product_name": "PARSOL 5000",
+      "sheet": "防晒剂",
+      "component": "4-METHYLBENZYLIDENE CAMPHOR"
+    },
+    {
+      "product_name": "LIPONATE® OP-26",
+      "sheet": "防晒剂",
+      "component": "PPG-26油酸酯"
+    },
+    {
+      "product_name": "Escalol 507",
+      "sheet": "防晒剂",
+      "component": "二甲基PABA乙基乙酯"
+    },
+    {
+      "product_name": "Cocoate BG",
+      "sheet": "防晒剂",
+      "component": "GATTEFOSSE"
+    },
+    {
+      "product_name": "尿囊素",
+      "sheet": "常用添加物",
+      "component": "脲咪唑二酮"
+    },
+    {
+      "product_name": "水溶氮酮",
+      "sheet": "常用添加物",
+      "component": "氮酮（水溶）"
+    },
+    {
+      "product_name": "Hotact® VBE热感剂",
+      "sheet": "常用添加物",
+      "component": "香兰基丁基乙醚"
+    },
+    {
+      "product_name": "EDTA-2Na",
+      "sheet": "常用添加物",
+      "component": "乙二胺四乙酸二钠"
+    },
+    {
+      "product_name": "BHA",
+      "sheet": "常用添加物",
+      "component": "丁基羟基茴香醚"
+    },
+    {
+      "product_name": "BHT",
+      "sheet": "常用添加物",
+      "component": "2，6-二叔丁基-4-甲基苯酚"
+    },
+    {
+      "product_name": "维生素E",
+      "sheet": "常用添加物",
+      "component": "维生素E醋酸酯"
+    },
+    {
+      "product_name": "FrescolatPlus清凉剂Plus",
+      "sheet": "常用添加物",
+      "component": "薄荷醇,薄荷醇乳酸酯"
+    },
+    {
+      "product_name": "FrescolatMGA薄荷甘油缩酮",
+      "sheet": "常用添加物",
+      "component": "薄荷酮甘油缩酮"
+    },
+    {
+      "product_name": "Vitamin E-Acetate",
+      "sheet": "常用添加物",
+      "component": "维生素E醋酸酯               Tocopheryl acetate"
+    },
+    {
+      "product_name": "GCOM™ Thiazone",
+      "sheet": "常用添加物",
+      "component": "噻酮                          Thiazone"
+    },
+    {
+      "product_name": "ZODM™ OW-Azone",
+      "sheet": "常用添加物",
+      "component": "油水两溶氮酮"
+    },
+    {
+      "product_name": "SNAKE OIL *蛇油",
+      "sheet": "赋脂剂",
+      "component": "SNAKE（SERPENTES SPP.）OIL"
+    },
+    {
+      "product_name": "GREEN TEA SEED OIL 绿茶籽油",
+      "sheet": "赋脂剂",
+      "component": "CAMELLIA SINENSIS SEED OIL"
+    },
+    {
+      "product_name": "TDC-HPG 36",
+      "sheet": "赋脂剂",
+      "component": "氢化棕榈仁油甘油酯&氢化棕榈油甘油酯"
+    },
+    {
+      "product_name": "TDC-HSG 35",
+      "sheet": "赋脂剂",
+      "component": "氢化豆酯"
+    },
+    {
+      "product_name": "Lipovol® WGO 小麦胚芽油",
+      "sheet": "赋脂剂",
+      "component": "小麦(TRITICUM VULGARE)胚芽油"
+    },
+    {
+      "product_name": "Lipovol® O 橄榄油",
+      "sheet": "赋脂剂",
+      "component": "油橄榄(OLEA EUROPAEA)果油"
+    },
+    {
+      "product_name": "DW Jojoba Colorless 霍霍巴油",
+      "sheet": "赋脂剂",
+      "component": "霍霍巴(SIMMONDSIA CHINENSIS)籽油"
+    },
+    {
+      "product_name": "芦荟油",
+      "sheet": "赋脂剂",
+      "component": "异构烷烃/芦荟多糖"
+    },
+    {
+      "product_name": "Hydrogenated High Erucic Rapeseed Oil",
+      "sheet": "赋脂剂",
+      "component": "氢化菜籽油"
+    },
+    {
+      "product_name": "Vitamin berry oil沙棘油",
+      "sheet": "赋脂剂",
+      "component": "浅黄液体"
+    },
+    {
+      "product_name": "Bija Oil(Torreya nucifera seed oil)香榧油",
+      "sheet": "赋脂剂",
+      "component": "浅黄液体"
+    },
+    {
+      "product_name": "Orange Daylily Flower Oil萱草花油",
+      "sheet": "赋脂剂",
+      "component": "浅黄液体"
+    },
+    {
+      "product_name": "琉璃苣油（详情请点击）",
+      "sheet": "赋脂剂",
+      "component": "浅黄液体"
+    },
+    {
+      "product_name": "橄榄油（详情请点击）",
+      "sheet": "赋脂剂",
+      "component": "浅黄液体"
+    },
+    {
+      "product_name": "奇异果籽油（详情请点击）",
+      "sheet": "赋脂剂",
+      "component": "浅黄液体"
+    },
+    {
+      "product_name": "核桃油",
+      "sheet": "赋脂剂",
+      "component": "浅黄液体"
+    },
+    {
+      "product_name": "葡萄籽油",
+      "sheet": "赋脂剂",
+      "component": "浅黄液体"
+    },
+    {
+      "product_name": "Macadalia Nut Oil refined    夏威夷坚果油",
+      "sheet": "赋脂剂",
+      "component": "Macadalia Nut Oil refined                 夏威夷坚果油"
+    },
+    {
+      "product_name": "Isomerism oil-APG-10",
+      "sheet": "赋脂剂",
+      "component": "Isomerism sun piant oil异构太阳花油"
+    },
+    {
+      "product_name": "黑胡椒",
+      "sheet": "精油",
+      "component": "(无 INCI)"
+    },
+    {
+      "product_name": "柠檬茶树油",
+      "sheet": "精油",
+      "component": "LEPTOSPERMUM PETERSONII"
+    },
+    {
+      "product_name": "茶树油",
+      "sheet": "精油",
+      "component": "MELALEUCA ALTERNIFOLIA"
+    },
+    {
+      "product_name": "檀香油（澳洲）",
+      "sheet": "精油",
+      "component": "Sandalwood Oil"
+    },
+    {
+      "product_name": "洋茴香油",
+      "sheet": "精油",
+      "component": "Syzgium anisatum."
+    },
+    {
+      "product_name": "翠柏油",
+      "sheet": "精油",
+      "component": "Callitris columellaris"
+    },
+    {
+      "product_name": "玉丝柏油",
+      "sheet": "精油",
+      "component": "Callitris glaucophylla"
+    },
+    {
+      "product_name": "霍霍巴油",
+      "sheet": "精油",
+      "component": "霍霍巴油"
+    },
+    {
+      "product_name": "芦荟粉",
+      "sheet": "精油",
+      "component": "芦荟粉"
+    },
+    {
+      "product_name": "芦荟油",
+      "sheet": "精油",
+      "component": "芦荟油"
+    },
+    {
+      "product_name": "Powder Facial面膜粉",
+      "sheet": "其他",
+      "component": "高岭土，Oligo GGF，Gamma-氨基丁酸，烟酰胺，木瓜酶"
+    },
+    {
+      "product_name": "Powder Foam（charcoal）活性炭洁面粉",
+      "sheet": "其他",
+      "component": "椰油基强以及磺酸钠，月桂酰谷氨酸钠，月桂酰肌氨酸钠，棕榈酸钠，羟丙基甲基纤维素，木瓜蛋白酶，水杨酸（水溶型），活性炭粉"
+    },
+    {
+      "product_name": "Powder Foam（Green Tea）绿茶洁面粉",
+      "sheet": "其他",
+      "component": "椰油基强以及磺酸钠，月桂酰谷氨酸钠，月桂酰肌氨酸钠，棕榈酸钠，羟丙基甲基纤维素，木瓜蛋白酶，水杨酸（水溶型），绿茶粉"
+    },
+    {
+      "product_name": "Powder Foam洁面粉",
+      "sheet": "其他",
+      "component": "椰油基强以及磺酸钠，月桂酰谷氨酸钠，月桂酰肌氨酸钠，棕榈酸钠，羟丙基甲基纤维素，木瓜蛋白酶，水杨酸（水溶型）"
+    },
+    {
+      "product_name": "Starphere F7-BL23蓝色面部VE柔珠",
+      "sheet": "其他",
+      "component": "玉米淀粉，微晶纤维素，乳糖，羟丙基甲基纤维素，维生素E醋酸酯，色粉"
+    },
+    {
+      "product_name": "Starphere P5-GO12金色珠光VE柔珠",
+      "sheet": "其他",
+      "component": "玉米淀粉，微晶纤维素，乳糖，羟丙基甲基纤维素，维生素E醋酸酯，色粉"
+    },
+    {
+      "product_name": "Starphere P5-GO79金色珠光VE柔珠",
+      "sheet": "其他",
+      "component": "玉米淀粉，微晶纤维素，乳糖，羟丙基甲基纤维素，维生素E醋酸酯，色粉"
+    },
+    {
+      "product_name": "Starphere P5-SV12银色珠光VE柔珠",
+      "sheet": "其他",
+      "component": "玉米淀粉，微晶纤维素，乳糖，羟丙基甲基纤维素，维生素E醋酸酯，色粉"
+    },
+    {
+      "product_name": "Starphere P7-GO79金色珠光VE柔珠",
+      "sheet": "其他",
+      "component": "玉米淀粉，微晶纤维素，乳糖，羟丙基甲基纤维素，维生素E醋酸酯，色粉"
+    },
+    {
+      "product_name": "Anti-Wrinkle Collagen Granule抗皱胶原蛋白粒子",
+      "sheet": "其他",
+      "component": "甘露醇,海藻糖,胶原蛋白,黄原胶"
+    },
+    {
+      "product_name": "Moisture LC神经酰胺保湿粒子",
+      "sheet": "其他",
+      "component": "神经酰胺，霍霍巴油，氢化卵磷脂，磷脂酰胆碱"
+    },
+    {
+      "product_name": "StaphereF5-YE79(CoQ-10)辅酶Q-10抗衰老柔珠",
+      "sheet": "其他",
+      "component": "玉米淀粉，微晶纤维素，泛醌，二氧化钛，甘露糖醇"
+    },
+    {
+      "product_name": "Starphere Salyllet Acid水杨酸抗敏柔珠",
+      "sheet": "其他",
+      "component": "蔗糖，玉米淀粉，微晶纤维素，甘露糖醇，水杨酸"
+    },
+    {
+      "product_name": "Charcoal G 29可揉碎活性碳颗粒",
+      "sheet": "其他",
+      "component": "活性炭"
+    },
+    {
+      "product_name": "Charcoal Powder 2000活性炭磨砂颗粒",
+      "sheet": "其他",
+      "component": "活性炭"
+    },
+    {
+      "product_name": "Charcoal S0206活性炭磨砂颗粒",
+      "sheet": "其他",
+      "component": "活性炭"
+    },
+    {
+      "product_name": "Charcoal S602活性炭磨砂颗粒",
+      "sheet": "其他",
+      "component": "活性炭"
+    },
+    {
+      "product_name": "Starphere F Charcoal 23活性炭柔珠",
+      "sheet": "其他",
+      "component": "活性炭"
+    },
+    {
+      "product_name": "Starphere T5-Charcoal 79活性炭牙膏粒子",
+      "sheet": "其他",
+      "component": "活性炭"
+    },
+    {
+      "product_name": "玉米芯磨砂颗粒40-60目",
+      "sheet": "其他",
+      "component": "玉米芯"
+    },
+    {
+      "product_name": "玉米芯磨砂颗粒60-80目",
+      "sheet": "其他",
+      "component": "玉米芯"
+    },
+    {
+      "product_name": "乳液晶球",
+      "sheet": "其他",
+      "component": "甘油，二甲基硅油，三酸甘油酯，氢化椰子油，乳木果油等"
+    },
+    {
+      "product_name": "LexFilm Sun",
+      "sheet": "其他",
+      "component": "聚酯-7&新戊二醇二庚酸酯"
+    },
+    {
+      "product_name": "Lexorez 100",
+      "sheet": "其他",
+      "component": "己二酸/二甘醇/甘油交联聚合物"
+    },
+    {
+      "product_name": "Lexorez TL-8",
+      "sheet": "其他",
+      "component": "三甲基戊二醇/己二酸共聚物"
+    },
+    {
+      "product_name": "PA-112阳离子啫喱水胶浆",
+      "sheet": "其他",
+      "component": "VP/丙烯酸酯/甲基丙烯酸二甲基氨乙酯共聚物"
+    },
+    {
+      "product_name": "PA-116两性离子啫喱水胶浆",
+      "sheet": "其他",
+      "component": "VP/丙烯酸酯类/乙胺氧化物甲基丙烯酸盐共聚物"
+    },
+    {
+      "product_name": "PA-60阴离子啫喱水胶浆",
+      "sheet": "其他",
+      "component": "丙烯酸/丙烯酸酯共聚物"
+    },
+    {
+      "product_name": "PA-58阴离子啫喱水胶浆",
+      "sheet": "其他",
+      "component": "丙烯酸及其酯共聚物"
+    },
+    {
+      "product_name": "PA-112阳离子啫喱水胶浆",
+      "sheet": "其他",
+      "component": "VP/丙烯酸酯类/甲基丙烯酸二甲氨基乙酯共聚物"
+    },
+    {
+      "product_name": "PA-618阴离子特硬自增稠啫喱胶浆",
+      "sheet": "其他",
+      "component": "丙烯酸/丙烯酸酯共聚物"
+    },
+    {
+      "product_name": "PA-588阴离子光亮保湿自增稠啫喱胶浆",
+      "sheet": "其他",
+      "component": "丙烯酸/丙烯酸酯共聚物"
+    },
+    {
+      "product_name": "PA-61水醇混溶发胶",
+      "sheet": "其他",
+      "component": "丙烯酸/丙烯酸酯共聚物"
+    },
+    {
+      "product_name": "PA-68发胶胶浆",
+      "sheet": "其他",
+      "component": "丙烯酸及其酯类共聚物"
+    },
+    {
+      "product_name": "PA-69全醇发胶胶浆",
+      "sheet": "其他",
+      "component": "丙烯酸/丙烯酸酯共聚物"
+    },
+    {
+      "product_name": "PA-66水醇混溶发胶胶浆",
+      "sheet": "其他",
+      "component": "丙烯酸/丙烯酸酯共聚物"
+    },
+    {
+      "product_name": "MP-886水摩丝（发蜡）胶浆",
+      "sheet": "其他",
+      "component": "丙烯酸及其酯共聚物"
+    },
+    {
+      "product_name": "MP-888摩丝基础胶、专用胶",
+      "sheet": "其他",
+      "component": "丙烯酸及其酯共聚物"
+    },
+    {
+      "product_name": "Biostyle® CGP Polymer",
+      "sheet": "其他",
+      "component": "麦芽糊精/VP共聚物"
+    },
+    {
+      "product_name": "Polyethylene powder",
+      "sheet": "其他",
+      "component": "聚乙烯粉"
+    },
+    {
+      "product_name": "PVP K-30",
+      "sheet": "其他",
+      "component": "聚乙烯基吡啶烷酮"
+    },
+    {
+      "product_name": "PVP K-30",
+      "sheet": "其他",
+      "component": "聚乙烯基吡啶烷酮"
+    },
+    {
+      "product_name": "VA64",
+      "sheet": "其他",
+      "component": "聚乙烯基吡啶烷酮/乙烯乙酸酯共聚物"
+    },
+    {
+      "product_name": "V-216",
+      "sheet": "其他",
+      "component": "乙烯基吡咯烷酮和长α链烯烃共聚物"
+    },
+    {
+      "product_name": "HS-100",
+      "sheet": "其他",
+      "component": "聚季铵盐-28"
+    },
+    {
+      "product_name": "V-216",
+      "sheet": "其他",
+      "component": "聚乙烯基吡啶烷酮/乙烯乙酸酯共聚物"
+    }
+  ]
+}

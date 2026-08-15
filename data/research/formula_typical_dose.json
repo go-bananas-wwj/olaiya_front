@@ -1,0 +1,1510 @@
+{
+  "source": {
+    "file": "/root/workspace/olaiya/欧莱雅比赛/基础础配方库+原料库（快速认识原料及上手操作）/基础配方库（了解各种剂型配方设计原理）.xlsx",
+    "nature": "配方实践典型用量（配方实例），非官方限值、非功效起效浓度"
+  },
+  "stats": {
+    "total_records": 203,
+    "by_sheet": {
+      "爽肤水": {
+        "records": 6,
+        "skipped": 7
+      },
+      "精华": {
+        "records": 11,
+        "skipped": 9
+      },
+      "面膜": {
+        "records": 11,
+        "skipped": 9
+      },
+      "氨基酸洁面体系": {
+        "records": 14,
+        "skipped": 6
+      },
+      "皂基洁面体系": {
+        "records": 15,
+        "skipped": 7
+      },
+      "洁颜蜜": {
+        "records": 8,
+        "skipped": 7
+      },
+      "撕拉面膜": {
+        "records": 5,
+        "skipped": 7
+      },
+      "面霜": {
+        "records": 14,
+        "skipped": 13
+      },
+      "泥膜": {
+        "records": 9,
+        "skipped": 8
+      },
+      "素颜霜": {
+        "records": 9,
+        "skipped": 8
+      },
+      "身体乳": {
+        "records": 11,
+        "skipped": 8
+      },
+      "护手霜": {
+        "records": 10,
+        "skipped": 8
+      },
+      "磨砂膏": {
+        "records": 11,
+        "skipped": 7
+      },
+      "涂抹面膜（睡眠面膜）": {
+        "records": 16,
+        "skipped": 15
+      },
+      "脱毛膏": {
+        "records": 15,
+        "skipped": 7
+      },
+      "护肤啫喱": {
+        "records": 12,
+        "skipped": 8
+      },
+      "自发泡面膜": {
+        "records": 8,
+        "skipped": 7
+      },
+      "洗发水": {
+        "records": 10,
+        "skipped": 7
+      },
+      "沐浴露": {
+        "records": 8,
+        "skipped": 7
+      }
+    }
+  },
+  "records": [
+    {
+      "formulation": "爽肤水",
+      "inci_name": "1,3-丙二醇",
+      "pct_low": 3.0,
+      "pct_high": 3.0,
+      "purpose": "保湿剂"
+    },
+    {
+      "formulation": "爽肤水",
+      "inci_name": "甘油",
+      "pct_low": 3.0,
+      "pct_high": 3.0,
+      "purpose": "保湿剂"
+    },
+    {
+      "formulation": "爽肤水",
+      "inci_name": "对羟基苯乙酮",
+      "pct_low": 0.5,
+      "pct_high": 0.5,
+      "purpose": "防腐剂"
+    },
+    {
+      "formulation": "爽肤水",
+      "inci_name": "丙烯酰二甲基牛磺酸钠/VP共聚物",
+      "pct_low": 0.08,
+      "pct_high": 0.08,
+      "purpose": "增稠剂，适量的增稠剂增加使用时的润感同时不粘，不会像水一样比较单调的肤感。"
+    },
+    {
+      "formulation": "爽肤水",
+      "inci_name": "1,2-己二醇",
+      "pct_low": 0.5,
+      "pct_high": 0.5,
+      "purpose": "防腐剂"
+    },
+    {
+      "formulation": "爽肤水",
+      "inci_name": "尿囊素",
+      "pct_low": 0.05,
+      "pct_high": 0.05,
+      "purpose": "保湿剂"
+    },
+    {
+      "formulation": "精华",
+      "inci_name": "丁二醇",
+      "pct_low": 3.0,
+      "pct_high": 3.0,
+      "purpose": "保湿剂"
+    },
+    {
+      "formulation": "精华",
+      "inci_name": "对羟基苯乙酮",
+      "pct_low": 0.5,
+      "pct_high": 0.5,
+      "purpose": "抗氧化剂"
+    },
+    {
+      "formulation": "精华",
+      "inci_name": "卡波姆",
+      "pct_low": 0.14,
+      "pct_high": 0.14,
+      "purpose": "增稠剂，精华液产品常用的增稠剂，长流变，单用的话料体质感较差，容易化水，一般搭配高分子成分，如透明质酸；"
+    },
+    {
+      "formulation": "精华",
+      "inci_name": "透明质酸钠",
+      "pct_low": 0.03,
+      "pct_high": 0.03,
+      "purpose": "保湿剂"
+    },
+    {
+      "formulation": "精华",
+      "inci_name": "甘油",
+      "pct_low": 5.0,
+      "pct_high": 5.0,
+      "purpose": "保湿剂"
+    },
+    {
+      "formulation": "精华",
+      "inci_name": "尿囊素",
+      "pct_low": 0.15,
+      "pct_high": 0.15,
+      "purpose": "皮肤调理剂"
+    },
+    {
+      "formulation": "精华",
+      "inci_name": "1,2-己二醇",
+      "pct_low": 0.5,
+      "pct_high": 0.5,
+      "purpose": "保湿剂"
+    },
+    {
+      "formulation": "精华",
+      "inci_name": "甜菜碱",
+      "pct_low": 1.5,
+      "pct_high": 1.5,
+      "purpose": "保湿剂"
+    },
+    {
+      "formulation": "精华",
+      "inci_name": "泛醇",
+      "pct_low": 0.4,
+      "pct_high": 0.4,
+      "purpose": "保湿剂"
+    },
+    {
+      "formulation": "精华",
+      "inci_name": "烟酰胺",
+      "pct_low": 0.3,
+      "pct_high": 0.3,
+      "purpose": "皮肤调理剂"
+    },
+    {
+      "formulation": "精华",
+      "inci_name": "水",
+      "pct_low": 2.0,
+      "pct_high": 2.0,
+      "purpose": "溶剂"
+    },
+    {
+      "formulation": "面膜",
+      "inci_name": "丁二醇",
+      "pct_low": 3.0,
+      "pct_high": 3.0,
+      "purpose": "保湿剂"
+    },
+    {
+      "formulation": "面膜",
+      "inci_name": "对羟基苯乙酮",
+      "pct_low": 0.5,
+      "pct_high": 0.5,
+      "purpose": "防腐剂"
+    },
+    {
+      "formulation": "面膜",
+      "inci_name": "卡波姆",
+      "pct_low": 0.1,
+      "pct_high": 0.1,
+      "purpose": "增稠剂，卡波941面膜中主要增稠剂，但面膜考虑到液体使用时会向下滴液，复配断流变型号940来改善。"
+    },
+    {
+      "formulation": "面膜",
+      "inci_name": "卡波姆",
+      "pct_low": 0.05,
+      "pct_high": 0.05,
+      "purpose": ""
+    },
+    {
+      "formulation": "面膜",
+      "inci_name": "透明质酸钠",
+      "pct_low": 0.03,
+      "pct_high": 0.03,
+      "purpose": "保湿剂"
+    },
+    {
+      "formulation": "面膜",
+      "inci_name": "甘油",
+      "pct_low": 5.0,
+      "pct_high": 5.0,
+      "purpose": "保湿剂"
+    },
+    {
+      "formulation": "面膜",
+      "inci_name": "尿囊素",
+      "pct_low": 0.15,
+      "pct_high": 0.15,
+      "purpose": "皮肤调理剂"
+    },
+    {
+      "formulation": "面膜",
+      "inci_name": "1,2-己二醇",
+      "pct_low": 0.5,
+      "pct_high": 0.5,
+      "purpose": "防腐剂"
+    },
+    {
+      "formulation": "面膜",
+      "inci_name": "甜菜碱",
+      "pct_low": 1.5,
+      "pct_high": 1.5,
+      "purpose": "保湿剂"
+    },
+    {
+      "formulation": "面膜",
+      "inci_name": "泛醇",
+      "pct_low": 0.4,
+      "pct_high": 0.4,
+      "purpose": "保湿剂"
+    },
+    {
+      "formulation": "面膜",
+      "inci_name": "水",
+      "pct_low": 2.0,
+      "pct_high": 2.0,
+      "purpose": "溶剂"
+    },
+    {
+      "formulation": "氨基酸洁面体系",
+      "inci_name": "甘油、水",
+      "pct_low": 5.0,
+      "pct_high": 5.0,
+      "purpose": "溶剂"
+    },
+    {
+      "formulation": "氨基酸洁面体系",
+      "inci_name": "乙二胺四乙酸二钠",
+      "pct_low": 0.1,
+      "pct_high": 0.1,
+      "purpose": "螯合剂"
+    },
+    {
+      "formulation": "氨基酸洁面体系",
+      "inci_name": "羟苯甲酯",
+      "pct_low": 0.15,
+      "pct_high": 0.15,
+      "purpose": "防腐剂"
+    },
+    {
+      "formulation": "氨基酸洁面体系",
+      "inci_name": "改性玉米淀粉",
+      "pct_low": 3.0,
+      "pct_high": 3.0,
+      "purpose": "稳定剂，高温稳定剂，氨基酸结晶型的洁面奶，对温度很敏感，需注意好高温稳定性。"
+    },
+    {
+      "formulation": "氨基酸洁面体系",
+      "inci_name": "丙烯酸酯共聚物",
+      "pct_low": 3.0,
+      "pct_high": 3.0,
+      "purpose": "稳定剂"
+    },
+    {
+      "formulation": "氨基酸洁面体系",
+      "inci_name": "水",
+      "pct_low": 18.6,
+      "pct_high": 18.6,
+      "purpose": "溶剂"
+    },
+    {
+      "formulation": "氨基酸洁面体系",
+      "inci_name": "椰油酰甘氨酸钠",
+      "pct_low": 15.0,
+      "pct_high": 15.0,
+      "purpose": "表面活性剂"
+    },
+    {
+      "formulation": "氨基酸洁面体系",
+      "inci_name": "月桂酰肌氨酸钠/月桂酰谷\n氨酸钠",
+      "pct_low": 20.0,
+      "pct_high": 20.0,
+      "purpose": "表面活性剂"
+    },
+    {
+      "formulation": "氨基酸洁面体系",
+      "inci_name": "甘油、水",
+      "pct_low": 10.0,
+      "pct_high": 10.0,
+      "purpose": "溶剂"
+    },
+    {
+      "formulation": "氨基酸洁面体系",
+      "inci_name": "月桂酸",
+      "pct_low": 1.5,
+      "pct_high": 1.5,
+      "purpose": "油脂"
+    },
+    {
+      "formulation": "氨基酸洁面体系",
+      "inci_name": "柠檬酸钠",
+      "pct_low": 3.0,
+      "pct_high": 3.0,
+      "purpose": "pH调节剂"
+    },
+    {
+      "formulation": "氨基酸洁面体系",
+      "inci_name": "月桂酸牛磺酸钠/改性玉米\n淀粉/月桂酸/肉豆蔻酸",
+      "pct_low": 20.0,
+      "pct_high": 20.0,
+      "purpose": "稳定剂，高温稳定剂，氨基酸结晶型的洁面奶，对温度很敏感，需注意好高温稳定性。"
+    },
+    {
+      "formulation": "氨基酸洁面体系",
+      "inci_name": "苯氧乙醇",
+      "pct_low": 0.5,
+      "pct_high": 0.5,
+      "purpose": "防腐剂"
+    },
+    {
+      "formulation": "氨基酸洁面体系",
+      "inci_name": "香精",
+      "pct_low": 0.15,
+      "pct_high": 0.15,
+      "purpose": "芳香剂"
+    },
+    {
+      "formulation": "皂基洁面体系",
+      "inci_name": "硬脂酸、肉豆蔻酸",
+      "pct_low": 4.0,
+      "pct_high": 4.0,
+      "purpose": "油脂，皂基体系里，18酸为主的料体会比较硬，但泡沫最细腻；14酸为主的皂基，泡沫质感和洗感最好，但料体比较稀，容易不稳定；12酸的泡沫较大；体系搭配时根据所需进行调整。"
+    },
+    {
+      "formulation": "皂基洁面体系",
+      "inci_name": "月桂酸",
+      "pct_low": 2.0,
+      "pct_high": 2.0,
+      "purpose": "油脂"
+    },
+    {
+      "formulation": "皂基洁面体系",
+      "inci_name": "肉豆蔻酸",
+      "pct_low": 1.0,
+      "pct_high": 1.0,
+      "purpose": "油脂"
+    },
+    {
+      "formulation": "皂基洁面体系",
+      "inci_name": "棕榈酸",
+      "pct_low": 22.0,
+      "pct_high": 22.0,
+      "purpose": "油脂"
+    },
+    {
+      "formulation": "皂基洁面体系",
+      "inci_name": "椰子油脂肪酸单乙醇酰胺",
+      "pct_low": 1.0,
+      "pct_high": 1.0,
+      "purpose": "表面活性剂"
+    },
+    {
+      "formulation": "皂基洁面体系",
+      "inci_name": "月桂酸牛磺酸钠/改性玉米\n淀粉/月桂酸/肉豆蔻酸",
+      "pct_low": 5.0,
+      "pct_high": 5.0,
+      "purpose": "稳定剂，主要用来改善高温稳定性，皂基体系最容易不稳定的就是高温的不稳定，料体容易分层泛粗，国内的体系要注意。"
+    },
+    {
+      "formulation": "皂基洁面体系",
+      "inci_name": "单甘油脂肪酸酯、双甘油脂肪酸酯",
+      "pct_low": 2.0,
+      "pct_high": 2.0,
+      "purpose": "乳化剂"
+    },
+    {
+      "formulation": "皂基洁面体系",
+      "inci_name": "羟苯丙酯",
+      "pct_low": 0.08,
+      "pct_high": 0.08,
+      "purpose": "防腐剂"
+    },
+    {
+      "formulation": "皂基洁面体系",
+      "inci_name": "羟苯甲酯",
+      "pct_low": 0.15,
+      "pct_high": 0.15,
+      "purpose": "防腐剂"
+    },
+    {
+      "formulation": "皂基洁面体系",
+      "inci_name": "氢氧化钾",
+      "pct_low": 6.1,
+      "pct_high": 6.1,
+      "purpose": "PH调节剂"
+    },
+    {
+      "formulation": "皂基洁面体系",
+      "inci_name": "甘油、水",
+      "pct_low": 18.0,
+      "pct_high": 18.0,
+      "purpose": "溶剂，甘油主要是分散作用，调节料体的赢软程度。"
+    },
+    {
+      "formulation": "皂基洁面体系",
+      "inci_name": "乙二胺四乙酸二钠",
+      "pct_low": 0.1,
+      "pct_high": 0.1,
+      "purpose": "防腐剂"
+    },
+    {
+      "formulation": "皂基洁面体系",
+      "inci_name": "丙二醇",
+      "pct_low": 2.0,
+      "pct_high": 2.0,
+      "purpose": "溶剂，跟甘油同理"
+    },
+    {
+      "formulation": "皂基洁面体系",
+      "inci_name": "苯氧乙醇",
+      "pct_low": 0.5,
+      "pct_high": 0.5,
+      "purpose": "防腐剂"
+    },
+    {
+      "formulation": "皂基洁面体系",
+      "inci_name": "香精",
+      "pct_low": 0.15,
+      "pct_high": 0.15,
+      "purpose": "芳香剂"
+    },
+    {
+      "formulation": "洁颜蜜",
+      "inci_name": "椰油酰甘氨酸钠",
+      "pct_low": 20.0,
+      "pct_high": 20.0,
+      "purpose": "发泡剂"
+    },
+    {
+      "formulation": "洁颜蜜",
+      "inci_name": "月桂酰基丙基甜菜碱",
+      "pct_low": 8.0,
+      "pct_high": 8.0,
+      "purpose": "稳泡剂"
+    },
+    {
+      "formulation": "洁颜蜜",
+      "inci_name": "月桂酰谷氨酸钠",
+      "pct_low": 3.0,
+      "pct_high": 3.0,
+      "purpose": "发泡剂"
+    },
+    {
+      "formulation": "洁颜蜜",
+      "inci_name": "甘油",
+      "pct_low": 5.0,
+      "pct_high": 5.0,
+      "purpose": "保湿剂"
+    },
+    {
+      "formulation": "洁颜蜜",
+      "inci_name": "对羟基苯乙酮",
+      "pct_low": 0.5,
+      "pct_high": 0.5,
+      "purpose": "防腐剂"
+    },
+    {
+      "formulation": "洁颜蜜",
+      "inci_name": "羟丙基甲基纤维素",
+      "pct_low": 0.15,
+      "pct_high": 0.15,
+      "purpose": "洁颜蜜核心增稠剂，热水分散冷水溶胀，表活体系使用不会抑泡，能稳泡。"
+    },
+    {
+      "formulation": "洁颜蜜",
+      "inci_name": "1,2-己二醇",
+      "pct_low": 0.5,
+      "pct_high": 0.5,
+      "purpose": "防腐剂"
+    },
+    {
+      "formulation": "洁颜蜜",
+      "inci_name": "尿囊素",
+      "pct_low": 0.05,
+      "pct_high": 0.05,
+      "purpose": "保湿剂"
+    },
+    {
+      "formulation": "撕拉面膜",
+      "inci_name": "聚乙烯醇",
+      "pct_low": 17.0,
+      "pct_high": 17.0,
+      "purpose": "成膜剂，撕拉面膜的成膜核心，量太少成的膜太薄，不易撕拉"
+    },
+    {
+      "formulation": "撕拉面膜",
+      "inci_name": "丙二醇",
+      "pct_low": 5.0,
+      "pct_high": 5.0,
+      "purpose": "溶剂"
+    },
+    {
+      "formulation": "撕拉面膜",
+      "inci_name": "黄原胶",
+      "pct_low": 0.3,
+      "pct_high": 0.3,
+      "purpose": "增稠剂，用在撕拉面膜体系里主要是改善涂抹质感，是料体能更均匀涂抹，同时具有悬浮作用，能悬浮细云母粉"
+    },
+    {
+      "formulation": "撕拉面膜",
+      "inci_name": "对羟基苯乙酮",
+      "pct_low": 0.5,
+      "pct_high": 0.5,
+      "purpose": "防腐剂"
+    },
+    {
+      "formulation": "撕拉面膜",
+      "inci_name": "1,2-己二醇",
+      "pct_low": 0.5,
+      "pct_high": 0.5,
+      "purpose": "防腐剂"
+    },
+    {
+      "formulation": "面霜",
+      "inci_name": "鲸蜡硬脂醇",
+      "pct_low": 2.0,
+      "pct_high": 2.0,
+      "purpose": "乳化剂"
+    },
+    {
+      "formulation": "面霜",
+      "inci_name": "PEG-100硬脂酸酯",
+      "pct_low": 1.5,
+      "pct_high": 1.5,
+      "purpose": "乳化剂"
+    },
+    {
+      "formulation": "面霜",
+      "inci_name": "鲸蜡硬脂醇",
+      "pct_low": 3.5,
+      "pct_high": 3.5,
+      "purpose": "助乳化剂，提高料体的硬度质感"
+    },
+    {
+      "formulation": "面霜",
+      "inci_name": "聚二甲基硅氧烷",
+      "pct_low": 2.8,
+      "pct_high": 2.8,
+      "purpose": "润肤剂，硅油可改善油脂的腻感，以及抹开后泛白"
+    },
+    {
+      "formulation": "面霜",
+      "inci_name": "异壬酸异壬酯",
+      "pct_low": 3.5,
+      "pct_high": 3.5,
+      "purpose": "润肤剂"
+    },
+    {
+      "formulation": "面霜",
+      "inci_name": "生育酚（维生素E）",
+      "pct_low": 0.5,
+      "pct_high": 0.5,
+      "purpose": "抗氧化剂"
+    },
+    {
+      "formulation": "面霜",
+      "inci_name": "甲基丙二醇",
+      "pct_low": 6.0,
+      "pct_high": 6.0,
+      "purpose": "保湿剂"
+    },
+    {
+      "formulation": "面霜",
+      "inci_name": "透明质酸钠",
+      "pct_low": 0.03,
+      "pct_high": 0.03,
+      "purpose": "保湿剂"
+    },
+    {
+      "formulation": "面霜",
+      "inci_name": "卡波姆",
+      "pct_low": 0.2,
+      "pct_high": 0.2,
+      "purpose": "增稠剂"
+    },
+    {
+      "formulation": "面霜",
+      "inci_name": "丙烯酸羟乙酯/丙烯酰二甲基牛磺酸钠共聚物",
+      "pct_low": 0.1,
+      "pct_high": 0.1,
+      "purpose": "增稠剂"
+    },
+    {
+      "formulation": "面霜",
+      "inci_name": "对羟基苯乙酮",
+      "pct_low": 0.5,
+      "pct_high": 0.5,
+      "purpose": "抗氧化剂"
+    },
+    {
+      "formulation": "面霜",
+      "inci_name": "聚丙烯酰胺",
+      "pct_low": 0.3,
+      "pct_high": 0.3,
+      "purpose": "增稠剂"
+    },
+    {
+      "formulation": "面霜",
+      "inci_name": "1,2-己二醇",
+      "pct_low": 0.5,
+      "pct_high": 0.5,
+      "purpose": "保湿剂"
+    },
+    {
+      "formulation": "面霜",
+      "inci_name": "三乙醇胺",
+      "pct_low": 0.18,
+      "pct_high": 0.18,
+      "purpose": "PH调节剂，搭配卡波使用"
+    },
+    {
+      "formulation": "泥膜",
+      "inci_name": "甘油",
+      "pct_low": 5.0,
+      "pct_high": 5.0,
+      "purpose": "保湿剂"
+    },
+    {
+      "formulation": "泥膜",
+      "inci_name": "丙二醇",
+      "pct_low": 2.0,
+      "pct_high": 2.0,
+      "purpose": "保湿剂"
+    },
+    {
+      "formulation": "泥膜",
+      "inci_name": "对羟基苯乙酮",
+      "pct_low": 0.5,
+      "pct_high": 0.5,
+      "purpose": "防腐剂"
+    },
+    {
+      "formulation": "泥膜",
+      "inci_name": "高岭土",
+      "pct_low": 7.0,
+      "pct_high": 7.0,
+      "purpose": "粉剂，泥膜质感的核心原料，需先用水润洗去杂质，能使料体更细腻"
+    },
+    {
+      "formulation": "泥膜",
+      "inci_name": "二氧化钛",
+      "pct_low": 0.5,
+      "pct_high": 0.5,
+      "purpose": "着色剂，增加料体的覆盖能力"
+    },
+    {
+      "formulation": "泥膜",
+      "inci_name": "矿油",
+      "pct_low": 6.0,
+      "pct_high": 6.0,
+      "purpose": "油脂"
+    },
+    {
+      "formulation": "泥膜",
+      "inci_name": "PEG-100硬脂酸酯、甘油硬脂酸酯",
+      "pct_low": 4.0,
+      "pct_high": 4.0,
+      "purpose": "乳化剂"
+    },
+    {
+      "formulation": "泥膜",
+      "inci_name": "鲸蜡硬脂醇",
+      "pct_low": 5.0,
+      "pct_high": 5.0,
+      "purpose": "助乳化剂，增稠剂，提高料体硬度"
+    },
+    {
+      "formulation": "泥膜",
+      "inci_name": "1,2-己二醇",
+      "pct_low": 0.5,
+      "pct_high": 0.5,
+      "purpose": "防腐剂"
+    },
+    {
+      "formulation": "素颜霜",
+      "inci_name": "甘油",
+      "pct_low": 3.0,
+      "pct_high": 3.0,
+      "purpose": "保湿剂"
+    },
+    {
+      "formulation": "素颜霜",
+      "inci_name": "丙二醇",
+      "pct_low": 2.0,
+      "pct_high": 2.0,
+      "purpose": "保湿剂"
+    },
+    {
+      "formulation": "素颜霜",
+      "inci_name": "对羟基苯乙酮",
+      "pct_low": 0.5,
+      "pct_high": 0.5,
+      "purpose": "防腐剂"
+    },
+    {
+      "formulation": "素颜霜",
+      "inci_name": "丙烯酸钠/丙烯酰二甲基牛磺酸钠共聚物、异十六烷、聚山梨醇酯-80",
+      "pct_low": 2.0,
+      "pct_high": 2.0,
+      "purpose": "增稠剂，素颜霜肤感建议使用较为轻盈的增稠剂，是肤感清爽，妆感清透不闷"
+    },
+    {
+      "formulation": "素颜霜",
+      "inci_name": "异壬酸异壬酯",
+      "pct_low": 3.0,
+      "pct_high": 3.0,
+      "purpose": "油脂"
+    },
+    {
+      "formulation": "素颜霜",
+      "inci_name": "环五聚二甲基硅氧烷、环己硅氧烷",
+      "pct_low": 2.0,
+      "pct_high": 2.0,
+      "purpose": "油脂"
+    },
+    {
+      "formulation": "素颜霜",
+      "inci_name": "C20-22 醇、C20-22 醇磷酸酯",
+      "pct_low": 0.8,
+      "pct_high": 0.8,
+      "purpose": "乳化剂"
+    },
+    {
+      "formulation": "素颜霜",
+      "inci_name": "二氧化钛&硅石&三硬脂酸铝",
+      "pct_low": 1.0,
+      "pct_high": 1.0,
+      "purpose": "物理遮瑕剂"
+    },
+    {
+      "formulation": "素颜霜",
+      "inci_name": "1,2-己二醇",
+      "pct_low": 0.5,
+      "pct_high": 0.5,
+      "purpose": "防腐剂"
+    },
+    {
+      "formulation": "身体乳",
+      "inci_name": "甘油",
+      "pct_low": 3.0,
+      "pct_high": 3.0,
+      "purpose": "保湿剂"
+    },
+    {
+      "formulation": "身体乳",
+      "inci_name": "丙二醇",
+      "pct_low": 2.0,
+      "pct_high": 2.0,
+      "purpose": "保湿剂"
+    },
+    {
+      "formulation": "身体乳",
+      "inci_name": "汉生胶",
+      "pct_low": 0.2,
+      "pct_high": 0.2,
+      "purpose": "增稠剂，增加身体乳滑感。"
+    },
+    {
+      "formulation": "身体乳",
+      "inci_name": "对羟基苯乙酮",
+      "pct_low": 0.5,
+      "pct_high": 0.5,
+      "purpose": "防腐剂"
+    },
+    {
+      "formulation": "身体乳",
+      "inci_name": "卡波姆",
+      "pct_low": 0.2,
+      "pct_high": 0.2,
+      "purpose": "增稠剂"
+    },
+    {
+      "formulation": "身体乳",
+      "inci_name": "白矿油",
+      "pct_low": 8.0,
+      "pct_high": 8.0,
+      "purpose": "油脂"
+    },
+    {
+      "formulation": "身体乳",
+      "inci_name": "环五聚二甲基硅氧烷、环己硅氧烷",
+      "pct_low": 2.0,
+      "pct_high": 2.0,
+      "purpose": "油脂"
+    },
+    {
+      "formulation": "身体乳",
+      "inci_name": "PEG-100硬脂酸酯",
+      "pct_low": 1.5,
+      "pct_high": 1.5,
+      "purpose": "乳化剂"
+    },
+    {
+      "formulation": "身体乳",
+      "inci_name": "鲸蜡硬脂醇",
+      "pct_low": 3.0,
+      "pct_high": 3.0,
+      "purpose": "助乳化剂"
+    },
+    {
+      "formulation": "身体乳",
+      "inci_name": "三乙醇胺",
+      "pct_low": 0.2,
+      "pct_high": 0.2,
+      "purpose": "中和剂"
+    },
+    {
+      "formulation": "身体乳",
+      "inci_name": "1,2-己二醇",
+      "pct_low": 0.5,
+      "pct_high": 0.5,
+      "purpose": "防腐剂"
+    },
+    {
+      "formulation": "护手霜",
+      "inci_name": "甘油",
+      "pct_low": 3.0,
+      "pct_high": 3.0,
+      "purpose": "保湿剂"
+    },
+    {
+      "formulation": "护手霜",
+      "inci_name": "丙二醇",
+      "pct_low": 2.0,
+      "pct_high": 2.0,
+      "purpose": "保湿剂"
+    },
+    {
+      "formulation": "护手霜",
+      "inci_name": "对羟基苯乙酮",
+      "pct_low": 0.5,
+      "pct_high": 0.5,
+      "purpose": "防腐剂，护手霜配方可用便宜防腐体系，甲指搭配苯氧乙醇替换"
+    },
+    {
+      "formulation": "护手霜",
+      "inci_name": "卡波姆",
+      "pct_low": 0.2,
+      "pct_high": 0.2,
+      "purpose": "增稠剂"
+    },
+    {
+      "formulation": "护手霜",
+      "inci_name": "白矿油",
+      "pct_low": 6.0,
+      "pct_high": 6.0,
+      "purpose": "油脂"
+    },
+    {
+      "formulation": "护手霜",
+      "inci_name": "环五聚二甲基硅氧烷、环己硅氧烷",
+      "pct_low": 2.0,
+      "pct_high": 2.0,
+      "purpose": "油脂"
+    },
+    {
+      "formulation": "护手霜",
+      "inci_name": "PEG-100硬脂酸酯",
+      "pct_low": 2.0,
+      "pct_high": 2.0,
+      "purpose": "乳化剂"
+    },
+    {
+      "formulation": "护手霜",
+      "inci_name": "鲸蜡硬脂醇",
+      "pct_low": 3.0,
+      "pct_high": 3.0,
+      "purpose": "助乳化剂"
+    },
+    {
+      "formulation": "护手霜",
+      "inci_name": "三乙醇胺",
+      "pct_low": 0.2,
+      "pct_high": 0.2,
+      "purpose": "中和剂"
+    },
+    {
+      "formulation": "护手霜",
+      "inci_name": "1,2-己二醇",
+      "pct_low": 0.5,
+      "pct_high": 0.5,
+      "purpose": "防腐剂，护手霜配方可用便宜防腐体系，甲指搭配苯氧乙醇替换"
+    },
+    {
+      "formulation": "磨砂膏",
+      "inci_name": "甘油",
+      "pct_low": 3.0,
+      "pct_high": 3.0,
+      "purpose": "保湿剂"
+    },
+    {
+      "formulation": "磨砂膏",
+      "inci_name": "丙二醇",
+      "pct_low": 2.0,
+      "pct_high": 2.0,
+      "purpose": "保湿剂"
+    },
+    {
+      "formulation": "磨砂膏",
+      "inci_name": "羟苯甲酯",
+      "pct_low": 0.2,
+      "pct_high": 0.2,
+      "purpose": "防腐剂"
+    },
+    {
+      "formulation": "磨砂膏",
+      "inci_name": "汉生胶",
+      "pct_low": 0.5,
+      "pct_high": 0.5,
+      "purpose": "增稠剂,磨砂膏需要选用耐离子的增稠剂，汉生胶性价比首选。"
+    },
+    {
+      "formulation": "磨砂膏",
+      "inci_name": "白矿油",
+      "pct_low": 6.0,
+      "pct_high": 6.0,
+      "purpose": "油脂"
+    },
+    {
+      "formulation": "磨砂膏",
+      "inci_name": "环五聚二甲基硅氧烷、环己硅氧烷",
+      "pct_low": 2.0,
+      "pct_high": 2.0,
+      "purpose": "油脂"
+    },
+    {
+      "formulation": "磨砂膏",
+      "inci_name": "PEG-100硬脂酸酯",
+      "pct_low": 3.0,
+      "pct_high": 3.0,
+      "purpose": "乳化剂"
+    },
+    {
+      "formulation": "磨砂膏",
+      "inci_name": "羟苯丙酯",
+      "pct_low": 0.1,
+      "pct_high": 0.1,
+      "purpose": "防腐剂"
+    },
+    {
+      "formulation": "磨砂膏",
+      "inci_name": "硬脂酸",
+      "pct_low": 2.0,
+      "pct_high": 2.0,
+      "purpose": "油脂"
+    },
+    {
+      "formulation": "磨砂膏",
+      "inci_name": "鲸蜡硬脂醇",
+      "pct_low": 5.0,
+      "pct_high": 5.0,
+      "purpose": "助乳化剂"
+    },
+    {
+      "formulation": "磨砂膏",
+      "inci_name": "苯氧乙醇",
+      "pct_low": 0.5,
+      "pct_high": 0.5,
+      "purpose": "防腐剂"
+    },
+    {
+      "formulation": "涂抹面膜（睡眠面膜）",
+      "inci_name": "甘油",
+      "pct_low": 3.0,
+      "pct_high": 3.0,
+      "purpose": "保湿剂"
+    },
+    {
+      "formulation": "涂抹面膜（睡眠面膜）",
+      "inci_name": "丙二醇",
+      "pct_low": 2.0,
+      "pct_high": 2.0,
+      "purpose": "保湿剂"
+    },
+    {
+      "formulation": "涂抹面膜（睡眠面膜）",
+      "inci_name": "对羟基苯乙酮",
+      "pct_low": 0.5,
+      "pct_high": 0.5,
+      "purpose": "防腐剂"
+    },
+    {
+      "formulation": "涂抹面膜（睡眠面膜）",
+      "inci_name": "尿囊素",
+      "pct_low": 0.15,
+      "pct_high": 0.15,
+      "purpose": "保湿剂"
+    },
+    {
+      "formulation": "涂抹面膜（睡眠面膜）",
+      "inci_name": "汉生胶",
+      "pct_low": 0.2,
+      "pct_high": 0.2,
+      "purpose": "增稠剂,磨砂膏需要选用耐离子的增稠剂，汉生胶性价比首选。"
+    },
+    {
+      "formulation": "涂抹面膜（睡眠面膜）",
+      "inci_name": "卡波姆",
+      "pct_low": 0.2,
+      "pct_high": 0.2,
+      "purpose": "增稠剂"
+    },
+    {
+      "formulation": "涂抹面膜（睡眠面膜）",
+      "inci_name": "聚丙烯酰胺、C13-14 异链烷烃、月桂醇聚醚-7",
+      "pct_low": 0.2,
+      "pct_high": 0.2,
+      "purpose": "增稠剂"
+    },
+    {
+      "formulation": "涂抹面膜（睡眠面膜）",
+      "inci_name": "白矿油",
+      "pct_low": 10.0,
+      "pct_high": 10.0,
+      "purpose": "油脂"
+    },
+    {
+      "formulation": "涂抹面膜（睡眠面膜）",
+      "inci_name": "辛酸葵酸甘油三酯",
+      "pct_low": 8.0,
+      "pct_high": 8.0,
+      "purpose": "油脂"
+    },
+    {
+      "formulation": "涂抹面膜（睡眠面膜）",
+      "inci_name": "向日葵籽油",
+      "pct_low": 2.0,
+      "pct_high": 2.0,
+      "purpose": "油脂"
+    },
+    {
+      "formulation": "涂抹面膜（睡眠面膜）",
+      "inci_name": "PEG-100硬脂酸酯",
+      "pct_low": 2.8,
+      "pct_high": 2.8,
+      "purpose": "乳化剂"
+    },
+    {
+      "formulation": "涂抹面膜（睡眠面膜）",
+      "inci_name": "蜂蜡",
+      "pct_low": 1.4,
+      "pct_high": 1.4,
+      "purpose": "防腐剂"
+    },
+    {
+      "formulation": "涂抹面膜（睡眠面膜）",
+      "inci_name": "硬脂酸",
+      "pct_low": 2.0,
+      "pct_high": 2.0,
+      "purpose": "油脂"
+    },
+    {
+      "formulation": "涂抹面膜（睡眠面膜）",
+      "inci_name": "鲸蜡硬脂醇",
+      "pct_low": 1.6,
+      "pct_high": 1.6,
+      "purpose": "助乳化剂"
+    },
+    {
+      "formulation": "涂抹面膜（睡眠面膜）",
+      "inci_name": "1,2-己二醇",
+      "pct_low": 0.5,
+      "pct_high": 0.5,
+      "purpose": "防腐剂"
+    },
+    {
+      "formulation": "涂抹面膜（睡眠面膜）",
+      "inci_name": "三乙醇胺",
+      "pct_low": 0.2,
+      "pct_high": 0.2,
+      "purpose": "ph调节剂"
+    },
+    {
+      "formulation": "脱毛膏",
+      "inci_name": "甘油",
+      "pct_low": 5.0,
+      "pct_high": 5.0,
+      "purpose": "保湿剂"
+    },
+    {
+      "formulation": "脱毛膏",
+      "inci_name": "丙二醇",
+      "pct_low": 2.0,
+      "pct_high": 2.0,
+      "purpose": "保湿剂"
+    },
+    {
+      "formulation": "脱毛膏",
+      "inci_name": "羟苯甲酯",
+      "pct_low": 0.2,
+      "pct_high": 0.2,
+      "purpose": "防腐剂"
+    },
+    {
+      "formulation": "脱毛膏",
+      "inci_name": "羟乙基纤维素",
+      "pct_low": 0.7,
+      "pct_high": 0.7,
+      "purpose": "增稠剂"
+    },
+    {
+      "formulation": "脱毛膏",
+      "inci_name": "EDTA-2NA",
+      "pct_low": 0.1,
+      "pct_high": 0.1,
+      "purpose": "螯合剂"
+    },
+    {
+      "formulation": "脱毛膏",
+      "inci_name": "氢氧化钾",
+      "pct_low": 3.2,
+      "pct_high": 3.2,
+      "purpose": "Ph调节剂"
+    },
+    {
+      "formulation": "脱毛膏",
+      "inci_name": "尿素",
+      "pct_low": 5.0,
+      "pct_high": 5.0,
+      "purpose": "保湿剂"
+    },
+    {
+      "formulation": "脱毛膏",
+      "inci_name": "白矿油",
+      "pct_low": 6.0,
+      "pct_high": 6.0,
+      "purpose": "油脂"
+    },
+    {
+      "formulation": "脱毛膏",
+      "inci_name": "硬脂醇聚醚-2",
+      "pct_low": 2.0,
+      "pct_high": 2.0,
+      "purpose": "乳化剂"
+    },
+    {
+      "formulation": "脱毛膏",
+      "inci_name": "硬脂醇聚醚-21",
+      "pct_low": 2.0,
+      "pct_high": 2.0,
+      "purpose": "乳化剂"
+    },
+    {
+      "formulation": "脱毛膏",
+      "inci_name": "甘油硬脂酸酯",
+      "pct_low": 1.0,
+      "pct_high": 1.0,
+      "purpose": "油脂"
+    },
+    {
+      "formulation": "脱毛膏",
+      "inci_name": "鲸蜡硬脂醇",
+      "pct_low": 4.2,
+      "pct_high": 4.2,
+      "purpose": "助乳化剂"
+    },
+    {
+      "formulation": "脱毛膏",
+      "inci_name": "苯氧乙醇",
+      "pct_low": 0.5,
+      "pct_high": 0.5,
+      "purpose": "防腐剂"
+    },
+    {
+      "formulation": "脱毛膏",
+      "inci_name": "氢氧化钙",
+      "pct_low": 1.0,
+      "pct_high": 1.0,
+      "purpose": "Ph调节剂"
+    },
+    {
+      "formulation": "脱毛膏",
+      "inci_name": "巯基乙酸钾",
+      "pct_low": 6.5,
+      "pct_high": 6.5,
+      "purpose": "脱毛剂"
+    },
+    {
+      "formulation": "护肤啫喱",
+      "inci_name": "丁二醇",
+      "pct_low": 3.0,
+      "pct_high": 3.0,
+      "purpose": "保湿剂"
+    },
+    {
+      "formulation": "护肤啫喱",
+      "inci_name": "对羟基苯乙酮",
+      "pct_low": 0.5,
+      "pct_high": 0.5,
+      "purpose": "抗氧化剂"
+    },
+    {
+      "formulation": "护肤啫喱",
+      "inci_name": "丙烯酸酯/C10-30烷基丙烯酸酯交联聚合物",
+      "pct_low": 0.6,
+      "pct_high": 0.6,
+      "purpose": "增稠剂，啫喱型产品选用耐离子型的增稠剂"
+    },
+    {
+      "formulation": "护肤啫喱",
+      "inci_name": "透明质酸钠",
+      "pct_low": 0.03,
+      "pct_high": 0.03,
+      "purpose": "保湿剂"
+    },
+    {
+      "formulation": "护肤啫喱",
+      "inci_name": "甘油",
+      "pct_low": 5.0,
+      "pct_high": 5.0,
+      "purpose": "保湿剂"
+    },
+    {
+      "formulation": "护肤啫喱",
+      "inci_name": "尿囊素",
+      "pct_low": 0.15,
+      "pct_high": 0.15,
+      "purpose": "皮肤调理剂"
+    },
+    {
+      "formulation": "护肤啫喱",
+      "inci_name": "1,2-己二醇",
+      "pct_low": 0.5,
+      "pct_high": 0.5,
+      "purpose": "保湿剂"
+    },
+    {
+      "formulation": "护肤啫喱",
+      "inci_name": "甜菜碱",
+      "pct_low": 1.5,
+      "pct_high": 1.5,
+      "purpose": "保湿剂"
+    },
+    {
+      "formulation": "护肤啫喱",
+      "inci_name": "泛醇",
+      "pct_low": 0.4,
+      "pct_high": 0.4,
+      "purpose": "保湿剂"
+    },
+    {
+      "formulation": "护肤啫喱",
+      "inci_name": "烟酰胺",
+      "pct_low": 0.3,
+      "pct_high": 0.3,
+      "purpose": "皮肤调理剂"
+    },
+    {
+      "formulation": "护肤啫喱",
+      "inci_name": "三乙醇胺",
+      "pct_low": 0.6,
+      "pct_high": 0.6,
+      "purpose": "PH调节剂，搭配卡波使用"
+    },
+    {
+      "formulation": "护肤啫喱",
+      "inci_name": "水",
+      "pct_low": 2.0,
+      "pct_high": 2.0,
+      "purpose": "溶剂"
+    },
+    {
+      "formulation": "自发泡面膜",
+      "inci_name": "烷基葡糖苷",
+      "pct_low": 20.0,
+      "pct_high": 20.0,
+      "purpose": "发泡剂"
+    },
+    {
+      "formulation": "自发泡面膜",
+      "inci_name": "甘油",
+      "pct_low": 5.0,
+      "pct_high": 5.0,
+      "purpose": "保湿剂"
+    },
+    {
+      "formulation": "自发泡面膜",
+      "inci_name": "卡波姆",
+      "pct_low": 0.8,
+      "pct_high": 0.8,
+      "purpose": "增稠剂"
+    },
+    {
+      "formulation": "自发泡面膜",
+      "inci_name": "对羟基苯乙酮",
+      "pct_low": 0.5,
+      "pct_high": 0.5,
+      "purpose": "防腐剂"
+    },
+    {
+      "formulation": "自发泡面膜",
+      "inci_name": "1,2-己二醇",
+      "pct_low": 0.5,
+      "pct_high": 0.5,
+      "purpose": "防腐剂"
+    },
+    {
+      "formulation": "自发泡面膜",
+      "inci_name": "尿囊素",
+      "pct_low": 0.05,
+      "pct_high": 0.05,
+      "purpose": "保湿剂"
+    },
+    {
+      "formulation": "自发泡面膜",
+      "inci_name": "三乙醇胺",
+      "pct_low": 0.6,
+      "pct_high": 0.6,
+      "purpose": "Ph中和剂"
+    },
+    {
+      "formulation": "自发泡面膜",
+      "inci_name": "全氟丁基甲醚",
+      "pct_low": 3.0,
+      "pct_high": 3.0,
+      "purpose": "挥发起泡效果，价格较贵，添加量越高发泡效果越好。灌装前添加，避免挥发。"
+    },
+    {
+      "formulation": "洗发水",
+      "inci_name": "月桂醇聚醚硫酸酯钠",
+      "pct_low": 11.5,
+      "pct_high": 11.5,
+      "purpose": "表面活性剂"
+    },
+    {
+      "formulation": "洗发水",
+      "inci_name": "椰油酰胺丙基甜菜碱",
+      "pct_low": 3.0,
+      "pct_high": 3.0,
+      "purpose": "表面活性剂"
+    },
+    {
+      "formulation": "洗发水",
+      "inci_name": "椰油酰胺甲基MEA",
+      "pct_low": 1.75,
+      "pct_high": 1.75,
+      "purpose": "增稠剂"
+    },
+    {
+      "formulation": "洗发水",
+      "inci_name": "聚季铵盐-10",
+      "pct_low": 0.2,
+      "pct_high": 0.2,
+      "purpose": "阳离子调节剂"
+    },
+    {
+      "formulation": "洗发水",
+      "inci_name": "瓜尔胶羟丙基三甲基氯化铵",
+      "pct_low": 0.3,
+      "pct_high": 0.3,
+      "purpose": "阳离子调节剂"
+    },
+    {
+      "formulation": "洗发水",
+      "inci_name": "双（羟甲基）咪唑烷基脲",
+      "pct_low": 0.3,
+      "pct_high": 0.3,
+      "purpose": "防腐剂"
+    },
+    {
+      "formulation": "洗发水",
+      "inci_name": "氯化钠",
+      "pct_low": 0.2,
+      "pct_high": 0.2,
+      "purpose": "增稠剂，非定量少量多次添加，粘度合适即可"
+    },
+    {
+      "formulation": "洗发水",
+      "inci_name": "柠檬酸钠",
+      "pct_low": 0.2,
+      "pct_high": 0.2,
+      "purpose": "Ph调节剂"
+    },
+    {
+      "formulation": "洗发水",
+      "inci_name": "柠檬酸",
+      "pct_low": 0.2,
+      "pct_high": 0.2,
+      "purpose": "Ph调节剂"
+    },
+    {
+      "formulation": "洗发水",
+      "inci_name": "香精",
+      "pct_low": 0.3,
+      "pct_high": 0.3,
+      "purpose": "芳香剂"
+    },
+    {
+      "formulation": "沐浴露",
+      "inci_name": "月桂醇聚醚硫酸酯钠",
+      "pct_low": 11.5,
+      "pct_high": 11.5,
+      "purpose": "表面活性剂"
+    },
+    {
+      "formulation": "沐浴露",
+      "inci_name": "椰油酰胺丙基甜菜碱",
+      "pct_low": 3.0,
+      "pct_high": 3.0,
+      "purpose": "表面活性剂"
+    },
+    {
+      "formulation": "沐浴露",
+      "inci_name": "椰油酰胺甲基MEA",
+      "pct_low": 1.75,
+      "pct_high": 1.75,
+      "purpose": "增稠剂"
+    },
+    {
+      "formulation": "沐浴露",
+      "inci_name": "双（羟甲基）咪唑烷基脲",
+      "pct_low": 0.3,
+      "pct_high": 0.3,
+      "purpose": "防腐剂"
+    },
+    {
+      "formulation": "沐浴露",
+      "inci_name": "氯化钠",
+      "pct_low": 0.2,
+      "pct_high": 0.2,
+      "purpose": "增稠剂，非定量少量多次添加，粘度合适即可"
+    },
+    {
+      "formulation": "沐浴露",
+      "inci_name": "柠檬酸钠",
+      "pct_low": 0.2,
+      "pct_high": 0.2,
+      "purpose": "Ph调节剂"
+    },
+    {
+      "formulation": "沐浴露",
+      "inci_name": "柠檬酸",
+      "pct_low": 0.2,
+      "pct_high": 0.2,
+      "purpose": "Ph调节剂"
+    },
+    {
+      "formulation": "沐浴露",
+      "inci_name": "香精",
+      "pct_low": 0.3,
+      "pct_high": 0.3,
+      "purpose": "芳香剂"
+    }
+  ]
+}

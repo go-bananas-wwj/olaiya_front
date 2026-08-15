@@ -9,7 +9,7 @@
   推断浓度本身是模型估计值；无推断浓度的产品不进候选池（任一方无推断即不可比，
   不伪造剂量）；目标产品无推断时整体降级 available=false。
 - L3 功效级相似：功效指纹（与 compute_fingerprint 同口径：剂量因子 × 证据强度，
-  同成分同功效族取 max，法规/防腐族断言不计分）的余弦相似度；「其他」维被排除
+  同成分同功效族取 max，法规/防腐族/原料商宣称断言不计分）的余弦相似度；「其他」维被排除
   （兜底功效族无语义区分度，且常由无关断言堆出高分）。指纹为相对排序信号，
   非功效承诺。
 
@@ -34,6 +34,7 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from ..config import settings
+from ..models.evidence import Evidence, EvidenceType
 from ..models.ingredient import EfficacyAssertion
 from ..models.product import Product, ProductIngredient
 from .efficacy_canon import OTHER, canonicalize
@@ -197,7 +198,8 @@ def _batch_fingerprints(session: Session) -> dict[int, dict[str, float]]:
     """全库产品功效指纹（一条 join 查询 + 内存聚合，与 compute_fingerprint 同口径）。
 
     逐条断言：剂量因子 × 证据强度，同 (产品, 成分, 规范功效族) 取 max；
-    法规类与防腐功效族断言不计分；强度 NULL 按 0 计（不进维度）。
+    法规类、防腐功效族与原料商宣称（supplier 降级通道）断言不计分；
+    强度 NULL 按 0 计（不进维度）。
     """
     rows = (
         session.query(
@@ -211,16 +213,19 @@ def _batch_fingerprints(session: Session) -> dict[int, dict[str, float]]:
             EfficacyAssertion.effective_conc_low,
             EfficacyAssertion.evidence_strength,
             EfficacyAssertion.evidence_level,
+            Evidence.type.label("ev_type"),
         )
         .join(EfficacyAssertion,
               EfficacyAssertion.ingredient_id == ProductIngredient.ingredient_id)
+        .join(Evidence, Evidence.id == EfficacyAssertion.evidence_id)
         .all()
     )
     best: dict[int, dict[tuple[int, str], float]] = {}
     for r in rows:
         canonical = r.efficacy_canonical or canonicalize(r.efficacy)
-        if r.evidence_level == REGULATION or canonical == "防腐":
-            continue  # 法规/防腐不是皮肤功效（与 fingerprint purity 同口径）
+        if (r.evidence_level == REGULATION or canonical == "防腐"
+                or r.ev_type == EvidenceType.SUPPLIER):
+            continue  # 法规/防腐不是皮肤功效；原料商宣称（降级通道）不计入功效信号
         factor, _ = dose_factor(conc_low=r.conc_low, conc_high=r.conc_high,
                                 eff_low=r.effective_conc_low, is_trace=r.is_trace)
         contribution = round(factor * (r.evidence_strength or 0.0), 4)
