@@ -13,13 +13,15 @@ from fastapi.responses import RedirectResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field, field_validator
 from sqlalchemy import func, or_, select
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload
 
 from .db import SessionLocal, init_db
-from .models.evidence import Evidence
+from .models.evidence import Evidence, EvidenceType
 from .models.ingredient import EfficacyAssertion, Ingredient
 from .models.product import MarketSnapshot, Product, ProductClaim, ProductIngredient
 from .services.dosecheck import dose_verdicts
+from .services.efficacy_canon import canonicalize
+from .services.evidence_level import HUMAN_CT, HUMAN_OPEN, HUMAN_RCT, REGULATION
 from .services.llm_gateway import LLMGateway, LLMUnavailableError
 from .services.rag_qa import answer_question
 from .services.roundtable import run_roundtable
@@ -46,6 +48,12 @@ EFFICACY_KEYWORDS = {
     "防晒": ["防晒"],
 }
 PRODUCT_SORTS = {"claim_count_desc", "ingredient_count_desc"}
+
+# 功效产品榜 canon 枚举：efficacy_canonical 真实功效族（「其他」「防腐」为非功效族，
+# 不在枚举内——口径同 fingerprint.py 的排除规则；拿不准的族不进枚举）
+RANKING_CANONS = ("美白", "抗皱", "保湿", "舒缓", "控油祛痘", "修护", "抗氧化", "焕肤")
+# 真人级证据层级（evidence_level 真实枚举值，见 services/evidence_level.py）
+HUMAN_EVIDENCE_LEVELS = (HUMAN_RCT, HUMAN_CT, HUMAN_OPEN)
 
 # 成分搜索折叠匹配：忽略大小写/空格/连字符（解码页逐成分查询依赖）
 _FOLD_RE = re.compile(r"[\s\-]+")
@@ -390,6 +398,53 @@ def product_fingerprint(product_id: int, db: Session = Depends(get_db)):
     result = compute_fingerprint(db, product_id)
     result["coverage"]["dimensions"] = len(result["fingerprint"])
     return {"product_id": product_id, **result}
+
+
+@app.get("/api/rankings/efficacy")
+def efficacy_ranking(canon: str, limit: int = Query(20, ge=1, le=100),
+                     db: Session = Depends(get_db)):
+    """功效产品榜：按成分证据族（efficacy_canonical）对产品排名（首页/排行榜页数据源）。
+
+    排名分 = 该族有断言的成分数 ×1 + 真人级证据断言数 ×3
+    （真人级 = evidence_level ∈ human_rct/human_ct/human_open）；同分按产品 id 升序。
+    只含该族有断言命中的产品；total 为命中产品总数（不受 limit 截断）。
+    口径同功效指纹：法规类断言（evidence_level=regulation）与原料商宣称断言
+    （evidence.type=supplier）不计入；efficacy_canonical 为 NULL 的断言按
+    canonicalize 实时映射兜底。分数为成分证据强度的相对排序信号，非效果排名。
+    """
+    if canon not in RANKING_CANONS:
+        raise HTTPException(status_code=422, detail=f"未知功效族: {canon}")
+    rows = db.execute(
+        select(ProductIngredient.product_id, ProductIngredient.ingredient_id,
+               EfficacyAssertion)
+        .join(EfficacyAssertion,
+              EfficacyAssertion.ingredient_id == ProductIngredient.ingredient_id)
+        .options(joinedload(EfficacyAssertion.evidence))
+    ).all()
+    agg: dict[int, dict] = {}  # product_id -> {"ingredients": set, "human": int}
+    for pid, iid, a in rows:
+        canonical = a.efficacy_canonical or canonicalize(a.efficacy)
+        if canonical != canon:
+            continue
+        if a.evidence_level == REGULATION or a.evidence.type == EvidenceType.SUPPLIER:
+            continue
+        slot = agg.setdefault(pid, {"ingredients": set(), "human": 0})
+        slot["ingredients"].add(iid)
+        if a.evidence_level in HUMAN_EVIDENCE_LEVELS:
+            slot["human"] += 1
+    ranked = sorted(
+        ((pid, len(s["ingredients"]), s["human"]) for pid, s in agg.items()),
+        key=lambda t: (-(t[1] + 3 * t[2]), t[0]),
+    )
+    page = ranked[:limit]
+    products = {p.id: p for p in db.execute(
+        select(Product).where(Product.id.in_([pid for pid, _, _ in page]))
+    ).scalars()} if page else {}
+    items = [{
+        "id": pid, "name": products[pid].name, "brand": products[pid].brand,
+        "score": hits + 3 * human, "ingredient_hits": hits, "human_evidence": human,
+    } for pid, hits, human in page]
+    return {"canon": canon, "total": len(ranked), "items": items}
 
 
 @app.get("/api/products/{product_id}/similar")
