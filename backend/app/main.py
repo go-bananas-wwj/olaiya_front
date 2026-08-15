@@ -35,6 +35,17 @@ from .services import vision_detect
 _CID_MAP_PATH = Path(__file__).resolve().parents[2] / "data" / "seed" / "cid_map.json"
 CID_MAP: dict = json.loads(_CID_MAP_PATH.read_text(encoding="utf-8"))
 
+# 功效胶囊筛选枚举 → 宣称关键词（多词 OR；拿不准的宣称不归类，同铁律 7 口径）
+EFFICACY_KEYWORDS = {
+    "美白": ["美白", "淡斑", "祛斑", "提亮"],
+    "抗老": ["抗皱", "紧致", "淡纹", "抗老", "抗衰"],
+    "保湿": ["保湿", "滋润", "补水"],
+    "祛痘": ["祛痘", "清痘", "抗痘", "净痘"],
+    "舒缓": ["舒缓", "舒敏", "修护"],
+    "防晒": ["防晒"],
+}
+PRODUCT_SORTS = {"claim_count_desc", "ingredient_count_desc"}
+
 app = FastAPI(title="成分真言 API", version="0.1.0")
 
 
@@ -195,8 +206,9 @@ def list_brands(db: Session = Depends(get_db)):
 
 @app.get("/api/products")
 def list_products(q: str | None = None, brand: str | None = None,
-                  has_claims: str | None = None, limit: int = Query(0, ge=0),
-                  offset: int = Query(0, ge=0),
+                  has_claims: str | None = None, efficacy: str | None = None,
+                  sort: str | None = None,
+                  limit: int = Query(0, ge=0), offset: int = Query(0, ge=0),
                   db: Session = Depends(get_db)):
     """产品列表。claim/成分计数用聚合子查询一次出（避免逐产品两条 COUNT 的 N+1）。
 
@@ -217,7 +229,8 @@ def list_products(q: str | None = None, brand: str | None = None,
             .outerjoin(ing_sq, ing_sq.c.product_id == Product.id))
     if q:
         like = f"%{q}%"
-        stmt = stmt.where(or_(Product.name.like(like), Product.brand.like(like)))
+        stmt = stmt.where(or_(Product.name.like(like), Product.brand.like(like),
+                              Product.nmpa_id.like(like)))
     if brand:
         stmt = stmt.where(Product.brand == brand)  # 品牌精确匹配
     # 按是否存在功效宣称过滤
@@ -225,6 +238,21 @@ def list_products(q: str | None = None, brand: str | None = None,
         stmt = stmt.where(claim_cnt > 0)
     if has_claims == "false":
         stmt = stmt.where(claim_cnt == 0)
+    if efficacy is not None:
+        kws = EFFICACY_KEYWORDS.get(efficacy)
+        if kws is None:
+            raise HTTPException(status_code=422, detail=f"未知功效枚举: {efficacy}")
+        stmt = stmt.where(Product.id.in_(
+            select(ProductClaim.product_id)
+            .where(or_(*[ProductClaim.claim.like(f"%{k}%") for k in kws]))))
+    if sort is not None:
+        if sort not in PRODUCT_SORTS:
+            raise HTTPException(status_code=422, detail=f"未知排序: {sort}")
+        stmt = stmt.order_by(
+            claim_cnt.desc() if sort == "claim_count_desc" else ing_cnt.desc(),
+            Product.id)
+    else:
+        stmt = stmt.order_by(Product.brand, Product.id)
 
     def _item(p: Product, claim_count: int, ing_count: int) -> dict:
         return {
@@ -233,7 +261,6 @@ def list_products(q: str | None = None, brand: str | None = None,
             "ingredient_count": ing_count,
         }
 
-    stmt = stmt.order_by(Product.brand, Product.id)
     if limit > 0 or offset > 0:
         total = db.execute(
             select(func.count()).select_from(stmt.subquery())).scalar_one()
