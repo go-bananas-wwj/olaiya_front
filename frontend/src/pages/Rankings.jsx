@@ -199,7 +199,7 @@ function ConcentrationBoards() {
           </ol>
         )}
         <p className="mt-4 text-xs text-pearl-ink-3">
-          每起效成本 = 达最低文献起效浓度的每日折算成本（按 1ml 用量，估计值）；
+          每起效成本 = 达最低文献起效浓度的每日折算成本（按 1ml 用量，估计值），产品取各成分每起效成本的最小值；
           限有官方降序成分表且有官方价的 {costs.length} 款
         </p>
       </div>

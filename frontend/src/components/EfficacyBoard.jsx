@@ -15,8 +15,9 @@ export default function EfficacyBoard({ limit = 5 }) {
   const location = useLocation()
   const rootRef = useRef(null)
   // 锚点深链：#board-美白 等直达对应 Tab（排行榜页入站/外部分享）。
-  // location.hash 是 percent-encoded，比较前须解码
-  const hash = decodeURIComponent(location.hash || '')
+  // location.hash 是 percent-encoded，比较前须解码；畸形 hash（如 #board-%）解码会抛 URIError，按无锚点处理
+  let hash = ''
+  try { hash = decodeURIComponent(location.hash || '') } catch { /* 畸形 hash 按无锚点处理 */ }
   const hashTab = TABS.findIndex(([label]) => hash === `#board-${label}`)
   const [tab, setTab] = useState(hashTab >= 0 ? hashTab : 0)
   const canon = TABS[tab][1]
