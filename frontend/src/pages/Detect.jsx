@@ -48,6 +48,7 @@ export default function Detect() {
 
   return (
     <div className="max-w-2xl mx-auto">
+      <div className="pearl-badge-muted mb-3">实验功能 · 二期上线</div>
       <div className="card">
         <div className="card-title">图片鉴伪（AI 生图检测）</div>
         <p className="text-xs text-ink-3 leading-relaxed mb-4">

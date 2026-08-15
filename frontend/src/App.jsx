@@ -9,6 +9,9 @@ import Compare from './pages/Compare'
 import Chat from './pages/Chat'
 import Roundtable from './pages/Roundtable'
 import Detect from './pages/Detect'
+import SearchResults from './pages/SearchResults'
+import Rankings from './pages/Rankings'
+import Decode from './pages/Decode'
 
 export default function App() {
   return (
@@ -21,6 +24,9 @@ export default function App() {
           <Route path="ingredients" element={<Ingredients />} />
           <Route path="ingredients/:id" element={<IngredientDetail />} />
           <Route path="compare" element={<Compare />} />
+          <Route path="rankings" element={<Rankings />} />
+          <Route path="decode" element={<Decode />} />
+          <Route path="search" element={<SearchResults />} />
           <Route path="chat" element={<Chat />} />
           <Route path="roundtable" element={<Roundtable />} />
           <Route path="detect" element={<Detect />} />

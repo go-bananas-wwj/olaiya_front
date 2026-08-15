@@ -302,6 +302,7 @@ export default function Roundtable() {
 
   return (
     <div className="max-w-3xl mx-auto">
+      <div className="pearl-badge-muted mb-3">实验功能 · 二期上线</div>
       {/* 输入区 */}
       <div className="card">
         <div className="card-title">圆桌核验</div>

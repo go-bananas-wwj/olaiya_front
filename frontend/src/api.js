@@ -68,6 +68,14 @@ export const api = {
   // q / has_evidence / limit / offset（带 limit/offset 返回 {total, items}）
   ingredients: (params) => get('/api/ingredients', params),
   ingredient: (id, params) => get(`/api/ingredients/${id}`, params), // product_limit / product_offset
+  // 全局搜索：产品 + 成分并行检索，返回 {products, ingredients} 两数组
+  searchAll: async (q) => {
+    const [p, i] = await Promise.all([
+      api.products({ q, limit: 8 }),
+      api.ingredients({ q, limit: 8 }),
+    ])
+    return { products: p.items ?? p, ingredients: i.items ?? i }
+  },
   chat: (question) => post('/api/chat', { question }),
   detectImage: (file) => postFile('/api/detect-image', file),
 }

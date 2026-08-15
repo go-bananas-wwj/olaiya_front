@@ -1,16 +1,19 @@
-import { NavLink, Outlet } from 'react-router-dom'
+import { useState } from 'react'
+import { NavLink, Outlet, useNavigate } from 'react-router-dom'
 
 const NAV = [
-  { to: '/', label: '总览', end: true },
-  { to: '/chat', label: '成分问答' },
-  { to: '/roundtable', label: '圆桌核验' },
   { to: '/products', label: '产品库' },
   { to: '/ingredients', label: '成分库' },
-  { to: '/compare', label: '产品对比' },
-  { to: '/detect', label: '图片鉴伪' },
+  { to: '/rankings', label: '排行榜' },
+  { to: '/compare', label: '对比' },
+  { to: '/decode', label: '解码' },
+  { to: '/chat', label: 'AI 问答' },
 ]
 
 export default function Layout() {
+  const navigate = useNavigate()
+  const [kw, setKw] = useState('')
+
   return (
     <div className="min-h-screen flex flex-col">
       <header className="bg-white/40 backdrop-blur-md border-b border-[rgba(138,90,106,0.15)]">
@@ -18,9 +21,9 @@ export default function Layout() {
           <div className="flex flex-wrap items-center gap-x-8 gap-y-3 justify-between">
             <h1 className="font-display text-xl tracking-[0.28em] text-pearl-ink flex items-center gap-3">
               <span className="w-9 h-9 rounded-full bg-gradient-to-br from-rosewood to-iris text-white inline-flex items-center justify-center text-base border-2 border-white/90 shadow-[0_2px_6px_rgba(61,47,42,0.25)]">
-                真
+                颜
               </span>
-              成分真言
+              颜鉴
             </h1>
             <nav className="flex gap-1 flex-wrap font-display">
               {NAV.map((n) => (
@@ -40,9 +43,20 @@ export default function Layout() {
                 </NavLink>
               ))}
             </nav>
+            <input
+              className="input w-56 text-sm"
+              placeholder="搜产品 / 成分 / 备案号…"
+              value={kw}
+              onChange={(e) => setKw(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' && !e.nativeEvent.isComposing && kw.trim()) {
+                  navigate(`/search?q=${encodeURIComponent(kw.trim())}`)
+                }
+              }}
+            />
           </div>
           <p className="mt-2.5 text-[13px] text-pearl-ink-2 max-w-3xl">
-            敢说真话的成分核验平台：每条功效断言都挂真实文献。
+            美，经得起逐滴核验
           </p>
         </div>
       </header>
@@ -53,7 +67,7 @@ export default function Layout() {
 
       <footer className="text-center text-xs text-pearl-ink-3 pb-8 px-5 space-y-1 font-display">
         <div>数据链路：NMPA 备案公示 → 盖德镜像采集 → 本地证据库 → API → 本页面</div>
-        <div>成分真言 · 欧莱雅美妆科技黑客松 2026 · 数据来源于 NMPA 备案公示镜像，仅供研究演示</div>
+        <div>颜鉴 · 欧莱雅美妆科技黑客松 2026 · 数据来源于 NMPA 备案公示镜像，仅供研究演示</div>
       </footer>
     </div>
   )

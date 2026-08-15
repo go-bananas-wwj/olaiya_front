@@ -7,7 +7,7 @@ const EXAMPLES = [
   'VC 真的能美白吗？',
 ]
 
-const WELCOME = '你好，我是成分真言问答助手：只根据证据库回答，每条结论挂真实文献。点击下面的示例问题，或直接输入你关心的成分功效问题。'
+const WELCOME = '你好，我是颜鉴问答助手：只根据证据库回答，每条结论挂真实文献。点击下面的示例问题，或直接输入你关心的成分功效问题。'
 
 const CHANNEL_BADGE = {
   local: { label: '910B 本地', cls: 'badge-ok' },
