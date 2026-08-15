@@ -4,7 +4,9 @@ import { api } from '../api'
 import { useFetch, Loading, LoadError } from '../components/common'
 import ClaimCard from '../components/ClaimCard'
 import ConcentrationPanel from '../components/ConcentrationPanel'
+import FingerprintBars from '../components/FingerprintBars'
 import IngredientList from '../components/IngredientList'
+import MatchScore from '../components/MatchScore'
 import SimilarLevels from '../components/SimilarLevels'
 
 // —— 宣称 ↔ 剂量判定匹配（纯前端聚合现有 API 字段，不伪造）——
@@ -45,6 +47,23 @@ const STATUS_META = {
 
 function scrollTo(id) {
   document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+}
+
+// —— Highlights 配方特征标签（P1）：由成分表规则推出，注明口径 ——
+const hlNorm = (s) => (s || '').toUpperCase().replace(/[.\s]/g, '')
+const HL_ALCOHOL = new Set(['ALCOHOL', 'ALCOHOLDENAT', 'SDALCOHOL', 'ETHANOL', '变性乙醇', '乙醇'])
+
+function highlights(ingredients) {
+  const hasAlcohol = ingredients.some((i) => HL_ALCOHOL.has(hlNorm(i.inci_name)) || HL_ALCOHOL.has(i.cn_name))
+  const hasFragrance = ingredients.some((i) =>
+    hlNorm(i.inci_name).includes('FRAGRANCE') || hlNorm(i.inci_name).includes('PARFUM') ||
+    (i.cn_name || '').includes('香精'))
+  const hasPreservative = ingredients.some((i) => (i.purpose || '').includes('防腐'))
+  const tags = []
+  if (!hasAlcohol) tags.push({ text: '无酒精', cls: 'pearl-badge-ok' })
+  if (!hasFragrance) tags.push({ text: '无香精', cls: 'pearl-badge-ok' })
+  if (hasPreservative) tags.push({ text: '含防腐剂', cls: 'pearl-badge-warn' })
+  return tags
 }
 
 function VerdictBar({ claims, conc }) {
@@ -104,6 +123,8 @@ export default function ProductDetail() {
   const { data: p, loading, error } = useFetch(() => api.product(id), [id])
   // 浓度数据页面级预取：判决条 / 宣称卡 hero / 浓度区块共用同一份
   const conc = useFetch(() => api.productConcentration(id), [id])
+  // 功效指纹页面级预取：指纹条 / 匹配分共用同一份
+  const fp = useFetch(() => api.productFingerprint(id), [id])
   // 成分行内展开的档案懒加载缓存（{ [ingredientId]: {status, data} }），换产品时清空
   const [ingCache, setIngCache] = useState({})
   useEffect(() => { setIngCache({}) }, [id])
@@ -122,6 +143,7 @@ export default function ProductDetail() {
   ].filter(Boolean)
 
   const estimates = conc.data?.inferred ? conc.data.estimates : null
+  const hl = highlights(p.ingredients)
 
   return (
     <div className="pearl-page">
@@ -136,6 +158,12 @@ export default function ProductDetail() {
             {p.nmpa_id && <span>备案号：<b>{p.nmpa_id}</b></span>}
             {p.category && <span>类别：{p.category}</span>}
           </div>
+          {hl.length > 0 && (
+            <div className="mt-3 flex flex-wrap items-center gap-2">
+              {hl.map((t) => <span key={t.text} className={t.cls}>{t.text}</span>)}
+              <span className="text-xs text-pearl-ink-3">由成分表规则推出</span>
+            </div>
+          )}
           {kv.length > 0 && (
             <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3 mt-4">
               {kv.map(([k, v]) => (
@@ -159,6 +187,12 @@ export default function ProductDetail() {
 
         {/* 核验结论条（判决卡） */}
         {p.claims.length > 0 && <VerdictBar claims={p.claims} conc={conc} />}
+
+        {/* 功效指纹条（置顶宣称核验区上方） */}
+        <FingerprintBars fp={fp} />
+
+        {/* 透明匹配分（肤质档案 localStorage，逐项可展开） */}
+        <MatchScore product={p} conc={conc} fp={fp} />
 
         {/* 宣称核验区：每张卡 hero 位带剂量对照条 */}
         <div className="glass-card">

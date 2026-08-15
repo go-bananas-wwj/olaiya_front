@@ -86,26 +86,62 @@ function LevelColumn({ level, data, note, productId }) {
   )
 }
 
-// 「三级相似产品」区块（产品详情页，珍珠贝母版）：L1 成分集合 / L2 剂量级 / L3 功效级 三栏
+// 语义相似栏（第四栏）：BGE-M3 成分表文本向量余弦，独立请求 /similar，索引未构建时降级
+function SemanticColumn({ productId }) {
+  const { data, loading, error } = useFetch(() => api.productSimilar(productId), [productId])
+  return (
+    <div>
+      <div className="flex items-center gap-2 flex-wrap">
+        <h3 className="text-sm font-semibold text-pearl-ink">语义相似</h3>
+        <span className="pearl-badge-info">语义</span>
+      </div>
+      <p className="text-xs text-pearl-ink-3 leading-relaxed mt-1.5">
+        成分表文本向量（BGE-M3）余弦相似；可发现成分集合并不重叠但配方文本接近的产品
+      </p>
+      <div className="mt-3 space-y-2">
+        {loading ? (
+          <Loading />
+        ) : error ? (
+          <div className="fairy-panel-dim text-pearl-ink-3 px-3.5 py-2.5 text-xs leading-relaxed">
+            语义相似加载失败（{error}）
+          </div>
+        ) : !data.similar ? (
+          <div className="fairy-panel-dim text-pearl-ink-3 px-3.5 py-2.5 text-xs leading-relaxed">
+            {data.reason || '相似索引未构建'}
+          </div>
+        ) : data.similar.length === 0 ? (
+          <div className="text-xs text-pearl-ink-3 py-2">暂无可比对的产品</div>
+        ) : (
+          data.similar.map((item) => (
+            <SimCard key={item.id} item={item} productId={productId} meta={null} />
+          ))
+        )}
+      </div>
+    </div>
+  )
+}
+
+// 「相似产品」区块（产品详情页，珍珠贝母版）：L1 成分集合 / L2 剂量级 / L3 功效级 / 语义相似 四栏
 export default function SimilarLevels({ productId }) {
   const { data, loading, error } = useFetch(() => api.productSimilarLevels(productId), [productId])
 
   return (
     <div className="glass-card">
-      <h2 className="pearl-title">三级相似产品（真平替候选）</h2>
+      <h2 className="pearl-title">相似产品（真平替候选）</h2>
       <div className="pearl-notice">
-        三个级别口径独立、互不替代：成分集合是确定性比对，剂量级基于推断浓度（估计值），
-        功效级是证据库统计信号。任何一级都不是「功效等同」承诺。
+        四种口径独立、互不替代：成分集合是确定性比对，剂量级基于推断浓度（估计值），
+        功效级是证据库统计信号，语义相似是文本向量接近度。相似 ≠ 功效相同，任何一栏都不是「功效等同」承诺。
       </div>
       {loading ? (
         <Loading />
       ) : error ? (
         <div className="pearl-notice !mb-0">相似产品数据加载失败（{error}）</div>
       ) : (
-        <div className="grid gap-6 md:grid-cols-3">
+        <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
           {LEVELS.map((level) => (
             <LevelColumn key={level.key} level={level} data={data} note={data.note} productId={productId} />
           ))}
+          <SemanticColumn productId={productId} />
         </div>
       )}
     </div>

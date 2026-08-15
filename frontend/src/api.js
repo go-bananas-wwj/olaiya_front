@@ -64,6 +64,9 @@ export const api = {
   product: (id) => get(`/api/products/${id}`),
   productConcentration: (id) => get(`/api/products/${id}/concentration`),
   productSimilarLevels: (id, params) => get(`/api/products/${id}/similar-levels`, params), // k
+  productFingerprint: (id) => get(`/api/products/${id}/fingerprint`),
+  // 语义相似（BGE-M3 文本向量）：索引未构建时 similar=null + reason 降级
+  productSimilar: (id, params) => get(`/api/products/${id}/similar`, params), // k
   brands: () => get('/api/brands'),
   // q / has_evidence / limit / offset（带 limit/offset 返回 {total, items}）
   ingredients: (params) => get('/api/ingredients', params),
