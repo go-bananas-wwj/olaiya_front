@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>成分真言 · 一期 9 页线框参考图（v2.1）</title>
+<style>
+  /* ===== 字体（托管于 /fonts/） ===== */
+  @font-face {
+    font-family: 'ZCOOL KuaiLe';
+    src: url('/fonts/zcool-kuaile-400-subset.woff2') format('woff2');
+    font-weight: 400; font-display: swap;
+  }
+  @font-face {
+    font-family: 'Quicksand';
+    src: url('/fonts/quicksand-var.woff2') format('woff2');
+    font-weight: 100 1000; font-display: swap;
+  }
+  @font-face {
+    font-family: 'Noto Sans SC';
+    src: url('/fonts/noto-sans-sc-var-subset.woff2') format('woff2');
+    font-weight: 100 1000; font-display: swap;
+  }
+  @font-face {
+    font-family: 'Baloo 2';
+    src: url('/fonts/baloo-2-var.woff2') format('woff2');
+    font-weight: 400 800; font-display: swap;
+  }
+
+  :root {
+    --bg: #f3ede6;        /* 珍珠贝母底 */
+    --ink: #3d2f2a;       /* 墨 */
+    --rose: #b06a8a;      /* 蔷薇木 */
+    --iris: #8a7ab8;      /* 鸢尾紫 */
+    --mint: #6fae9e;      /* 薄荷 */
+    --card: rgba(255,255,255,.62);
+    --card-bd: rgba(138,90,106,.22);
+    --radius: 22px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg); color: var(--ink);
+    font-family: 'Quicksand', 'Noto Sans SC', sans-serif;
+    font-size: 14px; line-height: 1.55;
+  }
+  .num { font-family: 'Baloo 2', 'Quicksand', sans-serif; }
+  h1, h2, h3, .kuaile { font-family: 'ZCOOL KuaiLe', 'Noto Sans SC', sans-serif; font-weight: 400; }
+
+  .layout { display: flex; gap: 28px; max-width: 1560px; margin: 0 auto; padding: 32px 28px 80px; }
+
+  /* ===== 左侧粘性目录 ===== */
+  .toc {
+    position: sticky; top: 24px; align-self: flex-start;
+    width: 232px; flex: 0 0 232px;
+    background: var(--card); border: 2px solid var(--card-bd); border-radius: var(--radius);
+    padding: 18px 16px;
+  }
+  .toc h2 { font-size: 18px; color: var(--rose); margin-bottom: 4px; }
+  .toc .sub { font-size: 11px; opacity: .65; margin-bottom: 12px; }
+  .toc ol { list-style: none; counter-reset: pg; }
+  .toc li { counter-increment: pg; margin: 2px 0; }
+  .toc li a {
+    display: block; text-decoration: none; color: var(--ink);
+    padding: 6px 10px; border-radius: 12px; font-size: 13px;
+  }
+  .toc li a::before { content: counter(pg) ' · '; color: var(--iris); font-family: 'Baloo 2'; }
+  .toc li a:hover { background: rgba(176,106,138,.12); color: var(--rose); }
+  .toc .foot { margin-top: 12px; padding-top: 10px; border-top: 1px dashed var(--card-bd); font-size: 11px; opacity: .6; }
+
+  .main { flex: 1; min-width: 0; }
+  .page-head { margin-bottom: 20px; }
+  .page-head h1 { font-size: 30px; color: var(--ink); }
+  .page-head p { font-size: 13px; opacity: .7; margin-top: 6px; }
+  .page-head .badge-demo {
+    display: inline-block; margin-left: 10px; padding: 2px 12px; border-radius: 999px;
+    border: 1.5px dashed var(--rose); color: var(--rose); font-size: 12px; vertical-align: middle;
+  }
+
+  /* ===== 浏览器框 ===== */
+  .browser {
+    width: 1200px; margin: 0 0 56px;
+    background: var(--card); border: 2px solid var(--card-bd); border-radius: var(--radius);
+    overflow: hidden; box-shadow: 0 10px 30px rgba(61,47,42,.06);
+  }
+  .browser-bar {
+    display: flex; align-items: center; gap: 12px;
+    padding: 10px 16px; background: rgba(138,122,184,.10);
+    border-bottom: 1.5px dashed var(--card-bd);
+  }
+  .dots { display: flex; gap: 6px; }
+  .dots i { width: 11px; height: 11px; border-radius: 50%; display: block; }
+  .dots i:nth-child(1){ background: var(--rose); }
+  .dots i:nth-child(2){ background: var(--iris); }
+  .dots i:nth-child(3){ background: var(--mint); }
+  .addr {
+    flex: 1; background: rgba(255,255,255,.8); border: 1.5px solid var(--card-bd);
+    border-radius: 999px; padding: 4px 16px; font-size: 13px; color: var(--iris);
+    font-family: 'Baloo 2', 'Quicksand', sans-serif;
+  }
+  .browser-title { padding: 18px 24px 0; }
+  .browser-title h3 { font-size: 21px; color: var(--rose); }
+  .browser-title .desc { font-size: 12.5px; opacity: .7; margin-top: 3px; }
+  .canvas { padding: 18px 24px 24px; }
+
+  /* ===== 线框块 ===== */
+  .wf {
+    border: 2px dashed rgba(138,90,106,.4); border-radius: 14px;
+    background: rgba(255,255,255,.45);
+    padding: 12px 16px; margin-bottom: 12px; position: relative;
+  }
+  .wf .tag {
+    position: absolute; top: -11px; left: 14px;
+    background: var(--bg); padding: 0 8px;
+    font-size: 11px; color: var(--rose); font-family: 'ZCOOL KuaiLe', sans-serif;
+  }
+  .wf.rose  { background: rgba(176,106,138,.08); border-color: rgba(176,106,138,.5); }
+  .wf.iris  { background: rgba(138,122,184,.09); border-color: rgba(138,122,184,.5); }
+  .wf.mint  { background: rgba(111,174,158,.10); border-color: rgba(111,174,158,.55); }
+  .wf.solid { border-style: solid; }
+  .wf-label { font-size: 13px; font-weight: 600; }
+  .wf-label b { color: var(--rose); }
+  .note { font-size: 11.5px; color: rgba(61,47,42,.62); margin: -6px 0 12px 6px; padding-left: 10px; border-left: 2px solid rgba(138,122,184,.35); }
+  .note b { color: var(--iris); }
+
+  .row { display: flex; gap: 12px; }
+  .row > * { min-width: 0; }
+  .grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .grid4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+
+  /* 顶栏 */
+  .topnav { display: flex; align-items: center; gap: 10px; font-size: 12.5px; }
+  .topnav .logo { font-family: 'ZCOOL KuaiLe'; font-size: 16px; color: var(--rose); margin-right: 6px; }
+  .topnav .nv { padding: 3px 10px; border: 1.5px dashed rgba(138,90,106,.35); border-radius: 999px; }
+  .topnav .search { flex: 1; max-width: 260px; margin-left: auto; border: 1.5px solid var(--card-bd); border-radius: 999px; padding: 3px 14px; background: rgba(255,255,255,.8); color: rgba(61,47,42,.5); font-size: 12px; }
+
+  /* 胶囊 */
+  .caps { display: flex; gap: 8px; flex-wrap: wrap; }
+  .cap { border: 1.5px dashed var(--iris); color: var(--iris); border-radius: 999px; padding: 2px 14px; font-size: 12px; background: rgba(255,255,255,.6); }
+  .cap.on { background: var(--iris); color: #fff; border-style: solid; }
+
+  /* 徽章 */
+  .bdg { display: inline-block; border: 1.5px dashed; border-radius: 999px; padding: 0 10px; font-size: 11px; line-height: 20px; }
+  .bdg.ok   { color: var(--mint); border-color: var(--mint); }
+  .bdg.warn { color: var(--rose); border-color: var(--rose); }
+  .bdg.unk  { color: var(--iris); border-color: var(--iris); }
+
+  /* 剂量对照条：横带 + 竖线 */
+  .dosebar { margin-top: 10px; }
+  .dosebar .track { position: relative; height: 16px; border-radius: 999px; background: linear-gradient(90deg, rgba(111,174,158,.15), rgba(111,174,158,.4)); border: 1.5px solid rgba(111,174,158,.5); }
+  .dosebar .track .tick { position: absolute; top: -7px; bottom: -7px; width: 3px; border-radius: 2px; }
+  .dosebar .track .tick.est { background: var(--rose); }
+  .dosebar .track .tick.eff { background: var(--iris); }
+  .dosebar .scale { display: flex; justify-content: space-between; font-size: 10.5px; opacity: .6; margin-top: 8px; font-family: 'Baloo 2'; }
+  .legend { font-size: 11px; opacity: .75; margin-top: 6px; }
+  .legend i { display: inline-block; width: 10px; height: 3px; vertical-align: middle; margin: 0 4px 2px 10px; border-radius: 2px; }
+
+  /* 指纹雷达条（横向条形图） */
+  .fp-row { display: flex; align-items: center; gap: 10px; margin: 5px 0; font-size: 12px; }
+  .fp-row .nm { width: 52px; text-align: right; opacity: .8; }
+  .fp-row .bar { height: 12px; border-radius: 999px; background: linear-gradient(90deg, var(--iris), var(--rose)); }
+  .fp-row .val { font-family: 'Baloo 2'; font-size: 11px; opacity: .65; }
+
+  /* 匹配分 */
+  .score-num { font-family: 'Baloo 2'; font-size: 40px; color: var(--rose); line-height: 1; }
+  .delta { font-size: 12px; padding: 4px 10px; border-radius: 10px; margin: 3px 0; border: 1.5px dashed rgba(138,90,106,.3); background: rgba(255,255,255,.55); }
+  .delta .num { font-weight: 700; }
+  .delta.plus .num { color: var(--mint); }
+  .delta.minus .num { color: var(--rose); }
+
+  /* 榜单行 */
+  .rank-row { display: flex; align-items: center; gap: 10px; padding: 6px 10px; border-radius: 10px; border: 1.5px dashed rgba(138,90,106,.3); background: rgba(255,255,255,.5); margin: 4px 0; font-size: 12.5px; }
+  .rank-row .no { font-family: 'Baloo 2'; font-weight: 700; color: var(--iris); width: 20px; }
+  .rank-row .metric { margin-left: auto; font-family: 'Baloo 2'; color: var(--rose); font-size: 12px; }
+
+  /* 大数字卡 */
+  .bignum { text-align: center; padding: 14px 8px; }
+  .bignum .v { font-family: 'Baloo 2'; font-size: 34px; font-weight: 700; line-height: 1.1; }
+  .bignum .v.cheap { color: var(--mint); }
+  .bignum .v.exp { color: var(--rose); }
+  .bignum .cap2 { font-size: 11px; opacity: .65; margin-top: 4px; }
+
+  /* diff 行 */
+  .diff { font-size: 12px; padding: 4px 10px; border-radius: 8px; margin: 3px 0; }
+  .diff.only-a { background: rgba(176,106,138,.10); }
+  .diff.only-b { background: rgba(138,122,184,.12); }
+  .diff.both { background: rgba(111,174,158,.12); }
+
+  /* 聊天引用 */
+  .cite { font-family: 'Baloo 2'; color: var(--iris); border-bottom: 1.5px dashed var(--iris); cursor: default; }
+  .cite.bad { color: var(--rose); border-color: var(--rose); text-decoration: line-through; }
+
+  /* 数据来源小节 */
+  .src { margin: 6px 24px 22px; padding: 12px 16px; border-radius: 14px; background: rgba(111,174,158,.08); border: 1.5px dashed rgba(111,174,158,.5); font-size: 12px; }
+  .src b { color: var(--mint); font-family: 'ZCOOL KuaiLe'; font-weight: 400; }
+  .src code { font-family: 'Baloo 2', monospace; font-size: 11.5px; background: rgba(255,255,255,.7); border-radius: 6px; padding: 1px 6px; color: var(--ink); }
+  .src .new { color: var(--rose); font-size: 11px; border: 1px dashed var(--rose); border-radius: 999px; padding: 0 8px; }
+
+  .p0 { font-size: 10px; border-radius: 999px; padding: 0 7px; background: var(--rose); color: #fff; vertical-align: 1px; margin-left: 6px; }
+  .p1 { font-size: 10px; border-radius: 999px; padding: 0 7px; background: var(--iris); color: #fff; vertical-align: 1px; margin-left: 6px; }
+
+  @media print {
+    .toc { display: none; }
+    .browser { break-inside: avoid-page; }
+    body { background: #fff; }
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+
+  <!-- ================= 目录 ================= -->
+  <nav class="toc">
+    <h2>成分真言 · 线框</h2>
+    <div class="sub">一期 9 页 · 依据《设计方案-页面功能-v2.1》</div>
+    <ol>
+      <li><a href="#home">首页 /</a></li>
+      <li><a href="#products">产品库 /products</a></li>
+      <li><a href="#product-detail">产品详情 /products/:id</a></li>
+      <li><a href="#ingredients">成分库 /ingredients</a></li>
+      <li><a href="#ingredient-detail">成分详情 /ingredients/:id</a></li>
+      <li><a href="#rankings">排行榜 /rankings</a></li>
+      <li><a href="#compare">对比 /compare</a></li>
+      <li><a href="#decode">解码 /decode</a></li>
+      <li><a href="#chat">AI 问答 /chat</a></li>
+    </ol>
+    <div class="foot">线框示意，数据为示例。<br>隐藏页（圆桌 /roundtable、鉴伪 /detect）一期零入口，不画。</div>
+  </nav>
+
+  <div class="main">
+    <div class="page-head">
+      <h1>一期页面线框参考图 <span class="badge-demo">线框示意，数据为示例</span></h1>
+      <p>每页一个 1200px 浏览器框；虚线块=功能区块，块下一行小字=交互注释；页末「数据来源」对照 backend/app/main.py 现有路由与 v2.1 文档「需新后端」清单。设计令牌：珍珠贝母底 / 墨 / 蔷薇木 / 鸢尾紫 / 薄荷。</p>
+    </div>
+
+    <!-- ================= 1. 首页 ================= -->
+    <section class="browser" id="home">
+      <div class="browser-bar"><span class="dots"><i></i><i></i><i></i></span><span class="addr">cfz.example/#/</span></div>
+      <div class="browser-title"><h3>1 · 首页 —— 实用门户（无 3D）</h3><div class="desc">P0 大搜索 + 功效胶囊 + 数据规模 + 三入口卡；P1 排行榜精选。3D 瓶子不上线，「今日核验」卡已撤。</div></div>
+      <div class="canvas">
+
+        <div class="wf solid"><span class="tag">顶栏（全站通用）</span>
+          <div class="topnav">
+            <span class="logo">成分真言</span>
+            <span class="nv">产品库</span><span class="nv">成分库</span><span class="nv">排行榜</span><span class="nv">对比</span><span class="nv">解码</span><span class="nv">AI 问答</span>
+            <span class="search">🔍 搜产品 / 成分 / 备案号…</span>
+          </div>
+        </div>
+        <div class="note">顶栏平铺 6 项，全站一致；搜索回车进 <b>#/search?q=…</b> 统一结果页（前端并行调产品与成分接口分组展示，无新后端）。</div>
+
+        <div class="wf rose"><span class="tag">P0 · 大搜索框</span>
+          <div style="text-align:center; padding: 18px 0 8px;">
+            <div class="kuaile" style="font-size:22px; color:var(--ink);">这瓶护肤品，值不值得信？</div>
+            <div style="margin: 12px auto 6px; max-width: 560px; border: 2px solid var(--rose); border-radius: 999px; background: rgba(255,255,255,.85); padding: 10px 22px; color: rgba(61,47,42,.45); text-align:left;">输入产品名 / 成分名 / 备案号，如「OLAY 小白瓶」「烟酰胺」…</div>
+            <div class="caps" style="justify-content:center;">
+              <span class="cap">美白</span><span class="cap">抗老</span><span class="cap">保湿</span><span class="cap">祛痘</span>
+            </div>
+          </div>
+        </div>
+        <div class="note">功效胶囊点击 → 直接跳转 <b>产品库带 efficacy 筛选</b>。</div>
+
+        <div class="wf mint" style="text-align:center;"><span class="tag">P0 · 数据规模一行</span>
+          <span class="num" style="font-size:15px;">158</span> 款产品 · <span class="num" style="font-size:15px;">1,200+</span> 个成分 · <span class="num" style="font-size:15px;">600+</span> 条真实文献证据
+        </div>
+        <div class="note">数字来自 <b>/api/stats</b>；文案固定带「真实文献证据」，呼应赛题定位。</div>
+
+        <div class="grid3">
+          <div class="wf iris"><span class="tag">P0 · 入口卡</span><div class="wf-label">查产品</div><div style="font-size:12px; opacity:.7;">判决条 + 剂量对照，一眼看穿宣称</div></div>
+          <div class="wf iris"><span class="tag">P0 · 入口卡</span><div class="wf-label">解码成分表</div><div style="font-size:12px; opacity:.7;">粘贴成分表，逐成分出证据报告</div></div>
+          <div class="wf iris"><span class="tag">P0 · 入口卡</span><div class="wf-label">AI 问答</div><div style="font-size:12px; opacity:.7;">逐句挂文献的回答</div></div>
+        </div>
+        <div class="note">三卡分别跳 <b>#/products · #/decode · #/chat</b>。</div>
+
+        <div class="row">
+          <div class="wf" style="flex:1;"><span class="tag">P1 · 成分证据榜 Top5</span>
+            <div class="rank-row"><span class="no">1</span>烟酰胺<span class="metric">真人证据 ×12</span></div>
+            <div class="rank-row"><span class="no">2</span>视黄醇<span class="metric">真人证据 ×9</span></div>
+            <div class="rank-row"><span class="no">3</span>维生素 C<span class="metric">真人证据 ×7</span></div>
+          </div>
+          <div class="wf" style="flex:1;"><span class="tag">P1 · 产品核验榜 Top5</span>
+            <div class="rank-row"><span class="no">1</span>The Ordinary 烟酰胺精华<span class="metric">达标 4/4</span></div>
+            <div class="rank-row"><span class="no">2</span>修丽可 CE 精华<span class="metric">达标 3/4</span></div>
+            <div class="rank-row"><span class="no">3</span>OLAY 淡斑小白瓶<span class="metric">达标 2/3</span></div>
+          </div>
+        </div>
+        <div class="note">复用排行榜页排序逻辑；点击卡片跳 <b>#/rankings</b> 对应榜单锚点。</div>
+
+      </div>
+      <div class="src"><b>数据来源</b>：<code>GET /api/stats</code>；排行榜精选复用排行榜页数据组装（成分证据 ← <code>GET /api/ingredients?has_evidence=1</code> 聚合；产品核验 ← <code>GET /api/products/{id}/concentration</code> 子集）。无新后端。</div>
+    </section>
+
+    <!-- ================= 2. 产品库 ================= -->
+    <section class="browser" id="products">
+      <div class="browser-bar"><span class="dots"><i></i><i></i><i></i></span><span class="addr">cfz.example/#/products</span></div>
+      <div class="browser-title"><h3>2 · 产品库 —— 查询体验</h3><div class="desc">一条粘性工具条 + 卡片栅格 + 加载更多。158 款体量，不做面版式多条件筛选器。</div></div>
+      <div class="canvas">
+
+        <div class="wf rose solid"><span class="tag">P0 · 粘性工具条</span>
+          <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+            <span style="border:1.5px solid var(--card-bd); border-radius:999px; background:rgba(255,255,255,.85); padding:4px 16px; font-size:12px; color:rgba(61,47,42,.5);">🔍 名称 / 品牌 / 备案号（250ms 防抖）</span>
+            <span class="caps"><span class="cap on">美白</span><span class="cap">抗老</span><span class="cap">保湿</span><span class="cap">祛痘</span><span class="cap">舒缓</span><span class="cap">防晒</span></span>
+            <span class="bdg unk">品牌下拉 ▾</span>
+            <span class="bdg unk">☑ 只看有宣称</span>
+            <span class="bdg unk">排序：宣称数 ↓</span>
+          </div>
+        </div>
+        <div class="note">功效胶囊 → <b>?efficacy=美白</b>（需新后端参数，枚举→关键词映射写死后端）；排序仅 <b>claim_count_desc / ingredient_count_desc</b>，不做达标率/成本排序（无交集会出空榜，违反诚实原则）。搜索 q 并入 <b>nmpa_id</b> 匹配。竞态守卫 AbortController + 加载更多去重锁保留。</div>
+
+        <div class="grid3">
+          <div class="wf"><span class="tag">产品卡</span>
+            <div class="wf-label">OLAY 淡斑小白瓶 <span class="bdg ok" style="float:right;">匹配分 82</span></div>
+            <div style="font-size:12px; opacity:.75;">宝洁 · 国妆特字 G2020XXXX</div>
+            <div style="font-size:12px; margin-top:4px;"><span class="num">3</span> 条宣称 · <span class="num">28</span> 个成分</div>
+          </div>
+          <div class="wf"><span class="tag">产品卡</span>
+            <div class="wf-label">修丽可 CE 精华</div>
+            <div style="font-size:12px; opacity:.75;">SkinCeuticals · 国妆备进字 J2019XXXX</div>
+            <div style="font-size:12px; margin-top:4px;"><span class="num">4</span> 条宣称 · <span class="num">19</span> 个成分</div>
+          </div>
+          <div class="wf"><span class="tag">产品卡</span>
+            <div class="wf-label">The Ordinary 烟酰胺 10%</div>
+            <div style="font-size:12px; opacity:.75;">DECIEM · 国妆备进字 J2021XXXX</div>
+            <div style="font-size:12px; margin-top:4px;"><span class="num">4</span> 条宣称 · <span class="num">12</span> 个成分</div>
+          </div>
+        </div>
+        <div class="note">匹配分角标<b>仅在已填肤质档案时显示</b>（纯前端 localStorage + 详情缓存）；「够量/存疑」标签不进卡片（需 N+1 调浓度接口）。</div>
+
+        <div class="wf mint" style="text-align:center;"><span class="tag">加载更多</span><span class="kuaile" style="color:var(--mint);">加载更多 ▾</span></div>
+
+        <div class="wf iris"><span class="tag">P0 · 空态（两种）</span>
+          <div style="font-size:12.5px;">① 筛选无结果 →「没有找到符合筛选的产品」＋<b>一键清空筛选</b> 按钮<br>② 全库查无 →「库中暂无该产品」＋<b>试试解码成分表 →</b> 跳转 #/decode</div>
+        </div>
+
+      </div>
+      <div class="src"><b>数据来源</b>：<code>GET /api/products?q=&amp;page=</code> <span class="new">+efficacy 参数（新）</span> <span class="new">+sort 参数（新）</span> <span class="new">q 并入 nmpa_id（新）</span>；<code>GET /api/brands</code>；匹配分角标读 localStorage + 详情缓存（零新后端）。</div>
+    </section>
+
+    <!-- ================= 3. 产品详情 ================= -->
+    <section class="browser" id="product-detail">
+      <div class="browser-bar"><span class="dots"><i></i><i></i><i></i></span><span class="addr">cfz.example/#/products/:id</span></div>
+      <div class="browser-title"><h3>3 · 产品详情 —— 全站枢纽</h3><div class="desc">已实现：判决条、宣称核验卡、剂量对照条、成分速览、平替区。新增 P0：功效指纹雷达条、匹配分模块、相似区第四栏「语义相似」。</div></div>
+      <div class="canvas">
+
+        <div class="wf"><span class="tag">产品头</span>
+          <div class="wf-label" style="font-size:16px;">OLAY 淡斑小白瓶 <span style="font-size:12px; opacity:.65;">宝洁 · 国妆特字 G2020XXXX · 30ml / ¥240</span></div>
+        </div>
+
+        <div class="wf rose solid"><span class="tag">P0 · 判决条（已实现）</span>
+          <div style="text-align:center; font-size:14px;" class="kuaile">3 条宣称：<span style="color:var(--mint);">1 达标</span> · <span style="color:var(--rose);">1 存疑</span> · <span style="color:var(--iris);">1 无证据</span></div>
+        </div>
+        <div class="note">点击徽章锚点跳转到对应宣称核验卡。</div>
+
+        <div class="wf iris"><span class="tag">P0 · 功效指纹雷达条（新）</span>
+          <div class="fp-row"><span class="nm">美白</span><span class="bar" style="width:64%;"></span><span class="val">0.82</span></div>
+          <div class="fp-row"><span class="nm">抗老</span><span class="bar" style="width:30%;"></span><span class="val">0.35</span></div>
+          <div class="fp-row"><span class="nm">保湿</span><span class="bar" style="width:22%;"></span><span class="val">0.21</span></div>
+          <div class="fp-row"><span class="nm">舒缓</span><span class="bar" style="width:8%;"></span><span class="val">0.06</span></div>
+        </div>
+        <div class="note">横向条形图：维=规范功效族，值=剂量因子×证据强度，数据 <b>/fingerprint</b> 现有 API 纯前端渲染；置顶宣称核验区上方，法规/防腐族不计入。</div>
+
+        <div class="wf rose"><span class="tag">P0 · 匹配分模块（透明版）</span>
+          <div class="row" style="align-items:flex-start;">
+            <div style="text-align:center; padding: 6px 14px;">
+              <div class="score-num">82</div>
+              <div style="font-size:11px; opacity:.65;">按你的档案：油皮 · 诉求美白</div>
+            </div>
+            <div style="flex:1;">
+              <div class="delta plus"><span class="num">+20</span> 美白诉求命中，烟酰胺有真人级证据（PMID 12100180 等）<span style="opacity:.6;"> ▸ 展开依据</span></div>
+              <div class="delta plus"><span class="num">+10</span> 烟酰胺估计浓度 ~4%（估计），达文献起效区间 2–5%<span style="opacity:.6;"> ▸</span></div>
+              <div class="delta plus"><span class="num">+10</span> 每起效成本 ¥8.0/天，低于同诉求中位</div>
+              <div class="delta minus"><span class="num">−10</span> 「7 天淡斑」宣称无证据支撑<span style="opacity:.6;"> ▸</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="note">加减分<b>逐项可展开</b>，挂到具体断言/文献；档案存 localStorage 随时可改；数据不足产品显示<b>「数据不足，仅供参考」</b>而非给分；纯前端计算，零新后端。</div>
+
+        <div class="wf"><span class="tag">P0 · 宣称核验卡（已实现，三档徽章）</span>
+          <div style="font-size:12.5px;">
+            ① 淡化色斑 <span class="bdg ok">达标</span> —— 烟酰胺 ~4%（估计）∈ 起效区间 2–5%，证据：PMID ×3<br>
+            ② 提亮肤色 <span class="bdg warn">存疑</span> —— 抗坏血酸葡糖苷位于 1% 线以下（微量区）<br>
+            ③ 7 天见效 <span class="bdg unk">无证据</span> —— 库中无任何文献支持该宣称
+          </div>
+        </div>
+        <div class="note">悬停徽章出证据卡；PMID 点击跳 PubMed。弱证据（口服/动物/体外/复方）note 如实标注。</div>
+
+        <div class="wf mint"><span class="tag">P0 · 剂量对照条 + 每起效成本（已实现）</span>
+          <div style="font-size:12px;">烟酰胺</div>
+          <div class="dosebar">
+            <div class="track">
+              <span class="tick eff" style="left:22%;"></span>
+              <span class="tick eff" style="left:58%;"></span>
+              <span class="tick est" style="left:45%;"></span>
+            </div>
+            <div class="scale"><span>0%</span><span>2%</span><span>5%</span><span>10%</span></div>
+          </div>
+          <div class="legend"><i style="background:var(--iris);"></i>文献起效区间 2–5% <i style="background:var(--rose);"></i>本产品估计浓度 ~4%（估计）　<b>每起效成本 ≈ ¥8.0/天</b></div>
+        </div>
+        <div class="note">浓度为模型估计值，固定带「估计」徽章；无官方降序成分表的产品不做推断、不伪造位次；1% 线区域（全量/微量）为官方事实、突出展示。</div>
+
+        <div class="wf"><span class="tag">P0 · 成分速览（已实现，行内展开）</span>
+          <div style="font-size:12.5px;">
+            <b>1</b> 水 · <b>2</b> 烟酰胺 <span class="bdg ok">证据×12</span> · <b>3</b> 甘油 <span class="bdg ok">证据×5</span> · <b>4</b> 1,3-丙二醇 …<br>
+            <span style="opacity:.6;">▾ 第 2 位「烟酰胺」展开：美白/控油 · 真人证据 12 条 · CIR 安全评估 · 跳成分详情 →</span>
+          </div>
+        </div>
+        <div class="note">位次为官方备案事实；点击成分名跳 <b>#/ingredients/:id</b>。</div>
+
+        <div class="wf iris"><span class="tag">P0 · 相似区（三栏 + 新第四栏「语义相似」）</span>
+          <div class="grid4">
+            <div><div class="wf-label" style="font-size:12px;">L1 同族平替</div><div style="font-size:11.5px; opacity:.75;">The Ordinary 烟酰胺<br>平价烟酰胺原液</div></div>
+            <div><div class="wf-label" style="font-size:12px;">L2 剂量级</div><div style="font-size:11.5px; opacity:.75;">某精华（剂量估计接近）<br><span class="bdg unk">估计</span></div></div>
+            <div><div class="wf-label" style="font-size:12px;">L3 功效级</div><div style="font-size:11.5px; opacity:.75;">修丽可发光瓶（相对排序信号）</div></div>
+            <div style="border-left:2px dashed var(--iris); padding-left:10px;"><div class="wf-label" style="font-size:12px;">语义相似 <span class="bdg unk">语义</span></div><div style="font-size:11.5px; opacity:.75;">ProX 淡斑精华（BGE-M3 向量）</div></div>
+          </div>
+        </div>
+        <div class="note">页内固定注明：<b>「相似 ≠ 功效相同」</b>；语义索引缺失时显示「相似索引未构建」，不报错不猜；空态「暂无可比对的产品」。</div>
+
+        <div class="wf mint"><span class="tag">平替区 + 加入对比（已实现）</span>
+          <div style="font-size:12.5px;">平替候选：The Ordinary 烟酰胺 10%（¥0.4/天）　[加入对比 → #/compare?a=:id&amp;b=…]</div>
+        </div>
+
+        <div class="wf"><span class="tag">P1 · Highlights 配方特征标签</span>
+          <span class="bdg ok">无酒精</span> <span class="bdg warn">含香精</span> <span class="bdg ok">无防腐剂（多元醇防腐体系）</span>
+        </div>
+        <div class="note">由成分表规则推出，注明口径。</div>
+
+      </div>
+      <div class="src"><b>数据来源</b>：<code>GET /api/products/{id}</code>、<code>/concentration</code>、<code>/fingerprint</code>、<code>/similar</code>（BGE-M3）、<code>/similar-levels</code>、<code>/substitutes</code>、<code>/evidence-profile</code>、<code>/market</code>（值率/价格）。匹配分纯前端。零新后端。</div>
+    </section>
+
+    <!-- ================= 4. 成分库 ================= -->
+    <section class="browser" id="ingredients">
+      <div class="browser-bar"><span class="dots"><i></i><i></i><i></i></span><span class="addr">cfz.example/#/ingredients</span></div>
+      <div class="browser-title"><h3>4 · 成分库</h3><div class="desc">P0 搜索 +「只看有证据」+ 卡片；P1 按功效族浏览。</div></div>
+      <div class="canvas">
+
+        <div class="wf rose solid"><span class="tag">P0 · 工具条</span>
+          <div style="display:flex; gap:10px; align-items:center;">
+            <span style="border:1.5px solid var(--card-bd); border-radius:999px; background:rgba(255,255,255,.85); padding:4px 16px; font-size:12px; color:rgba(61,47,42,.5);">🔍 中文名 / INCI / 别名</span>
+            <span class="bdg unk">☑ 只看有证据</span>
+          </div>
+        </div>
+
+        <div class="wf iris"><span class="tag">P1 · 按功效族浏览</span>
+          <div class="caps"><span class="cap on">全部</span><span class="cap">美白</span><span class="cap">抗老</span><span class="cap">保湿</span><span class="cap">祛痘</span><span class="cap">舒缓</span><span class="cap">防晒</span><span class="cap">其他</span></div>
+        </div>
+        <div class="note">按 <b>efficacy_canonical</b> 规范族聚合；一期前端聚合，后端过滤参数列 P1 新增。</div>
+
+        <div class="grid3">
+          <div class="wf"><span class="tag">成分卡</span>
+            <div class="wf-label">烟酰胺 <span style="font-size:11px; opacity:.6;">NIACINAMIDE</span></div>
+            <div style="font-size:12px; margin-top:4px;"><span class="bdg ok">美白</span> <span class="bdg ok">控油</span>　<span class="num">12</span> 条证据</div>
+          </div>
+          <div class="wf"><span class="tag">成分卡</span>
+            <div class="wf-label">视黄醇 <span style="font-size:11px; opacity:.6;">RETINOL</span></div>
+            <div style="font-size:12px; margin-top:4px;"><span class="bdg ok">抗老</span>　<span class="num">9</span> 条证据</div>
+          </div>
+          <div class="wf"><span class="tag">成分卡</span>
+            <div class="wf-label">透明质酸钠 <span style="font-size:11px; opacity:.6;">SODIUM HYALURONATE</span></div>
+            <div style="font-size:12px; margin-top:4px;"><span class="bdg ok">保湿</span>　<span class="num">6</span> 条证据</div>
+          </div>
+        </div>
+        <div class="note">卡片：中文名（IECIC 官方映射）/ INCI / 功效族 / 证据条数；点击进成分详情。</div>
+
+      </div>
+      <div class="src"><b>数据来源</b>：<code>GET /api/ingredients?q=&amp;has_evidence=1</code> <span class="new">+efficacy_canonical 过滤（P1 新）</span>。</div>
+    </section>
+
+    <!-- ================= 5. 成分详情 ================= -->
+    <section class="browser" id="ingredient-detail">
+      <div class="browser-bar"><span class="dots"><i></i><i></i><i></i></span><span class="addr">cfz.example/#/ingredients/:id</span></div>
+      <div class="browser-title"><h3>5 · 成分详情 —— 词典页</h3><div class="desc">一句话档案 + 断言文献链 + 安全上限 + 透皮徽章 + 相似成分条 + 含该成分产品列表。</div></div>
+      <div class="canvas">
+
+        <div class="wf rose solid"><span class="tag">P0 · 一句话档案</span>
+          <div class="wf-label" style="font-size:16px;">烟酰胺 <span style="font-size:12px; opacity:.6;">NIACINAMIDE</span></div>
+          <div style="font-size:13px; margin-top:6px;">美白 / 控油 · <b>真人实验级证据</b> · 文献起效浓度区间 <span class="num">2–5%</span></div>
+          <div style="font-size:12px; margin-top:6px; opacity:.75;">别名：维生素 B3 / 尼克酰胺（USAN 核验通道）　<span class="bdg ok">透皮：可透皮（500 道尔顿规则，估计）</span></div>
+        </div>
+
+        <div class="wf iris"><span class="tag">P0 · 功能标签（CosIng 申报功能）</span>
+          <span class="bdg unk">功能分类：皮肤调理剂（CosIng 官方申报功能）</span>
+          <span class="bdg unk">功能分类：平滑剂（CosIng 官方申报功能）</span>
+        </div>
+        <div class="note">固定注明：<b>「CosIng 功能字段为官方申报功能分类，非功效实证」</b>；禁止「证明/临床」等越界措辞。</div>
+
+        <div class="wf"><span class="tag">P0 · 断言 + 文献链</span>
+          <div style="font-size:12.5px;">
+            ① <b>美白</b>：4% 烟酰胺 8 周显著改善色素沉着（双盲 RCT）· <span class="cite">PMID 12100180</span> <span class="bdg ok">真人</span><br>
+            ② <b>控油</b>：2% 烟酰胺 4 周降低皮脂分泌 · <span class="cite">PMID 16763789</span> <span class="bdg ok">真人</span><br>
+            ③ <b>抗老</b>：改善细纹与弹性 · <span class="cite">PMID 15663338</span> <span class="bdg warn">弱证据：体外</span> <span style="opacity:.6;">note 如实标注</span>
+          </div>
+        </div>
+        <div class="note">PMID 点击跳 PubMed；弱证据（口服/动物/体外/复方）一律如实标注，拿不准落 unknown。</div>
+
+        <div class="wf mint"><span class="tag">P0 · 安全上限（注明机构性质）</span>
+          <div style="font-size:12.5px;">
+            法定限用：无（不在 2015 规范表 3）<br>
+            CIR：安全评估「现行使用方式和浓度下安全」· <span class="bdg unk">行业自评机构意见而非监管限值</span><br>
+            SCCS：——（无意见）<span style="opacity:.6;">（查不到如实说）</span>
+          </div>
+        </div>
+
+        <div class="wf iris"><span class="tag">P0 · 相似成分条（新）</span>
+          <span class="cap">乙酰壳糖胺</span> <span class="cap">传明酸</span> <span class="cap">光果甘草定</span> <span class="cap">维生素 B5</span> <span class="cap">壬二酸</span>
+        </div>
+        <div class="note">Top-5 芯片链到对应成分页；注明<b>「按证据文本语义相似」</b>（BGE-M3）。</div>
+
+        <div class="wf"><span class="tag">P0 · 含该成分产品（折叠计数条）</span>
+          <div style="font-size:12.5px;">▸ 含烟酰胺的产品（<span class="num">46</span> 款）—— OLAY 淡斑小白瓶 · The Ordinary 烟酰胺 · 修丽可发光瓶 …</div>
+        </div>
+        <div class="note">默认折叠为计数条，展开列出产品并链到详情；换路由清空已展开列表（保留）。</div>
+
+      </div>
+      <div class="src"><b>数据来源</b>：<code>GET /api/ingredients/{id}</code>（档案/别名/CosIng 标签/断言链/安全上限）、<code>GET /api/ingredients/{id}/penetration</code>、<code>GET /api/ingredients/{id}/similar</code>。</div>
+    </section>
+
+    <!-- ================= 6. 排行榜 ================= -->
+    <section class="browser" id="rankings">
+      <div class="browser-bar"><span class="dots"><i></i><i></i><i></i></span><span class="addr">cfz.example/#/rankings</span></div>
+      <div class="browser-title"><h3>6 · 排行榜（新页面）</h3><div class="desc">成分证据榜 / 产品核验榜 / 性价比榜。顶部固定口径横幅；无数据项不排不猜；不加相似检索。</div></div>
+      <div class="canvas">
+
+        <div class="wf rose solid" style="text-align:center;"><span class="tag">P0 · 口径横幅（顶部固定）</span>
+          <div class="kuaile" style="font-size:15px; color:var(--rose);">⚠ 本榜按证据强度 / 性价比排序，不是效果排名</div>
+        </div>
+
+        <div class="wf"><span class="tag">P0 · 成分证据榜（真人实验证据数 + 起效浓度明确度）</span>
+          <div class="rank-row"><span class="no">1</span>烟酰胺<span class="metric">真人证据 ×12 · 起效区间明确</span></div>
+          <div class="rank-row"><span class="no">2</span>视黄醇<span class="metric">真人证据 ×9 · 起效区间明确</span></div>
+          <div class="rank-row"><span class="no">3</span>维生素 C<span class="metric">真人证据 ×7 · 部分明确</span></div>
+          <div class="rank-row"><span class="no">4</span>透明质酸<span class="metric">真人证据 ×6</span></div>
+          <div class="rank-row"><span class="no">5</span>壬二酸<span class="metric">真人证据 ×5</span></div>
+        </div>
+        <div class="note">点击行跳成分详情；法规/防腐族断言不计入。</div>
+
+        <div class="wf mint"><span class="tag">P0 · 产品核验榜（限有浓度推断的产品子集）</span>
+          <div class="rank-row"><span class="no">1</span>The Ordinary 烟酰胺 10%<span class="metric">剂量达标宣称 4/4</span></div>
+          <div class="rank-row"><span class="no">2</span>修丽可 CE 精华<span class="metric">3/4</span></div>
+          <div class="rank-row"><span class="no">3</span>OLAY 淡斑小白瓶<span class="metric">2/3</span></div>
+        </div>
+        <div class="note">子集外产品<b>不入榜</b>（宣称产品与浓度推断产品无交集，混排即空榜）。</div>
+
+        <div class="wf iris"><span class="tag">P0 · 性价比榜（每起效成本，同子集）</span>
+          <div class="rank-row"><span class="no">1</span>The Ordinary 烟酰胺 10%<span class="metric">¥0.4/天</span></div>
+          <div class="rank-row"><span class="no">2</span>OLAY 淡斑小白瓶<span class="metric">¥8.0/天</span></div>
+          <div class="rank-row"><span class="no">3</span>修丽可 CE 精华<span class="metric">¥30/天</span></div>
+        </div>
+        <div class="note">价格为官网采集（现行性存疑处 price_note 标注）；每起效成本 = 日均价格 ÷ 达标宣称数，公式页内注明。</div>
+
+      </div>
+      <div class="src"><b>数据来源</b>：成分证据榜 ← <code>GET /api/ingredients</code> 聚合断言证据分级；产品核验榜/性价比榜 ← <code>GET /api/products/{id}/concentration</code> + <code>/market</code>（限子集）。榜单组装逻辑复用首页精选，无新后端。</div>
+    </section>
+
+    <!-- ================= 7. 对比 ================= -->
+    <section class="browser" id="compare">
+      <div class="browser-bar"><span class="dots"><i></i><i></i><i></i></span><span class="addr">cfz.example/#/compare?a=12&amp;b=34</span></div>
+      <div class="browser-title"><h3>7 · 对比</h3><div class="desc">招牌大数字卡（每起效成本）+ 成分 diff + 剂量并排对照条；URL 带参分享 + 预设对比组。</div></div>
+      <div class="canvas">
+
+        <div class="wf rose"><span class="tag">P0 · 双槽选择器</span>
+          <div class="row">
+            <div style="flex:1; border:1.5px solid var(--card-bd); border-radius:12px; background:rgba(255,255,255,.85); padding:8px 14px; font-size:12.5px;">A：The Ordinary 烟酰胺 10% <span style="opacity:.5;">（可搜索 combobox）</span></div>
+            <div class="kuaile" style="align-self:center; color:var(--rose);">VS</div>
+            <div style="flex:1; border:1.5px solid var(--card-bd); border-radius:12px; background:rgba(255,255,255,.85); padding:8px 14px; font-size:12.5px;">B：OLAY 淡斑小白瓶</div>
+          </div>
+          <div style="font-size:12px; margin-top:8px; opacity:.75;">不知道和谁比？→ <b>从相似产品里挑</b>（取 similar-levels L1 填第二槽）　预设组：烟酰胺平替组 ▾　[复制分享链接]</div>
+        </div>
+        <div class="note">combobox 手写（3 次按键定位，不引重型库）；URL 带参 <b>?a=&amp;b=</b> 可直接分享。</div>
+
+        <div class="wf mint solid"><span class="tag">P0 · 招牌大数字卡：每起效成本</span>
+          <div class="row">
+            <div class="bignum" style="flex:1;"><div class="v cheap">¥0.4<span style="font-size:16px;">/天</span></div><div class="cap2">A · 4/4 条宣称剂量达标</div></div>
+            <div style="align-self:center; font-family:'Baloo 2'; font-size:20px; color:var(--iris);">×75 倍差</div>
+            <div class="bignum" style="flex:1;"><div class="v exp">¥30<span style="font-size:16px;">/天</span></div><div class="cap2">B 同档对照：修丽可 CE 精华</div></div>
+          </div>
+        </div>
+        <div class="note">成本为「估计」语义（浓度推断 × 官网价）；子集外产品不显示此卡。</div>
+
+        <div class="wf"><span class="tag">P0 · 共有 / 独有成分 diff（默认只显示差异行）</span>
+          <div style="font-size:12px;">
+            <div class="diff only-a">仅 A 有：烟酰胺 10%（估计）· 锌 PCA</div>
+            <div class="diff only-b">仅 B 有：抗坏血酸葡糖苷 · 十一碳烯酰基苯丙氨酸 · 香精 ⚠</div>
+            <div class="diff both">共有（默认折叠）：水 · 甘油 · 1,3-丙二醇 … <span style="opacity:.6;">▸ 展开 12 项</span></div>
+          </div>
+        </div>
+
+        <div class="wf iris"><span class="tag">P0 · 剂量并排对照条</span>
+          <div style="font-size:12px;">烟酰胺（A ~10% vs B ~4%，均估计）</div>
+          <div class="dosebar">
+            <div class="track">
+              <span class="tick eff" style="left:22%;"></span>
+              <span class="tick eff" style="left:58%;"></span>
+              <span class="tick est" style="left:45%;"></span>
+              <span class="tick est" style="left:88%; background:var(--mint);"></span>
+            </div>
+            <div class="scale"><span>0%</span><span>2%</span><span>5%</span><span>10%+</span></div>
+          </div>
+          <div class="legend"><i style="background:var(--iris);"></i>文献起效区间 <i style="background:var(--rose);"></i>B 估计 4% <i style="background:var(--mint);"></i>A 估计 10%</div>
+        </div>
+        <div class="note">并排共用同一坐标轴；估计徽章常驻。</div>
+
+      </div>
+      <div class="src"><b>数据来源</b>：<code>GET /api/products/{id}</code> ×2、<code>/concentration</code> ×2、<code>/market</code> ×2、<code>GET /api/products/{id}/similar-levels</code>（L1 填第二槽）。无新后端。</div>
+    </section>
+
+    <!-- ================= 8. 解码 ================= -->
+    <section class="browser" id="decode">
+      <div class="browser-bar"><span class="dots"><i></i><i></i><i></i></span><span class="addr">cfz.example/#/decode</span></div>
+      <div class="browser-title"><h3>8 · 解码成分表（新页面，INCIDecoder 核心工具）</h3><div class="desc">粘贴成分表文本 → 逐成分匹配库 → 证据报告。拍照 OCR 二期。</div></div>
+      <div class="canvas">
+
+        <div class="wf rose"><span class="tag">P0 · 粘贴输入区</span>
+          <div style="border:1.5px solid var(--card-bd); border-radius:12px; background:rgba(255,255,255,.85); padding:10px 14px; font-size:12.5px; color:rgba(61,47,42,.55); min-height:64px;">粘贴产品全成分表，如「水、烟酰胺、甘油、1,3-丙二醇、抗坏血酸葡糖苷、……」</div>
+          <div style="text-align:right; margin-top:8px;"><span class="kuaile" style="border:2px solid var(--rose); color:var(--rose); border-radius:999px; padding:4px 22px;">开始解码 →</span></div>
+        </div>
+        <div class="note">匹配通道：IECIC 中文名 / INCI / USAN 别名（需 <b>/api/ingredients?q=</b> 覆盖别名折叠命中——需新后端参数）；中文名只用 IECIC 官方映射，禁止机翻。</div>
+
+        <div class="wf mint"><span class="tag">P0 · 证据报告 · 已命中（28/31）</span>
+          <div style="font-size:12.5px;">
+            ① 烟酰胺 —— <span class="bdg ok">美白/控油</span> 真人证据 ×12 · 起效 2–5% · CIR 安全　<span class="cite">PMID ×3</span><br>
+            ② 甘油 —— <span class="bdg ok">保湿</span> 证据 ×5<br>
+            ③ 抗坏血酸葡糖苷 —— <span class="bdg warn">美白</span> 弱证据：体外为主，note 如实标注<br>
+            <span style="opacity:.6;">… 按成分表位次排列，位次为输入文本顺序（非备案事实，注明口径）</span>
+          </div>
+        </div>
+
+        <div class="wf iris"><span class="tag">P0 · 证据报告 · 未命中（3/31）</span>
+          <div style="font-size:12.5px;">「某某提取物」「某某发酵滤液」「某某肽」—— <b>库中无此成分</b><span style="opacity:.6;">（如实列出，不猜不编）</span></div>
+        </div>
+        <div class="note">验收用例：粘贴 OLAY 小白瓶成分表出完整证据报告，未命中如实列「库中无此成分」。</div>
+
+      </div>
+      <div class="src"><b>数据来源</b>：<code>GET /api/ingredients?q=</code>（逐成分匹配）<span class="new">q 覆盖别名折叠命中（新，P0）</span>；命中后取 <code>GET /api/ingredients/{id}</code> 断言链。</div>
+    </section>
+
+    <!-- ================= 9. AI 问答 ================= -->
+    <section class="browser" id="chat">
+      <div class="browser-bar"><span class="dots"><i></i><i></i><i></i></span><span class="addr">cfz.example/#/chat</span></div>
+      <div class="browser-title"><h3>9 · AI 问答</h3><div class="desc">P0 流式回答 + 逐句引用 [n] 悬停出证据卡、点击跳 PubMed；幻觉引用如实红标。</div></div>
+      <div class="canvas">
+
+        <div class="wf iris"><span class="tag">示例问题（用户原话）</span>
+          <div class="caps">
+            <span class="cap">「烟酰胺真的有用吗？」</span>
+            <span class="cap">「油皮能用视黄醇吗？」</span>
+            <span class="cap">「小白瓶和 The Ordinary 差在哪？」</span>
+          </div>
+        </div>
+
+        <div class="wf"><span class="tag">P0 · 流式回答区</span>
+          <div style="font-size:13px; line-height:1.9;">
+            有用。4% 烟酰胺在 8 周双盲实验中显著改善色素沉着 <span class="cite">[1]</span>，2% 浓度 4 周可降低皮脂分泌 <span class="cite">[2]</span>。文献起效区间为 2–5% <span class="cite">[3]</span>——低于 1% 的产品大概率只是「概念添加」。另外有研究称它能逆转衰老 <span class="cite bad">[4]</span>。<span class="num" style="opacity:.5;">▌</span>
+          </div>
+          <div style="margin-top:10px; font-size:11.5px; opacity:.75;">引用列表： [1] PMID 12100180 · [2] PMID 16763789 · [3] CIR 安全评估 <span style="color:var(--rose);">[4] ⚠ 幻觉引用：库中无此文献，已红标剔除</span></div>
+        </div>
+        <div class="note">悬停 <b>[n]</b> 出证据卡（标题/期刊/年份/证据等级），点击跳 PubMed；幻觉引用<b>删除线红标</b>并如实说明，绝不蒙混。</div>
+
+        <div class="wf mint"><span class="tag">输入框</span>
+          <div style="display:flex; gap:10px;">
+            <span style="flex:1; border:1.5px solid var(--card-bd); border-radius:999px; background:rgba(255,255,255,.85); padding:6px 16px; font-size:12px; color:rgba(61,47,42,.45);">继续追问…（回答只基于库内真实文献）</span>
+            <span class="kuaile" style="border:2px solid var(--mint); color:var(--mint); border-radius:999px; padding:4px 18px;">发送</span>
+          </div>
+        </div>
+
+      </div>
+      <div class="src"><b>数据来源</b>：<code>POST /api/chat</code>（流式）；引用证据卡复用断言/文献数据（<code>GET /api/ingredients/{id}</code>）。</div>
+    </section>
+
+    <div style="text-align:center; font-size:12px; opacity:.55; margin-top:8px;">—— 线框示意，数据为示例 · 隐藏页（圆桌 /roundtable、鉴伪 /detect）一期零入口不画 · 依据《成分真言-设计方案-页面功能-v2.1》 ——</div>
+
+  </div>
+</div>
+</body>
+</html>

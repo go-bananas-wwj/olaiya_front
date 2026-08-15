@@ -161,6 +161,9 @@ def ingredient_detail(ingredient_id: int, product_limit: int = Query(50, ge=0),
             "cir_conc_low": ing.cir_conc_low,
             "cir_conc_high": ing.cir_conc_high,
             "sccs_limit": ing.sccs_limit,
+            # 配方实践典型用量（配方实例聚合，非官方限值、非功效起效浓度）
+            "typical_use_low": ing.typical_use_low,
+            "typical_use_high": ing.typical_use_high,
         },
         "assertions": [_assertion_dict(a) for a in assertions],
         "products": products,
@@ -579,6 +582,9 @@ def detect_image(file: UploadFile = File(...)):
 
 # 高保真首页原型（lab/hero-demo 构建产物）挂在 /lab
 app.mount("/lab", StaticFiles(directory="lab/hero-demo/dist", html=True), name="lab")
+
+# 页面线框参考图（lab/wireframes 纯静态，设计评审用）
+app.mount("/wireframes", StaticFiles(directory="lab/wireframes", html=True), name="wireframes")
 
 # 静态前端（/web 目录，纯静态页，数据全部经 /api 获取）
 app.mount("/", StaticFiles(directory="web", html=True), name="web")
