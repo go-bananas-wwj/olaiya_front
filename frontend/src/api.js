@@ -76,6 +76,8 @@ export const api = {
     ])
     return { products: p.items ?? p, ingredients: i.items ?? i }
   },
+  // 功效榜：GET /api/rankings/efficacy?canon={族}&limit={n} → {canon, total, items:[{id,name,brand,score,ingredient_hits,human_evidence}]}
+  rankingsEfficacy: (canon, limit) => get('/api/rankings/efficacy', { canon, limit }),
   chat: (question) => post('/api/chat', { question }),
   detectImage: (file) => postFile('/api/detect-image', file),
 }

@@ -1,81 +1,104 @@
-import { Link } from 'react-router-dom'
+import { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import { api } from '../api'
-import { useFetch, Loading, LoadError } from '../components/common'
+import { useFetch } from '../components/common'
+import EfficacyBoard from '../components/EfficacyBoard'
 
-const STAT_DEFS = [
-  ['products', '备案产品', '款'],
-  ['brands', '覆盖品牌', '个'],
-  ['ingredients', '收录成分', '种'],
-  ['ingredients_with_evidence', '有文献证据的成分', '种'],
-  ['product_ingredients', '产品-成分关联', '条'],
-  ['claims', '功效宣称依据', '条'],
-  ['assertions', '功效断言', '条'],
-  ['evidence', '证据文献', '篇'],
-]
+const EFFICACY_CAPS = ['美白', '抗老', '保湿', '祛痘']
 
-const CHAIN = [
-  ['NMPA 备案公示', '国家药监局化妆品备案与功效宣称依据摘要，法定公示口径'],
-  ['盖德镜像采集', '对公示数据镜像站进行结构化采集，保留备案号与宣称明细'],
-  ['本地证据库', '成分功效断言逐条挂接 PubMed 文献等真实证据'],
-  ['API 开放服务', 'FastAPI 统一输出统计、产品、成分与证据链数据'],
+const ENTRY_CARDS = [
+  {
+    to: '/products',
+    title: '查产品',
+    desc: '宣称对证据，一眼看穿',
+    icon: '查',
+  },
+  {
+    to: '/decode',
+    title: '解码成分表',
+    desc: '粘贴成分表，逐成分出证据报告',
+    icon: '解',
+  },
+  {
+    to: '/chat',
+    title: 'AI 问答',
+    desc: '逐句挂文献的回答',
+    icon: '问',
+  },
 ]
 
 export default function Home() {
-  const { data: stats, loading, error } = useFetch(api.stats, [])
+  const navigate = useNavigate()
+  const [kw, setKw] = useState('')
+  const { data: stats } = useFetch(api.stats, [])
 
   return (
-    <div>
-      <div className="card bg-gradient-to-br from-brand-deep via-brand-dark to-brand !text-white border-0">
-        <h2 className="text-xl md:text-2xl font-bold leading-snug">
-          敢说真话的成分核验平台
-        </h2>
-        <p className="mt-2 text-sm text-[#cfc6f0] max-w-3xl">
-          每条功效断言都挂真实文献：把企业向 NMPA 公示的「功效宣称依据」与独立文献证据摆在一起，
-          宣称有没有支撑，一眼可见。
+    <div className="pearl-page">
+      {/* 首屏：大标题 + slogan + 大搜索框 + 功效胶囊 */}
+      <section className="text-center pt-8 pb-10 md:pt-12">
+        <h1 className="font-display text-5xl md:text-6xl tracking-[0.3em] grad-text">颜鉴</h1>
+        <p className="mt-3 text-pearl-ink-2 text-sm md:text-base tracking-wide">
+          每条功效断言，都挂真实文献
         </p>
-        <div className="flex flex-wrap gap-3 mt-5">
-          <Link to="/products" className="bg-white text-brand-dark font-semibold text-sm px-5 py-2 rounded-full hover:bg-brand-soft transition-colors">
-            浏览产品库 →
-          </Link>
-          <Link to="/ingredients" className="bg-white/15 border border-white/25 text-white text-sm px-5 py-2 rounded-full hover:bg-white/25 transition-colors">
-            查证成分证据 →
-          </Link>
+        <div className="mt-7 mx-auto max-w-xl">
+          <input
+            className="w-full rounded-full border-2 border-rosewood/60 bg-white/85 px-6 py-3.5 text-sm outline-none shadow-[0_14px_30px_-14px_rgba(61,47,42,0.4)] focus:border-rosewood transition-colors"
+            placeholder="输入产品名 / 成分名 / 备案号，如「OLAY 小白瓶」「烟酰胺」…"
+            value={kw}
+            onChange={(e) => setKw(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' && !e.nativeEvent.isComposing && kw.trim()) {
+                navigate(`/search?q=${encodeURIComponent(kw.trim())}`)
+              }
+            }}
+          />
         </div>
-      </div>
-
-      <div className="card">
-        <h2 className="card-title">数据规模</h2>
-        {loading && <Loading />}
-        {error && <LoadError error={error} />}
-        {stats && (
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-            {STAT_DEFS.map(([key, label, unit]) => (
-              <div key={key} className="bg-bg rounded-xl px-4 py-3.5">
-                <div className="text-2xl font-bold text-brand tabular-nums">{stats[key]}</div>
-                <div className="text-xs text-ink-3 mt-1">{label}（{unit}）</div>
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
-
-      <div className="card">
-        <h2 className="card-title">数据链路</h2>
-        <div className="grid md:grid-cols-4 gap-3">
-          {CHAIN.map(([title, desc], i) => (
-            <div key={title} className="relative border border-line rounded-xl p-4">
-              <div className="badge-brand mb-2">环节 {i + 1}</div>
-              <div className="font-semibold text-sm">{title}</div>
-              <div className="text-xs text-ink-2 mt-1.5 leading-relaxed">{desc}</div>
-              {i < CHAIN.length - 1 && (
-                <div className="hidden md:block absolute -right-3 top-1/2 -translate-y-1/2 text-brand font-bold z-10">→</div>
-              )}
-            </div>
+        <div className="mt-5 flex flex-wrap justify-center gap-2.5">
+          {EFFICACY_CAPS.map((cap) => (
+            <Link
+              key={cap}
+              to={`/products?efficacy=${encodeURIComponent(cap)}`}
+              className="fairy-chip !text-sm !px-4 !py-1.5 hover:bg-rosewood/20 transition-colors"
+            >
+              {cap}
+            </Link>
           ))}
         </div>
-        <div className="notice !mb-0 mt-4">
-          「查不到宣称摘要」本身也是核验信号：2021 年前备案或法定免公布情形下，产品可能没有公示《功效宣称依据摘要》。
+      </section>
+
+      {/* 数据规模一行（实时取自 /api/stats） */}
+      {stats && (
+        <p className="text-center text-sm text-pearl-ink-2 mb-8">
+          <span className="font-num font-bold text-pearl-ink">{stats.products}</span> 款产品 ·{' '}
+          <span className="font-num font-bold text-pearl-ink">{stats.ingredients}</span> 个成分 ·{' '}
+          <span className="font-num font-bold text-pearl-ink">{stats.evidence}</span> 条真实文献证据
+        </p>
+      )}
+
+      {/* 功效证据榜 Top5 */}
+      <div className="glass-card">
+        <div className="flex items-center justify-between mb-1">
+          <h2 className="pearl-title !mb-0">功效证据榜</h2>
+          <Link to="/rankings" className="text-xs text-rosewood hover:underline flex-shrink-0">
+            完整榜单 →
+          </Link>
         </div>
+        <div className="mt-4">
+          <EfficacyBoard limit={5} />
+        </div>
+      </div>
+
+      {/* 三入口卡 */}
+      <div className="grid md:grid-cols-3 gap-4">
+        {ENTRY_CARDS.map((c) => (
+          <Link key={c.to} to={c.to} className="glass-card !mb-0 block hover:-translate-y-0.5 transition-transform">
+            <span className="w-10 h-10 rounded-full bg-gradient-to-br from-rosewood to-iris text-white inline-flex items-center justify-center font-display text-lg border-2 border-white/90 shadow-[0_2px_6px_rgba(61,47,42,0.25)] mb-3">
+              {c.icon}
+            </span>
+            <div className="font-display text-base tracking-wider">{c.title}</div>
+            <div className="text-xs text-pearl-ink-2 mt-1.5">{c.desc}</div>
+          </Link>
+        ))}
       </div>
     </div>
   )
