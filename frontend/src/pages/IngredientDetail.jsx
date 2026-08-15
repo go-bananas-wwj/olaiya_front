@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { api } from '../api'
 import { useFetch, Loading, LoadError } from '../components/common'
@@ -28,6 +28,17 @@ export default function IngredientDetail() {
   // 含该成分的产品默认只返回前 50 条，「展开更多」按 offset 追加
   const [extraProducts, setExtraProducts] = useState([])
   const [loadingMore, setLoadingMore] = useState(false)
+  // 相似成分（证据文本语义相似，BGE-M3）：null=加载中/无数据不渲染
+  const [similar, setSimilar] = useState(null)
+
+  // 路由切换（跳到另一成分页）时重置随旧成分残留的本地态
+  useEffect(() => {
+    setExtraProducts([])
+    setSimilar(null)
+    api.ingredientSimilar(id, { k: 5 })
+      .then((d) => setSimilar(d.similar || []))
+      .catch(() => setSimilar([]))
+  }, [id])
 
   if (loading) return <div className="card"><Loading /></div>
   if (error) return <div className="card"><LoadError error={error} /></div>
@@ -86,6 +97,24 @@ export default function IngredientDetail() {
           </div>
         )}
       </div>
+
+      {similar && similar.length > 0 && (
+        <div className="card">
+          <h2 className="card-title">相似成分</h2>
+          <div className="flex flex-wrap gap-2">
+            {similar.map((s) => (
+              <Link
+                key={s.id}
+                to={`/ingredients/${s.id}`}
+                className="fairy-chip hover:bg-brand-soft hover:text-brand transition-colors"
+              >
+                {s.cn_name || s.inci_name}
+              </Link>
+            ))}
+          </div>
+          <div className="text-xs text-ink-3 mt-3">按证据文本语义相似（BGE-M3 向量检索，Top 5）</div>
+        </div>
+      )}
 
       <div className="card">
         <h2 className="card-title">功效断言与证据链（{ing.assertions.length} 条）</h2>

@@ -71,6 +71,8 @@ export const api = {
   // q / has_evidence / limit / offset（带 limit/offset 返回 {total, items}）
   ingredients: (params) => get('/api/ingredients', params),
   ingredient: (id, params) => get(`/api/ingredients/${id}`, params), // product_limit / product_offset
+  // 证据文本语义相似成分 Top-k：索引未构建时 similar=null + reason 降级
+  ingredientSimilar: (id, params) => get(`/api/ingredients/${id}/similar`, params), // k
   // 全局搜索：产品 + 成分并行检索，返回 {products, ingredients} 两数组
   searchAll: async (q) => {
     const [p, i] = await Promise.all([

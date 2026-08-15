@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { api } from '../api'
 import { Loading, LoadError, Empty } from '../components/common'
@@ -12,24 +12,39 @@ export default function Ingredients() {
   const [total, setTotal] = useState(0)
   const [state, setState] = useState({ loading: true, error: null })
 
-  const fetchPage = (offset) => {
+  const reqSeq = useRef(0) // 竞态守卫：响应落地前比对最新序号，过期丢弃
+  const loadingRef = useRef(false) // 加载更多去重锁：同 offset 不并发
+
+  const fetchPage = (offset, append) => {
+    const seq = ++reqSeq.current
     setState((s) => ({ ...s, loading: true, error: null }))
     return api.ingredients({
       q, has_evidence: onlyEvidence ? 'true' : '', limit: PAGE_SIZE, offset,
     })
       .then(({ total: t, items: page }) => {
+        if (seq !== reqSeq.current) return // 过期响应丢弃
         setTotal(t)
-        setItems((prev) => (offset === 0 ? page : [...prev, ...page]))
+        setItems((prev) => (append ? [...prev, ...page] : page))
         setState({ loading: false, error: null })
       })
-      .catch((e) => setState({ loading: false, error: e.message }))
+      .catch((e) => {
+        if (seq !== reqSeq.current) return
+        setState({ loading: false, error: e.message })
+      })
   }
 
   useEffect(() => {
     let alive = true
-    const timer = setTimeout(() => { if (alive) fetchPage(0) }, 250)
+    const timer = setTimeout(() => { if (alive) fetchPage(0, false) }, 250)
     return () => { alive = false; clearTimeout(timer) }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [q, onlyEvidence])
+
+  const loadMore = () => {
+    if (loadingRef.current) return
+    loadingRef.current = true
+    fetchPage(items.length, true).finally(() => { loadingRef.current = false })
+  }
 
   return (
     <div>
@@ -84,7 +99,7 @@ export default function Ingredients() {
               <button
                 className="btn-page"
                 disabled={state.loading}
-                onClick={() => fetchPage(items.length)}
+                onClick={loadMore}
               >
                 {state.loading ? '加载中…' : `加载更多（已显示 ${items.length} / ${total}）`}
               </button>
