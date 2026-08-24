@@ -216,8 +216,81 @@
 
 body {
   @apply text-ink leading-relaxed;
-  /* 全站外壳底色：对标首页 .fallback-sky（薰衣草→粉→珍珠，fixed 不随滚动） */
-  background: linear-gradient(180deg, #dccdf0 0%, #f6d9e2 52%, #f3ede6 100%) fixed;
+  background: #f7faf8;
+}
+
+@layer components {
+  .home-page {
+    @apply -mx-5 -my-6 min-h-[calc(100vh-4rem)] px-5 py-7 text-pearl-ink font-sans;
+    background: #f7faf8;
+  }
+  .home-hero {
+    @apply mx-auto max-w-2xl pt-8 pb-9 text-center md:pt-12;
+  }
+  .home-kicker {
+    @apply mb-2 text-xs font-medium tracking-[0.18em] text-mint;
+  }
+  .home-wordmark {
+    @apply text-5xl font-semibold tracking-[0.1em] text-pearl-ink md:text-6xl;
+  }
+  .home-slogan {
+    @apply mt-3 text-sm tracking-wide text-pearl-ink-2 md:text-base;
+  }
+  .home-search {
+    @apply mx-auto mt-7 flex max-w-2xl items-stretch overflow-hidden rounded-xl border bg-white shadow-sm;
+    border-color: rgba(61, 47, 42, 0.18);
+  }
+  .home-search-input {
+    @apply min-w-0 flex-1 bg-transparent px-4 py-3 text-sm outline-none placeholder:text-pearl-ink-3 md:px-5;
+  }
+  .home-search-input:focus {
+    box-shadow: inset 0 0 0 2px rgba(111, 174, 158, 0.48);
+  }
+  .home-search-button {
+    @apply m-1 rounded-lg px-5 text-sm font-medium text-white transition-colors md:px-7;
+    background: #2f7d6b;
+  }
+  .home-search-button:hover { background: #256756; }
+  .home-search-button:focus-visible { @apply outline-none ring-2 ring-mint ring-offset-2; }
+  .home-stats {
+    @apply mb-7 text-center text-sm text-pearl-ink-2;
+  }
+  .home-stats span {
+    @apply font-semibold text-pearl-ink tabular-nums;
+  }
+  .home-rankings {
+    @apply mx-auto grid max-w-5xl grid-cols-1 gap-3 md:grid-cols-2;
+  }
+  .home-ranking-card {
+    @apply rounded-xl border bg-white p-4 shadow-sm;
+    border-color: rgba(61, 47, 42, 0.13);
+  }
+  .home-ranking-title {
+    @apply text-base font-semibold tracking-wide text-pearl-ink;
+  }
+  .home-ranking-more {
+    @apply text-xs text-mint hover:underline;
+  }
+  .home-ranking-state {
+    @apply py-4 text-center text-xs text-pearl-ink-3;
+  }
+  .home-ranking-row {
+    @apply flex items-center gap-2 rounded-lg px-2 py-2 transition-colors hover:bg-mint-soft/50;
+  }
+  .home-ranking-no {
+    @apply w-5 text-center text-sm font-semibold tabular-nums text-mint;
+  }
+  .home-entry-links {
+    @apply mx-auto mt-5 grid max-w-5xl grid-cols-1 gap-3 md:grid-cols-3;
+  }
+  .home-entry-link {
+    @apply flex items-center gap-3 rounded-xl border bg-white px-4 py-3 text-pearl-ink shadow-sm transition-colors hover:bg-mint-soft/30;
+    border-color: rgba(61, 47, 42, 0.13);
+  }
+  .home-entry-icon {
+    @apply inline-flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg text-sm font-semibold text-white;
+    background: #2f7d6b;
+  }
 }
 
 /* 卡片入场 fade-up（童话风弹性曲线，仅入场/hover 使用） */

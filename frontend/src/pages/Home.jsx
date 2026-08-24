@@ -1,10 +1,14 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { api } from '../api'
 import { useFetch } from '../components/common'
-import EfficacyBoard from '../components/EfficacyBoard'
+import HomeEfficacyBoards from '../components/HomeEfficacyBoards'
 
-const EFFICACY_CAPS = ['美白', '抗老', '保湿', '祛痘']
+const SEARCH_HINTS = [
+  '搜索产品，例如：欧莱雅小白瓶',
+  '搜索成分，例如：烟酰胺',
+  '搜索备案号，例如：国妆特字……',
+]
 
 const ENTRY_CARDS = [
   {
@@ -30,73 +34,57 @@ const ENTRY_CARDS = [
 export default function Home() {
   const navigate = useNavigate()
   const [kw, setKw] = useState('')
+  const [hintIndex, setHintIndex] = useState(0)
   const { data: stats } = useFetch(api.stats, [])
 
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      setHintIndex((current) => (current + 1) % SEARCH_HINTS.length)
+    }, 3200)
+    return () => window.clearInterval(timer)
+  }, [])
+
+  function submitSearch(event) {
+    event.preventDefault()
+    if (kw.trim()) navigate(`/search?q=${encodeURIComponent(kw.trim())}`)
+  }
+
   return (
-    <div className="pearl-page">
-      {/* 首屏：大标题 + slogan + 大搜索框 + 功效胶囊 */}
-      <section className="text-center pt-8 pb-10 md:pt-12">
-        <h1 className="font-display text-5xl md:text-6xl tracking-[0.3em] grad-text">颜鉴</h1>
-        <p className="mt-3 text-pearl-ink-2 text-sm md:text-base tracking-wide">
-          每条功效断言，都挂真实文献
-        </p>
-        <div className="mt-7 mx-auto max-w-xl">
+    <div className="home-page">
+      <section className="home-hero">
+        <p className="home-kicker">成分与证据核验</p>
+        <h1 className="home-wordmark">颜鉴</h1>
+        <p className="home-slogan">每条功效断言，都有迹可循</p>
+        <form className="home-search" onSubmit={submitSearch}>
+          <label className="sr-only" htmlFor="home-search-input">搜索产品、成分或备案号</label>
           <input
-            className="w-full rounded-full border-2 border-rosewood/60 bg-white/85 px-6 py-3.5 text-sm outline-none shadow-[0_14px_30px_-14px_rgba(61,47,42,0.4)] focus:border-rosewood transition-colors"
-            placeholder="输入产品名 / 成分名 / 备案号，如「OLAY 小白瓶」「烟酰胺」…"
+            id="home-search-input"
+            className="home-search-input"
+            placeholder={SEARCH_HINTS[hintIndex]}
             value={kw}
             onChange={(e) => setKw(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter' && !e.nativeEvent.isComposing && kw.trim()) {
-                navigate(`/search?q=${encodeURIComponent(kw.trim())}`)
-              }
-            }}
           />
-        </div>
-        <div className="mt-5 flex flex-wrap justify-center gap-2.5">
-          {EFFICACY_CAPS.map((cap) => (
-            <Link
-              key={cap}
-              to={`/products?efficacy=${encodeURIComponent(cap)}`}
-              className="fairy-chip !text-sm !px-4 !py-1.5 hover:bg-rosewood/20 transition-colors"
-            >
-              {cap}
-            </Link>
-          ))}
-        </div>
+          <button type="submit" className="home-search-button">搜索</button>
+        </form>
       </section>
 
-      {/* 数据规模一行（实时取自 /api/stats） */}
       {stats && (
-        <p className="text-center text-sm text-pearl-ink-2 mb-8">
-          <span className="font-num font-bold text-pearl-ink">{stats.products}</span> 款产品 ·{' '}
-          <span className="font-num font-bold text-pearl-ink">{stats.ingredients}</span> 个成分 ·{' '}
-          <span className="font-num font-bold text-pearl-ink">{stats.evidence}</span> 条真实文献证据
+        <p className="home-stats">
+          <span>{stats.products}</span> 款产品 · <span>{stats.ingredients}</span> 个成分 · <span>{stats.evidence}</span> 条证据来源
         </p>
       )}
 
-      {/* 功效证据榜 Top5 */}
-      <div className="glass-card">
-        <div className="flex items-center justify-between mb-1">
-          <h2 className="pearl-title !mb-0">功效证据榜</h2>
-          <Link to="/rankings#board" className="text-xs text-rosewood hover:underline flex-shrink-0">
-            完整榜单 →
-          </Link>
-        </div>
-        <div className="mt-4">
-          <EfficacyBoard limit={5} />
-        </div>
-      </div>
+      <HomeEfficacyBoards />
 
-      {/* 三入口卡 */}
-      <div className="grid md:grid-cols-3 gap-4">
+      <div className="home-entry-links" aria-label="快捷入口">
         {ENTRY_CARDS.map((c) => (
-          <Link key={c.to} to={c.to} className="glass-card !mb-0 block hover:-translate-y-0.5 transition-transform">
-            <span className="w-10 h-10 rounded-full bg-gradient-to-br from-rosewood to-iris text-white inline-flex items-center justify-center font-display text-lg border-2 border-white/90 shadow-[0_2px_6px_rgba(61,47,42,0.25)] mb-3">
-              {c.icon}
+          <Link key={c.to} to={c.to} className="home-entry-link">
+            <span className="home-entry-icon">{c.icon}</span>
+            <span>
+              <span className="block text-sm font-medium">{c.title}</span>
+              <span className="block text-xs text-pearl-ink-2 mt-0.5">{c.desc}</span>
             </span>
-            <div className="font-display text-base tracking-wider">{c.title}</div>
-            <div className="text-xs text-pearl-ink-2 mt-1.5">{c.desc}</div>
+            <span aria-hidden="true" className="text-pearl-ink-3">›</span>
           </Link>
         ))}
       </div>
