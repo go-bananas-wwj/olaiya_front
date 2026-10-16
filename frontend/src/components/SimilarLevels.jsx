@@ -1,149 +1,126 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { api } from '../api'
 import { useFetch, Loading } from './common'
+import PriceInfo from './PriceInfo'
 
-// 三级相似口径与置信度标签（与后端 similar_levels 一一对应；总纲 I3「诚实版」相似性报告）
-const LEVELS = [
-  {
-    key: 'l1', title: 'L1 成分集合', badge: '确定性', badgeCls: 'pearl-badge-ok',
-    desc: 'Jaccard(成分集合) = 共有成分 / 并集成分，确定性计算，可复算',
-  },
-  {
-    key: 'l2', title: 'L2 剂量级', badge: '估计', badgeCls: 'pearl-badge-warn',
-    desc: '推断浓度区间中点向量的 min 加权余弦；仅对有推断浓度的产品可比，剂量为模型估计值',
-  },
-  {
-    key: 'l3', title: 'L3 功效级', badge: '证据统计', badgeCls: 'pearl-badge-iris',
-    desc: '功效指纹余弦（排除「其他」维），相对排序信号，非功效承诺',
-  },
-]
-
-const pct = (s) => `${(s * 100).toFixed(1)}%`
-
-function SimCard({ item, meta, productId }) {
+function IngredientLinks({ label, items = [] }) {
   return (
-    <div className="fairy-panel hover:bg-white/75 px-3.5 py-2.5 transition-colors">
-      <Link to={`/products/${item.id}`} className="block">
-        <div className="flex items-baseline justify-between gap-2">
-          <div className="text-sm font-medium leading-snug text-pearl-ink">{item.name}</div>
-          <div className="text-xs text-rosewood font-semibold font-num tabular-nums shrink-0">{pct(item.score)}</div>
+    <div className="mt-2 text-xs leading-relaxed">
+      <span className="text-pearl-ink-3">{label}：</span>
+      {items.length ? items.map((ing, index) => (
+        <span key={ing.ingredient_id}>
+          {index > 0 && '、'}
+          <Link className="text-iris hover:underline" to={`/ingredients/${ing.ingredient_id}`}>{ing.cn_name || ing.inci_name}</Link>
+        </span>
+      )) : '无'}
+    </div>
+  )
+}
+
+function Candidate({ item, productId, rank, scoreLabel }) {
+  return (
+    <li className="fairy-panel p-4" data-similar-product={item.id}>
+      <div className="flex flex-wrap items-start gap-3">
+        <span className="font-num text-rosewood font-semibold">{rank}</span>
+        <div className="flex-1 min-w-0">
+          <Link className="text-sm font-semibold text-pearl-ink hover:underline break-words" to={`/products/${item.id}`}>{item.name}</Link>
+          <div className="text-xs text-pearl-ink-3 mt-1">{item.brand}</div>
+          <div className="text-xs text-pearl-ink-2 mt-2">
+            {scoreLabel} <b className="font-num">{(item.score * 100).toFixed(1)}%</b>
+            {item.shared != null && ` · 共有 ${item.shared} 种 / 并集 ${item.union} 种`}
+          </div>
         </div>
-        <div className="text-xs text-pearl-ink-3 mt-0.5">{item.brand}</div>
-        {meta && <div className="text-xs text-pearl-ink-3 mt-1">{meta}</div>}
-      </Link>
-      <div className="mt-1.5">
-        <Link
-          to={`/compare?a=${productId}&b=${item.id}`}
-          className="pearl-badge-iris hover:ring-1 hover:ring-iris"
-        >
-          加入对比 ⇄
-        </Link>
+        <PriceInfo product={item} />
       </div>
-    </div>
-  )
-}
-
-function LevelColumn({ level, data, note, productId }) {
-  return (
-    <div>
-      <div className="flex items-center gap-2 flex-wrap">
-        <h3 className="text-sm font-semibold text-pearl-ink">{level.title}</h3>
-        <span className={level.badgeCls}>{level.badge}</span>
+      <div className="flex flex-wrap items-center justify-between gap-2 mt-3">
+        <Link to={`/compare?a=${productId}&b=${item.id}`} className="pearl-badge-iris hover:underline">对比这两款 →</Link>
+        {item.source_url && <a href={item.source_url} target="_blank" rel="noreferrer" className="text-xs text-pearl-ink-3 hover:underline">成分来源 ↗</a>}
       </div>
-      <p className="text-xs text-pearl-ink-3 leading-relaxed mt-1.5">{level.desc}</p>
-      <div className="mt-3 space-y-2">
-        {level.key === 'l2' && !data.l2.available ? (
-          <div className="fairy-panel-dim text-pearl-ink-3 px-3.5 py-2.5 text-xs leading-relaxed">
-            {data.l2.reason}
-          </div>
-        ) : (
-          (() => {
-            const items = level.key === 'l2' ? data.l2.similar : data[level.key]
-            if (!items || items.length === 0) {
-              return <div className="text-xs text-pearl-ink-3 py-2">暂无可比对的产品</div>
-            }
-            return items.map((item) => (
-              <SimCard
-                key={item.id}
-                item={item}
-                productId={productId}
-                meta={
-                  level.key === 'l1'
-                    ? `共有成分 ${item.shared} / 并集 ${item.union}`
-                    : level.key === 'l3'
-                      ? `${item.dimensions} 个共有功效维${item.top_shared_dims?.length ? `：${item.top_shared_dims.join('、')}` : ''}`
-                      : null
-                }
-              />
-            ))
-          })()
-        )}
-      </div>
-      {level.key === 'l3' && note && (
-        <p className="text-xs text-pearl-ink-3 leading-relaxed mt-2">{note}</p>
+      {item.shared_ingredients && (
+        <details className="mt-3 text-pearl-ink-2">
+          <summary className="text-xs cursor-pointer">查看共有与差异成分</summary>
+          <IngredientLinks label="共有成分" items={item.shared_ingredients} />
+          <IngredientLinks label="仅当前产品含有" items={item.only_target_ingredients} />
+          <IngredientLinks label="仅该候选含有" items={item.only_candidate_ingredients} />
+        </details>
       )}
-    </div>
+    </li>
   )
 }
 
-// 语义相似栏（第四栏）：BGE-M3 成分表文本向量余弦，独立请求 /similar，索引未构建时降级
-function SemanticColumn({ productId }) {
-  const { data, loading, error } = useFetch(() => api.productSimilar(productId), [productId])
-  return (
-    <div>
-      <div className="flex items-center gap-2 flex-wrap">
-        <h3 className="text-sm font-semibold text-pearl-ink">语义相似</h3>
-        <span className="pearl-badge-info">语义</span>
-      </div>
-      <p className="text-xs text-pearl-ink-3 leading-relaxed mt-1.5">
-        成分表文本向量（BGE-M3）余弦相似；可发现成分集合并不重叠但配方文本接近的产品
-      </p>
-      <div className="mt-3 space-y-2">
-        {loading ? (
-          <Loading />
-        ) : error ? (
-          <div className="fairy-panel-dim text-pearl-ink-3 px-3.5 py-2.5 text-xs leading-relaxed">
-            语义相似加载失败（{error}）
-          </div>
-        ) : !data.similar ? (
-          <div className="fairy-panel-dim text-pearl-ink-3 px-3.5 py-2.5 text-xs leading-relaxed">
-            {data.reason || '相似索引未构建'}
-          </div>
-        ) : data.similar.length === 0 ? (
-          <div className="text-xs text-pearl-ink-3 py-2">暂无可比对的产品</div>
-        ) : (
-          data.similar.map((item) => (
-            <SimCard key={item.id} item={item} productId={productId} meta={null} />
-          ))
-        )}
-      </div>
-    </div>
+export default function SimilarLevels({ productId, unit }) {
+  const [mode, setMode] = useState('ingredients')
+  const [sort, setSort] = useState('similarity')
+  const [showAll, setShowAll] = useState(false)
+  const levels = useFetch(() => api.productSimilarLevels(productId, { k: 20 }), [productId])
+  const embedding = useFetch(
+    () => mode === 'embedding' ? api.productSimilar(productId, { k: 20 }) : Promise.resolve(null),
+    [productId, mode],
   )
-}
-
-// 「相似产品」区块（产品详情页，珍珠贝母版）：L1 成分集合 / L2 剂量级 / L3 功效级 / 语义相似 四栏
-export default function SimilarLevels({ productId }) {
-  const { data, loading, error } = useFetch(() => api.productSimilarLevels(productId), [productId])
+  const active = mode === 'embedding' ? embedding : levels
+  const items = mode === 'embedding' ? embedding.data?.similar : levels.data?.l1
+  const sorted = [...(items || [])].sort((a, b) => {
+    const value = (p) => sort === 'unit'
+      ? (p.unit_price_unit === unit ? p.unit_price : null) : p.price_current
+    if (sort !== 'similarity') {
+      const av = value(a), bv = value(b)
+      if (av == null && bv != null) return 1
+      if (av != null && bv == null) return -1
+      if (av != null && bv != null && av !== bv) return av - bv
+    }
+    return b.score - a.score || a.id - b.id
+  })
 
   return (
-    <div className="glass-card">
-      <h2 className="pearl-title">相似产品（真平替候选）</h2>
-      <div className="pearl-notice">
-        四种口径独立、互不替代：成分集合是确定性比对，剂量级基于推断浓度（估计值），
-        功效级是证据库统计信号，语义相似是文本向量接近度。相似 ≠ 功效相同，任何一栏都不是「功效等同」承诺。
-      </div>
-      {loading ? (
-        <Loading />
-      ) : error ? (
-        <div className="pearl-notice !mb-0">相似产品数据加载失败（{error}）</div>
-      ) : (
-        <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
-          {LEVELS.map((level) => (
-            <LevelColumn key={level.key} level={level} data={data} note={data.note} productId={productId} />
+    <section className="glass-card scroll-mt-24" aria-label="相似产品与价格" id="similar-products">
+      <h2 className="pearl-title">相似产品与价格</h2>
+      <div className="flex flex-wrap items-center justify-between gap-3 mb-3">
+        <div className="flex flex-wrap gap-2">
+          {[['ingredients', '成分重合'], ['embedding', '嵌入相似']].map(([value, label]) => (
+            <button type="button" key={value} aria-pressed={mode === value} onClick={() => { setMode(value); setShowAll(false) }}
+              className={mode === value ? 'fairy-chip !bg-rosewood !text-white' : 'fairy-chip'}>{label}</button>
           ))}
-          <SemanticColumn productId={productId} />
         </div>
+        <label className="text-xs text-pearl-ink-2 flex items-center gap-2">
+          排序
+          <select aria-label="相似产品排序" className="input !w-auto" value={sort} onChange={(e) => setSort(e.target.value)}>
+            <option value="similarity">相似度高到低</option>
+            <option value="price">整件参考价低到高</option>
+            <option value="unit" disabled={!unit}>同单位单价低到高{unit ? `（元/${unit}）` : ''}</option>
+          </select>
+        </label>
+      </div>
+      <p className="text-xs text-pearl-ink-3 mb-4 leading-relaxed">
+        {mode === 'embedding' ? '按成分表文本向量检索，百分比为余弦相似度。' : '重合度 = 共有成分数 ÷ 并集成分数。'}
+        相似不代表功效等同。价格独立展示，仅重排本次召回的至多 20 款；缺价排后，元/g 与元/ml 分开比较。
+      </p>
+      {active.loading ? <Loading /> : active.error ? (
+        <p className="pearl-notice">相似产品加载失败，请稍后重试。</p>
+      ) : items == null ? (
+        <p className="pearl-notice">{active.data?.reason || '相似索引暂不可用'}</p>
+      ) : !sorted.length ? <p className="text-sm text-pearl-ink-3">暂无可比对的产品</p> : (
+        <ol className="space-y-3">{(showAll ? sorted : sorted.slice(0, 5)).map((item, i) => (
+          <Candidate key={item.id} item={item} rank={i + 1} productId={productId} scoreLabel={mode === 'embedding' ? '嵌入相似度' : '成分重合度'} />
+        ))}</ol>
       )}
-    </div>
+      {sorted.length > 5 && !active.loading && !active.error && <button type="button" className="btn-fairy-ghost w-full mt-3" onClick={() => setShowAll(!showAll)}>{showAll ? '收起候选' : `展开全部 ${sorted.length} 款候选`}</button>}
+      <details className="mt-5 border-t border-line pt-3">
+        <summary className="cursor-pointer text-xs text-pearl-ink-2">更多比较：剂量与功效指纹</summary>
+        <p className="text-xs text-pearl-ink-3 my-3">剂量为浓度估计；功效指纹为证据统计信号，均不代表实际效果。</p>
+        {levels.loading ? <Loading /> : levels.error ? <p className="text-xs">数据暂不可用</p> : (
+          <div className="grid md:grid-cols-2 gap-4">
+            <div><h3 className="text-sm font-semibold mb-2">剂量级相似（估计）</h3>
+              {!levels.data?.l2.available ? <p className="text-xs text-pearl-ink-3">{levels.data?.l2.reason}</p>
+                : <ol className="space-y-2">{levels.data.l2.similar.map((item, i) => <Candidate key={item.id} item={item} rank={i + 1} productId={productId} scoreLabel="剂量相似度（估计）" />)}</ol>}
+            </div>
+            <div><h3 className="text-sm font-semibold mb-2">功效指纹相似（证据统计）</h3>
+              {!levels.data?.l3.length ? <p className="text-xs text-pearl-ink-3">暂无可比对的功效指纹</p>
+                : <ol className="space-y-2">{levels.data.l3.map((item, i) => <Candidate key={item.id} item={item} rank={i + 1} productId={productId} scoreLabel="功效指纹相似度" />)}</ol>}
+            </div>
+          </div>
+        )}
+      </details>
+    </section>
   )
 }

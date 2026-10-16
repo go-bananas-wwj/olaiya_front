@@ -95,7 +95,7 @@ def test_product_similar_ok(client, session, index_dir):
     assert [s["id"] for s in similar] == ids[1:]
     assert ce_id not in [s["id"] for s in similar]
     for s in similar:
-        assert set(s.keys()) == {"id", "name", "brand", "score"}
+        assert {"id", "name", "brand", "score"} <= set(s)
     assert similar[0]["name"] and similar[0]["brand"]
 
     # k 参数生效

@@ -95,7 +95,7 @@ def _match_ingredient(session: Session, name: str) -> Ingredient | None:
 
 # ---------- 工具 1：产品库（成分专家） ----------
 
-def tool_product_lookup(session: Session, product_name: str) -> dict:
+def tool_product_lookup(session: Session, product_name: str, *, product_id: int | None = None) -> dict:
     """按名称模糊查产品，多候选按匹配度排序（精确 > 前缀 > 子串，同级短名优先）。
 
     名称无命中时落回成分别名索引：查询词含俗名/别名（VC、377、玻尿酸…）时，
@@ -104,14 +104,14 @@ def tool_product_lookup(session: Session, product_name: str) -> dict:
     q = product_name.strip()
     if not q:
         return {"found": False, "products": [], "exact": False}
-    rows = session.execute(
-        select(Product).where(Product.name.like(f"%{q}%"))
-    ).scalars().all()
+    query = select(Product).where(Product.id == product_id) if product_id is not None else (
+        select(Product).where(Product.name.like(f"%{q}%")))
+    rows = session.execute(query).scalars().all()
     rows.sort(key=lambda p: (*_match_rank(p.name, q), p.id))
     # (product, matched_via, matched_ingredient|None)
     hits: list[tuple[Product, str, Ingredient | None]] = [
         (p, "name", None) for p in rows]
-    if not hits:  # 别名 → 成分 → 含该成分的产品（同一别名表，与用户语言一致）
+    if not hits and product_id is None:  # 指定产品版本时不回退到其他产品
         seen_ing: set[int] = set()
         seen_prod: set[int] = set()
         for _alias, incis in aliases_in_text(q):
@@ -194,6 +194,7 @@ def tool_ingredient_evidence(session: Session, ingredient_name: str) -> dict:
             "eff_high": a.effective_conc_high,
             "evidence_level": a.evidence_level,
             "evidence_strength": a.evidence_strength,
+            "note": a.note,
             "evidence": {"type": ev.type.value, "title": ev.title, "source": ev.source,
                          "year": ev.year, "url": ev.url, "excerpt": ev.excerpt},
         })

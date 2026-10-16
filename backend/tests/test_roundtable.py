@@ -252,6 +252,24 @@ def _override_gateway(gw):
 
 
 class TestRoundtableAPI:
+    def test_product_id_keeps_selected_version_even_with_same_name(self, client, session):
+        original = session.query(Product).first()
+        duplicate = Product(name=original.name, brand="另一个版本")
+        session.add(duplicate)
+        session.commit()
+        _override_gateway(_QueueGateway(REPLIES_OK))
+        r = client.post("/api/roundtable", json={"product_name": original.name, "product_id": duplicate.id})
+        events = [json.loads(p) for p in _sse_payloads(r.text)[:-1]]
+        assert events[0]["product"]["products"][0]["id"] == duplicate.id
+
+    def test_missing_product_id_does_not_fall_back_to_other_product(self, client):
+        gw = _QueueGateway(REPLIES_OK)
+        _override_gateway(gw)
+        r = client.post("/api/roundtable", json={"product_name": "烟酰胺修护精华", "product_id": 999999})
+        events = [json.loads(p) for p in _sse_payloads(r.text)[:-1]]
+        assert events[0]["event"] == "error"
+        assert not gw.calls
+
     def test_sse_event_stream(self, client):
         _override_gateway(_QueueGateway(REPLIES_OK))
         r = client.post("/api/roundtable", json={"product_name": "烟酰胺修护精华"})

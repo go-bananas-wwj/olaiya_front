@@ -1,4 +1,4 @@
-// API 访问层：同源相对路径，vite dev 下经 proxy 转发到 :8000
+// API 访问层：同源相对路径，vite dev 下经 proxy 转发到 :8008
 async function get(path, params = {}) {
   const qs = new URLSearchParams()
   for (const [k, v] of Object.entries(params)) {
@@ -65,7 +65,8 @@ export const api = {
   productConcentration: (id) => get(`/api/products/${id}/concentration`),
   productSimilarLevels: (id, params) => get(`/api/products/${id}/similar-levels`, params), // k
   productFingerprint: (id) => get(`/api/products/${id}/fingerprint`),
-  // 语义相似（BGE-M3 文本向量）：索引未构建时 similar=null + reason 降级
+  productEvidenceProfile: (id) => get(`/api/products/${id}/evidence-profile`),
+  // 成分表嵌入相似（模型由后端配置）：索引未构建时 similar=null + reason 降级
   productSimilar: (id, params) => get(`/api/products/${id}/similar`, params), // k
   brands: () => get('/api/brands'),
   // q / has_evidence / limit / offset（带 limit/offset 返回 {total, items}）

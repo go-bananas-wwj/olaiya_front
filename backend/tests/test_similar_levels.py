@@ -368,13 +368,13 @@ def test_similar_levels_api_structure(client):
     assert isinstance(body["l1"], list) and isinstance(body["l3"], list)
     # L1 首名是成分集最像的 P2
     assert body["l1"][0]["id"] == toy["p2"].id
-    assert set(body["l1"][0]) == {"id", "name", "brand", "score", "shared", "union"}
+    assert {"id", "name", "brand", "score", "shared", "union"} <= set(body["l1"][0])
     # L2：P1 无推断浓度 → 诚实降级
     assert body["l2"]["available"] is False
     assert body["l2"]["reason"]
     # L3 首名是指纹一致的 P2
     assert body["l3"][0]["id"] == toy["p2"].id
-    assert set(body["l3"][0]) == {"id", "name", "brand", "score", "dimensions", "top_shared_dims"}
+    assert {"id", "name", "brand", "score", "dimensions", "top_shared_dims"} <= set(body["l3"][0])
 
 
 def test_similar_levels_api_k_and_404(client):

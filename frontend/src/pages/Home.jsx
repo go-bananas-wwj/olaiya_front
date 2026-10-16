@@ -14,7 +14,7 @@ const ENTRY_CARDS = [
   {
     to: '/products',
     title: '查产品',
-    desc: '宣称对证据，一眼看穿',
+    desc: '看成分构成，找相似产品与价格',
     icon: '查',
   },
   {
@@ -24,10 +24,10 @@ const ENTRY_CARDS = [
     icon: '解',
   },
   {
-    to: '/chat',
-    title: 'AI 问答',
-    desc: '逐句挂文献的回答',
-    icon: '问',
+    to: '/roundtable',
+    title: '圆桌核验',
+    desc: '四位角色解释功效依据与不确定性',
+    icon: '议',
   },
 ]
 
@@ -55,6 +55,7 @@ export default function Home() {
         <p className="home-kicker">成分与证据核验</p>
         <h1 className="home-wordmark">颜鉴</h1>
         <p className="home-slogan">每条功效断言，都有迹可循</p>
+        <p className="mt-2 text-xs text-pearl-ink-3">看懂成分 · 比较相似产品与价格 · 圆桌解释证据</p>
         <form className="home-search" onSubmit={submitSearch}>
           <label className="sr-only" htmlFor="home-search-input">搜索产品、成分或备案号</label>
           <input
@@ -74,8 +75,6 @@ export default function Home() {
         </p>
       )}
 
-      <HomeEfficacyBoards />
-
       <div className="home-entry-links" aria-label="快捷入口">
         {ENTRY_CARDS.map((c) => (
           <Link key={c.to} to={c.to} className="home-entry-link">
@@ -87,6 +86,10 @@ export default function Home() {
             <span aria-hidden="true" className="text-pearl-ink-3">›</span>
           </Link>
         ))}
+      </div>
+      <div className="mt-7">
+        <HomeEfficacyBoards />
+        <p className="text-center text-xs text-pearl-ink-3 mt-3">按成分证据统计排序，非实际效果排名</p>
       </div>
     </div>
   )

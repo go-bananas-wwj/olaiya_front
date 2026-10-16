@@ -131,7 +131,7 @@ def _judge(gateway: LLMGateway, product: dict, speeches: dict, tool_data: dict) 
 
 
 def run_roundtable(session: Session, gateway: LLMGateway, product_name: str,
-                   *, trace: bool = True) -> Iterator[dict]:
+                   *, trace: bool = True, product_id: int | None = None) -> Iterator[dict]:
     """圆桌编排生成器：按顺序产出事件 dict（供 SSE 逐条推送）。
 
     start（tool_product_lookup 结果，未找到 → error 即终）→
@@ -140,7 +140,7 @@ def run_roundtable(session: Session, gateway: LLMGateway, product_name: str,
     verdict（独立裁决 prompt 综合四份发言+工具数据，五级判定组合表）。
     trace=False 时省略 tool_call 事件（只留 start/speak/verdict）。
     """
-    lookup = tool_product_lookup(session, product_name)
+    lookup = tool_product_lookup(session, product_name, product_id=product_id)
     if not lookup["found"]:
         yield {"event": "error",
                "message": f"未找到产品：{product_name.strip()}", "lookup": lookup}
@@ -158,7 +158,7 @@ def run_roundtable(session: Session, gateway: LLMGateway, product_name: str,
         # 1) 成分专家：产品库（即 start 的 lookup，不重复查询）+ 三级相似 k=3
         role = "ingredient_expert"
         if trace:
-            yield _tool(role, "product_lookup", {"product_name": product_name})
+            yield _tool(role, "product_lookup", {"product_name": product_name, **({"product_id": product_id} if product_id is not None else {})})
         similar = tool_similar_products(session, pid, k=3)
         if trace:
             yield _tool(role, "similar_products", {"product_id": pid, "k": 3})

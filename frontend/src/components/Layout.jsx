@@ -7,6 +7,7 @@ const NAV = [
   { to: '/rankings', label: '排行榜' },
   { to: '/compare', label: '对比' },
   { to: '/decode', label: '解码' },
+  { to: '/roundtable', label: '圆桌核验' },
   { to: '/chat', label: 'AI 问答' },
 ]
 
@@ -19,7 +20,7 @@ export default function Layout() {
       <header className="bg-white/40 backdrop-blur-md border-b border-[rgba(138,90,106,0.15)]">
         <div className="max-w-6xl mx-auto px-5 pt-5 pb-4">
           <div className="flex flex-wrap items-center gap-x-8 gap-y-3 justify-between">
-            <h1 className="font-sans text-[22px] font-semibold tracking-[0.14em] text-pearl-ink">颜鉴</h1>
+            <NavLink to="/" className="font-sans text-[22px] font-semibold tracking-[0.14em] text-pearl-ink">颜鉴</NavLink>
             <nav className="flex gap-1 flex-wrap font-sans font-medium">
               {NAV.map((n) => (
                 <NavLink
@@ -61,8 +62,8 @@ export default function Layout() {
       </main>
 
       <footer className="text-center text-xs text-pearl-ink-3 pb-8 px-5 space-y-1 font-sans">
-        <div>数据链路：NMPA 备案公示 → 盖德镜像采集 → 本地证据库 → API → 本页面</div>
-        <div>颜鉴 · 欧莱雅美妆科技黑客松 2026 · 数据来源于 NMPA 备案公示镜像，仅供研究演示</div>
+        <div>数据来源包括品牌公开资料、INCIDecoder、备案信息镜像与文献等；具体来源见详情</div>
+        <div>颜鉴 · 欧莱雅美妆科技黑客松 2026 · 浓度为估计值，相似不代表功效等同</div>
       </footer>
     </div>
   )

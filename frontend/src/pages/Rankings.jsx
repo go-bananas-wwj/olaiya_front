@@ -211,7 +211,7 @@ export default function Rankings() {
   return (
     <div className="pearl-page">
       <h1 className="font-display text-2xl tracking-[0.2em] grad-text mb-1">排行榜</h1>
-      <p className="text-xs text-pearl-ink-2 mb-4">功效证据 · 成分证据 · 剂量核验 · 性价比</p>
+      <p className="text-xs text-pearl-ink-2 mb-4">查看功效证据榜；进入产品详情，还可按成分重合、嵌入相似与价格比较候选。</p>
 
       {/* 口径横幅：固定页顶 */}
       <div className="pearl-notice">
@@ -225,16 +225,16 @@ export default function Rankings() {
       </div>
 
       {/* 成分证据榜 */}
-      <div className="glass-card">
-        <h2 className="pearl-title">成分证据榜</h2>
+      <details className="glass-card">
+        <summary className="pearl-title cursor-pointer">成分资料数量榜</summary>
         <IngredientEvidenceBoard />
-      </div>
+      </details>
 
       {/* 核验榜 + 性价比榜（推断产品子集） */}
-      <div className="glass-card">
-        <h2 className="pearl-title">剂量核验与性价比</h2>
+      <details className="glass-card">
+        <summary className="pearl-title cursor-pointer">更多榜单：剂量核验与折算成本（估计）</summary>
         <ConcentrationBoards />
-      </div>
+      </details>
     </div>
   )
 }

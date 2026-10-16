@@ -1,40 +1,13 @@
 """首页核心交互的浏览器回归测试。
 
 运行前须启动本地站点：
-    /tmp/pwenv/bin/python -m unittest frontend/e2e/test_home_page.py
+    PYTHONPATH=/tmp/pwenv/lib/python3.11/site-packages .venv/bin/python -m unittest frontend.e2e.test_home_page
 """
 
-import os
-import unittest
-
-from playwright.sync_api import sync_playwright
+from frontend.e2e.browser_case import BrowserTestCase, BASE_URL
 
 
-BASE_URL = os.environ.get("CFZ_E2E_BASE_URL", "http://127.0.0.1:8008")
-
-
-class HomePageTest(unittest.TestCase):
-    @classmethod
-    def setUpClass(cls):
-        cls.playwright = sync_playwright().start()
-        cls.browser = cls.playwright.chromium.launch(
-            headless=True,
-            args=["--no-sandbox", "--disable-dev-shm-usage"],
-        )
-
-    @classmethod
-    def tearDownClass(cls):
-        cls.browser.close()
-        cls.playwright.stop()
-
-    def setUp(self):
-        self.page = self.browser.new_page(viewport={"width": 1280, "height": 900})
-        self.page.set_default_timeout(5_000)
-        self.page.goto(BASE_URL, wait_until="domcontentloaded")
-
-    def tearDown(self):
-        self.page.close()
-
+class HomePageTest(BrowserTestCase):
     def test_home_search_button_opens_results_for_entered_query(self):
         """防止首页只支持回车、点击搜索按钮失效。"""
         self.page.get_by_role("textbox", name="搜索产品、成分或备案号").fill("烟酰胺")

@@ -95,7 +95,7 @@ export default function EfficacyBoard({ limit = 5 }) {
         </ol>
       )}
 
-      <p className="mt-4 text-xs text-pearl-ink-3">按成分证据强度排序，非效果排名</p>
+      <p className="mt-4 text-xs text-pearl-ink-3">排序分 = 该功效族命中成分数 + 3 × 人体级研究断言数，同分按产品编号排列。仅作证据统计，非效果排名。</p>
     </div>
   )
 }

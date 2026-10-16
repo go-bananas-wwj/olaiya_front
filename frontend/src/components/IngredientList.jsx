@@ -1,11 +1,9 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { api } from '../api'
 
-// —— 成分速览（INCIDecoder 风格行式列表）——
-// skim 模式：有证据成分置顶（其余按 position），默认前 8 行
+// 完整成分表：保留已知位次，未知位次不编号；全部条目在可滚动列表中展示。
 // 行内展开懒加载成分档案，缓存由父组件持有（换产品时清空）
-const SKIM_COUNT = 8
 
 // 起效浓度区间文案：文献值语义，不标注则为估计缺失
 function concText(low, high) {
@@ -64,7 +62,8 @@ function IngredientDetailPanel({ entry, ingredientId }) {
         </div>
       ) : (
         <div>
-          {d.assertions.map((a, i) => <AssertionRow key={i} a={a} />)}
+          {d.assertions.slice(0, 5).map((a, i) => <AssertionRow key={i} a={a} />)}
+          {d.assertions.length > 5 && <p className="text-xs text-pearl-ink-3 mt-2">先展示 5 条，共 {d.assertions.length} 条资料，完整内容见档案。</p>}
         </div>
       )}
       {caps.length > 0 && (
@@ -74,7 +73,7 @@ function IngredientDetailPanel({ entry, ingredientId }) {
       )}
       <div className="mt-2 text-right">
         <Link to={`/ingredients/${ingredientId}`} className="text-xs text-rosewood hover:underline">
-          完整档案 →
+          完整档案与含该成分的产品 →
         </Link>
       </div>
     </div>
@@ -93,7 +92,7 @@ function IngredientRow({ ing, rank, open, entry, onToggle }) {
           ing.has_evidence ? 'bg-[rgba(126,200,150,0.1)] hover:bg-[rgba(126,200,150,0.2)]' : 'hover:bg-white/40'
         }`}
       >
-        <span className="font-num text-xs text-pearl-ink-3 pt-1 w-7 flex-shrink-0 tabular-nums">#{rank}</span>
+        <span className="font-num text-xs text-pearl-ink-3 pt-1 w-16 flex-shrink-0 tabular-nums">{rank == null ? '位次未知' : `#${rank}`}</span>
         <div className="flex-1 min-w-0">
           <div className="text-sm leading-snug">
             <Link
@@ -112,7 +111,7 @@ function IngredientRow({ ing, rank, open, entry, onToggle }) {
           )}
         </div>
         <div className="flex items-center gap-1.5 flex-shrink-0 pt-0.5">
-          {ing.has_evidence && <span className="pearl-badge-ok">有证据</span>}
+          {ing.has_evidence && <span className="pearl-badge-ok">有资料</span>}
           {ing.is_active && <span className="pearl-badge-iris">活性</span>}
           {ing.safety_risk && (
             <span className="text-xs text-pearl-ink-3 font-num tabular-nums whitespace-nowrap">风险 {ing.safety_risk}</span>
@@ -136,19 +135,17 @@ function IngredientRow({ ing, rank, open, entry, onToggle }) {
 
 // cache: { [ingredientId]: { status: 'loading' | 'ok' | 'error', data } }
 export default function IngredientList({ ingredients, cache, setCache }) {
-  const [expanded, setExpanded] = useState(false)
   const [openIds, setOpenIds] = useState(() => new Set())
+  const generation = useRef(0)
 
   // 换产品（成分列表整体更换）时收起所有展开行
   useEffect(() => {
     setOpenIds(new Set())
-    setExpanded(false)
+    generation.current += 1
+    return () => { generation.current += 1 }
   }, [ingredients])
 
-  const sorted = [...ingredients].sort((a, b) =>
-    (b.has_evidence - a.has_evidence) || ((a.position ?? 1e9) - (b.position ?? 1e9)))
-  const visible = expanded ? sorted : sorted.slice(0, SKIM_COUNT)
-  const hidden = sorted.length - visible.length
+  const sorted = [...ingredients].sort((a, b) => (a.position ?? Infinity) - (b.position ?? Infinity))
 
   const toggle = (ing) => {
     const id = ing.ingredient_id
@@ -161,49 +158,31 @@ export default function IngredientList({ ingredients, cache, setCache }) {
     })
     // 懒加载：仅首次展开时请求，已缓存（含失败态）不重复请求
     if (willOpen && !cache[id]) {
+      const current = generation.current
       setCache((prev) => ({ ...prev, [id]: { status: 'loading' } }))
       api.ingredient(id, { product_limit: 1 })
-        .then((data) => setCache((prev) => ({ ...prev, [id]: { status: 'ok', data } })))
-        .catch(() => setCache((prev) => ({ ...prev, [id]: { status: 'error' } })))
+        .then((data) => { if (current === generation.current) setCache((prev) => ({ ...prev, [id]: { status: 'ok', data } })) })
+        .catch(() => { if (current === generation.current) setCache((prev) => ({ ...prev, [id]: { status: 'error' } })) })
     }
   }
 
   return (
-    <div className="glass-card">
-      <h2 className="pearl-title">成分速览（{ingredients.length} 种）</h2>
-      <div className="pearl-notice">
-        点任意成分，看它做什么、证据在哪。绿色 = 证据库有功效文献。
-      </div>
-      <div>
-        {visible.map((ing, i) => (
+    <section className="glass-card scroll-mt-24" id="ingredients">
+      <h2 className="pearl-title">完整成分表（{ingredients.length} 种）</h2>
+      <p className="text-xs text-pearl-ink-3 mb-3">点击名称查看证据与含该成分的产品，点击行展开资料。绿色表示有挂接资料，包含分类与参考资料，不代表均有功效实证。</p>
+      {ingredients.length === 0 && <p className="text-sm text-pearl-ink-3">暂无成分表</p>}
+      <div className="max-h-[520px] overflow-y-auto">
+        {sorted.map((ing) => (
           <IngredientRow
             key={ing.ingredient_id}
             ing={ing}
-            rank={ing.position ?? i + 1}
+            rank={ing.position}
             open={openIds.has(ing.ingredient_id)}
             entry={cache[ing.ingredient_id]}
             onToggle={() => toggle(ing)}
           />
         ))}
       </div>
-      {hidden > 0 && !expanded && (
-        <button
-          type="button"
-          onClick={() => setExpanded(true)}
-          className="btn-fairy-ghost mt-3 w-full"
-        >
-          展开全部 {ingredients.length} 种 ↓
-        </button>
-      )}
-      {expanded && sorted.length > SKIM_COUNT && (
-        <button
-          type="button"
-          onClick={() => setExpanded(false)}
-          className="btn-fairy-ghost mt-3 w-full"
-        >
-          收起 ↑
-        </button>
-      )}
-    </div>
+    </section>
   )
 }

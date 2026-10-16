@@ -8,6 +8,8 @@ import FingerprintBars from '../components/FingerprintBars'
 import IngredientList from '../components/IngredientList'
 import MatchScore from '../components/MatchScore'
 import SimilarLevels from '../components/SimilarLevels'
+import PriceInfo from '../components/PriceInfo'
+import EvidenceSummary from '../components/EvidenceSummary'
 
 // —— 宣称 ↔ 剂量判定匹配（纯前端聚合现有 API 字段，不伪造）——
 // 宣称文本与 dose.efficacy 都可能带「（…）」补充说明，取括号前主干做双向包含匹配
@@ -47,23 +49,6 @@ const STATUS_META = {
 
 function scrollTo(id) {
   document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-}
-
-// —— Highlights 配方特征标签（P1）：由成分表规则推出，注明口径 ——
-const hlNorm = (s) => (s || '').toUpperCase().replace(/[.\s]/g, '')
-const HL_ALCOHOL = new Set(['ALCOHOL', 'ALCOHOLDENAT', 'SDALCOHOL', 'ETHANOL', '变性乙醇', '乙醇'])
-
-function highlights(ingredients) {
-  const hasAlcohol = ingredients.some((i) => HL_ALCOHOL.has(hlNorm(i.inci_name)) || HL_ALCOHOL.has(i.cn_name))
-  const hasFragrance = ingredients.some((i) =>
-    hlNorm(i.inci_name).includes('FRAGRANCE') || hlNorm(i.inci_name).includes('PARFUM') ||
-    (i.cn_name || '').includes('香精'))
-  const hasPreservative = ingredients.some((i) => (i.purpose || '').includes('防腐'))
-  const tags = []
-  if (!hasAlcohol) tags.push({ text: '无酒精', cls: 'pearl-badge-ok' })
-  if (!hasFragrance) tags.push({ text: '无香精', cls: 'pearl-badge-ok' })
-  if (hasPreservative) tags.push({ text: '含防腐剂', cls: 'pearl-badge-warn' })
-  return tags
 }
 
 function VerdictBar({ claims, conc }) {
@@ -121,106 +106,63 @@ function VerdictBar({ claims, conc }) {
 export default function ProductDetail() {
   const { id } = useParams()
   const { data: p, loading, error } = useFetch(() => api.product(id), [id])
-  // 浓度数据页面级预取：判决条 / 宣称卡 hero / 浓度区块共用同一份
   const conc = useFetch(() => api.productConcentration(id), [id])
-  // 功效指纹页面级预取：指纹条 / 匹配分共用同一份
   const fp = useFetch(() => api.productFingerprint(id), [id])
-  // 成分行内展开的档案懒加载缓存（{ [ingredientId]: {status, data} }），换产品时清空
+  const profile = useFetch(() => api.productEvidenceProfile(id), [id])
   const [ingCache, setIngCache] = useState({})
   useEffect(() => { setIngCache({}) }, [id])
 
-  if (loading) return <div className="pearl-page"><div className="glass-card relative"><Loading /></div></div>
-  if (error) return <div className="pearl-page"><div className="glass-card relative"><LoadError error={error} /></div></div>
-
-  // 备案人/备案日期/来源为后端结构化字段；note 仅含功效描述，提取功效词
-  const effMatch = (p.note || '').match(/功效: ([^（；]*)/)
-  const kv = [
-    p.registrant && ['备案人', p.registrant],
-    p.filing_date && ['备案日期', p.filing_date],
-    effMatch && ['宣称功效', effMatch[1]],
-    p.price_current != null && ['参考价（人工采样）', `¥${p.price_current}${p.spec ? ` / ${p.spec}` : ''}`],
-    p.price_current == null && p.spec && ['主规格', p.spec],
-  ].filter(Boolean)
-
+  if (loading) return <div className="pearl-page"><Loading /></div>
+  if (error) return <div className="pearl-page"><LoadError error={error} /></div>
   const estimates = conc.data?.inferred ? conc.data.estimates : null
-  const hl = highlights(p.ingredients)
 
   return (
     <div className="pearl-page">
-      <div className="relative">
-        <Link to="/products" className="text-sm text-rosewood hover:underline">← 返回产品库</Link>
-
-        {/* 产品头卡 */}
-        <div className="glass-card mt-3">
-          <div className="font-display text-2xl md:text-3xl grad-text tracking-wide inline-block">{p.name}</div>
-          <div className="text-[13px] text-pearl-ink-2 mt-2 flex flex-wrap gap-x-4 gap-y-1">
-            <span>品牌：<b>{p.brand}</b></span>
-            {p.nmpa_id && <span>备案号：<b>{p.nmpa_id}</b></span>}
-            {p.category && <span>类别：{p.category}</span>}
-          </div>
-          {hl.length > 0 && (
-            <div className="mt-3 flex flex-wrap items-center gap-2">
-              {hl.map((t) => <span key={t.text} className={t.cls}>{t.text}</span>)}
-              <span className="text-xs text-pearl-ink-3">由成分表规则推出</span>
-            </div>
-          )}
-          {kv.length > 0 && (
-            <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3 mt-4">
-              {kv.map(([k, v]) => (
-                <div key={k} className="fairy-panel px-3.5 py-2.5">
-                  <div className="text-pearl-ink-3 text-xs mb-0.5">{k}</div>
-                  <div className="text-pearl-ink text-[13px] break-all">{v}</div>
-                </div>
-              ))}
-            </div>
-          )}
-          {p.source_url && (
-            <div className="text-xs text-pearl-ink-3 mt-4 break-all">
-              备案数据来源：
-              <a href={p.source_url} target="_blank" rel="noreferrer" className="text-iris hover:underline">
-                {p.source_url}
-              </a>
-              （NMPA 公示镜像）
-            </div>
-          )}
-        </div>
-
-        {/* 核验结论条（判决卡） */}
-        {p.claims.length > 0 && <VerdictBar claims={p.claims} conc={conc} />}
-
-        {/* 功效指纹条（置顶宣称核验区上方） */}
-        <FingerprintBars fp={fp} />
-
-        {/* 透明匹配分（肤质档案 localStorage，逐项可展开） */}
-        <MatchScore product={p} conc={conc} fp={fp} />
-
-        {/* 宣称核验区：每张卡 hero 位带剂量对照条 */}
-        <div className="glass-card">
-          <h2 className="pearl-title">功效宣称依据（{p.claims.length} 条）</h2>
-          {p.claims.length === 0 ? (
-            <div className="pearl-notice !mb-0">
-              该产品备案页未公示《功效宣称依据摘要》（可能属 2021 年前备案或清洁/物理遮盖等法定免公布情形）
-              ——「查不到摘要」本身也是核验信号。
-            </div>
-          ) : (
-            p.claims.map((c, i) => (
-              <ClaimCard
-                key={i}
-                claim={c}
-                nmpaId={p.nmpa_id}
-                anchorId={`claim-${i}`}
-                doses={matchDoses(c.claim, estimates)}
-              />
-            ))
-          )}
-        </div>
-
-        <ConcentrationPanel conc={conc} />
-
-        <IngredientList ingredients={p.ingredients} cache={ingCache} setCache={setIngCache} />
-
-        <SimilarLevels productId={id} />
+      <Link to="/products" className="text-sm text-rosewood hover:underline">← 返回产品库</Link>
+      <div className="sticky top-3 z-20 flex flex-wrap items-center gap-2 rounded-xl border border-line bg-white/95 px-3 py-2 mt-3 shadow-sm" aria-label="产品快捷操作">
+        <a href="#ingredients" onClick={(e) => { e.preventDefault(); scrollTo('ingredients') }} className="btn-page">成分表</a>
+        <a href="#similar-products" onClick={(e) => { e.preventDefault(); scrollTo('similar-products') }} className="btn-page">相似与价格</a>
+        <a href="#evidence" onClick={(e) => { e.preventDefault(); scrollTo('evidence') }} className="btn-page">功效证据</a>
+        <Link to={`/roundtable?product=${encodeURIComponent(p.name)}&product_id=${p.id}`} className="btn-fairy ml-auto">发起圆桌核验</Link>
       </div>
+
+      <div className="glass-card mt-4">
+        <h1 className="font-display text-2xl md:text-3xl text-pearl-ink break-words">{p.name}</h1>
+        <p className="text-sm text-pearl-ink-2 mt-2">{p.brand}{p.category ? ` · ${p.category}` : ''}</p>
+        <div className="mt-4"><PriceInfo product={p} /></div>
+        <details className="mt-4 text-xs text-pearl-ink-3">
+          <summary className="cursor-pointer">来源与产品信息</summary>
+          {p.source_url && <p className="mt-2 break-all">成分信息来源：<a href={p.source_url} target="_blank" rel="noreferrer" className="text-iris hover:underline">{p.source_url}</a></p>}
+          {p.nmpa_id && <p className="mt-2">备案号：{p.nmpa_id}</p>}
+          {p.registrant && <p className="mt-2">备案人：{p.registrant}</p>}
+          {p.filing_date && <p className="mt-2">备案日期：{p.filing_date}</p>}
+          {p.note && <p className="mt-2 whitespace-pre-wrap">{p.note}</p>}
+        </details>
+      </div>
+
+      <IngredientList key={id} ingredients={p.ingredients} cache={ingCache} setCache={setIngCache} />
+      <SimilarLevels key={id} productId={id} unit={p.unit_price_unit} />
+
+      <section className="glass-card scroll-mt-24" id="evidence">
+        <h2 className="pearl-title">功效证据</h2>
+        <EvidenceSummary state={profile} />
+        <details className="mt-5">
+          <summary className="cursor-pointer text-sm text-pearl-ink">功效宣称依据（{p.claims.length} 条）</summary>
+          {p.claims.length === 0 ? (
+            <p className="text-sm text-pearl-ink-3 mt-3">暂未收录该产品的功效宣称依据摘要，不代表产品未进行评价。</p>
+          ) : p.claims.map((c, i) => <ClaimCard key={i} claim={c} nmpaId={p.nmpa_id} anchorId={`claim-${i}`} doses={matchDoses(c.claim, estimates)} />)}
+        </details>
+        <details className="mt-4">
+          <summary className="cursor-pointer text-sm text-pearl-ink">浓度与剂量判定（估计）</summary>
+          {p.claims.length > 0 && <VerdictBar claims={p.claims} conc={conc} />}
+          <ConcentrationPanel conc={conc} />
+        </details>
+        <details className="mt-4">
+          <summary className="cursor-pointer text-sm text-pearl-ink">功效指纹与个人匹配详情</summary>
+          <FingerprintBars fp={fp} />
+          <MatchScore product={p} conc={conc} fp={fp} />
+        </details>
+      </section>
     </div>
   )
 }

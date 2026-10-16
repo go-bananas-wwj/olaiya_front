@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
 
 const EXAMPLES = ['烟酰胺', '修丽可']
 
@@ -51,11 +52,11 @@ function roleMeta(role) {
 }
 
 // SSE：POST + ReadableStream 逐事件解析（EventSource 不支持 POST，故用 fetch）
-async function streamRoundtable(productName, signal, onEvent) {
+async function streamRoundtable(productName, signal, onEvent, productId = null) {
   const res = await fetch('/api/roundtable', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ product_name: productName }),
+    body: JSON.stringify({ product_name: productName, ...(productId ? { product_id: productId } : {}) }),
     signal,
   })
   if (!res.ok) {
@@ -142,7 +143,7 @@ function SpeakCard({ item, pending }) {
       <div className="flex items-center gap-2 mb-2.5">
         <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold ${meta.badge}`}>
           <span>{meta.icon}</span>
-          {meta.name}
+          <span>{meta.name}</span>
         </span>
         {pending ? (
           <span className="flex items-center gap-1.5 text-xs text-ink-3">
@@ -191,6 +192,7 @@ function JudgingCard() {
 function VerdictCard({ verdict }) {
   const theme = verdictTheme(verdict.level, verdict.label)
   const activeLevel = verdict.label === '证据支持，剂量无法判定' ? 4 : verdict.level
+  const assertions = verdict.evidence?.ingredient_evidence?.assertions || []
   return (
     <div className={`rounded-card border-2 ${theme.border} ${theme.soft} shadow-card p-6 md:p-7 animate-[fade-up_.4s_ease-out]`}>
       <div className="flex items-center gap-2 mb-3">
@@ -226,13 +228,23 @@ function VerdictCard({ verdict }) {
       <div className="mt-3 text-[11px] text-ink-3/80">
         判定综合四位角色的工具数据与发言；剂量相关表述为估计值。
       </div>
+      <details className="mt-4 text-sm">
+        <summary className="cursor-pointer">查看圆桌引用资料（{assertions.length} 条）</summary>
+        {!assertions.length && <p className="text-xs text-ink-3 mt-2">本次未返回可展开的成分证据资料。</p>}
+        {assertions.map((a, i) => <div key={i} className="mt-3 border-t border-line pt-2">
+          <p className="text-xs">{a.efficacy} · {a.evidence_level || '未明确分级'}</p>
+          {a.evidence?.url ? <a href={a.evidence.url} target="_blank" rel="noreferrer" className="text-brand text-xs hover:underline">{a.evidence.title} ↗</a> : <p className="text-xs">{a.evidence?.title}</p>}
+          {a.note && <p className="text-xs text-ink-3 mt-1">{a.note}</p>}
+        </div>)}
+      </details>
     </div>
   )
 }
 
 export default function Roundtable() {
+  const [params] = useSearchParams()
   const [phase, setPhase] = useState('idle') // idle | streaming | done | error
-  const [input, setInput] = useState('')
+  const [input, setInput] = useState(params.get('product') || '')
   const [product, setProduct] = useState(null)
   const [timeline, setTimeline] = useState([]) // tool_call / speak 按到达顺序
   const [verdict, setVerdict] = useState(null)
@@ -255,6 +267,16 @@ export default function Roundtable() {
   }, [timeline, verdict, errorMsg, pendingRole, judging])
 
   useEffect(() => () => abortRef.current?.abort(), [])
+
+  useEffect(() => {
+    abortRef.current?.abort()
+    setPhase('idle')
+    setInput(params.get('product') || '')
+    setProduct(null)
+    setTimeline([])
+    setVerdict(null)
+    setErrorMsg(null)
+  }, [params])
 
   function handleEvent(ev) {
     if (ev.event === 'start') {
@@ -284,7 +306,10 @@ export default function Roundtable() {
     setVerdict(null)
     setErrorMsg(null)
     try {
-      const result = await streamRoundtable(q, ctrl.signal, handleEvent)
+      const result = await streamRoundtable(q, ctrl.signal, (event) => {
+        if (!ctrl.signal.aborted) handleEvent(event)
+      }, q === params.get('product') ? Number(params.get('product_id')) || null : null)
+      if (ctrl.signal.aborted) return
       setPhase((p) => {
         if (p === 'error') return p // 流内 error 事件优先
         return result === 'done' ? 'done' : p
@@ -294,7 +319,7 @@ export default function Roundtable() {
         setErrorMsg('连接中断：未收到结束标记，请重试。')
       }
     } catch (e) {
-      if (e.name === 'AbortError') return
+      if (ctrl.signal.aborted || e.name === 'AbortError') return
       setPhase('error')
       setErrorMsg(e.status === 503 ? 'LLM 暂不可用，请稍后再试。' : `连接失败：${e.message}`)
     }
@@ -302,10 +327,9 @@ export default function Roundtable() {
 
   return (
     <div className="max-w-3xl mx-auto">
-      <div className="pearl-badge-muted mb-3">实验功能 · 二期上线</div>
       {/* 输入区 */}
       <div className="card">
-        <div className="card-title">圆桌核验</div>
+        <h1 className="card-title">圆桌核验</h1>
         <p className="text-xs text-ink-3 leading-relaxed mb-4 -mt-2">
           四位 AI 角色各持独占信息源（产品库 / NMPA 宣称 / 文献证据 / 浓度引擎）分别核验，
           裁决官综合给出五级判定。输入产品名（或成分名）开始一场圆桌。

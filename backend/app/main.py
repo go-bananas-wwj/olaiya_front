@@ -33,6 +33,7 @@ from .services.similar_levels import level1_jaccard, level2_dose, level3_fingerp
 from .services.similarity import search_ingredients, search_products
 from .services.transdermal import get_transdermal_info
 from .services import vision_detect
+from .services.comparison_metadata import enrich_candidates, matching_price_points, price_fields
 
 # 成分理化映射（D3 透皮判定数据源）：启动时读入内存常量，避免每请求 IO
 _CID_MAP_PATH = Path(__file__).resolve().parents[2] / "data" / "seed" / "cid_map.json"
@@ -317,6 +318,7 @@ def product_detail(product_id: int, db: Session = Depends(get_db)):
         "spec": p.spec,
         "buy_url": p.buy_url,
         "note": p.note,
+        **price_fields(p, matching_price_points(db, [p.id]).get(p.id)),
         "ingredients": [{
             "ingredient_id": l.ingredient_id,
             "cn_name": l.ingredient.cn_name,
@@ -494,7 +496,7 @@ def efficacy_ranking(canon: str, limit: int = Query(20, ge=1, le=100),
 @app.get("/api/products/{product_id}/similar")
 def product_similar(product_id: int, k: int = Query(5, ge=1, le=50),
                     db: Session = Depends(get_db)):
-    """成分表相似产品 Top-k（BGE-M3 嵌入 + Faiss，score 为余弦相似度）。
+    """成分表相似产品 Top-k（配置的嵌入模型 + Faiss，score 为余弦相似度）。
     索引未构建时 similar=null + reason 降级，不报错。
     """
     p = db.get(Product, product_id)
@@ -503,15 +505,8 @@ def product_similar(product_id: int, k: int = Query(5, ge=1, le=50),
     hits = search_products(product_id, k=k)
     if hits is None:
         return {"product_id": product_id, "similar": None, "reason": "相似索引未构建"}
-    rows = (db.execute(select(Product).where(Product.id.in_([h["product_id"] for h in hits])))
-            .scalars().all()) if hits else []
-    by_id = {r.id: r for r in rows}
-    similar = [
-        {"id": h["product_id"], "name": by_id[h["product_id"]].name,
-         "brand": by_id[h["product_id"]].brand, "score": h["score"]}
-        for h in hits if h["product_id"] in by_id  # 索引与库可能短暂不一致，跳过已删实体
-    ]
-    return {"product_id": product_id, "similar": similar}
+    similar = [{"id": h["product_id"], "score": h["score"]} for h in hits]
+    return {"product_id": product_id, "similar": enrich_candidates(db, product_id, similar)}
 
 
 @app.get("/api/products/{product_id}/similar-levels")
@@ -528,12 +523,21 @@ def product_similar_levels(product_id: int, k: int = Query(5, ge=1, le=50),
     p = db.get(Product, product_id)
     if p is None:
         raise HTTPException(status_code=404, detail="产品不存在")
+    l1 = level1_jaccard(db, product_id, k=k)
+    l2 = level2_dose(db, product_id, k=k)
+    l3 = level3_fingerprint(db, product_id, k=k)
+    all_items = [{"id": pid} for pid in {item["id"] for item in l1 + l2.get("similar", []) + l3}]
+    metadata = {item["id"]: item for item in enrich_candidates(db, product_id, all_items)}
+
+    def enrich(items):
+        return [{**metadata[item["id"]], **item} for item in items if item["id"] in metadata]
+
+    if "similar" in l2:
+        l2 = {**l2, "similar": enrich(l2["similar"])}
     return {
         "product_id": product_id,
-        "l1": level1_jaccard(db, product_id, k=k),
-        "l2": level2_dose(db, product_id, k=k),
-        "l3": level3_fingerprint(db, product_id, k=k),
-        "note": "功效指纹基于 35+ 成分证据库，覆盖深度见各产品 coverage",
+        "l1": enrich(l1), "l2": l2, "l3": enrich(l3),
+        "note": "功效指纹基于成分证据库，覆盖深度见各产品 coverage；相似不代表功效等同",
     }
 
 
@@ -660,6 +664,7 @@ def chat(req: ChatRequest, db: Session = Depends(get_db),
 
 class RoundtableRequest(BaseModel):
     product_name: str = Field(min_length=1, max_length=200)
+    product_id: int | None = Field(default=None, gt=0)
 
     @field_validator("product_name")
     @classmethod
@@ -680,7 +685,7 @@ def roundtable(req: RoundtableRequest, db: Session = Depends(get_db),
     附宣称/证据/剂量工具数据）。产品未找到或 LLM 不可达时流内 error 事件降级。
     """
     def _stream():
-        for ev in run_roundtable(db, gateway, req.product_name):
+        for ev in run_roundtable(db, gateway, req.product_name, product_id=req.product_id):
             yield f"data: {json.dumps(ev, ensure_ascii=False)}\n\n"
         yield "data: [DONE]\n\n"
 
