@@ -1,0 +1,15 @@
+**
+!Dockerfile
+!frontend/
+!frontend/**
+frontend/node_modules/
+frontend/e2e/
+!backend/
+!backend/app/
+!backend/app/**
+!data/
+!data/seed/
+!data/seed/**
+!deploy/
+!deploy/**
+**/__pycache__/

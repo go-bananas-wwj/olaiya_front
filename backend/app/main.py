@@ -12,7 +12,7 @@ from fastapi import Depends, FastAPI, File, HTTPException, Query, Request, Uploa
 from fastapi.responses import RedirectResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field, field_validator
-from sqlalchemy import case, func, or_, select
+from sqlalchemy import case, func, or_, select, text
 from sqlalchemy.orm import Session, joinedload
 
 from .db import SessionLocal, init_db
@@ -82,10 +82,28 @@ def _assertion_dict(a: EfficacyAssertion) -> dict:
         "effective_conc_low": a.effective_conc_low,
         "effective_conc_high": a.effective_conc_high,
         "note": a.note,
+        "evidence_level": a.evidence_level,
         "evidence": {
             "id": ev.id, "type": ev.type.value, "title": ev.title,
             "source": ev.source, "year": ev.year, "url": ev.url, "excerpt": ev.excerpt,
         },
+    }
+
+
+@app.get("/api/health")
+def health(db: Session = Depends(get_db)):
+    """轻量就绪检查：不调用付费模型，不加载向量，不返回凭证或内部地址。"""
+    from .services.similarity import _index_dir
+    import os
+
+    db.execute(text("SELECT 1"))
+    channel = os.environ.get("CFZ_LLM_CHANNEL", "local").strip().lower()
+    index_dir = _index_dir()
+    return {
+        "status": "ok", "database": "ok",
+        "embedding_available": all((index_dir / name).is_file() for name in ("products.faiss", "products.json")),
+        "roundtable_configured": channel == "cloud" and bool(os.environ.get("CFZ_CLOUD_API_KEY")),
+        "roundtable_channel": channel,
     }
 
 

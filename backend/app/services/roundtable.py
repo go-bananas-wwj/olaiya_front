@@ -29,6 +29,8 @@ from .agent_tools import (
 )
 from .llm_gateway import LLMGateway, LLMUnavailableError
 from .rag_qa import _ingredient_hits
+from .. import config
+from .roundtable_grounding import product_evidence_ingredient, role_facts, select_facts
 
 ROLES = {
     "ingredient_expert": {"name": "成分专家", "prompt": "你是成分专家，负责分析产品的成分构成与相似产品。只根据工具数据发言，简洁专业，≤150字。"},
@@ -86,6 +88,8 @@ def _infer_key_ingredient(session: Session, product_name: str, claims: list[dict
 
 def _speak(gateway: LLMGateway, role: str, product_name: str, tool_data: dict) -> str:
     """角色发言：本角色的工具 JSON 塞进其 prompt（信息不对称：只见自己的信息源）。"""
+    if config.settings.roundtable_grounded:
+        return select_facts(gateway, role_facts(role, tool_data))
     return gateway.chat([
         {"role": "system", "content": ROLES[role]["prompt"]},
         {"role": "user", "content": f"【产品】{product_name}\n【工具数据】\n{_dump(tool_data)}"},
@@ -118,6 +122,11 @@ def _parse_verdict(raw: str) -> dict:
 
 def _judge(gateway: LLMGateway, product: dict, speeches: dict, tool_data: dict) -> dict:
     """独立裁决 prompt：四份发言 + 宣称/证据/剂量工具数据 → 五级判定 JSON。"""
+    if config.settings.roundtable_grounded:
+        summary = select_facts(gateway, [speeches[r] for r in _SPEAK_ORDER])
+        return {"event": "verdict", "level": None, "grounded": True,
+                "label": "资料核对完成，成品功效仍需结合研究条件判断",
+                "reason": summary}
     lines = "\n".join(f"【{ROLES[r]['name']}】{speeches[r]}" for r in _SPEAK_ORDER)
     brand = product.get("brand") or ""
     user = (f"【产品】{product['name']}（{brand}）\n"
@@ -178,8 +187,10 @@ def run_roundtable(session: Session, gateway: LLMGateway, product_name: str,
 
         # 3) 文献核验官：主功效关键成分（首条宣称或产品名推断）的功效断言与证据
         role = "evidence_verifier"
-        ingredient_name = _infer_key_ingredient(session, product["name"], claims["claims"])
-        evidence = tool_ingredient_evidence(session, ingredient_name)
+        ingredient_name = (product_evidence_ingredient(session, pid) if config.settings.roundtable_grounded
+                           else _infer_key_ingredient(session, product["name"], claims["claims"]))
+        evidence = (tool_ingredient_evidence(session, ingredient_name) if ingredient_name else
+                    {"found": False, "ingredient": None, "assertions": [], "note": "本产品未找到可核对的成分证据"})
         if trace:
             yield _tool(role, "ingredient_evidence", {"ingredient_name": ingredient_name})
         speeches[role] = _speak(gateway, role, product["name"],

@@ -82,6 +82,41 @@ EXPECTED_ROLE_ORDER = ["ingredient_expert", "regulation_officer",
                        "evidence_verifier", "dose_analyst"]
 
 
+def test_grounded_showcase_drops_model_invented_threshold_and_verdict(session, monkeypatch):
+    from app import config
+    monkeypatch.setattr(config.settings, "roundtable_grounded", True)
+    _seed(session)
+    replies = ["通常需要大于10%才能有效"] * 4 + ['{"level":5,"label":"临床证明有效"}']
+    events = list(run_roundtable(session, _QueueGateway(replies), "烟酰胺修护精华"))
+    speeches = [e["content"] for e in events if e["event"] == "speak"]
+    assert len(speeches) == 4
+    assert all("大于10%" not in text for text in speeches)
+    assert "估计" in speeches[-1]
+    assert events[-1]["level"] is None
+    assert events[-1]["grounded"] is True
+    assert "临床证明有效" not in json.dumps(events, ensure_ascii=False)
+
+
+def test_grounded_selection_accepts_only_known_integer_ids():
+    from app.services.roundtable_grounding import select_facts
+    facts = ["first fact", "second fact"]
+    gateway = _QueueGateway(['{"fact_ids":[true,999,1,1],"content":"invented"}'])
+    assert select_facts(gateway, facts) == "second fact"
+
+
+def test_grounded_evidence_ingredient_must_belong_to_selected_product(session, monkeypatch):
+    from app import config
+    monkeypatch.setattr(config.settings, "roundtable_grounded", True)
+    data = _seed(session)
+    data["p1"].name = "胶原面霜"
+    session.add(Ingredient(inci_name="COLLAGEN", cn_name="胶原"))
+    session.commit()
+    events = list(run_roundtable(session, _QueueGateway(['{"fact_ids":[0]}'] * 5), "胶原面霜"))
+    lookup = next(e for e in events if e.get("tool") == "ingredient_evidence")
+    assert lookup["args"]["ingredient_name"] == "烟酰胺"
+    assert events[-1]["evidence"]["ingredient_evidence"]["ingredient"]["id"] == data["nia"].id
+
+
 # ---------- 事件序列完整性 ----------
 
 class TestEventSequence:

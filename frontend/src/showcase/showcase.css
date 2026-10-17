@@ -1,0 +1,18 @@
+.showcase-shell { max-width: 1180px; margin: 0 auto; padding: 22px 24px; color: #3d2f2a; }
+.showcase-header { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.showcase-intro { padding: 36px 0 30px; }
+.showcase-shell .glass-card { backdrop-filter: none; -webkit-backdrop-filter: none; animation: none; }
+.showcase-section-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; flex-wrap: wrap; }
+.showcase-section-head .pearl-title { margin-bottom: 8px; }
+.showcase-candidates { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; max-height: 380px; overflow-y: auto; padding: 2px; }
+.showcase-candidate { text-align: left; border: 1px solid rgba(138,90,106,.2); background: rgba(255,255,255,.48); border-radius: 16px; padding: 16px; transition: background .15s; }
+.showcase-candidate:hover, .showcase-candidate.is-selected { background: rgba(138,122,184,.12); border-color: #8a7ab8; }
+.showcase-search-result { display: block; width: 100%; text-align: left; border-bottom: 1px solid rgba(138,90,106,.15); padding: 12px 4px; }
+.showcase-search-result:hover { background: rgba(138,122,184,.08); }
+.showcase-shell summary { cursor: pointer; }
+.showcase-shell button:disabled { opacity: .45; cursor: not-allowed; transform: none; }
+.showcase-shell :focus-visible, .showcase-drawer :focus-visible { outline: 3px solid #8a7ab8; outline-offset: 3px; }
+.showcase-drawer { position: fixed; inset: 0 0 0 auto; margin: 0; width: min(540px, 100%); max-width: 100%; height: 100dvh; max-height: 100dvh; border: 0; padding: 28px; background: #faf7f5; color: #3d2f2a; overflow-y: auto; box-shadow: -12px 0 48px #3d2f2a33; }
+.showcase-drawer::backdrop { background: #3d2f2a66; }
+@media (max-width: 640px) { .showcase-shell { padding: 16px 14px; } .showcase-intro { padding-top: 28px; } .showcase-candidates { grid-template-columns: 1fr; max-height: 330px; } .showcase-shell .glass-card { padding: 20px; } .showcase-drawer { padding: 22px; } }
+@media (prefers-reduced-motion: reduce) { .showcase-shell *, .showcase-drawer * { animation: none !important; transition: none !important; } }

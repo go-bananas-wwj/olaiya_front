@@ -13,6 +13,7 @@ from __future__ import annotations
 import os
 
 from openai import OpenAI
+from .. import config
 
 LOCAL_BASE_URL = "http://127.0.0.1:8100/v1"
 LOCAL_MODEL = "data/models/llm/Qwen2.5-14B-Instruct"
@@ -65,6 +66,8 @@ class LLMGateway:
         )
         if response_format is not None:
             kwargs["response_format"] = response_format
+        if self.channel == "cloud" and config.settings.cloud_enable_thinking is not None:
+            kwargs["extra_body"] = {"enable_thinking": config.settings.cloud_enable_thinking}
         try:
             resp = self._get_client().chat.completions.create(**kwargs)
         except LLMUnavailableError:

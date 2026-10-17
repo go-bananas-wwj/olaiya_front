@@ -112,6 +112,17 @@ def test_chat_defaults():
     assert "response_format" not in call
 
 
+def test_cloud_thinking_can_be_disabled_without_affecting_local(monkeypatch):
+    from app.config import settings
+    monkeypatch.setattr(settings, "cloud_enable_thinking", False)
+    cloud_client = make_client()
+    LLMGateway(channel="cloud", client=cloud_client).chat([{"role": "user", "content": "hi"}])
+    assert cloud_client.chat.completions.calls[0]["extra_body"] == {"enable_thinking": False}
+    local_client = make_client()
+    LLMGateway(channel="local", client=local_client).chat([{"role": "user", "content": "hi"}])
+    assert "extra_body" not in local_client.chat.completions.calls[0]
+
+
 def test_chat_unreachable_raises_with_channel_info():
     client = make_client(chat_exc=ConnectionError("refused"))
     gw = LLMGateway(client=client)

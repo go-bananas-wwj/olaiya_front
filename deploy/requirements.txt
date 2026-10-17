@@ -1,0 +1,11 @@
+fastapi==0.140.0
+uvicorn==0.51.0
+SQLAlchemy==2.0.51
+pydantic==2.13.4
+pydantic-settings==2.14.2
+httpx==0.28.1
+numpy==2.4.6
+faiss-cpu==1.14.3
+openai==2.50.0
+python-multipart==0.0.32
+modelscope_hub==0.1.8
