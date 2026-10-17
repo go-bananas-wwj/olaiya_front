@@ -1,43 +1,76 @@
 import { useState } from 'react'
+import { Drop, SquaresFour, List, ArrowSquareOut } from '@phosphor-icons/react'
 import PriceInfo from '../components/PriceInfo'
-import { compareIngredients, comparableUnitPrices, ingredientRows } from './logic.mjs'
+import { compareIngredients, comparableUnitPrices } from './logic.mjs'
 import { ingredientName } from './labels.mjs'
+import { SectionHeading } from './ReferencePrimitives'
+
+const ordered = items => [...new Map(items.map(i => [i.ingredient_id, i])).values()]
+  .sort((a, b) => (a.position ?? Infinity) - (b.position ?? Infinity))
+
+function IngredientColumn({ side, items, shared, filter, expanded, onExpand, onIngredient }) {
+  const filtered = filter === 'differences' ? items.filter(i => !shared.has(i.ingredient_id)) : items
+  return <div className="ss-ingredient-column" aria-label={`产品 ${side} 成分表`}>
+    {!(filtered.length) && <p className="ss-empty">此视图暂无列出的成分。</p>}
+    {(expanded ? filtered : filtered.slice(0, 5)).map(i => <button type="button" className={`ss-ingredient ${filter === 'shared' && shared.has(i.ingredient_id) ? 'is-shared' : ''}`}
+      data-shared={shared.has(i.ingredient_id)} key={i.ingredient_id} onClick={() => onIngredient({ ingredientId: i.ingredient_id })}>
+      <Drop size={17} weight="fill" aria-hidden="true" />
+      <span><strong>{ingredientName(i)}</strong><small>{i.purpose || '用途资料未收录'}</small><small>{i.position == null ? '未知位次' : `来源位次 #${i.position}`}</small></span>
+    </button>)}
+    {!expanded && filtered.length > 5 && <button type="button" className="ss-expand" onClick={onExpand}>展开全部 {filtered.length} 项</button>}
+  </div>
+}
 
 export default function SecondaryPanels({ a, b, onIngredient }) {
-  const [view, setView] = useState('differences')
-  const [expanded, setExpanded] = useState(false)
+  const [filter, setFilter] = useState('shared')
+  const [view, setView] = useState('list')
+  const [expanded, setExpanded] = useState({ A: false, B: false })
+  if (!a || !b) return <>
+    <section id="ingredients" className="ss-block"><SectionHeading title="成分对照" a={a} b={b} /><p className="ss-empty">产品成分资料尚未就绪，可继续查看已加载的证据。</p></section>
+    <section id="price" className="ss-block"><SectionHeading title="参考价格" a={a} b={b} /><p className="ss-empty">产品资料尚未就绪。</p></section>
+    <section id="explained" className="ss-block"><SectionHeading title="成分解释" a={a} b={b} /><p className="ss-empty">产品资料尚未就绪。</p></section>
+  </>
   const difference = compareIngredients(a.ingredients, b.ingredients)
-  const rows = ingredientRows(a.ingredients, b.ingredients, view)
+  const shared = new Set(difference.shared.map(i => i.ingredient_id))
   const comparable = comparableUnitPrices(a, b)
   const priceMax = comparable ? Math.max(1, a.unit_price, b.unit_price) : 1
-  return <div className="cap-secondary">
-    <section className="cap-secondary-card" aria-label="成分差异">
-      <h2>成分差异</h2>
-      <p className="cap-overlap-counts">共有 <b>{difference.shared.length}</b> 项 · 仅 A 列出 <b>{difference.onlyTarget.length}</b> 项 · 仅 B 列出 <b>{difference.onlyCandidate.length}</b> 项</p>
-      <div className="cap-view-buttons" role="group" aria-label="成分表视图">{[['differences', '只看差异'], ['shared', '共有成分'], ['all', '完整成分表']].map(([value, label]) =>
-        <button type="button" key={value} aria-pressed={view === value} onClick={() => { setView(value); setExpanded(false) }}>{label}</button>)}</div>
-      <table className="cap-ingredient-table"><thead><tr><th scope="col">成分</th><th scope="col">产品 A</th><th scope="col">产品 B</th></tr></thead>
-        <tbody>{(expanded ? rows : rows.slice(0, 8)).map(row => <tr key={row.ingredient_id}>
-          <th scope="row"><button type="button" className="cap-text-button" onClick={() => onIngredient({ ingredientId: row.ingredient_id })}>{ingredientName(row)}</button></th>
-          {['a', 'b'].map(side => <td key={side}>{row[side] ? <><span>已列出</span><small>{row[side].position == null ? '未知位次' : `#${row[side].position}`}</small></> : <span className="cap-muted">未列出</span>}</td>)}
-        </tr>)}</tbody>
-      </table>
-      {!rows.length && <p className="cap-muted">此视图暂无列出的成分。</p>}
-      {!expanded && rows.length > 8 && <button type="button" className="cap-text-button cap-load-more" onClick={() => setExpanded(true)}>展开其余 {rows.length - 8} 项</button>}
-      <p className="cap-small-note">“未列出”仅说明当前成分表中未记录；未知位次不推断顺序或浓度。</p>
+  return <>
+    <section id="ingredients" className="ss-block" aria-label="成分差异" data-view={view}>
+      <SectionHeading title="成分对照" a={a} b={b} />
+      <div className="ss-view-switch" role="group" aria-label="成分列表样式">
+        <button type="button" aria-label="列表视图" aria-pressed={view === 'list'} onClick={() => setView('list')}><List size={13} /> 列表</button>
+        <button type="button" aria-label="紧凑视图" aria-pressed={view === 'condensed'} onClick={() => setView('condensed')}><SquaresFour size={13} /> 紧凑</button>
+      </div>
+      <div className="ss-highlight-controls" role="group" aria-label="成分显示范围"><span>显示方式</span>
+        <button type="button" aria-pressed={filter === 'shared'} onClick={() => { setFilter('shared'); setExpanded({ A:false, B:false }) }}>高亮共享成分 ({shared.size})</button>
+        <button type="button" aria-pressed={filter === 'differences'} onClick={() => { setFilter('differences'); setExpanded({ A:false, B:false }) }}>只看差异</button>
+        <button type="button" aria-pressed={filter === 'all'} onClick={() => setFilter('all')}>全部成分</button>
+      </div>
+      <p className="ss-section-note">共有 {shared.size} 项 · 仅 A 列出 {difference.onlyTarget.length} 项 · 仅 B 列出 {difference.onlyCandidate.length} 项</p>
+      <div className="ss-two-columns ss-ingredient-lists">{[[a, 'A'], [b, 'B']].map(([product, side]) => <IngredientColumn key={side} side={side} items={ordered(product.ingredients)}
+        shared={shared} filter={filter} expanded={expanded[side]} onExpand={() => setExpanded(e => ({ ...e, [side]: true }))} onIngredient={onIngredient} />)}</div>
+      <p className="ss-section-note">紫色表示两款均列出。用途按来源记录，非功效实证；未知位次不推断顺序或浓度。“未列出”不等于实际不含有。</p>
     </section>
-    <section className="cap-secondary-card" aria-label="参考价格对照">
-      <h2>参考价格</h2>
-      {comparable ? <div className="cap-price-chart" aria-label={`同单位参考单价，元/${a.unit_price_unit}`}>
-        <p className="cap-muted">按同单位比较 · 元/{a.unit_price_unit}</p>
-        {[[a, 'A'], [b, 'B']].map(([product, side]) => <div className="cap-price-row" key={side}>
-          <span className={`cap-badge cap-badge-${side}`}>{side}</span>
-          <div className="cap-track"><span className={`cap-fill cap-fill-${side}`} style={{ width: `${product.unit_price / priceMax * 100}%` }} /></div>
-          <strong>{product.unit_price.toFixed(2)}</strong>
-        </div>)}
-      </div> : <p className="cap-empty-note">价格或可比规格不足，暂不计算单价差异；ml 与 g 不互换。</p>}
-      <div className="cap-price-details">{[[a, 'A'], [b, 'B']].map(([product, side]) => <div key={side}><p className={`cap-color-${side}`}>产品 {side}</p><PriceInfo product={product} /></div>)}</div>
-      <p className="cap-small-note">参考价格为带来源和记录日期的历史采样，非实时售价。价格与证据指数分别展示。</p>
+    <section id="price" className="ss-block" aria-label="参考价格对照">
+      <SectionHeading title="参考价格" a={a} b={b} />
+      <p className="ss-section-note">{comparable ? `按同单位比较 · 元/${a.unit_price_unit}` : '价格或可比规格不足，暂不计算单价差异；ml 与 g 不互换。'}</p>
+      <div className="ss-two-columns ss-price-columns">{[[a, 'A'], [b, 'B']].map(([product, side]) => <div key={side}>
+        {comparable && <div className="ss-unit-price"><strong>{product.unit_price.toFixed(2)}</strong><span>元/{product.unit_price_unit}</span>
+          <div className="ss-score-track"><span style={{ width: `${product.unit_price / priceMax * 100}%` }} /></div>
+        </div>}
+        <PriceInfo product={product} />
+      </div>)}</div>
+      <p className="ss-section-note">历史参考价格，非实时售价。价格与证据指数分别展示。</p>
     </section>
-  </div>
+    <section id="explained" className="ss-block" aria-label="共享成分解释">
+      <SectionHeading title="成分解释" a={a} b={b} />
+      <p className="ss-section-note">以下成分在两款产品中均有记录。点击查看本库收录的研究、分类与限制。</p>
+      <div className="ss-explained-list">{difference.shared.slice(0, 3).map(i => <article key={i.ingredient_id}>
+        <h3><Drop size={17} weight="duotone" /> {ingredientName(i)}</h3><p className="ss-inci">{i.inci_name}</p>
+        <p>{i.purpose ? `来源记录的用途：${i.purpose}` : '暂未收录该成分的用途说明；可展开查看相关资料与来源。'}</p>
+        <button type="button" className="ss-read-more" onClick={() => onIngredient({ ingredientId: i.ingredient_id })}>查看成分资料 <ArrowSquareOut size={12} /></button>
+      </article>)}</div>
+      {!difference.shared.length && <p className="ss-empty">当前两款产品暂无共同列出的成分。</p>}
+    </section>
+  </>
 }

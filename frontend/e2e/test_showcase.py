@@ -5,15 +5,19 @@ from frontend.e2e.browser_case import BrowserTestCase
 
 
 class ShowcaseTest(BrowserTestCase):
-    def test_first_screen_shows_purpose_products_and_all_eight_directions(self):
+    def test_first_screen_shows_purpose_products_and_reference_photos(self):
+        self.page.set_viewport_size({'width': 1280, 'height': 800})
         expect(self.page.get_by_role('heading', name='护肤品功效证据对比', exact=True)).to_be_visible()
         expect(self.page.get_by_test_id('profile-A')).to_have_attribute('data-loaded', 'true')
         expect(self.page.get_by_test_id('profile-B')).to_have_attribute('data-loaded', 'true')
         self.assertLess(self.page.get_by_test_id('target-product').bounding_box()['y'], 300)
-        last = self.page.get_by_role('button', name='查看焕肤依据', exact=True)
-        expect(last).to_be_visible()
-        box = last.bounding_box()
-        self.assertLessEqual(box['y'] + box['height'], 800)
+        self.assertLess(self.page.locator('#benefits .ss-section-heading').bounding_box()['y'], 740)
+        for test_id in ['target-product', 'candidate-product']:
+            photo = self.page.get_by_test_id(test_id).get_by_role('img')
+            expect(photo).to_be_visible()
+            self.assertTrue(photo.evaluate('e => e.complete && e.naturalWidth > 0'))
+        self.page.get_by_role('button', name='展开全部 8 项功效', exact=True).click()
+        expect(self.page.get_by_role('button', name='查看焕肤依据', exact=True)).to_be_visible()
         self.assertEqual(self.page.get_by_role('button', name='核验参照产品').count(), 0)
         direction = self.page.get_by_role('button', name='查看抗皱依据', exact=True)
         direction.focus(); direction.press('Enter')
@@ -33,9 +37,11 @@ class ShowcaseTest(BrowserTestCase):
 
     def test_both_product_searches_and_mobile_layout(self):
         self.page.set_viewport_size({'width': 390, 'height': 844})
+        self.page.get_by_role('button', name='更换产品 A', exact=True).click()
         self.page.get_by_role('combobox', name='搜索产品 A').fill('烟酰胺')
         self.page.get_by_role('option', name='选择 烟酰胺10%+锌1%精华（Niacinamide 10% + Zinc 1%）').click()
         expect(self.page.get_by_test_id('target-product').get_by_text('The Ordinary', exact=True)).to_be_visible()
+        self.page.get_by_role('button', name='更换产品 B', exact=True).click()
         self.page.get_by_role('combobox', name='搜索产品 B').fill('Serum 10')
         self.page.get_by_role('option', name='选择 SkinCeuticals Serum 10', exact=True).click()
         expect(self.page.get_by_test_id('candidate-product').get_by_role('heading', name='SkinCeuticals Serum 10', exact=True)).to_be_visible()
@@ -48,6 +54,7 @@ class ShowcaseTest(BrowserTestCase):
             if q == 'oldquery': delayed.append(route)
             else: route.fulfill(json={'items': [{'id': 414, 'brand': '修丽可', 'name': 'new result'}]})
         self.page.route('**/api/products?*', handler)
+        self.page.get_by_role('button', name='更换产品 A', exact=True).click()
         search = self.page.get_by_role('combobox', name='搜索产品 A')
         with self.page.expect_request('**/api/products?q=oldquery&limit=8'):
             search.fill('oldquery')
@@ -102,9 +109,23 @@ class ShowcaseTest(BrowserTestCase):
         expect(self.page.get_by_test_id('profile-A')).to_have_attribute('data-product-id','414')
 
     def test_same_product_has_equal_scores_and_no_invented_difference(self):
+        self.page.get_by_role('button', name='更换产品 B', exact=True).click()
         self.page.get_by_role('combobox', name='搜索产品 B').fill('黑绷带面霜')
         self.page.get_by_role('option', name='选择 黑绷带面霜（Re-Plasty Age Recovery Night）', exact=True).click()
         expect(self.page.get_by_test_id('profile-B')).to_have_attribute('data-product-id', '9')
         expect(self.page.get_by_test_id('profile-B')).to_have_attribute('data-loaded', 'true')
-        expect(self.page.get_by_text('此视图暂无列出的成分。', exact=True)).to_be_visible()
+        self.page.get_by_role('button', name='只看差异', exact=True).click()
+        expect(self.page.get_by_text('此视图暂无列出的成分。', exact=True).first).to_be_visible()
         self.assertEqual(self.page.get_by_test_id('bar-A-保湿').get_attribute('data-score'), self.page.get_by_test_id('bar-B-保湿').get_attribute('data-score'))
+
+    def test_reference_directory_sticky_identity_and_shared_highlight(self):
+        directory = self.page.get_by_role('navigation', name='页面目录')
+        expect(directory).to_be_visible()
+        directory.get_by_role('link', name='成分对照', exact=True).click()
+        expect(self.page.get_by_test_id('comparison-sticky')).to_be_visible()
+        expect(self.page.locator('#ingredients .ss-ingredient.is-shared').first).to_be_visible()
+        self.page.get_by_role('button', name='紧凑视图', exact=True).click()
+        expect(self.page.locator('#ingredients')).to_have_attribute('data-view', 'condensed')
+        self.page.get_by_role('button', name='只看差异', exact=True).click()
+        expect(self.page.locator('#ingredients .ss-ingredient.is-shared')).to_have_count(0)
+        self.assertLessEqual(self.page.evaluate('document.documentElement.scrollWidth'), 1280)

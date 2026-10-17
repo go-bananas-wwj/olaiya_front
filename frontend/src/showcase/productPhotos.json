@@ -1,0 +1,38 @@
+{
+  "9": {
+    "src": "/products/9.jpg",
+    "brand": "赫莲娜",
+    "name": "黑绷带面霜（Re-Plasty Age Recovery Night）",
+    "source_page": "https://incidecoder.com/products/helena-rubinstein-re-plasty-age-recovery-night-cream",
+    "image_source": "https://incidecoder-content.storage.googleapis.com/54e59459-4245-47ca-ac67-0a94d1a27d94/products/helena-rubinstein-re-plasty-age-recovery-night-cream/helena-rubinstein-re-plasty-age-recovery-night-cream_front_photo_original.jpeg",
+    "sha256": "234978c6f47e858eb067da700c7c2cb176febc7a6c5cd4cd21ab0f5e6a7f0aee",
+    "note": "对应成分来源页的产品参考图；不据图片推断现售包装、版本或规格。"
+  },
+  "73": {
+    "src": "/products/73.jpg",
+    "brand": "修丽可",
+    "name": "A.G.E. 面霜（A.G.E. Interrupter）",
+    "source_page": "https://incidecoder.com/products/skinceuticals-a-g-e-interrupter",
+    "image_source": "https://incidecoder-content.storage.googleapis.com/72179c76-9e83-4c52-a2bb-7b530c072718/procuts/skinceuticals-a-g-e-interrupter/skinceuticals-a-g-e-interrupter_front_photo_original.jpeg",
+    "sha256": "9860f9f6da3734f13848e736166f7c9ebea8c19292d9d12388c6624e30338f2f",
+    "note": "对应成分来源页的产品参考图；不据图片推断现售包装、版本或规格。"
+  },
+  "414": {
+    "src": "/products/414.jpg",
+    "brand": "修丽可",
+    "name": "SkinCeuticals Serum 10",
+    "source_page": "https://incidecoder.com/products/skinceuticals-serum-10",
+    "image_source": "https://incidecoder-content.storage.googleapis.com/e2a59abe-9599-451b-9fb0-6b71993eb97c/products/skinceuticals-serum-10/skinceuticals-serum-10_front_photo_original.jpeg",
+    "sha256": "22cf32897a85064271d620a50feadd18fe0186f6530d10fd63ff57f92356054f",
+    "note": "对应成分来源页的产品参考图；不据图片推断现售包装、版本或规格。"
+  },
+  "3202": {
+    "src": "/products/3202.jpg",
+    "brand": "修丽可",
+    "name": "SkinCeuticals Prevent C E Ferulic® With 15% L-Ascorbic Acid",
+    "source_page": "https://incidecoder.com/products/skinceuticals-prevent-c-e-ferulic-r-with-15-l-ascorbic-acid",
+    "image_source": "https://incidecoder-content.storage.googleapis.com/60e0b28f-22f1-47e3-8497-4057aaa3d477/products/skinceuticals-prevent-c-e-ferulic-r-with-15-l-ascorbic-acid/skinceuticals-prevent-c-e-ferulic-r-with-15-l-ascorbic-acid_front_photo_original.jpeg",
+    "sha256": "1212ce351192719de17a223e56f1f22cf4544aa71d8f234ba0f1308ed56c7aac",
+    "note": "对应成分来源页的产品参考图；不据图片推断现售包装、版本或规格。"
+  }
+}

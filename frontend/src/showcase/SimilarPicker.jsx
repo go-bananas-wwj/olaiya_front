@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { api } from '../api'
 import { useResource } from './useResource'
 
-export default function SimilarPicker({ targetId, onSelect, onClose }) {
+export default function SimilarPicker({ targetId, referenceLabel = 'A', onSelect, onClose }) {
   const dialog = useRef(null)
   const [method, setMethod] = useState('overlap')
   const [limit, setLimit] = useState(3)
@@ -11,8 +11,8 @@ export default function SimilarPicker({ targetId, onSelect, onClose }) {
     ? api.productSimilarLevels(targetId, { k: limit }).then(r => ({ items: r.l1 }))
     : api.productSimilar(targetId, { k: limit }).then(r => ({ items: r.similar || [], reason: r.reason })), [targetId, method, limit])
   return <dialog ref={dialog} className="showcase-drawer" aria-label="选择相似候选" onClose={onClose}>
-    <div className="cap-drawer-heading"><div><p className="cap-eyebrow">以产品 A 为参照</p><h2>选择相似候选</h2></div><button className="cap-text-button" onClick={() => dialog.current.close()}>关闭</button></div>
-    <p className="cap-small-note">选择一款作为产品 B，回到功效证据对照。相似不代表功效等同。</p>
+    <div className="cap-drawer-heading"><div><p className="cap-eyebrow">以产品 {referenceLabel} 为参照</p><h2>选择相似候选</h2></div><button className="cap-text-button" onClick={() => dialog.current.close()}>关闭</button></div>
+    <p className="cap-small-note">选择一款替换另一侧产品，回到功效证据对照。相似不代表功效等同。</p>
     <details className="cap-method"><summary>匹配说明</summary><label>匹配方式 <select aria-label="匹配方式" value={method} onChange={e => { setMethod(e.target.value); setLimit(3) }}>
       <option value="overlap">按成分重合</option><option value="embedding">按成分表语义</option></select></label>
       <p>{method === 'overlap' ? '成分集合的 Jaccard 重合，不考虑浓度。' : '预计算成分表向量的余弦相似度，不是功效或有效率。'}</p>
