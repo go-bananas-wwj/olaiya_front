@@ -34,6 +34,7 @@ from .services.similarity import search_ingredients, search_products
 from .services.transdermal import get_transdermal_info
 from .services import vision_detect
 from .services.comparison_metadata import enrich_candidates, matching_price_points, price_fields
+from .services.capability_profile import capability_profile
 
 # 成分理化映射（D3 透皮判定数据源）：启动时读入内存常量，避免每请求 IO
 _CID_MAP_PATH = Path(__file__).resolve().parents[2] / "data" / "seed" / "cid_map.json"
@@ -400,6 +401,14 @@ def product_market(product_id: int, db: Session = Depends(get_db)):
             "latest": _snap(snaps[0]) if snaps else None,
             "history": [_snap(s) for s in snaps[1:]],
             "note": "value_ratio 为值率（smzdm 投票）；价格为渠道好价，促销价有时效"}
+
+
+@app.get("/api/products/{product_id}/capability-profile")
+def product_capability_profile(product_id: int, db: Session = Depends(get_db)):
+    """八方向成分功效证据指数：可追溯权重，浓度单列，非成品实测效果。"""
+    if db.get(Product, product_id) is None:
+        raise HTTPException(status_code=404, detail="产品不存在")
+    return capability_profile(db, product_id)
 
 
 @app.get("/api/products/{product_id}/fingerprint")

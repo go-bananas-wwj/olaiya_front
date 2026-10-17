@@ -66,6 +66,7 @@ export const api = {
   productSimilarLevels: (id, params) => get(`/api/products/${id}/similar-levels`, params), // k
   productFingerprint: (id) => get(`/api/products/${id}/fingerprint`),
   productEvidenceProfile: (id) => get(`/api/products/${id}/evidence-profile`),
+  productCapabilityProfile: (id) => get(`/api/products/${id}/capability-profile`),
   // 成分表嵌入相似（模型由后端配置）：索引未构建时 similar=null + reason 降级
   productSimilar: (id, params) => get(`/api/products/${id}/similar`, params), // k
   brands: () => get('/api/brands'),

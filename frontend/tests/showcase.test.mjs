@@ -1,6 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { compareIngredients, sortCandidates } from '../src/showcase/logic.mjs'
+import { chartScale, comparableUnitPrices, ingredientRows, compareIngredients, sortCandidates } from '../src/showcase/logic.mjs'
 import { streamRoundtable } from '../src/showcase/stream.mjs'
 
 test('price sort uses comparable units, missing prices follow, input unchanged', () => {
@@ -22,6 +22,30 @@ test('ingredient comparison uses identity, not translations or list order', () =
   assert.deepEqual(result.shared, [a[1]])
   assert.deepEqual(result.onlyTarget, [a[0]])
   assert.deepEqual(result.onlyCandidate, [b[1]])
+})
+
+test('one chart scale spans both products and preserves zero versus missing values', () => {
+  assert.equal(chartScale([{ dimensions: [{ score: 0.8 }, { score: null }] }, { dimensions: [{ score: 2.8 }] }]), 3)
+  assert.equal(chartScale([{ dimensions: [{ score: 0 }] }]), 1)
+  assert.equal(chartScale([null, undefined]), 1)
+})
+
+test('ingredient rows distinguish not listed from unknown order and deduplicate IDs', () => {
+  const a = [{ ingredient_id: 1, position: null }, { ingredient_id: 2, position: 1 }]
+  const b = [{ ingredient_id: 2, position: 4 }, { ingredient_id: 3, position: null }]
+  const rows = ingredientRows(a, b, 'differences')
+  assert.deepEqual(rows.map(r => r.ingredient_id), [1, 3])
+  assert.equal(rows[0].a.position, null)
+  assert.equal(rows[0].b, undefined)
+  assert.equal(ingredientRows(a, b, 'shared')[0].a.position, 1)
+  assert.equal(ingredientRows([...a, a[0]], b, 'all').length, 3)
+})
+
+test('unit-price graph requires known matching units and accepts real zero', () => {
+  const a = { unit_price: 0, unit_price_unit: 'ml' }
+  assert.equal(comparableUnitPrices(a, { unit_price: 2, unit_price_unit: 'ml' }), true)
+  assert.equal(comparableUnitPrices(a, { unit_price: 2, unit_price_unit: 'g' }), false)
+  assert.equal(comparableUnitPrices(a, { unit_price: null, unit_price_unit: 'ml' }), false)
 })
 
 test('roundtable handles split UTF-8 / CRLF and sends selected product ID', async () => {

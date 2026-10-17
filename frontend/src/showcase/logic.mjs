@@ -14,3 +14,21 @@ export function compareIngredients(target = [], candidate = []) {
     onlyCandidate: candidate.filter(i => !a.has(i.ingredient_id)),
   }
 }
+
+export function chartScale(profiles) {
+  const scores = profiles.flatMap(p => (p?.dimensions || []).map(d => d.score)).filter(Number.isFinite)
+  return Math.max(1, Math.ceil(Math.max(0, ...scores) * 2) / 2)
+}
+
+export function comparableUnitPrices(a, b) {
+  return Boolean(a && b && ['ml', 'g'].includes(a.unit_price_unit) && a.unit_price_unit === b.unit_price_unit
+    && Number.isFinite(a.unit_price) && a.unit_price >= 0 && Number.isFinite(b.unit_price) && b.unit_price >= 0)
+}
+
+export function ingredientRows(a = [], b = [], view = 'differences') {
+  const left = new Map(a.map(i => [i.ingredient_id, i]))
+  const right = new Map(b.map(i => [i.ingredient_id, i]))
+  return [...new Set([...left.keys(), ...right.keys()])].map(id => ({
+    ...(left.get(id) || right.get(id)), a: left.get(id), b: right.get(id),
+  })).filter(row => view === 'all' || (view === 'shared' ? row.a && row.b : !row.a || !row.b))
+}
