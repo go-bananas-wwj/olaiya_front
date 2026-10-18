@@ -108,3 +108,31 @@ CFZ_E2E_BASE_URL=http://127.0.0.1:5175 \
 四款演示图精确对应已有成分来源页，元数据含出处、图片地址和 SHA-256；不能据图片推断现售包装、规格或版本。不加入无来源的评价、安全标签或成品功效。测试覆盖真实图片加载、首屏功效入口、目录／身份条、共享成分与差异筛选、手机及原有竞态场景。视觉证据见根目录 `design-qa.md` 与 `docs/design/`。
 
 本轮本地验证：全量 pytest 817 通过、1 跳过；展示版浏览器 10 项、原站浏览器 12 项和前端逻辑 7 项通过。原站与展示版生产构建通过。参考图片哈希校验与待提交文件检查通过，`web/` 保持默认原站构建。
+
+## 全库产品地图版本（2026-10-18）
+
+默认展示入口改为产品地图，双列对比通过地图选择两款或 `?compare=<A>,<B>` 进入。`web/` 仍构建默认原站；Docker继续构建展示版，CPU资源不变。新增只读 `GET /api/product-space`：一次返回全库轻量记录、八方向原始指数/状态与可选冻结坐标，固定四条SQL，gzip与ETag/304，60秒有界缓存并考虑SQLite主文件/WAL签名及实际绑定数据库身份。画像详情仍按需读取原API。
+
+DB和Faiss快照继续固定 `0fd2e820413ccc64b1ca7c6207b7cc1ceb8dadef`，不重新上传或覆盖。新增约211KB的 `product-space-layout.json` 仅上传到原私有数据集的独立版本：
+
+| 变量 | 固定值 |
+|---|---|
+| `CFZ_PRODUCT_SPACE_LAYOUT_REVISION` | `2ac1d405caa709c9934c57bf3c6070540f18f4ff` |
+| `CFZ_PRODUCT_SPACE_LAYOUT_SHA256` | `4a2a3a4048b9b5d6cc457e3ba774cd7583c4050808ca36066d267eb0787287b2` |
+
+bootstrap在移除下载Token之前，下载上述独立固定版本，校验SHA后原子写入 `/mnt/workspace/cfz/layouts/<revision>/product-space-layout.json`，给worker注入 `CFZ_PRODUCT_SPACE_LAYOUT_PATH`。后续启动读已有校验产物，无需Hub；异常只关闭投影，保留全库原始证据坐标。API再核对catalog签名和源DB快照版本，不能给不匹配产品编造位置。
+
+UMAP/Numba及scikit-learn只用于离线脚本，不进入Docker运行依赖。重建命令示例（所有Python命令仍使用项目venv）：
+
+```bash
+OPENBLAS_NUM_THREADS=2 OMP_NUM_THREADS=2 NUMBA_NUM_THREADS=1 \
+PYTHONPATH=/tmp/cfz-atlas-analysis-deps .venv/bin/python data/tools/build_product_space.py \
+  --database data/models/showcase-runtime-test/0fd2e820413ccc64b1ca7c6207b7cc1ceb8dadef/cfz.db \
+  --index-dir data/models/showcase-runtime-test/0fd2e820413ccc64b1ca7c6207b7cc1ceb8dadef \
+  --output data/models/product-space/layout-v1.json \
+  --snapshot-revision 0fd2e820413ccc64b1ca7c6207b7cc1ceb8dadef
+```
+
+离线依赖固定在 `data/tools/requirements-product-space.txt`，可用 `.venv/bin/python -m pip install --target /tmp/cfz-atlas-analysis-deps -r ...` 放入隔离目录；不修改Web主环境，不安装torch。坐标、数据库、索引及依赖目录不提交。CLI独立重建与审核版本的完整产物SHA一致；相同向量不随机抖动。
+
+验证：832项pytest通过、1跳过；13项前端逻辑、7项地图浏览器、10项对比页浏览器、12项原站浏览器通过。三个视窗与空库由第三轮新专家独立复验；完整审核见 `docs/产品地图-设计与审核.md`。上线时检查3749/3749坐标、八维NULL保留、全库搜索、重叠点、任意两款、来源、原始向量候选，以及重新部署后数据和坐标签名不变。

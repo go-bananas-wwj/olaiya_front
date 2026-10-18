@@ -23,6 +23,10 @@ class Settings(BaseSettings):
     showcase_data_dir: str = "/mnt/workspace/cfz"
     cloud_enable_thinking: bool | None = None
     roundtable_grounded: bool = False
+    # Optional precomputed, pinned ingredient-embedding layout; never fit in a request.
+    product_space_layout_path: str = ""
+    product_space_layout_sha256: str = ""
+    product_space_layout_revision: str = ""
 
 
 settings = Settings()

@@ -9,7 +9,8 @@ import re
 from pathlib import Path
 
 from fastapi import Depends, FastAPI, File, HTTPException, Query, Request, UploadFile
-from fastapi.responses import RedirectResponse, StreamingResponse
+from fastapi.responses import RedirectResponse, StreamingResponse, Response
+from starlette.middleware.gzip import GZipMiddleware
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field, field_validator
 from sqlalchemy import case, func, or_, select, text
@@ -35,6 +36,7 @@ from .services.transdermal import get_transdermal_info
 from .services import vision_detect
 from .services.comparison_metadata import enrich_candidates, matching_price_points, price_fields
 from .services.capability_profile import capability_profile
+from .services.product_space import product_space
 
 # 成分理化映射（D3 透皮判定数据源）：启动时读入内存常量，避免每请求 IO
 _CID_MAP_PATH = Path(__file__).resolve().parents[2] / "data" / "seed" / "cid_map.json"
@@ -61,6 +63,7 @@ HUMAN_EVIDENCE_LEVELS = (HUMAN_RCT, HUMAN_CT, HUMAN_OPEN)
 _FOLD_RE = re.compile(r"[\s\-]+")
 
 app = FastAPI(title="成分真言 API", version="0.1.0")
+app.add_middleware(GZipMiddleware, minimum_size=1000, compresslevel=4)
 
 
 @app.on_event("startup")
@@ -239,6 +242,17 @@ def list_brands(db: Session = Depends(get_db)):
     """去重排序后的品牌名列表（轻量接口，供前端品牌下拉用）。"""
     rows = db.execute(select(Product.brand).distinct().order_by(Product.brand)).scalars().all()
     return [b for b in rows if b]
+
+
+@app.get("/api/product-space")
+def get_product_space(request: Request, db: Session = Depends(get_db)):
+    data = product_space(db)
+    tag = '"' + data['revision'] + '"'
+    headers = {'ETag': tag, 'Cache-Control': 'private, max-age=0, must-revalidate'}
+    if request.headers.get('if-none-match') == tag:
+        return Response(status_code=304, headers=headers)
+    return Response(content=json.dumps(data, ensure_ascii=False, allow_nan=False, separators=(',', ':')),
+                    media_type='application/json', headers=headers)
 
 
 @app.get("/api/products")

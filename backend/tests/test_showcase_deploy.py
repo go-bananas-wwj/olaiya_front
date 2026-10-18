@@ -110,3 +110,29 @@ def test_explicit_pruning_keeps_vector_rows_matched_and_records_removed_ids(tmp_
     assert json.loads((output / "products.json").read_text())["ids"] == [7]
     np.testing.assert_array_equal(faiss.read_index(str(output / "products.faiss")).reconstruct(0), [0, 1])
     assert faiss.read_index(str(indexes / "products.faiss")).ntotal == 2
+
+
+def test_optional_layout_is_pinned_and_restarts_without_hub(tmp_path):
+    from types import SimpleNamespace
+    from deploy.bootstrap import install_product_layout
+    raw=b'{"version":"ingredient-umap-v1","points":[]}'
+    opts=SimpleNamespace(product_space_layout_revision='a'*40, product_space_layout_sha256=hashlib.sha256(raw).hexdigest(),
+                         snapshot_repo='owner/private-data',showcase_data_dir=str(tmp_path))
+    class Hub:
+        def download_file(self,repo,kind,name,**kwargs):
+            assert repo==opts.snapshot_repo and kind=='dataset' and name=='product-space-layout.json'
+            assert kwargs['revision']=='a'*40
+            p=kwargs['local_dir']/name;p.write_bytes(raw);return p
+    path=install_product_layout(opts,Hub)
+    assert path.read_bytes()==raw
+    def unavailable():raise RuntimeError('Hub unavailable')
+    assert install_product_layout(opts,unavailable)==path
+    path.write_bytes(b'corrupted')
+    with pytest.raises(ValueError,match='checksum'):install_product_layout(opts,unavailable)
+
+
+def test_optional_layout_missing_config_does_not_download(tmp_path):
+    from types import SimpleNamespace
+    from deploy.bootstrap import install_product_layout
+    opts=SimpleNamespace(product_space_layout_revision='',product_space_layout_sha256='',showcase_data_dir=str(tmp_path))
+    assert install_product_layout(opts,lambda:None) is None

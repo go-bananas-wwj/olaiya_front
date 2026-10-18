@@ -1,10 +1,14 @@
 from urllib.parse import parse_qs, urlparse
 
 from playwright.sync_api import expect
-from frontend.e2e.browser_case import BrowserTestCase
+from frontend.e2e.browser_case import BrowserTestCase, BASE_URL
 
 
 class ShowcaseTest(BrowserTestCase):
+    def setUp(self):
+        super().setUp()
+        self.page.goto(BASE_URL+'?compare=9,73',wait_until='domcontentloaded')
+
     def test_first_screen_shows_purpose_products_and_reference_photos(self):
         self.page.set_viewport_size({'width': 1280, 'height': 800})
         expect(self.page.get_by_role('heading', name='护肤品功效证据对比', exact=True)).to_be_visible()

@@ -6,6 +6,7 @@
 from __future__ import annotations
 
 from decimal import Decimal
+from collections import Counter
 import math
 
 from sqlalchemy.orm import Session, joinedload
@@ -82,6 +83,36 @@ def _reason(assertion: EfficacyAssertion, canonical: str) -> str | None:
     return None
 
 
+def select_index_assertions(assertions):
+    """Shared qualification/max-contribution rule for details and whole-catalog views.
+
+    Input order is assertion ID ascending; a tie retains the earlier assertion.
+    No concentration or missing-value imputation enters this index.
+    """
+    best, excluded, unrated = {}, [], Counter()
+    for assertion in assertions:
+        canonical = assertion.efficacy_canonical or canonicalize(assertion.efficacy)
+        reason = _reason(assertion, canonical)
+        if reason:
+            if canonical in DIRECTIONS and reason in ("论文未明确评级", "证据强度未明确或不在有效范围"):
+                unrated[(assertion.ingredient_id, canonical)] += 1
+            excluded.append((assertion, canonical, reason))
+            continue
+        key = (assertion.ingredient_id, canonical)
+        previous = best.get(key)
+        if previous is None or assertion.evidence_strength > previous.evidence_strength:
+            if previous is not None:
+                excluded.append((previous, canonical, "同成分同方向只计最高合格权重"))
+            best[key] = assertion
+        else:
+            excluded.append((assertion, canonical, "同成分同方向只计最高合格权重"))
+    return best, excluded, unrated
+
+
+def index_sum(weights):
+    return float(round(sum((Decimal(str(weight)) for weight in weights), Decimal(0)), 4))
+
+
 def capability_profile(session: Session, product_id: int) -> dict:
     # Two batched queries; no ingredient/evidence lookups inside the aggregation loop.
     links = session.query(ProductIngredient).options(joinedload(ProductIngredient.ingredient)).filter_by(
@@ -89,15 +120,14 @@ def capability_profile(session: Session, product_id: int) -> dict:
     by_id = {link.ingredient_id: link for link in links}
     assertions = session.query(EfficacyAssertion).options(joinedload(EfficacyAssertion.evidence)).filter(
         EfficacyAssertion.ingredient_id.in_(by_id)).order_by(EfficacyAssertion.id).all() if by_id else []
-    best: dict[tuple[int, str], dict] = {}
-    excluded = []
-    unrated = {family: 0 for family in DIRECTIONS}
-    for assertion in assertions:
+    selected, rejected, unrated_by_ingredient = select_index_assertions(assertions)
+    unrated = {family: sum(unrated_by_ingredient[(iid, family)] for iid in by_id) for family in DIRECTIONS}
+
+    def item_for(assertion, canonical):
         link = by_id[assertion.ingredient_id]
         ing, ev = link.ingredient, assertion.evidence
-        canonical = assertion.efficacy_canonical or canonicalize(assertion.efficacy)
         concentration, dose = _concentration(link, assertion)
-        item = {
+        return {
             "ingredient_id": ing.id, "cn_name": ing.cn_name, "inci_name": ing.inci_name,
             "assertion_id": assertion.id, "efficacy": assertion.efficacy, "canonical": canonical,
             "weight": assertion.evidence_strength if _finite(assertion.evidence_strength) else None, "evidence_level": assertion.evidence_level or UNKNOWN,
@@ -106,20 +136,8 @@ def capability_profile(session: Session, product_id: int) -> dict:
             "evidence": {"id": ev.id, "type": ev.type.value, "title": ev.title, "source": ev.source,
                          "url": ev.url, "year": ev.year, "excerpt": ev.excerpt},
         }
-        reason = _reason(assertion, canonical)
-        if reason:
-            if canonical in unrated and reason in ("论文未明确评级", "证据强度未明确或不在有效范围"):
-                unrated[canonical] += 1
-            excluded.append({**item, "reason": reason})
-            continue
-        key = (ing.id, canonical)
-        previous = best.get(key)
-        if previous is None or item["weight"] > previous["weight"]:
-            if previous is not None:
-                excluded.append({**previous, "reason": "同成分同方向只计最高合格权重"})
-            best[key] = item
-        else:
-            excluded.append({**item, "reason": "同成分同方向只计最高合格权重"})
+    best = {key: item_for(assertion, key[1]) for key, assertion in selected.items()}
+    excluded = [{**item_for(assertion, canonical), "reason": reason} for assertion, canonical, reason in rejected]
     dimensions = []
     for canonical in DIRECTIONS:
         contributions = sorted((item for (iid, family), item in best.items() if family == canonical),
@@ -127,7 +145,7 @@ def capability_profile(session: Session, product_id: int) -> dict:
         dimensions.append({
             "canonical": canonical,
             "status": "scored" if contributions else ("unrated" if unrated[canonical] else "no_evidence"),
-            "score": float(round(sum((Decimal(str(c["weight"])) for c in contributions), Decimal(0)), 4)) if contributions else None,
+            "score": index_sum(c["weight"] for c in contributions) if contributions else None,
             "ingredient_count": len(contributions),
             "source_count": len({c["evidence"]["id"] for c in contributions}),
             "unrated_count": unrated[canonical],
