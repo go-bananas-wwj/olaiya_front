@@ -1,0 +1,4 @@
+import { Flask,MapTrifold,ArrowsLeftRight,Info } from '@phosphor-icons/react'
+export default function WorkspaceHeader({compareOpen,onMap,onCompare,onMethod}) {
+ return <header className="fresh-header"><div className="fresh-header-inner"><button type="button" className="fresh-brand" aria-label="颜鉴首页" onClick={onMap}><span><Flask size={22} weight="duotone"/></span><strong>颜鉴</strong></button><nav aria-label="核心功能"><button type="button" aria-current={!compareOpen?'page':undefined} onClick={onMap}><MapTrifold size={18} weight="duotone"/>产品地图</button><button type="button" aria-current={compareOpen?'page':undefined} onClick={onCompare}><ArrowsLeftRight size={18}/>两款对比</button></nav><button type="button" className="fresh-method" onClick={onMethod}><Info size={18}/><span>方法说明</span></button></div></header>
+}

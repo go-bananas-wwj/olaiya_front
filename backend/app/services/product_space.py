@@ -174,3 +174,33 @@ def product_space(session):
         _CACHE.clear()
         _CACHE[key] = (time.monotonic(), payload)
         return payload
+
+
+def evidence_neighbors(data, product_id, limit=3):
+    """Compare a fixed set of the reference's rated directions, never fill gaps.
+
+    Candidates must cover every reference direction. RMS distance uses shared
+    whole-catalog maxima, not per-product normalization or an efficacy percent.
+    This is the existing evidence index's profile, not the legacy dose fingerprint.
+    """
+    products = data['products']
+    target = next((p for p in products if p['id'] == product_id), None)
+    if target is None:
+        raise KeyError(product_id)
+    known = [i for i, value in enumerate(target['scores'])
+             if type(value) in (int, float) and math.isfinite(value) and target['statuses'][i] == 'scored']
+    result = {'product_id': product_id, 'method_version': 'evidence-neighbors-v1',
+              'index_method': METHOD_VERSION, 'compared_directions': [data['directions'][i] for i in known],
+              'note': '仅比较参照产品已有评级的方向；候选须覆盖这些方向。全库同维度共用尺度，未知不补零，不表示配方或成品效果等同。',
+              'items': []}
+    if len(known) < 3 or not any(target['scores'][i] > 0 for i in known):
+        return {**result, 'available': False, 'reason': '参照产品至少需要三个有评级的方向，当前资料不足以比较证据轮廓。'}
+    scales = {i: max(1, *(p['scores'][i] for p in products if type(p['scores'][i]) in (int, float) and math.isfinite(p['scores'][i]))) for i in known}
+    items = []
+    for candidate in products:
+        if candidate['id'] == product_id or any(candidate['statuses'][i] != 'scored' or type(candidate['scores'][i]) not in (int, float) or not math.isfinite(candidate['scores'][i]) for i in known):
+            continue
+        distance = math.sqrt(sum(((candidate['scores'][i]-target['scores'][i])/scales[i])**2 for i in known)/len(known))
+        items.append({**candidate, 'distance': round(distance, 8)})
+    items.sort(key=lambda p: (p['distance'], p['id']))
+    return {**result, 'available': True, 'candidate_count': len(items), 'items': items[:limit]}

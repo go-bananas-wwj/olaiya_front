@@ -60,6 +60,7 @@ async function postFile(path, file) {
 export const api = {
   stats: () => get('/api/stats'),
   productSpace: () => get('/api/product-space'),
+  productEvidenceNeighbors: (id, params) => get(`/api/products/${id}/space-neighbors`, params),
   // q / brand / has_claims / limit / offset（带 limit/offset 返回 {total, items}）
   products: (params) => get('/api/products', params),
   product: (id) => get(`/api/products/${id}`),

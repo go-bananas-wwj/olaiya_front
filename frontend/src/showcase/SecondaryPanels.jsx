@@ -49,7 +49,7 @@ export default function SecondaryPanels({ a, b, onIngredient }) {
       <p className="ss-section-note">共有 {shared.size} 项 · 仅 A 列出 {difference.onlyTarget.length} 项 · 仅 B 列出 {difference.onlyCandidate.length} 项</p>
       <div className="ss-two-columns ss-ingredient-lists">{[[a, 'A'], [b, 'B']].map(([product, side]) => <IngredientColumn key={side} side={side} items={ordered(product.ingredients)}
         shared={shared} filter={filter} expanded={expanded[side]} onExpand={() => setExpanded(e => ({ ...e, [side]: true }))} onIngredient={onIngredient} />)}</div>
-      <p className="ss-section-note">紫色表示两款均列出。用途按来源记录，非功效实证；未知位次不推断顺序或浓度。“未列出”不等于实际不含有。</p>
+      <p className="ss-section-note">浅绿色表示两款均列出。用途按来源记录，非功效实证；未知位次不推断顺序或浓度。“未列出”不等于实际不含有。</p>
     </section>
     <section id="price" className="ss-block" aria-label="参考价格对照">
       <SectionHeading title="参考价格" a={a} b={b} />

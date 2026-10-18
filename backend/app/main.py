@@ -36,7 +36,7 @@ from .services.transdermal import get_transdermal_info
 from .services import vision_detect
 from .services.comparison_metadata import enrich_candidates, matching_price_points, price_fields
 from .services.capability_profile import capability_profile
-from .services.product_space import product_space
+from .services.product_space import product_space, evidence_neighbors
 
 # 成分理化映射（D3 透皮判定数据源）：启动时读入内存常量，避免每请求 IO
 _CID_MAP_PATH = Path(__file__).resolve().parents[2] / "data" / "seed" / "cid_map.json"
@@ -321,6 +321,14 @@ def list_products(q: str | None = None, brand: str | None = None,
         items = [_item(p, cc, ic) for p, cc, ic in db.execute(page).all()]
         return {"total": total, "items": items}
     return [_item(p, cc, ic) for p, cc, ic in db.execute(stmt).all()]
+
+
+@app.get("/api/products/{product_id}/space-neighbors")
+def product_evidence_neighbors(product_id: int, limit: int = Query(3, ge=1, le=12), db: Session = Depends(get_db)):
+    try:
+        return evidence_neighbors(product_space(db), product_id, limit)
+    except KeyError:
+        raise HTTPException(status_code=404, detail="产品不存在")
 
 
 @app.get("/api/products/{product_id}")

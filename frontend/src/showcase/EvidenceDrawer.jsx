@@ -21,7 +21,7 @@ export default function EvidenceDrawer({ ingredientId, context, onClose }) {
     <dialog ref={dialog} aria-label="成分证据" className="showcase-drawer" onClose={onClose}
       onClick={e => { if (e.target === e.currentTarget) e.currentTarget.close() }}>
       <div className="flex justify-between gap-4 items-start">
-        <div><p className="text-xs text-pearl-ink-3">{contribution ? `产品 ${context.side} · ${context.family} · 可追溯资料` : '可追溯资料'}</p><h2 className="font-display text-2xl mt-2">{data?.cn_name || contribution?.cn_name || data?.inci_name || '成分证据'}</h2></div>
+        <div><p className="text-xs text-pearl-ink-3">{contribution ? `${context.productName || `产品 ${context.side}`} · ${context.family} · 可追溯资料` : '可追溯资料'}</p><h2 className="font-display text-2xl mt-2">{data?.cn_name || contribution?.cn_name || data?.inci_name || '成分证据'}</h2></div>
         <button type="button" className="btn-page" onClick={() => dialog.current.close()}>关闭</button>
       </div>
       {contribution && <section className="cap-drawer-calculation">

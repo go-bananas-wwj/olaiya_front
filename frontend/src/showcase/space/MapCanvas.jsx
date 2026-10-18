@@ -1,89 +1,92 @@
-import { forwardRef, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react'
-import { Minus, Plus, ArrowsOutSimple } from '@phosphor-icons/react'
-import { boundsFor, coordinatesFor, hitsAt, pointTone } from './space.mjs'
+import { forwardRef,useEffect,useImperativeHandle,useMemo,useRef,useState } from 'react'
+import { Minus,Plus,ArrowsOutSimple } from '@phosphor-icons/react'
+import { boundsFor,coordinatesFor,hitsAt,pointTone,groupScreenPoints } from './space.mjs'
 
-export default forwardRef(function MapCanvas({ products, visible, mode, axes, color, directions, selected, comparison, focus, onChoose, onCluster }, ref) {
-  const frame=useRef(null),canvas=useRef(null),drag=useRef(null)
-  const [size,setSize]=useState({width:700,height:500})
-  const [camera,setCamera]=useState({zoom:1,x:0,y:0})
-  const [hover,setHover]=useState(null)
-  const locations=useMemo(()=>new Map(products.map(p=>[p.id,coordinatesFor(p,mode,axes)])),[products,mode,axes])
-  const bounds=useMemo(()=>boundsFor([...locations.values()].filter(Boolean),mode),[locations,mode])
-  const colorMax=useMemo(()=>Math.max(1,...products.map(p=>Number.isFinite(p.scores[color])?p.scores[color]:0)),[products,color])
-  const padding={left:mode==='axes'?58:28,right:26,top:32,bottom:mode==='axes'?52:28}
-  const plot={width:Math.max(1,size.width-padding.left-padding.right),height:Math.max(1,size.height-padding.top-padding.bottom)}
-  function screen(xy,cameraValue=camera){
-    const uniform=Math.min(plot.width/(bounds.x[1]-bounds.x[0]),plot.height/(bounds.y[1]-bounds.y[0]))
-    const x=mode==='semantic'?padding.left+plot.width/2+(xy[0]-(bounds.x[0]+bounds.x[1])/2)*uniform
-      :padding.left+(xy[0]-bounds.x[0])/(bounds.x[1]-bounds.x[0])*plot.width
-    const y=mode==='semantic'?padding.top+plot.height/2-(xy[1]-(bounds.y[0]+bounds.y[1])/2)*uniform
-      :padding.top+(1-(xy[1]-bounds.y[0])/(bounds.y[1]-bounds.y[0]))*plot.height
-    return {x:(x-size.width/2)*cameraValue.zoom+size.width/2+cameraValue.x*size.width,y:(y-size.height/2)*cameraValue.zoom+size.height/2+cameraValue.y*size.height}
+export default forwardRef(function MapCanvas({products,visible,mode,axes,color,directions,selected,neighbors=[],comparison,focus,onChoose,onCluster,onViewportChange},ref){
+ const frame=useRef(null),canvas=useRef(null),drag=useRef(null)
+ const [size,setSize]=useState({width:760,height:500}),[camera,setCamera]=useState({zoom:1,x:0,y:0}),[hover,setHover]=useState(null)
+ const locations=useMemo(()=>new Map(products.map(p=>[p.id,coordinatesFor(p,mode,axes)])),[products,mode,axes])
+ const bounds=useMemo(()=>boundsFor([...locations.values()].filter(Boolean),mode),[locations,mode])
+ const colorMax=useMemo(()=>Math.max(1,...products.map(p=>Number.isFinite(p.scores[color])?p.scores[color]:0)),[products,color])
+ const padding={left:mode==='axes'?54:25,right:25,top:50,bottom:mode==='axes'?52:44}
+ const plot={width:Math.max(1,size.width-padding.left-padding.right),height:Math.max(1,size.height-padding.top-padding.bottom)}
+ const neighborKey=neighbors.map(p=>p.id).join(',')
+ const featured=useMemo(()=>new Set([selected,...neighbors.map(p=>p.id)].filter(Boolean)),[selected,neighborKey])
+ function screen(xy,cameraValue=camera){
+  const uniform=Math.min((plot.width-36)/(bounds.x[1]-bounds.x[0]),(plot.height-36)/(bounds.y[1]-bounds.y[0]))
+  const x=mode==='semantic'?padding.left+plot.width/2+(xy[0]-(bounds.x[0]+bounds.x[1])/2)*uniform:padding.left+18+(xy[0]-bounds.x[0])/(bounds.x[1]-bounds.x[0])*(plot.width-36)
+  const y=mode==='semantic'?padding.top+plot.height/2-(xy[1]-(bounds.y[0]+bounds.y[1])/2)*uniform:padding.top+18+(1-(xy[1]-bounds.y[0])/(bounds.y[1]-bounds.y[0]))*(plot.height-36)
+  return {x:(x-size.width/2)*cameraValue.zoom+size.width/2+cameraValue.x*size.width,y:(y-size.height/2)*cameraValue.zoom+size.height/2+cameraValue.y*size.height}
+ }
+ const points=useMemo(()=>visible.flatMap(product=>{const xy=locations.get(product.id);return xy?[{product,...screen(xy)}]:[]}),[visible,locations,bounds,size,camera,mode])
+ const inFrame=p=>p.x>=padding.left&&p.x<=size.width-padding.right&&p.y>=padding.top&&p.y<=size.height-padding.bottom
+ const groups=useMemo(()=>groupScreenPoints(points.filter(inFrame),size.width<500?48:48,featured),[points,size,featured,mode])
+ const foreground=useMemo(()=>points.filter(p=>featured.has(p.product.id)),[points,featured])
+ const unplaced=visible.filter(p=>!locations.get(p.id)).length
+ function reset(){setCamera({zoom:1,x:0,y:0})}
+ useImperativeHandle(ref,()=>({reset}),[])
+ useEffect(()=>{const observer=new ResizeObserver(entries=>{const r=entries[0].contentRect;if(r.width>0&&r.height>0)setSize({width:r.width,height:r.height})});observer.observe(frame.current);return()=>observer.disconnect()},[])
+ useEffect(()=>{reset();setHover(null)},[mode,axes[0],axes[1]])
+ useEffect(()=>{
+  const ids=[selected,...neighbors.map(p=>p.id)],xy=ids.map(id=>locations.get(id)).filter(Boolean)
+  if(!xy.length)return
+  const targets=xy.map(p=>screen(p,{zoom:1,x:0,y:0})),xs=targets.map(p=>p.x),ys=targets.map(p=>p.y)
+  const minX=Math.min(...xs),maxX=Math.max(...xs),minY=Math.min(...ys),maxY=Math.max(...ys)
+  const zoom=Math.max(1,Math.min(12,(plot.width-100)/Math.max(1,maxX-minX),(plot.height-100)/Math.max(1,maxY-minY)))
+  setCamera({zoom,x:(size.width/2-(minX+maxX)/2)*zoom/size.width,y:(size.height/2-(minY+maxY)/2)*zoom/size.height})
+ },[selected,neighborKey,locations,size.width,size.height,focus])
+ useEffect(()=>{
+  const el=canvas.current,dpr=window.devicePixelRatio||1;el.width=Math.round(size.width*dpr);el.height=Math.round(size.height*dpr)
+  const ctx=el.getContext('2d');ctx.scale(dpr,dpr);ctx.clearRect(0,0,size.width,size.height);ctx.fillStyle='#fbfdfb';ctx.fillRect(0,0,size.width,size.height)
+  ctx.strokeStyle='#edf3ee';ctx.lineWidth=1
+  if(mode==='axes'){
+   ctx.font='12px Arial';ctx.fillStyle='#647d6c'
+   for(let i=0;i<=4;i++){const vx=bounds.x[1]*i/4,vy=bounds.y[1]*i/4,px=screen([vx,0]).x,py=screen([0,vy]).y
+    if(px>=padding.left&&px<=size.width-padding.right){ctx.beginPath();ctx.moveTo(px,padding.top);ctx.lineTo(px,size.height-padding.bottom);ctx.stroke();ctx.textAlign='center';ctx.fillText(vx.toFixed(1),px,size.height-padding.bottom+20)}
+    if(py>=padding.top&&py<=size.height-padding.bottom){ctx.beginPath();ctx.moveTo(padding.left,py);ctx.lineTo(size.width-padding.right,py);ctx.stroke();ctx.textAlign='right';ctx.fillText(vy.toFixed(1),padding.left-9,py+4)}
+   }
+   ctx.textAlign='center';ctx.fillText(`${directions[axes[0]]}证据指数`,padding.left+plot.width/2,size.height-9);ctx.save();ctx.translate(14,padding.top+plot.height/2);ctx.rotate(-Math.PI/2);ctx.fillText(`${directions[axes[1]]}证据指数`,0,0);ctx.restore()
+  }else{
+   for(let i=1;i<5;i++){const x=padding.left+plot.width*i/5,y=padding.top+plot.height*i/5;ctx.beginPath();ctx.moveTo(x,padding.top);ctx.lineTo(x,size.height-padding.bottom);ctx.stroke();ctx.beginPath();ctx.moveTo(padding.left,y);ctx.lineTo(size.width-padding.right,y);ctx.stroke()}
   }
-  const points=useMemo(()=>visible.flatMap(product=>{
-    const xy=locations.get(product.id)
-    return xy?[{product,...screen(xy)}]:[]
-  }),[visible,locations,bounds,size,camera,mode])
-  const unplaced=visible.filter(p=>!locations.get(p.id)).length
-  useImperativeHandle(ref,()=>({reset:()=>setCamera({zoom:1,x:0,y:0})}),[])
-  useEffect(()=>{
-    const observer=new ResizeObserver(entries=>{const r=entries[0].contentRect;if(r.width>0&&r.height>0)setSize({width:r.width,height:r.height})})
-    observer.observe(frame.current);return()=>observer.disconnect()
-  },[])
-  useEffect(()=>{setCamera({zoom:1,x:0,y:0});setHover(null)},[mode,axes[0],axes[1]])
-  useEffect(()=>{
-    if(!focus)return
-    const xy=locations.get(focus.id)
-    if(!xy)return
-    const p=screen(xy,{zoom:1,x:0,y:0})
-    setCamera({zoom:1,x:.5-p.x/size.width,y:.5-p.y/size.height})
-  },[focus,locations])
-  useEffect(()=>{
-    const el=canvas.current,dpr=window.devicePixelRatio||1
-    el.width=Math.round(size.width*dpr);el.height=Math.round(size.height*dpr)
-    const ctx=el.getContext('2d');ctx.scale(dpr,dpr);ctx.clearRect(0,0,size.width,size.height)
-    ctx.fillStyle='#fcfcfd';ctx.fillRect(0,0,size.width,size.height)
-    if(mode==='axes'){
-      ctx.font='11px Arial';ctx.textAlign='right';ctx.fillStyle='#8c8b94';ctx.strokeStyle='#ededf1';ctx.lineWidth=1
-      for(let i=0;i<=4;i++){
-        const valueX=bounds.x[1]*i/4,valueY=bounds.y[1]*i/4
-        const px=screen([valueX,0]).x,py=screen([0,valueY]).y
-        if(px>=padding.left&&px<=size.width-padding.right){ctx.beginPath();ctx.moveTo(px,padding.top);ctx.lineTo(px,size.height-padding.bottom);ctx.stroke();ctx.textAlign='center';ctx.fillText(valueX.toFixed(1),px,size.height-padding.bottom+19)}
-        if(py>=padding.top&&py<=size.height-padding.bottom){ctx.beginPath();ctx.moveTo(padding.left,py);ctx.lineTo(size.width-padding.right,py);ctx.stroke();ctx.textAlign='right';ctx.fillText(valueY.toFixed(1),padding.left-10,py+4)}
-      }
-      ctx.fillStyle='#65616f';ctx.textAlign='center';ctx.font='12px Arial';ctx.fillText(`${directions[axes[0]]}证据指数`,padding.left+plot.width/2,size.height-10)
-      ctx.save();ctx.translate(15,padding.top+plot.height/2);ctx.rotate(-Math.PI/2);ctx.fillText(`${directions[axes[1]]}证据指数`,0,0);ctx.restore()
-    }
-    ctx.save();ctx.beginPath();ctx.rect(padding.left-8,padding.top-8,plot.width+16,plot.height+16);ctx.clip()
-    for(const p of points){
-      ctx.beginPath();ctx.arc(p.x,p.y,Math.min(3.2,2.4+camera.zoom*.12),0,Math.PI*2)
-      ctx.fillStyle=pointTone(p.product.scores[color],colorMax);ctx.globalAlpha=.9;ctx.fill()
-    }
-    ctx.globalAlpha=1
-    for(const p of points.filter(p=>comparison.includes(p.product.id)||p.product.id===selected)){
-      const slot=comparison.indexOf(p.product.id)
-      ctx.beginPath();ctx.arc(p.x,p.y,7,0,Math.PI*2);ctx.fillStyle=slot===1?'#c17740':'#6744b5';ctx.fill();ctx.lineWidth=2;ctx.strokeStyle='white';ctx.stroke()
-      if(p.product.id===selected){ctx.beginPath();ctx.arc(p.x,p.y,11,0,Math.PI*2);ctx.lineWidth=1.4;ctx.strokeStyle='#352445';ctx.stroke()}
-    }
-    ctx.restore()
-  },[points,size,bounds,camera,color,colorMax,selected,comparison,mode,directions])
-  function pointer(e){const r=canvas.current.getBoundingClientRect();return{x:e.clientX-r.left,y:e.clientY-r.top}}
-  function zoom(factor){setCamera(c=>({...c,zoom:Math.max(1,Math.min(12,c.zoom*factor))}))}
-  return <div className="space-map" ref={frame} data-testid="space-map" data-ready="true" data-total={products.length} data-plotted={points.length} data-unplaced={unplaced}>
-    <canvas ref={canvas} role="img" aria-label={`${mode==='semantic'?'成分表语义投影':'证据坐标'}，${points.length}款有坐标产品。可通过搜索或产品列表选择所有产品。`} tabIndex={0}
-      style={{touchAction:camera.zoom>1?'none':'pan-y'}}
-      onKeyDown={e=>{if(['+','=','-','Home'].includes(e.key)){e.preventDefault();e.key==='Home'?setCamera({zoom:1,x:0,y:0}):zoom(e.key==='-'?1/1.4:1.4)}}}
-      onPointerDown={e=>{if(e.button!==0)return;const p=pointer(e);drag.current={...p,camera,moved:false};e.currentTarget.setPointerCapture(e.pointerId)}}
-      onPointerMove={e=>{
-        const p=pointer(e),d=drag.current
-        if(d){if(Math.hypot(p.x-d.x,p.y-d.y)>4)d.moved=true;if(d.moved){setHover(null);setCamera({...d.camera,x:d.camera.x+(p.x-d.x)/size.width,y:d.camera.y+(p.y-d.y)/size.height})}return}
-        const matches=hitsAt(points,p.x,p.y,8);setHover(matches.length?{...p,product:matches[0],count:matches.length}:null)
-      }}
-      onPointerUp={e=>{const d=drag.current;drag.current=null;if(!d||d.moved)return;const p=pointer(e),matches=hitsAt(points,p.x,p.y,11);setHover(null);if(matches.length===1)onChoose(matches[0]);else if(matches.length>1)onCluster(matches)}}
-      onPointerCancel={()=>{drag.current=null}} onPointerLeave={()=>setHover(null)} />
-    <span className="space-map-caption">{mode==='semantic'?'成分表语义 · 二维投影':'原始证据维度 · 未知不补零'}</span>
-    {hover&&<div className="space-tooltip" style={{left:Math.min(Math.max(12,hover.x+14),size.width-235),top:Math.max(34,hover.y-60)}}><small>{hover.product.brand}</small><strong>{hover.product.name}</strong>{hover.count>1&&<span>此处有 {hover.count} 款，点击展开</span>}</div>}
-    <div className="space-zoom" role="group" aria-label="地图视图"><button type="button" aria-label="放大地图" onClick={()=>zoom(1.4)}><Plus size={17}/></button><button type="button" aria-label="缩小地图" onClick={()=>zoom(1/1.4)}><Minus size={17}/></button><button type="button" aria-label="重置地图" onClick={()=>setCamera({zoom:1,x:0,y:0})}><ArrowsOutSimple size={17}/></button></div>
-    <div className="space-map-instructions">点击选点 · 按钮缩放 · 拖动查看</div>
-  </div>
+  ctx.save();ctx.beginPath();ctx.rect(padding.left-16,padding.top-16,plot.width+32,plot.height+32);ctx.clip()
+  for(const g of groups){ctx.beginPath();ctx.arc(g.x,g.y,g.radius,0,Math.PI*2);ctx.fillStyle=g.count>1?'#e0f0e5':pointTone(g.items[0].scores[color],colorMax);ctx.fill();ctx.strokeStyle=g.count>1?'#a7cdb7':'#65947b';ctx.lineWidth=1;ctx.stroke();if(g.count>1){ctx.fillStyle='#3b7254';ctx.font='600 11px Arial';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(g.count,g.x,g.y+.5)}}
+  const target=foreground.find(p=>p.product.id===selected)
+  if(target){ctx.setLineDash([4,5]);ctx.strokeStyle='#84bca9';ctx.lineWidth=1.2;for(const p of foreground.filter(p=>neighbors.some(n=>n.id===p.product.id))){ctx.beginPath();ctx.moveTo(target.x,target.y);ctx.lineTo(p.x,p.y);ctx.stroke()}ctx.setLineDash([])}
+  const labels=[]
+  for(const p of [...foreground].sort((a,b)=>(a.product.id===selected?1:0)-(b.product.id===selected?1:0))){
+   if(!inFrame(p))continue
+   const isTarget=p.product.id===selected,rank=neighbors.findIndex(n=>n.id===p.product.id),slot=comparison.indexOf(p.product.id)
+   const ink=isTarget?'#207c61':slot===1?'#a96d37':'#386e85',r=isTarget?12:9
+   ctx.beginPath();ctx.arc(p.x,p.y,r+7,0,Math.PI*2);ctx.fillStyle='#ffffff';ctx.fill()
+   if(isTarget){ctx.beginPath();ctx.arc(p.x,p.y,17,0,Math.PI*2);ctx.fillStyle='#d4ebe0';ctx.fill()}
+   ctx.beginPath();ctx.arc(p.x,p.y,r,0,Math.PI*2);ctx.fillStyle=ink;ctx.fill();ctx.strokeStyle='#fff';ctx.lineWidth=2;ctx.stroke();ctx.fillStyle='white';ctx.font='600 11px Arial';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(isTarget?'参':rank>=0?rank+1:slot===0?'A':'B',p.x,p.y+.5)
+   if(size.width<500)continue
+   let name=p.product.name.split('（')[0].replace(/^SkinCeuticals (?:Prevent )?/,'').replace(/® With.*$/,'')
+   ctx.font=isTarget?'600 12px Arial':'12px Arial';const max=size.width<500?115:155
+   while(ctx.measureText(name).width>max&&name.length>3)name=name.slice(0,-2)+'…'
+   const w=ctx.measureText(name).width+18,h=27
+   const options=[[p.x+15,p.y-33],[p.x+15,p.y+9],[p.x-w-15,p.y-33],[p.x-w-15,p.y+9]].map(([x,y])=>({x:Math.max(8,Math.min(x,size.width-w-8)),y:Math.max(35,Math.min(y,size.height-h-34)),w,h}))
+   const overlap=a=>labels.reduce((sum,b)=>sum+(a.x<b.x+b.w&&a.x+a.w>b.x&&a.y<b.y+b.h&&a.y+a.h>b.y?1:0),0)
+   options.sort((a,b)=>overlap(a)-overlap(b));const label=options[0];labels.push(label)
+   ctx.fillStyle='#ffffff';ctx.strokeStyle=isTarget?'#92bfaa':'#cee0d9';ctx.lineWidth=1;ctx.beginPath();ctx.roundRect(label.x,label.y,w,h,6);ctx.fill();ctx.stroke();ctx.fillStyle=ink;ctx.textAlign='left';ctx.textBaseline='middle';ctx.fillText(name,label.x+9,label.y+h/2)
+  }
+  ctx.restore()
+ },[groups,foreground,points,size,bounds,camera,color,colorMax,selected,comparison,mode,neighborKey,directions])
+ function pointer(e){const r=canvas.current.getBoundingClientRect();return {x:e.clientX-r.left,y:e.clientY-r.top}}
+ function zoom(factor){setCamera(c=>({...c,zoom:Math.max(1,Math.min(16,c.zoom*factor))}))}
+ function nodeHits(p){const focusHits=hitsAt(foreground,p.x,p.y,19);if(focusHits.length)return focusHits;const matches=groups.filter(g=>Math.hypot(g.x-p.x,g.y-p.y)<=g.radius+7);return [...new Map(matches.flatMap(g=>g.items).map(p=>[p.id,p])).values()]}
+ const renderedCount=new Set([...groups.flatMap(g=>g.items.map(p=>p.id)),...foreground.filter(inFrame).map(p=>p.product.id)]).size
+ useEffect(()=>{onViewportChange?.(renderedCount)},[renderedCount,onViewportChange])
+ return <div className="space-map" ref={frame} data-testid="space-map" data-ready="true" data-total={products.length} data-plotted={points.length} data-rendered-product-count={renderedCount} data-unplaced={unplaced} data-min-marker-radius="5.5" data-clusters={groups.length}>
+  <canvas ref={canvas} role="img" tabIndex={0} aria-label={`${mode==='semantic'?'成分表语义地图':'证据坐标'}，产品集合显示真实数量，参照与真实检索候选独立标记。全部${products.length}款均可通过搜索或列表查看。`} style={{touchAction:camera.zoom>1?'none':'pan-y'}}
+   onKeyDown={e=>{if(['+','=','-','Home'].includes(e.key)){e.preventDefault();e.key==='Home'?reset():zoom(e.key==='-'?1/1.4:1.4)}}}
+   onPointerDown={e=>{if(e.button!==0)return;drag.current={...pointer(e),camera,moved:false};e.currentTarget.setPointerCapture(e.pointerId)}}
+   onPointerMove={e=>{const p=pointer(e),d=drag.current;if(d){if(Math.hypot(p.x-d.x,p.y-d.y)>4)d.moved=true;if(d.moved){setHover(null);setCamera({...d.camera,x:d.camera.x+(p.x-d.x)/size.width,y:d.camera.y+(p.y-d.y)/size.height})}return}const hits=nodeHits(p);setHover(hits.length?{...p,product:hits[0],count:hits.length}:null)}}
+   onPointerUp={e=>{const d=drag.current;drag.current=null;if(!d||d.moved)return;const hits=nodeHits(pointer(e));setHover(null);if(hits.length===1)onChoose(hits[0]);else if(hits.length>1)onCluster(hits)}} onPointerCancel={()=>{drag.current=null}} onPointerLeave={()=>setHover(null)}/>
+  <span className="space-map-caption">{mode==='semantic'?'全库语义投影 · 数字为集合数量':'原始证据坐标 · 未知不补零'}</span>
+  {hover&&<div className="space-tooltip" style={{left:Math.max(10,Math.min(hover.x+15,size.width-240)),top:Math.max(40,hover.y-66)}}>{hover.count>1?<><strong>{hover.count} 款产品在这一处</strong><span>点击展开，选择其中一款</span></>:<><small>{hover.product.brand}</small><strong>{hover.product.name}</strong></>}</div>}
+  <div className="space-zoom" role="group" aria-label="地图视图"><button type="button" aria-label="放大地图" onClick={()=>zoom(1.4)}><Plus size={18}/></button><button type="button" aria-label="缩小地图" onClick={()=>zoom(1/1.4)}><Minus size={18}/></button><button type="button" aria-label="重置地图" onClick={reset}><ArrowsOutSimple size={18}/></button></div>
+  <div className="space-map-instructions"><span className="map-reference-key"/>参照产品<span className="map-neighbor-key"/>检索候选<span>拖动与缩放探索</span></div>
+ </div>
 })

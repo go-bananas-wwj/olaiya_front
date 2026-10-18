@@ -3,7 +3,7 @@ import { api } from '../api'
 import { ProductPhoto } from './ReferencePrimitives'
 import { MagnifyingGlass, X } from '@phosphor-icons/react'
 
-export default function ProductPicker({ side, productId, state, onSelect }) {
+export default function ProductPicker({ side, productId, state, onSelect, compact = false }) {
   const [query, setQuery] = useState('')
   const [open, setOpen] = useState(false)
   const [editing, setEditing] = useState(false)
@@ -32,8 +32,9 @@ export default function ProductPicker({ side, productId, state, onSelect }) {
   }, [])
   function choose(product) { setOpen(false); setEditing(false); setQuery(''); onSelect(product.id) }
   const product = state.data
-  return <section ref={box} className="ss-product" data-testid={side === 'A' ? 'target-product' : 'candidate-product'}>
-    <button type="button" className="ss-change-product" aria-label={`更换产品 ${side}`} aria-expanded={editing} onClick={() => setEditing(v => !v)}><MagnifyingGlass size={13} aria-hidden="true" /> 更换产品 {side}</button>
+  const shortName = product?.name.split('（')[0].replace(/^SkinCeuticals (?:Prevent )?/, '').replace(/® With.*$/, '')
+  return <section ref={box} className={`ss-product ${compact ? `is-compact compact-${side}` : ''}`} data-testid={side === 'A' ? 'target-product' : 'candidate-product'}>
+    <button type="button" className="ss-change-product" aria-label={`更换产品 ${side}`} aria-expanded={editing} onClick={() => setEditing(v => !v)}><MagnifyingGlass size={15} aria-hidden="true" /> {compact ? '更换' : `更换产品 ${side}`}</button>
     {editing && <div className="ss-product-search">
       <button className="ss-search-close" type="button" aria-label={`关闭产品 ${side} 搜索`} onClick={() => setEditing(false)}><X size={14} /></button>
       <input ref={input} role="combobox" aria-label={`搜索产品 ${side}`} aria-autocomplete="list" aria-controls={`results-${side}`} aria-expanded={open && Boolean(query.trim())}
@@ -55,12 +56,12 @@ export default function ProductPicker({ side, productId, state, onSelect }) {
         </button>)}
       </div>}
     </div>}
-    <div className="ss-product-visual"><ProductPhoto product={product} side={side} /></div>
+    <div className="ss-product-visual"><ProductPhoto product={product} side={side} mini={compact} /></div>
     {state.loading ? <p className="cap-muted" role="status">正在读取产品…</p> : state.error ? <p role="alert">产品加载失败：{state.error}</p> : <>
-      <p className="ss-product-brand">{product.brand}</p>
-      <h2 className="ss-product-name" title={product.name}>{product.name}</h2>
+      <p className="ss-product-brand">{compact && <b className="compact-side">{side}</b>}<span>{product.brand}</span></p>
+      <h2 className="ss-product-name" title={product.name} aria-label={product.name}>{compact ? shortName : product.name}</h2>
       <p className="ss-product-price">{product.price_current == null ? '暂无价格' : `参考价 ¥${Number(product.price_current).toFixed(2)}`}{product.spec && <span> / {product.spec}</span>}</p>
-      <details className="ss-product-details"><summary>完整名称与来源</summary><p>{product.name}</p>
+      <details className="ss-product-details"><summary>{compact ? '来源' : '完整名称与来源'}</summary><p>{product.name}</p>
         {product.source_url ? <a href={product.source_url} target="_blank" rel="noreferrer">产品与成分来源 ↗</a> : <p>来源链接未记录</p>}
         {product.note && <p>{product.note}</p>}
       </details>

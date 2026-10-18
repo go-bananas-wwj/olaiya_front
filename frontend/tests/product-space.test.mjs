@@ -37,3 +37,24 @@ test('missing evidence has its own tone and cannot become a numerical zero',()=>
  assert.notEqual(pointTone(null,2),pointTone(0,2))
  assert.notEqual(pointTone(0,2),pointTone(2,2))
 })
+
+test('screen aggregation keeps exact membership and excludes highlighted products',async()=>{
+ const {groupScreenPoints}=await import('../src/showcase/space/space.mjs')
+ const points=[{product:{id:1},x:10,y:10},{product:{id:2},x:13,y:12},{product:{id:3},x:90,y:90}]
+ const groups=groupScreenPoints(points,32,new Set([3]))
+ assert.equal(groups.length,1)
+ assert.deepEqual(groups[0].items.map(p=>p.id),[1,2])
+ assert.equal(groups[0].count,2)
+ assert.equal(groups[0].x,11.5)
+ assert.ok(groups[0].radius>=11)
+})
+
+test('neighboring screen cells merge colliding markers without moving source coordinates',async()=>{
+ const {groupScreenPoints}=await import('../src/showcase/space/space.mjs')
+ const points=[{product:{id:1},x:31,y:10},{product:{id:2},x:33,y:10},{product:{id:3},x:120,y:90}]
+ const groups=groupScreenPoints(points,32)
+ assert.equal(groups.length,2)
+ assert.deepEqual(groups.flatMap(g=>g.items.map(p=>p.id)).sort(),[1,2,3])
+ assert.equal(groups.find(g=>g.count===2).x,32)
+ assert.equal(points[0].x,31)
+})
