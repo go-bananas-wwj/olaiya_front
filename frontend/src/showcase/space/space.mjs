@@ -62,3 +62,17 @@ export function groupScreenPoints(points,cell=36,excluded=new Set()) {
   }
   return groups
 }
+
+// Labels are optional: preserve every true node position and omit a name when
+// no clear slot exists. Full names remain available in the numbered side list.
+export function placeMapLabel(anchor,w,h,viewport,nodes,labels) {
+  const {x,y}=anchor
+  const choices=[[x+24,y-h-8],[x+24,y+8],[x-w-24,y-h-8],[x-w-24,y+8],
+    [x-w/2,y-h-24],[x-w/2,y+24],[x+24,y-h/2],[x-w-24,y-h/2]]
+  const intersects=(a,b)=>a.x<b.x+b.w+2&&a.x+a.w+2>b.x&&a.y<b.y+b.h+2&&a.y+a.h+2>b.y
+  for(const [left,top] of choices){
+    const box={x:Math.max(8,Math.min(left,viewport.width-w-8)),y:Math.max(35,Math.min(top,viewport.height-h-34)),w,h}
+    if([...nodes,...labels].every(other=>!intersects(box,other)))return box
+  }
+  return null
+}

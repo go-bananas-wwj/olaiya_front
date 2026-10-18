@@ -58,3 +58,17 @@ test('neighboring screen cells merge colliding markers without moving source coo
  assert.equal(groups.find(g=>g.count===2).x,32)
  assert.equal(points[0].x,31)
 })
+
+test('map labels avoid every foreground halo, including nodes drawn later',async()=>{
+ const {placeMapLabel}=await import('../src/showcase/space/space.mjs')
+ const nodes=[{x:200,y:200,w:32,h:32},{x:247,y:165,w:32,h:32}]
+ const before=structuredClone(nodes)
+ const box=placeMapLabel({x:216,y:216},155,27,{width:760,height:500},nodes,[])
+ assert.ok(box)
+ const overlaps=(a,b)=>a.x<b.x+b.w&&a.x+a.w>b.x&&a.y<b.y+b.h&&a.y+a.h>b.y
+ assert.ok(nodes.every(node=>!overlaps(box,node)))
+ assert.deepEqual(nodes,before)
+ const next=placeMapLabel({x:216,y:216},155,27,{width:760,height:500},nodes,[box])
+ assert.ok(!next||!overlaps(next,box))
+ assert.equal(placeMapLabel({x:216,y:216},155,27,{width:760,height:500},[{x:0,y:0,w:760,h:500}],[]),null)
+})

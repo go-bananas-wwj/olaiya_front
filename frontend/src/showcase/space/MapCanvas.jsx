@@ -1,6 +1,6 @@
 import { forwardRef,useEffect,useImperativeHandle,useMemo,useRef,useState } from 'react'
 import { Minus,Plus,ArrowsOutSimple } from '@phosphor-icons/react'
-import { boundsFor,coordinatesFor,hitsAt,pointTone,groupScreenPoints } from './space.mjs'
+import { boundsFor,coordinatesFor,hitsAt,pointTone,groupScreenPoints,placeMapLabel } from './space.mjs'
 
 export default forwardRef(function MapCanvas({products,visible,mode,axes,color,directions,selected,neighbors=[],comparison,focus,onChoose,onCluster,onViewportChange},ref){
  const frame=useRef(null),canvas=useRef(null),drag=useRef(null)
@@ -53,7 +53,7 @@ export default forwardRef(function MapCanvas({products,visible,mode,axes,color,d
   for(const g of groups){ctx.beginPath();ctx.arc(g.x,g.y,g.radius,0,Math.PI*2);ctx.fillStyle=g.count>1?'#e0f0e5':pointTone(g.items[0].scores[color],colorMax);ctx.fill();ctx.strokeStyle=g.count>1?'#a7cdb7':'#65947b';ctx.lineWidth=1;ctx.stroke();if(g.count>1){ctx.fillStyle='#3b7254';ctx.font='600 11px Arial';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(g.count,g.x,g.y+.5)}}
   const target=foreground.find(p=>p.product.id===selected)
   if(target){ctx.setLineDash([4,5]);ctx.strokeStyle='#84bca9';ctx.lineWidth=1.2;for(const p of foreground.filter(p=>neighbors.some(n=>n.id===p.product.id))){ctx.beginPath();ctx.moveTo(target.x,target.y);ctx.lineTo(p.x,p.y);ctx.stroke()}ctx.setLineDash([])}
-  const labels=[]
+  const labels=[],nodeObstacles=foreground.filter(inFrame).map(p=>{const r=p.product.id===selected?19:16;return {x:p.x-r,y:p.y-r,w:r*2,h:r*2}})
   for(const p of [...foreground].sort((a,b)=>(a.product.id===selected?1:0)-(b.product.id===selected?1:0))){
    if(!inFrame(p))continue
    const isTarget=p.product.id===selected,rank=neighbors.findIndex(n=>n.id===p.product.id),slot=comparison.indexOf(p.product.id)
@@ -66,9 +66,9 @@ export default forwardRef(function MapCanvas({products,visible,mode,axes,color,d
    ctx.font=isTarget?'600 12px Arial':'12px Arial';const max=size.width<500?115:155
    while(ctx.measureText(name).width>max&&name.length>3)name=name.slice(0,-2)+'…'
    const w=ctx.measureText(name).width+18,h=27
-   const options=[[p.x+15,p.y-33],[p.x+15,p.y+9],[p.x-w-15,p.y-33],[p.x-w-15,p.y+9]].map(([x,y])=>({x:Math.max(8,Math.min(x,size.width-w-8)),y:Math.max(35,Math.min(y,size.height-h-34)),w,h}))
-   const overlap=a=>labels.reduce((sum,b)=>sum+(a.x<b.x+b.w&&a.x+a.w>b.x&&a.y<b.y+b.h&&a.y+a.h>b.y?1:0),0)
-   options.sort((a,b)=>overlap(a)-overlap(b));const label=options[0];labels.push(label)
+   const label=placeMapLabel(p,w,h,size,nodeObstacles,labels)
+   if(!label)continue
+   labels.push(label)
    ctx.fillStyle='#ffffff';ctx.strokeStyle=isTarget?'#92bfaa':'#cee0d9';ctx.lineWidth=1;ctx.beginPath();ctx.roundRect(label.x,label.y,w,h,6);ctx.fill();ctx.stroke();ctx.fillStyle=ink;ctx.textAlign='left';ctx.textBaseline='middle';ctx.fillText(name,label.x+9,label.y+h/2)
   }
   ctx.restore()
