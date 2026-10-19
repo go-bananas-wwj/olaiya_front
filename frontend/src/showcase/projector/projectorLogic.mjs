@@ -16,7 +16,8 @@ export function projectionVariance(data,axisOrder,dimensions) {
   if(!Array.isArray(ratios))return null
   return Math.round(axisOrder.slice(0,dimensions).reduce((sum,index)=>sum+(ratios[index]||0),0)*10000)/100
 }
-export const shortName=name=>String(name||'').split('（')[0].replace(/^SkinCeuticals (?:Prevent )?/,'').replace(/® With.*$/,'')
+// Version/source suffixes are part of the identity, not expendable subtitles.
+export const shortName=name=>String(name||'').replace(/^SkinCeuticals\s+/i,'').trim()
 export function projectionQuality(data,algorithm,dimensions) {
   if(algorithm==='pca')return dimensions===3?data?.projection?.pca?.quality:null
   return dimensions===3?data?.projection?.umap_3d?.quality:data?.projection?.quality

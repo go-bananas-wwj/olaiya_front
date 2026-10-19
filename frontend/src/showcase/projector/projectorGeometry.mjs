@@ -65,7 +65,46 @@ export function pointColor(product, { selected = null, neighborIds = new Set(), 
 export function shortProductLabel(product, labelBy = 'name') {
   if (labelBy === 'brand') return product.brand || '品牌未收录'
   const original = String(product.name || '')
-  return original.split('（')[0].replace(/^SkinCeuticals\s+/i, '').replace(/\s*®\s*With\b.*$/i, '').trim() || original
+  return original.replace(/^SkinCeuticals\s+/i, '').trim() || original
+}
+
+// Only identical coordinates in this requested projection count as coincidence.
+// Screen pixels/depth and names must never be used as identity or vector equality.
+export function groupCoincidentPoints(points) {
+  const groups = new Map()
+  points.forEach((point,index)=>{
+    const xyz = point.position
+    const key = Array.isArray(xyz) && xyz.length === 3 && xyz.every(Number.isFinite)
+      ? `position:${JSON.stringify(xyz)}` : `ungrouped:${index}`
+    if (!groups.has(key)) groups.set(key,{key,members:[]})
+    groups.get(key).members.push(point)
+  })
+  return [...groups.values()]
+}
+
+// Badges are annotations, never moved data points. They remain independent of
+// the optional name labels so coincident records are reachable with labels off.
+export function layoutCoincidentBadges(groups,{width,height,selected,neighborIds=new Set(),reserved=[],limit=8}={}) {
+  if (!(width>56&&height>52)) return []
+  const placed=[]
+  const order=groups.filter(group=>group.members.length>1&&group.members.some(p=>p.visible))
+    .sort((a,b)=>Number(b.members.some(p=>p.product.id===selected))-Number(a.members.some(p=>p.product.id===selected))
+      ||Number(b.members.some(p=>neighborIds.has(p.product.id)))-Number(a.members.some(p=>neighborIds.has(p.product.id))))
+  for (const group of order) {
+    if(placed.length>=limit)break
+    const point=group.members.find(p=>p.product.id===selected&&p.visible)||group.members.find(p=>neighborIds.has(p.product.id)&&p.visible)||group.members.find(p=>p.visible)
+    if (!Number.isFinite(point.x)||!Number.isFinite(point.y)) continue
+    const w=44,h=44,candidates=[]
+    for(const radius of [4,12]) for(const [dx,dy] of [[1,0],[-1,0],[0,-1],[0,1],[1,-1],[-1,-1],[1,1],[-1,1]]) {
+      candidates.push({left:Math.max(4,Math.min(width-w-4,point.x+dx*radius-(dx<0?w:dx===0?w/2:0))),
+        top:Math.max(4,Math.min(height-h-4,point.y+dy*radius-(dy<0?h:dy===0?h/2:0))),width:w,height:h})
+    }
+    const rect=candidates.find(slot=>![...placed,...reserved].some(prior=>rectsOverlap(slot,prior)))
+    if(!rect)continue
+    placed.push({...rect,key:group.key,count:group.members.length,members:group.members,product:point.product,
+      leader:null})
+  }
+  return placed
 }
 
 const rectsOverlap = (a, b, gap = 3) => a.left < b.left + b.width + gap && a.left + a.width + gap > b.left
@@ -74,17 +113,21 @@ const closestOnRect = (point, rect) => ({ x:Math.max(rect.left,Math.min(point.x,
 
 // Screen-space annotation placement never changes product coordinates. Dense
 // neighborhoods keep their true points; names without a clear slot are omitted.
-export function layoutLabels(points, { width, height, selected, pointSize = 6, labelBy = 'name', measure } = {}) {
+export function layoutLabels(points, { width, height, selected, pointSize = 6, labelBy = 'name', measure, reserved = [], onlySelected = false } = {}) {
   if (!(width > 16 && height > 16)) return []
   const nodes = points.filter(p => p.visible && Number.isFinite(p.x) && Number.isFinite(p.y))
-  const order = [...nodes].sort((a,b)=>Number(b.product.id===selected)-Number(a.product.id===selected))
+  const order = groupCoincidentPoints(nodes).map(group=>{
+    const point=group.members.find(p=>p.product.id===selected)||group.members[0]
+    return {...point,members:point.members||group.members,coincidentCount:point.coincidentCount||group.members.length}
+  }).sort((a,b)=>Number(b.product.id===selected)-Number(a.product.id===selected))
   const placed = []
   for (const point of order) {
+    if(onlySelected&&point.product.id!==selected)continue
     const primary = point.product.id === selected, fontSize = primary ? 14 : 12, text = shortProductLabel(point.product,labelBy)
     const measured = measure ? measure(text,fontSize,primary) : [...text].reduce((sum,c)=>sum+fontSize*(/[\u2e80-\uffff]/.test(c)?1:.6),0)
     const w = Math.ceil(Math.min(primary?260:190, width-8, Math.max(12,measured)+6)), h = primary ? 22 : 20
     const radius = Math.max(1, Math.min(24,pointSize)) * (primary?1.9:1.3) / 2 + 2
-    const gaps = primary ? [4,12,24,40,64] : [4,12,24]
+    const gaps = primary ? [4,12,24,40,64,96,144,208,288,400] : [4,12,24]
     const candidates = []
     for (const gap of gaps) {
       const d = radius + gap, x=point.x, y=point.y
@@ -95,9 +138,10 @@ export function layoutLabels(points, { width, height, selected, pointSize = 6, l
         {left:x+d,top:y+d}, {left:x-d-w,top:y+d},
       )
     }
-    const rect = candidates.map(slot=>({...slot,width:w,height:h})).find(slot => {
+    const rect = candidates.map(slot=>({...slot,left:Math.max(4,Math.min(width-w-4,slot.left)),top:Math.max(4,Math.min(height-h-4,slot.top)),width:w,height:h})).find(slot => {
       if (slot.left<4||slot.top<4||slot.left+w>width-4||slot.top+h>height-4) return false
       if (placed.some(prior=>rectsOverlap(slot,prior))) return false
+      if (reserved.some(prior=>rectsOverlap(slot,prior))) return false
       return !nodes.some(node=>{
         const near=closestOnRect(node,slot),r=Math.max(1,Math.min(24,pointSize))*(node.product.id===selected?1.9:1.3)/2+2
         return (near.x-node.x)**2+(near.y-node.y)**2<r*r

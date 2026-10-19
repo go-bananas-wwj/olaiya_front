@@ -102,7 +102,7 @@ def _space_metadata(value, pca=False):
 
 def _optional_space(data, product_ids, key, point_key, pca=False):
     unavailable = {'status':'unavailable', 'dimensions':3}
-    if data['version'] != 'ingredient-projector-v2':
+    if data['version'] not in ('ingredient-projector-v2', 'ingredient-projector-v3'):
         return {}, unavailable
     meta = _space_metadata(data.get(key), pca=pca)
     if meta is None:
@@ -137,7 +137,7 @@ def _layout(signature, product_ids):
         data = json.loads(raw)
         if not isinstance(data, dict):
             return {}, {}, {}, unavailable
-        if data.get('version') not in ('ingredient-umap-v1', 'ingredient-projector-v2') or data.get('catalog_signature') != signature:
+        if data.get('version') not in ('ingredient-umap-v1', 'ingredient-projector-v2', 'ingredient-projector-v3') or data.get('catalog_signature') != signature:
             return {}, {}, {}, unavailable
         if data.get('source_snapshot') != settings.snapshot_revision:
             return {}, {}, {}, unavailable

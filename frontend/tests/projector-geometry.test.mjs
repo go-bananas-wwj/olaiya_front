@@ -70,8 +70,8 @@ test('selection context uses source-style rose and orange; unknown evidence has 
 
 test('short labels use existing product identities and keep full metadata untouched', () => {
   const a = { name: '黑绷带面霜（Re-Plasty Age Recovery Night）', brand: '赫莲娜' }
-  assert.equal(shortProductLabel(a), '黑绷带面霜')
-  assert.equal(shortProductLabel({ name: 'SkinCeuticals Prevent C E Ferulic® With 15% L-Ascorbic Acid' }), 'Prevent C E Ferulic')
+  assert.equal(shortProductLabel(a), '黑绷带面霜（Re-Plasty Age Recovery Night）')
+  assert.equal(shortProductLabel({ name: 'SkinCeuticals Prevent C E Ferulic® With 15% L-Ascorbic Acid' }), 'Prevent C E Ferulic® With 15% L-Ascorbic Acid')
   assert.equal(shortProductLabel({ name: 'SkinCeuticals Serum 10' }), 'Serum 10')
   assert.equal(shortProductLabel(a, 'brand'), '赫莲娜')
   assert.equal(a.name, '黑绷带面霜（Re-Plasty Age Recovery Night）')
@@ -133,4 +133,70 @@ test('tight real neighbor subsets receive the same framing margin, with no minim
   const coincident=fitPerspective([[.8,.2,.3],[.8,.2,.3]],{aspect:.48})
   assert.ok(Number.isFinite(coincident.distance)&&coincident.distance>0)
   assert.ok(ndcFor([.8,.2,.3],coincident,.48).every(v=>Math.abs(v)<1e-7))
+})
+
+test('identity labels retain variants, source suffixes and formulation descriptors', () => {
+  assert.equal(shortProductLabel({ name: '科瑞肤多维智效修护面霜（莹润型）' }), '科瑞肤多维智效修护面霜（莹润型）')
+  assert.notEqual(shortProductLabel({ name: '面霜（莹润型）' }), shortProductLabel({ name: '面霜（轻盈型）' }))
+  assert.equal(shortProductLabel({ name: 'CeraVe 面霜（美国官网）' }), 'CeraVe 面霜（美国官网）')
+  assert.equal(shortProductLabel({ name: 'SkinCeuticals C E Ferulic® With 15% L-Ascorbic Acid' }), 'C E Ferulic® With 15% L-Ascorbic Acid')
+})
+
+test('coincidence groups exact projection coordinates, never screen proximity or product identity', async () => {
+  const { groupCoincidentPoints } = await import('../src/showcase/projector/projectorGeometry.mjs')
+  const points = [
+    {product:{id:1,name:'同名'},position:[.2,.3,.4],x:100,y:80,visible:true},
+    {product:{id:2,name:'同名'},position:[.2,.3,.4],x:100,y:80,visible:true},
+    {product:{id:3,name:'另一款'},position:[.2,.3,.400001],x:100,y:80,visible:true},
+  ]
+  const groups = groupCoincidentPoints(points)
+  assert.equal(groups.length,2)
+  assert.deepEqual(groups[0].members.map(p=>p.product.id),[1,2])
+  assert.equal(groups[1].members.length,1)
+  assert.deepEqual(points.map(p=>p.position),[[.2,.3,.4],[.2,.3,.4],[.2,.3,.400001]])
+})
+
+test('one label represents an exact coordinate group and prefers the selected identity', () => {
+  const points = [1,2,3].map(id=>({product:{id,name:`产品 ${id}（不同版本）`},position:[1,2,3],x:200,y:150,visible:true}))
+  const labels=layoutLabels(points,{width:500,height:300,selected:2})
+  assert.equal(labels.length,1)
+  assert.equal(labels[0].product.id,2)
+  assert.equal(labels[0].coincidentCount,3)
+  assert.deepEqual(labels[0].members.map(p=>p.product.id),[1,2,3])
+})
+
+test('coincident badges remain available without labels and do not confuse screen overlap with shared projection', async () => {
+  const {groupCoincidentPoints,layoutCoincidentBadges}=await import('../src/showcase/projector/projectorGeometry.mjs')
+  const points=[1,2].map(id=>({product:{id},position:[1,2,3],x:80,y:60,visible:true}))
+  points.push({product:{id:3},position:[1,2,4],x:80,y:60,visible:true})
+  const badges=layoutCoincidentBadges(groupCoincidentPoints(points),{width:160,height:120})
+  assert.equal(badges.length,1)
+  assert.equal(badges[0].count,2)
+  assert.deepEqual(badges[0].members.map(p=>p.product.id),[1,2])
+  assert.ok(badges[0].left>=4&&badges[0].top>=4)
+  assert.ok(badges[0].left+badges[0].width<=156&&badges[0].top+badges[0].height<=116)
+})
+
+test('long selected identity keeps a readable label beyond a dense neighborhood with reserved badges', () => {
+  const selected={product:{id:9,name:'黑绷带面霜（Re-Plasty Age Recovery Night）'},position:[0,0,0],x:260,y:200,visible:true}
+  const points=[selected,...Array.from({length:40},(_,i)=>({product:{id:100+i,name:`近邻产品 ${i}`},position:[i+1,1,0],x:130+(i%8)*36,y:100+Math.floor(i/8)*45,visible:true}))]
+  const reserved=[{left:100,top:100,width:320,height:200}]
+  const labels=layoutLabels(points,{width:520,height:400,selected:9,reserved})
+  const primary=labels.find(label=>label.product.id===9)
+  assert.ok(primary,'selected product must remain labeled in a dense PCA neighborhood')
+  assert.equal(primary.text,selected.product.name)
+  assert.ok(primary.left>=4&&primary.top>=4&&primary.left+primary.width<=516&&primary.top+primary.height<=396)
+  assert.deepEqual(selected.position,[0,0,0])
+})
+
+test('coincident annotations prioritize selection and neighbors, limit clutter and yield to the main identity', async()=>{
+  const {layoutCoincidentBadges}=await import('../src/showcase/projector/projectorGeometry.mjs')
+  const groups=Array.from({length:15},(_,i)=>({key:String(i),members:[1,2].map(n=>({product:{id:i*10+n},position:[i,0,0],x:40+(i%5)*130,y:60+Math.floor(i/5)*140,visible:true}))}))
+  const reserved=[{left:0,top:0,width:140,height:100}]
+  const badges=layoutCoincidentBadges(groups,{width:700,height:500,selected:141,neighborIds:new Set([131]),reserved})
+  assert.ok(badges.length<=8)
+  assert.equal(badges[0].product.id,141)
+  assert.equal(badges[1].product.id,131)
+  assert.ok(badges.every(b=>!intersects(b,reserved[0])))
+  assert.ok(badges.every(b=>b.width===44&&b.height===44))
 })

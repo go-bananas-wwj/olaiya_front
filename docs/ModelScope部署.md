@@ -4,7 +4,7 @@
 
 ## 当前展示主线与指数方法
 
-当前有「产品空间 / 两款对比」两个同级入口。产品空间使用真实4096维成分向量的固定三维／二维UMAP和PCA投影；点选后背景灰、近邻橙、资料与原空间距离列表联动，默认100近邻，可隔离／恢复／清除。两款对比支持任意A/B及完整八方向。主流程不调用实时生成模型，比较页不预取空间近邻。
+当前有「产品空间 / 两款对比」两个同级入口。产品空间分为“成分组成相似”（3749款4096维语义向量，UMAP／PCA）与“功效证据相似”（八方向证据指数，39款资料完整者，离线PCA）；未知不补零，3710款资料不完整仍可搜索／对比。点选后背景灰、近邻橙、资料与原空间距离列表联动，默认100近邻，可隔离／恢复／清除。两款对比支持任意A/B及完整八方向。主流程不调用实时生成模型，比较页不预取空间近邻。
 
 新增 `GET /api/products/{id}/capability-profile`，方法版本为 `evidence-index-v1`。八个方向固定为保湿、抗皱、修护、舒缓、抗氧化、美白、控油祛痘、焕肤；指数为每个成分在该方向的最高合格证据权重之和，来源数按证据 ID 去重。返回贡献明细、原始来源、备注、排除原因和浓度资料覆盖。空资料返回 `no_evidence`／`score=null`，未评级返回 `unrated`／`score=null`，真实零权重保留 `scored`／`score=0`。
 
@@ -169,3 +169,30 @@ PYTHONPATH=/tmp/cfz-atlas-analysis-deps .venv/bin/python data/tools/build_produc
 本地862项pytest通过/1跳过，32项逻辑、25项展示浏览器通过；原站和展示构建通过，原站12浏览器通过。严格视觉8.7通过，数据／UX／renderer／新发布专家无P0/P1/P2。源参考、实际截图和问题关闭记录见[本轮验收](Embedding-Projector-实施与验收.md)。
 
 云端验收须读取真实HTML和API：3749款及三个空间计数、原二维与四款画像不变、默认100近邻与原索引同版、3D真实旋转、2D、点选灰橙玫红、隔离／恢复／清除、两款任意ID／两个案例／来源、390及834布局、匿名401。再部署同一版本验证容器重建后复用新布局，固定签名与数据不变。私有浏览器可使用仅附加本空间域授权的真实HTTP转发，不能mock数据或声称已核验平台外层所属账号登录流程。
+
+
+## 产品身份与独立证据空间修正（2026-10-19）
+
+新增只读接口 `GET /api/product-space/evidence` 和 `GET /api/products/{id}/evidence-space-neighbors?limit=100`。旧语义地图、similar、space-neighbors及两款capability-profile契约保持兼容。证据新方法 `evidence-space-v1` 复用 `evidence-index-v1`，只纳入八个方向均为scored且分值有效的39款；真实零保留，无资料／未评级不补零。全库同轴尺度为 `[4.25,6.5,4.6,2.8,2.05,3,3.35,3]`，按八维缩放差的均方根计算近邻。该距离不是功效评分，指数不乘未知浓度。
+
+v3小型布局bundle附带独立证据PCA，完整保留v2旧语义points、UMAP3D与PCA坐标。下载／启动机制不变，仅更新以下已有非Secret变量；数据库与Faiss快照仍固定原版本，不重新上传或覆盖。
+
+| 变量 | v3固定值 |
+|---|---|
+| `CFZ_PRODUCT_SPACE_LAYOUT_REVISION` | `153a6d389a44d035bb3950da3bec24d9eafe710c` |
+| `CFZ_PRODUCT_SPACE_LAYOUT_SHA256` | `2800c7145879e1055a40583d67380b0cb3e65789bf445dc8719bdac0988bed9d` |
+
+证据坐标还校验八方向几何画像签名、全库尺度和合格ID集合；改变画像的证据／状态变更将关闭证据投影，保留语义地图。仅来源标题文字修改不改变几何画像。HTTP不执行拟合，Docker无需numpy之外新数值依赖／UMAP／torch。
+
+离线构建（输出到忽略目录）例：
+
+```bash
+.venv/bin/python data/tools/build_evidence_space.py \
+  --database data/models/showcase-snapshots/20261017-v1/cfz.db \
+  --base-layout data/models/product-space/layout-projector-v2.json \
+  --base-layout-sha256 e209bbcd009a527c1b6bd85f1c314abc04a59919519a2ea56fd1b31db4e644f4 \
+  --output data/models/product-space/layout-projector-v3.json \
+  --snapshot-revision 0fd2e820413ccc64b1ca7c6207b7cc1ceb8dadef
+```
+
+产品名保留版本与来源后缀；每条记录ID唯一，但成分文本／向量／投影位置可相同。同位组用计数展开，不去重合并或随机错开。身份、距离说明、竞态、未知状态、窄屏和来源入口的验收见 `docs/产品空间身份与证据模式验收.md`。

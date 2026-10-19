@@ -29,3 +29,10 @@ test('a 3D PCA quality measure is never attributed to a 2D projection',async()=>
  assert.equal(projectionQuality(data,'umap',2).neighbor_recall_10,.44)
  assert.equal(projectionQuality(data,'umap',3).neighbor_recall_10,.49)
 })
+
+test('workspace product names preserve the identifying suffix instead of collapsing variants',async()=>{
+ const {shortName}=await import('../src/showcase/projector/projectorLogic.mjs')
+ assert.equal(shortName('面霜（莹润型）'),'面霜（莹润型）')
+ assert.equal(shortName('C E Ferulic® With 15% L-Ascorbic Acid'),'C E Ferulic® With 15% L-Ascorbic Acid')
+ assert.notEqual(shortName('面霜（莹润型）'),shortName('面霜（轻盈型）'))
+})

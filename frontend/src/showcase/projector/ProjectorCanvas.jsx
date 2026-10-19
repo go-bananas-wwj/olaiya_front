@@ -1,7 +1,7 @@
 import { forwardRef, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react'
 import * as THREE from 'three'
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
-import { normalizeUniverse, visibleProducts, screenHits, pointColor, layoutLabels, fitPerspective } from './projectorGeometry.mjs'
+import { normalizeUniverse, visibleProducts, screenHits, pointColor, layoutLabels, fitPerspective, groupCoincidentPoints, layoutCoincidentBadges } from './projectorGeometry.mjs'
 
 const EMPTY = []
 const DEFAULT_AXES = [0, 1, 2]
@@ -34,7 +34,7 @@ export default forwardRef(function ProjectorCanvas({ products = EMPTY, algorithm
   onSelect, onCoincident }, ref) {
   const root = useRef(null), canvas = useRef(null), runtime = useRef(null)
   const [attempt, setAttempt] = useState(0), [failure, setFailure] = useState(null)
-  const [frameInfo, setFrameInfo] = useState({ revision: 0, labels: [] })
+  const [frameInfo, setFrameInfo] = useState({ revision: 0, labels: [], badges: [], coincidentGroups: [] })
   const [hover, setHover] = useState(null)
   const axisKey = JSON.stringify(axisOrder)
   const universe = useMemo(() => normalizeUniverse(products, algorithm, dimensions, axisOrder), [products, algorithm, dimensions, axisKey])
@@ -68,7 +68,7 @@ export default forwardRef(function ProjectorCanvas({ products = EMPTY, algorithm
       r.camera.updateMatrixWorld()
       const vector = new THREE.Vector3(...point.position).project(r.camera)
       const x = (vector.x + 1) * r.width / 2, y = (1 - vector.y) * r.height / 2
-      return { product: point.product, x, y, depth: vector.z,
+      return { product: point.product, position:point.position, x, y, depth: vector.z,
         visible: Number.isFinite(x) && Number.isFinite(y) && vector.z >= -1 && vector.z <= 1 && x >= 0 && x <= r.width && y >= 0 && y <= r.height }
     }
     r.getScreenPoint = id => {
@@ -88,15 +88,21 @@ export default forwardRef(function ProjectorCanvas({ products = EMPTY, algorithm
         const props = latest.current
         const neighborIds = new Set(props.neighbors.map(p => p.id))
         const rank = new Map(props.neighbors.map((p,i)=>[p.id,i]))
-        const projected = props.showLabels && props.selected != null ? r.drawn
-          .filter(p => p.product.id === props.selected || neighborIds.has(p.product.id))
-          .sort((a, b) => Number(b.product.id === props.selected) - Number(a.product.id === props.selected)
-            || (rank.get(a.product.id) ?? Infinity) - (rank.get(b.product.id) ?? Infinity))
-          .slice(0, 101).map(r.project).filter(p => p?.visible) : []
+        const groups = groupCoincidentPoints(r.drawn.map(r.project).filter(p=>p?.visible))
+        const projected = props.showLabels && props.selected != null ? groups.map(group=>{
+          const members=[...group.members].sort((a,b)=>Number(b.product.id===props.selected)-Number(a.product.id===props.selected)
+            || (rank.get(a.product.id)??Infinity)-(rank.get(b.product.id)??Infinity))
+          return {...members[0],members:group.members,coincidentCount:group.members.length}
+        }).filter(p=>p.product.id===props.selected||neighborIds.has(p.product.id))
+          .sort((a,b)=>Number(b.product.id===props.selected)-Number(a.product.id===props.selected)
+            || (rank.get(a.product.id)??Infinity)-(rank.get(b.product.id)??Infinity)).slice(0,101) : []
         const fontFamily = getComputedStyle(root.current).fontFamily
-        const labels = layoutLabels(projected,{width:r.width,height:r.height,selected:props.selected,pointSize:props.pointSize,labelBy:props.labelBy,
-          measure:labelMeasure?(text,fontSize,primary)=>{labelMeasure.font=`${primary?600:400} ${fontSize}px ${fontFamily}`;return labelMeasure.measureText(text).width}:undefined})
-        setFrameInfo(old => ({ revision: old.revision + 1, labels }))
+        const labelOptions={width:r.width,height:r.height,selected:props.selected,pointSize:props.pointSize,labelBy:props.labelBy,
+          measure:labelMeasure?(text,fontSize,primary)=>{labelMeasure.font=`${primary?600:400} ${fontSize}px ${fontFamily}`;return labelMeasure.measureText(text).width}:undefined}
+        const primaryLabels=layoutLabels(projected,{...labelOptions,onlySelected:true})
+        const badges=layoutCoincidentBadges(groups,{width:r.width,height:r.height,selected:props.selected,neighborIds,reserved:primaryLabels})
+        const labels=layoutLabels(projected,{...labelOptions,reserved:badges})
+        setFrameInfo(old => ({ revision: old.revision + 1, labels, badges, coincidentGroups:groups.filter(group=>group.members.length>1) }))
     }
     r.invalidate = () => {
       if (r.disposed || r.request != null || renderer.getContext().isContextLost()) return
@@ -227,7 +233,10 @@ export default forwardRef(function ProjectorCanvas({ products = EMPTY, algorithm
       if (!previous || previous.moved || event.button !== 0) return
       const hits = hit(event); setHover(null)
       if (hits.length === 1) latest.current.onSelect?.(hits[0])
-      else if (hits.length > 1) latest.current.onCoincident?.(hits)
+      else if (hits.length > 1) {
+        const positions=hits.map(product=>latest.current.universe.byId.get(product.id)).filter(Boolean)
+        latest.current.onCoincident?.(hits,{kind:groupCoincidentPoints(positions).length===1?'projection':'screen'})
+      }
     }
     const onLeave = () => setHover(null)
     const onCancel = () => { down = null; setHover(null) }
@@ -331,6 +340,19 @@ export default forwardRef(function ProjectorCanvas({ products = EMPTY, algorithm
     {!failure && <svg aria-hidden="true" width="100%" height="100%" style={{position:'absolute',inset:0,pointerEvents:'none',zIndex:2}}>
       {activeLabels.filter(label=>label.leader).map(label=><line key={label.product.id} {...label.leader} stroke={label.product.id===selected?'#96004f':'#b08b45'} strokeWidth=".7" opacity=".65"/>)}
     </svg>}
+    {!failure && frameInfo.badges.map(badge=><button key={badge.key} type="button" className="projector-coincident-badge"
+      data-coincident-count={badge.count} data-testid="projector-coincident-badge"
+      aria-label={`同一投影位置 ${badge.count} 款，展开产品记录。投影位置相同不代表同一产品、配方或原始向量。`}
+      title={`同一投影位置 ${badge.count} 款，点击展开；不代表同一产品、配方或原始向量。`}
+      onClick={()=>latest.current.onCoincident?.(badge.members.map(p=>p.product),{kind:'projection'})}
+      style={{position:'absolute',left:badge.left,top:badge.top,width:badge.width,height:badge.height,zIndex:5,
+        border:0,background:'transparent',color:'#555a75',fontFamily:'inherit',fontSize:10,cursor:'pointer',padding:0,whiteSpace:'nowrap',display:'grid',placeItems:'center'}}
+    ><span style={{display:'inline-block',border:'1px solid #d3d7e5',borderRadius:12,background:'#fffffff2',padding:'3px 5px',lineHeight:'14px',whiteSpace:'nowrap'}}>{badge.count}款</span></button>)}
+    {!failure && frameInfo.coincidentGroups.length>0 && <button type="button" className="projector-coincident-summary"
+      title="查看当前画面中位于同一投影位置的产品记录组；不代表同配方或相同原始向量。"
+      onClick={()=>{const groups=frameInfo.coincidentGroups.map(group=>group.members.map(p=>p.product));latest.current.onCoincident?.(groups.flat(),{kind:'projection-groups',groups})}}
+      style={{position:'absolute',left:14,bottom:14,zIndex:5,border:'1px solid #e3e5ed',background:'#ffffffed',color:'#777c90',fontFamily:'inherit',fontSize:10,padding:'7px 9px',borderRadius:4,cursor:'pointer'}}
+    >同位 {frameInfo.coincidentGroups.length} 组 · 查看记录</button>}
     {!failure && activeLabels.map(label => <button type="button" key={label.product.id} className={`projector-point-label ${label.product.id === selected ? 'is-selected' : ''}`}
       aria-label={`选择 ${label.product.name}`} title={label.product.name} onClick={() => latest.current.onSelect?.(label.product)}
       style={{ position:'absolute', left:label.left, top:label.top, width:label.width, height:label.height, boxSizing:'border-box',
@@ -339,9 +361,9 @@ export default forwardRef(function ProjectorCanvas({ products = EMPTY, algorithm
         whiteSpace:'nowrap', textOverflow:'ellipsis', overflow:'hidden', zIndex:label.product.id===selected?4:3, cursor:'pointer' }}>{label.text}</button>)}
     {!failure && hover && <div role="status" className="projector-hover" style={{ position:'absolute', left:Math.max(4,Math.min(hover.x+12,(root.current?.clientWidth||300)-238)), top:Math.max(4,hover.y-55),
       pointerEvents:'none', zIndex:5, maxWidth:230, padding:'7px 10px', color:'#555', background:'#fffffff2', boxShadow:'0 1px 5px #0002', fontSize:11 }}>
-      <span>{hover.product.name}</span>{hover.count>1&&<small style={{display:'block'}}>此处有 {hover.count} 款，点击展开</small>}</div>}
+      <span>{hover.product.name}</span>{hover.count>1&&<small style={{display:'block'}}>点击范围内 {hover.count} 款记录，点击展开</small>}</div>}
     {!failure && drawn.length === 0 && <p role="status" style={{ ...OVERLAY_STYLE, pointerEvents:'none' }}>当前投影暂无可用坐标。仍可通过搜索或产品列表选择产品。</p>}
     {failure && <div role="alert" style={OVERLAY_STYLE}><strong>{failure}</strong><p>可继续通过搜索和产品列表查看资料、加入对比。</p>
-      <button type="button" onClick={() => { setFrameInfo({ revision:0,labels:[] }); setAttempt(n=>n+1) }} style={{border:'1px solid #aaa',borderRadius:3,padding:'8px 14px',background:'#fff',cursor:'pointer'}}>重试图形渲染</button></div>}
+      <button type="button" onClick={() => { setFrameInfo({ revision:0,labels:[],badges:[],coincidentGroups:[] }); setAttempt(n=>n+1) }} style={{border:'1px solid #aaa',borderRadius:3,padding:'8px 14px',background:'#fff',cursor:'pointer'}}>重试图形渲染</button></div>}
   </div>
 })

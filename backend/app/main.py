@@ -37,6 +37,7 @@ from .services import vision_detect
 from .services.comparison_metadata import enrich_candidates, matching_price_points, price_fields
 from .services.capability_profile import capability_profile
 from .services.product_space import product_space, evidence_neighbors
+from .services.evidence_space import evidence_product_space, evidence_space_neighbors
 
 # 成分理化映射（D3 透皮判定数据源）：启动时读入内存常量，避免每请求 IO
 _CID_MAP_PATH = Path(__file__).resolve().parents[2] / "data" / "seed" / "cid_map.json"
@@ -253,6 +254,25 @@ def get_product_space(request: Request, db: Session = Depends(get_db)):
         return Response(status_code=304, headers=headers)
     return Response(content=json.dumps(data, ensure_ascii=False, allow_nan=False, separators=(',', ':')),
                     media_type='application/json', headers=headers)
+
+
+@app.get("/api/product-space/evidence")
+def get_evidence_product_space(request: Request, db: Session = Depends(get_db)):
+    data = evidence_product_space(db)
+    tag = '"' + data['revision'] + '"'
+    headers = {'ETag': tag, 'Cache-Control': 'private, max-age=0, must-revalidate'}
+    if request.headers.get('if-none-match') == tag:
+        return Response(status_code=304, headers=headers)
+    return Response(content=json.dumps(data, ensure_ascii=False, allow_nan=False, separators=(',', ':')),
+                    media_type='application/json', headers=headers)
+
+
+@app.get("/api/products/{product_id}/evidence-space-neighbors")
+def get_evidence_space_neighbors(product_id: int, limit: int = Query(100, ge=1, le=100), db: Session = Depends(get_db)):
+    try:
+        return evidence_space_neighbors(evidence_product_space(db), product_id, limit)
+    except KeyError:
+        raise HTTPException(status_code=404, detail="产品不存在")
 
 
 @app.get("/api/products")
