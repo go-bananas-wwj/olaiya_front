@@ -12,9 +12,9 @@ export function ResponsivePanel({name,narrow,onClose,children}) {
  useEffect(()=>{if(narrow)dialog.current?.showModal()},[narrow])
  return narrow?<dialog ref={dialog} className="space-sheet" aria-label={name} onClose={onClose}>{children}</dialog>:<aside className="space-side-panel" aria-label={name}>{children}</aside>
 }
-export default function ProductPanel({item,narrow,comparison,scale,onAdd,onClose,onSource,onSimilar,related,basis,onBasis,onChoose,onCompare,onStartCompare}) {
+export default function ProductPanel({item,narrow,comparison,scale,onAdd,onClose,onSource,onSimilar,related,basis,onBasis,onChoose,onCompare,onStartCompare,initialTab='related'}) {
  const product=useResource(()=>api.product(item.id),[item.id]),profile=useResource(()=>api.productCapabilityProfile(item.id),[item.id])
- const [tab,setTab]=useState('related'),[family,setFamily]=useState(null)
+ const [tab,setTab]=useState(initialTab),[family,setFamily]=useState(null)
  const section=useRef(null),d=profile.data?.dimensions.find(d=>d.canonical===family)
  useEffect(()=>{if(family&&d){const f=requestAnimationFrame(()=>section.current?.scrollIntoView({block:'nearest'}));return()=>cancelAnimationFrame(f)}},[family,d])
  const photo=productPhotos[String(item.id)],hasPhoto=photo&&photo.source_page===item.source_url

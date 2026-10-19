@@ -543,7 +543,7 @@ def efficacy_ranking(canon: str, limit: int = Query(20, ge=1, le=100),
 
 
 @app.get("/api/products/{product_id}/similar")
-def product_similar(product_id: int, k: int = Query(5, ge=1, le=50),
+def product_similar(product_id: int, k: int = Query(5, ge=1, le=100),
                     db: Session = Depends(get_db)):
     """成分表相似产品 Top-k（配置的嵌入模型 + Faiss，score 为余弦相似度）。
     索引未构建时 similar=null + reason 降级，不报错。

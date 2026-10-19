@@ -1,1 +1,1 @@
-export { default } from './space/ProductSpace'
+export { default } from './projector/ProjectorSpace'

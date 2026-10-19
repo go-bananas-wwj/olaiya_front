@@ -139,3 +139,21 @@ def test_ingredient_similar_ok(client, session, index_dir):
 def test_ingredient_similar_not_found(client, index_dir):
     r = client.get("/api/ingredients/999999/similar")
     assert r.status_code == 404
+
+
+def test_projector_accepts_one_hundred_real_neighbors(client, session, index_dir):
+    for i in range(96):
+        session.add(Product(name=f'投影近邻样本{i}', brand='测试品牌'))
+    session.commit()
+    ids = _product_ids(session)
+    assert len(ids) == 101
+    _write_index(index_dir, 'products', ids, _toy_vectors(len(ids)))
+    target = _ce_id(client)
+    response = client.get(f'/api/products/{target}/similar?k=100')
+    assert response.status_code == 200
+    hits = response.json()['similar']
+    assert len(hits) == 100
+    assert len({p['id'] for p in hits}) == 100
+    assert target not in {p['id'] for p in hits}
+    assert [p['score'] for p in hits] == sorted((p['score'] for p in hits), reverse=True)
+    assert client.get(f'/api/products/{target}/similar?k=101').status_code == 422

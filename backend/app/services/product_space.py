@@ -67,63 +67,121 @@ def catalog_signature(session):
     return _signature(session.execute(select(Product).order_by(Product.id)).scalars().all(), _links(session))
 
 
+def _number(value, low=-1e6, high=1e6):
+    # Check bounds before isfinite: enormous JSON integers must not overflow float.
+    return type(value) in (int, float) and low <= value <= high and math.isfinite(value)
+
+
+def _space_metadata(value, pca=False):
+    if not isinstance(value, dict) or value.get('status') != 'ready' or value.get('dimensions') != 3:
+        return None
+    parameters, quality = value.get('parameters'), value.get('quality')
+    if not isinstance(parameters, dict) or not isinstance(quality, dict):
+        return None
+    if any(k in quality and not _number(quality[k], 0, 1) for k in ('neighbor_recall_10', 'trustworthiness')):
+        return None
+    if 'sample_size' in quality and (type(quality['sample_size']) is not int or quality['sample_size'] < 0):
+        return None
+    meta = {'status':'ready', 'dimensions':3,
+            'quality':{k:quality[k] for k in ('neighbor_recall_10','trustworthiness','sample_size') if k in quality}}
+    if pca:
+        ratios = value.get('explained_variance_ratio')
+        if not isinstance(ratios, list) or len(ratios) != 3 or not all(_number(v, 0, 1) for v in ratios) or sum(ratios) > 1.000001:
+            return None
+        if parameters.get('centered') is not True or parameters.get('svd_solver') != 'full':
+            return None
+        meta.update(explained_variance_ratio=ratios, parameters={'centered':True,'svd_solver':'full'})
+    else:
+        if any(type(parameters.get(k)) is not int or parameters[k] < 0 for k in ('n_neighbors','random_state')):
+            return None
+        if not _number(parameters.get('min_dist'),0,1) or parameters.get('metric') != 'cosine':
+            return None
+        meta['parameters']={k:parameters[k] for k in ('n_neighbors','random_state','min_dist','metric')}
+    return meta
+
+
+def _optional_space(data, product_ids, key, point_key, pca=False):
+    unavailable = {'status':'unavailable', 'dimensions':3}
+    if data['version'] != 'ingredient-projector-v2':
+        return {}, unavailable
+    meta = _space_metadata(data.get(key), pca=pca)
+    if meta is None:
+        return {}, unavailable
+    coordinates = {}
+    for row in data['points']:
+        vector = row.get(point_key)
+        if vector is None:
+            continue
+        if not isinstance(vector, list) or len(vector) != 3 or not all(_number(v) for v in vector):
+            return {}, unavailable
+        if row['id'] in product_ids:
+            coordinates[row['id']] = vector
+    if not coordinates:
+        return {}, unavailable
+    return coordinates, meta
+
+
 def _layout(signature, product_ids):
     unavailable = {'status': 'unavailable', 'method': None,
+                   'umap_3d':{'status':'unavailable','dimensions':3}, 'pca':{'status':'unavailable','dimensions':3},
                    'note': '成分投影未配置或未通过校验；仍可按原始证据维度查看全库。'}
     path, expected = settings.product_space_layout_path, settings.product_space_layout_sha256
     if not path or not expected:
-        return {}, unavailable
+        return {}, {}, {}, unavailable
     try:
         if Path(path).stat().st_size > 4_000_000:
-            return {}, unavailable
+            return {}, {}, {}, unavailable
         raw = Path(path).read_bytes()
         if len(raw) > 4_000_000 or hashlib.sha256(raw).hexdigest() != expected:
-            return {}, unavailable
+            return {}, {}, {}, unavailable
         data = json.loads(raw)
         if not isinstance(data, dict):
-            return {}, unavailable
-        if data.get('version') != 'ingredient-umap-v1' or data.get('catalog_signature') != signature:
-            return {}, unavailable
+            return {}, {}, {}, unavailable
+        if data.get('version') not in ('ingredient-umap-v1', 'ingredient-projector-v2') or data.get('catalog_signature') != signature:
+            return {}, {}, {}, unavailable
         if data.get('source_snapshot') != settings.snapshot_revision:
-            return {}, unavailable
+            return {}, {}, {}, unavailable
         parameters, quality = data.get('parameters', {}), data.get('quality', {})
         if not isinstance(parameters, dict) or not isinstance(quality, dict) or not isinstance(data.get('points'), list):
-            return {}, unavailable
+            return {}, {}, {}, unavailable
         dimension = data.get('input_dimensions')
         if type(dimension) is not int or not 1 <= dimension <= 100000:
-            return {}, unavailable
+            return {}, {}, {}, unavailable
         for field in ('neighbor_recall_10', 'trustworthiness'):
             if field in quality and (type(quality[field]) not in (int, float) or not math.isfinite(quality[field]) or not 0 <= quality[field] <= 1):
-                return {}, unavailable
+                return {}, {}, {}, unavailable
         if 'sample_size' in quality and (type(quality['sample_size']) is not int or quality['sample_size'] < 0):
-            return {}, unavailable
+            return {}, {}, {}, unavailable
         for field in ('n_neighbors', 'random_state'):
             if field in parameters and (type(parameters[field]) is not int or parameters[field] < 0):
-                return {}, unavailable
+                return {}, {}, {}, unavailable
         if 'min_dist' in parameters and (type(parameters['min_dist']) not in (int, float) or not math.isfinite(parameters['min_dist']) or not 0 <= parameters['min_dist'] <= 1):
-            return {}, unavailable
+            return {}, {}, {}, unavailable
         if 'metric' in parameters and parameters['metric'] != 'cosine':
-            return {}, unavailable
+            return {}, {}, {}, unavailable
         coordinates = {}
         seen = set()
         for row in data['points']:
             if not isinstance(row, dict):
-                return {}, unavailable
+                return {}, {}, {}, unavailable
             pid, x, y = row['id'], row['x'], row['y']
-            if type(pid) is not int or pid in seen or any(type(v) not in (int, float) or not math.isfinite(v) or abs(v) > 1e6 for v in (x, y)):
-                return {}, unavailable
+            if type(pid) is not int or pid in seen or not all(_number(v) for v in (x, y)):
+                return {}, {}, {}, unavailable
             seen.add(pid)
             if pid in product_ids:
                 coordinates[pid] = [x, y]
-        return coordinates, {
+        umap3d, umap_meta = _optional_space(data, product_ids, 'umap_3d', 'umap3d')
+        pca3d, pca_meta = _optional_space(data, product_ids, 'pca', 'pca3d', pca=True)
+        return coordinates, umap3d, pca3d, {
             'status': 'ready', 'method': 'ingredient-umap-v1',
+            'artifact_version':data['version'], 'umap_3d':umap_meta, 'pca':pca_meta,
             'input_dimensions': data.get('input_dimensions'),
             'parameters': {k: parameters[k] for k in ('n_neighbors', 'min_dist', 'random_state', 'metric') if k in parameters},
             'quality': {k: quality[k] for k in ('neighbor_recall_10', 'sample_size', 'trustworthiness') if k in quality},
             'note': '成分表语义的二维投影，只用于探索；距离、方向与群落大小不代表配比、功效或质量。相似候选按原始向量核验。',
         }
-    except (OSError, ValueError, TypeError, KeyError):
-        return {}, unavailable
+    except (OSError, ValueError, TypeError, KeyError, OverflowError):
+        return {}, {}, {}, unavailable
 
 
 def product_space(session):
@@ -138,7 +196,7 @@ def product_space(session):
         assertions = session.query(EfficacyAssertion).options(joinedload(EfficacyAssertion.evidence)).order_by(EfficacyAssertion.id).all()
         prices = matching_price_points(session, [p.id for p in products])
         signature = _signature(products, links)
-        coordinates, projection = _layout(signature, {p.id for p in products})
+        coordinates, coordinates3d, pca_coordinates, projection = _layout(signature, {p.id for p in products})
         selected, _, unrated = select_index_assertions(assertions)
         by_ingredient = defaultdict(list)
         for (iid, family), assertion in selected.items():
@@ -163,10 +221,12 @@ def product_space(session):
             items.append({'id': p.id, 'name': p.name, 'brand': p.brand, 'nmpa_id': p.nmpa_id,
                           'scores': scores, 'statuses': statuses, 'ingredient_count': len(ids),
                           'evidence_ingredient_count': len(scored_ids), 'source_count': len(source_ids),
-                          'coordinates': coordinates.get(p.id), **price})
+                          'coordinates': coordinates.get(p.id), 'coordinates_3d':coordinates3d.get(p.id),
+                          'pca_coordinates':pca_coordinates.get(p.id), **price})
         payload = {'total': len(items), 'directions': list(DIRECTIONS), 'method_version': METHOD_VERSION,
                    'snapshot_revision': settings.snapshot_revision, 'catalog_signature': signature,
-                   'coordinate_count': len(coordinates), 'projection': projection,
+                   'coordinate_count': len(coordinates), 'coordinate_count_3d':len(coordinates3d),
+                   'pca_coordinate_count':len(pca_coordinates), 'projection': projection,
                    'note': INDEX_NOTE, 'products': items}
         encoded = json.dumps(payload, ensure_ascii=False, allow_nan=False, separators=(',', ':')).encode()
         payload['revision'] = hashlib.sha256(encoded).hexdigest()

@@ -1,155 +1,208 @@
 from playwright.sync_api import expect
 from frontend.e2e.browser_case import BrowserTestCase
 
-
 class ProductSpaceTest(BrowserTestCase):
     def ready(self):
-        expect(self.page.get_by_role('heading',name='护肤品成分地图',exact=True)).to_be_visible()
-        expect(self.page.get_by_test_id('space-map')).to_have_attribute('data-ready','true',timeout=20000)
+        expect(self.page.get_by_test_id('projector-shell')).to_have_attribute('data-total','3749',timeout=30000)
+        expect(self.page.get_by_test_id('projector-canvas')).to_have_attribute('data-dimensions','3')
+        expect(self.page.get_by_test_id('projector-stage')).to_have_attribute('data-renderer-state','ready')
+        expect(self.page.get_by_test_id('projector-canvas')).to_have_attribute('data-rendered-count','3749')
 
-    def select(self,query,name):
-        search=self.page.get_by_role('combobox',name='搜索全部产品')
-        search.fill(query)
-        self.page.get_by_role('option',name=f'查看 {name}',exact=True).click()
-        expect(self.page.get_by_role('complementary',name='产品详情').get_by_role('heading',name=name,exact=True)).to_be_visible()
+    def choose(self,query,name):
+        self.page.get_by_role('combobox',name='搜索全部产品').fill(query)
+        self.page.get_by_role('option',name='选择 '+name,exact=True).click()
 
-    def test_whole_catalog_map_is_first_screen_and_global_search_works(self):
-        self.page.set_viewport_size({'width':1280,'height':800});self.ready()
-        m=self.page.get_by_test_id('space-map');box=m.bounding_box()
-        self.assertLess(box['y'],250);self.assertGreaterEqual(box['height'],430)
-        self.assertGreater(int(m.get_attribute('data-total')),3700)
-        self.select('黑绷带面霜','黑绷带面霜（Re-Plasty Age Recovery Night）')
-        self.page.get_by_role('button',name='看八维证据',exact=True).click()
-        expect(self.page.get_by_role('button',name='查看保湿的贡献成分',exact=True)).to_be_visible()
-        self.page.get_by_role('button',name='查看保湿的贡献成分',exact=True).click()
-        self.page.get_by_role('button',name='查看来源',exact=True).first.click()
-        expect(self.page.get_by_role('dialog',name='成分证据')).to_be_visible()
-        self.page.keyboard.press('Escape')
-
-    def test_arbitrary_pair_comparison_and_return_preserve_map(self):
+    def test_three_dimensional_projector_is_the_default(self):
         self.ready()
-        self.select('黑绷带面霜','黑绷带面霜（Re-Plasty Age Recovery Night）')
-        self.page.get_by_role('button',name='加入对比',exact=True).click()
-        self.select('Serum 10','SkinCeuticals Serum 10')
-        self.page.get_by_role('button',name='加入对比',exact=True).click()
-        self.page.get_by_role('button',name='对比这两款',exact=True).click()
+        canvas=self.page.get_by_test_id('projector-canvas')
+        self.assertGreater(int(canvas.get_attribute('data-rendered-count')),3700)
+        expect(self.page.get_by_role('button',name='两款对比',exact=True)).to_be_visible()
+        self.page.get_by_role('button',name='二维',exact=True).click()
+        expect(canvas).to_have_attribute('data-dimensions','2')
+        self.page.get_by_role('button',name='PCA',exact=True).click()
+        expect(canvas).to_have_attribute('data-algorithm','pca')
+        self.page.get_by_role('button',name='三维',exact=True).click()
+        expect(canvas).to_have_attribute('data-dimensions','3')
+
+    def test_selection_isolates_original_neighbors_and_clears(self):
+        self.ready();self.choose('黑绷带面霜','黑绷带面霜（Re-Plasty Age Recovery Night）')
+        expect(self.page.get_by_test_id('projector-info')).to_have_attribute('data-product-id','9')
+        expect(self.page.get_by_test_id('projector-neighbors').locator('[data-neighbor-id]')).to_have_count(100,timeout=20000)
+        self.page.get_by_role('button',name='隔离选择',exact=True).click()
+        expect(self.page.get_by_test_id('projector-canvas')).to_have_attribute('data-rendered-count','101')
+        self.page.get_by_role('button',name='显示全部',exact=True).click()
+        expect(self.page.get_by_test_id('projector-canvas')).to_have_attribute('data-rendered-count','3749')
+        self.page.get_by_role('button',name='清除选择',exact=True).click()
+        expect(self.page.get_by_test_id('projector-info')).to_have_count(0)
+        expect(self.page.get_by_test_id('projector-neighbors').locator('[data-neighbor-id]')).to_have_count(0)
+
+    def test_neighbor_can_open_real_pair_comparison(self):
+        self.ready();self.choose('黑绷带面霜','黑绷带面霜（Re-Plasty Age Recovery Night）')
+        row=self.page.get_by_test_id('projector-neighbors').locator('[data-neighbor-id]').first
+        expect(row).to_be_visible(timeout=20000)
+        neighbor=row.get_attribute('data-neighbor-id');row.get_by_role('button',name='比较这两款',exact=True).click()
         expect(self.page.get_by_test_id('profile-A')).to_have_attribute('data-product-id','9')
-        expect(self.page.get_by_test_id('profile-B')).to_have_attribute('data-product-id','414')
-        self.page.get_by_role('button',name='产品地图',exact=True).click()
-        self.ready();expect(self.page.get_by_test_id('comparison-tray')).to_be_visible()
+        expect(self.page.get_by_test_id('profile-B')).to_have_attribute('data-product-id',neighbor)
+        expect(self.page.get_by_role('button',name='查看焕肤依据',exact=True)).to_be_visible()
 
-    def test_raw_dimensions_and_unknown_list_remain_accessible(self):
-        self.ready();self.page.get_by_role('button',name='证据坐标',exact=True).click()
-        self.page.get_by_label('横轴维度').select_option('7')
-        self.page.get_by_label('纵轴维度').select_option('4')
-        expect(self.page.get_by_role('button',name='查看未定位产品',exact=True)).to_be_visible()
-        self.page.get_by_role('button',name='查看未定位产品',exact=True).click()
-        expect(self.page.get_by_role('complementary',name='产品列表')).to_be_visible()
-        self.assertGreater(int(self.page.get_by_test_id('space-map').get_attribute('data-unplaced')),0)
+    def point(self,pid):
+        return self.page.get_by_test_id('projector-canvas').evaluate('(e,id)=>e.getScreenPoint(id)',pid)
 
-    def test_phone_and_embedded_first_screen(self):
-        for width,height in [(834,900),(390,844)]:
-            self.page.set_viewport_size({'width':width,'height':height});self.ready()
-            self.assertLessEqual(self.page.evaluate('document.documentElement.scrollWidth'),width)
-            self.assertGreaterEqual(self.page.get_by_test_id('space-map').bounding_box()['height'],350)
-        search=self.page.get_by_role('combobox',name='搜索全部产品');search.fill('Serum 10')
-        self.page.get_by_role('option',name='查看 SkinCeuticals Serum 10',exact=True).click()
-        panel=self.page.get_by_role('complementary',name='产品详情')
-        expect(panel).to_be_visible()
-        self.assertEqual(self.page.get_by_role('dialog',name='产品详情').count(),0)
-        self.page.get_by_role('button',name='关闭产品详情',exact=True).click()
-        expect(panel).to_have_count(0)
+    def test_real_canvas_rotation_picking_and_home(self):
+        self.ready();canvas=self.page.get_by_test_id('projector-canvas')
+        before=self.point(9);self.assertTrue(before['visible'])
+        self.page.mouse.click(before['clientX'],before['clientY'])
+        coincident=self.page.get_by_role('dialog',name='重叠位置的产品')
+        if coincident.is_visible():coincident.locator('.projector-coincident-list button').first.click()
+        expect(self.page.get_by_test_id('projector-info')).to_be_visible()
+        self.assertGreater(int(self.page.get_by_test_id('projector-info').get_attribute('data-product-id')),0)
+        box=canvas.bounding_box();self.page.mouse.move(box['x']+box['width']*.25,box['y']+box['height']*.65)
+        self.page.mouse.down();self.page.mouse.move(box['x']+box['width']*.5,box['y']+box['height']*.8,steps=15);self.page.mouse.up()
+        after=self.point(9);self.assertGreater(abs(before['x']-after['x'])+abs(before['y']-after['y']),20)
+        self.page.get_by_role('button',name='重置视角',exact=True).click()
+        reset=self.point(9);self.assertLess(abs(before['x']-reset['x'])+abs(before['y']-reset['y']),.2)
 
-    def test_keyboard_search_and_empty_search(self):
-        self.ready();search=self.page.get_by_role('combobox',name='搜索全部产品')
-        search.fill('没有这款产品abcdef');expect(self.page.get_by_text('未找到产品，试试品牌或其他名称。',exact=True)).to_be_visible()
-        search.fill('Serum 10');search.press('ArrowDown');search.press('ArrowUp');search.press('Enter')
-        expect(self.page.get_by_role('complementary',name='产品详情').get_by_role('heading',name='SkinCeuticals Serum 10',exact=True)).to_be_visible()
+    def test_original_neighbor_identity_survives_projection_and_metric_changes(self):
+        self.ready();self.choose('黑绷带面霜','黑绷带面霜（Re-Plasty Age Recovery Night）')
+        rows=self.page.get_by_test_id('projector-neighbors').locator('[data-neighbor-id]')
+        expect(rows).to_have_count(100)
+        ids=rows.evaluate_all('(es)=>es.map(e=>e.dataset.neighborId)')
+        self.page.get_by_role('button',name='PCA',exact=True).click()
+        self.page.get_by_role('button',name='二维',exact=True).click()
+        expect(self.page.get_by_test_id('projector-canvas')).to_have_attribute('data-algorithm','pca')
+        self.assertEqual(rows.evaluate_all('(es)=>es.map(e=>e.dataset.neighborId)'),ids)
+        self.page.get_by_role('button',name='EUCLIDEAN',exact=True).click()
+        self.assertEqual(rows.evaluate_all('(es)=>es.map(e=>e.dataset.neighborId)'),ids)
+        self.assertEqual(self.page.get_by_text('原始10近邻保留',exact=False).count(),0)
+        self.page.get_by_role('slider',name='近邻数量',exact=True).fill('5')
+        expect(rows).to_have_count(5)
+        self.page.get_by_role('button',name='隔离选择',exact=True).click()
+        expect(self.page.get_by_test_id('projector-canvas')).to_have_attribute('data-rendered-count','6')
+        self.assertEqual(rows.evaluate_all('(es)=>es.map(e=>e.dataset.neighborId)'),ids[:5])
 
-    def test_keyboard_active_result_stays_inside_scroll_view(self):
-        self.ready();search=self.page.get_by_role('combobox',name='搜索全部产品');search.fill('修丽可')
-        for _ in range(7):search.press('ArrowDown')
-        option=self.page.locator('#space-result-7')
-        self.page.wait_for_function('''() => {const e=document.getElementById('space-result-7');if(!e)return false;
-          const a=e.getBoundingClientRect(),b=e.parentElement.getBoundingClientRect();return a.top>=b.top&&a.bottom<=b.bottom;}''')
-        self.assertEqual(search.get_attribute('aria-activedescendant'),'space-result-7')
+    def test_pca_axes_and_label_display_actually_change(self):
+        self.ready();self.page.get_by_role('button',name='PCA',exact=True).click()
+        canvas=self.page.get_by_test_id('projector-canvas');expect(canvas).to_have_attribute('data-algorithm','pca')
+        before=self.point(414)
+        self.page.get_by_label('X主成分').select_option('2')
+        after=self.point(414);self.assertGreater(abs(before['x']-after['x'])+abs(before['y']-after['y']),1)
+        self.choose('黑绷带面霜','黑绷带面霜（Re-Plasty Age Recovery Night）')
+        expect(self.page.locator('.projector-point-label.is-selected')).to_be_visible()
+        self.page.get_by_label('点标签内容').select_option('brand')
+        expect(self.page.locator('.projector-point-label.is-selected')).to_have_text('赫莲娜')
+        self.page.get_by_role('button',name='显示点标签',exact=True).click()
+        expect(self.page.locator('.projector-point-label')).to_have_count(0)
 
-    def test_profile_numbers_are_readable_and_contributions_are_revealed(self):
-        self.ready();self.select('黑绷带面霜','黑绷带面霜（Re-Plasty Age Recovery Night）')
-        self.page.get_by_role('button',name='看八维证据',exact=True).click()
-        first=self.page.locator('.space-profile-row strong').first
-        self.assertGreaterEqual(float(first.evaluate('e=>parseFloat(getComputedStyle(e).fontSize)')),12)
-        self.page.get_by_role('button',name='查看保湿的贡献成分',exact=True).click()
-        self.page.wait_for_function('''() => {const e=document.querySelector('.space-panel-contributions');if(!e)return false;
-          const r=e.getBoundingClientRect(),panel=e.closest('aside,dialog').getBoundingClientRect();
-          return r.top>=Math.max(0,panel.top)&&r.top+80<Math.min(innerHeight,panel.bottom);}''')
+    def test_evidence_and_source_remain_traceable(self):
+        self.ready();self.choose('黑绷带面霜','黑绷带面霜（Re-Plasty Age Recovery Night）')
+        self.page.get_by_test_id('projector-info').get_by_role('button',name='成分与证据',exact=True).click()
+        detail=self.page.get_by_role('dialog',name='产品成分与证据');expect(detail).to_be_visible()
+        detail.get_by_role('button',name='查看保湿的贡献成分',exact=True).click()
+        detail.get_by_role('button',name='查看来源',exact=True).first.click()
+        source=self.page.get_by_role('dialog',name='成分证据');expect(source).to_be_visible()
+        self.assertGreater(source.locator('a[href^="http"]').count(),0)
+        self.page.keyboard.press('Escape');expect(source).to_have_count(0);expect(detail).to_be_visible()
+        self.page.keyboard.press('Escape');expect(detail).to_have_count(0)
 
-    def test_two_core_entries_are_visible_and_comparison_is_immediate(self):
-        self.ready()
-        expect(self.page.get_by_role('button',name='产品地图',exact=True)).to_be_visible()
-        self.page.get_by_role('button',name='两款对比',exact=True).click()
-        expect(self.page.get_by_test_id('profile-A')).to_have_attribute('data-loaded','true')
-        self.assertLess(self.page.locator('#benefits').bounding_box()['y'],300)
-        for name in ['保湿','抗皱','修护','舒缓','抗氧化','美白','控油祛痘','焕肤']:
-            expect(self.page.get_by_role('button',name=f'查看{name}依据',exact=True)).to_be_visible()
-        last=self.page.get_by_role('button',name='查看焕肤依据',exact=True).bounding_box()
-        self.assertLess(last['y']+last['height'],800)
-
-    def test_map_nodes_and_real_neighbor_comparison(self):
-        self.ready()
-        m=self.page.get_by_test_id('space-map')
-        self.assertGreaterEqual(float(m.get_attribute('data-min-marker-radius')),5.5)
-        expect(self.page.get_by_role('region',name='相近产品')).to_be_visible()
-        action=self.page.get_by_role('region',name='相近产品').get_by_role('button',name='与',exact=False).first
-        expect(action).to_be_visible();action.click()
-        expect(self.page.get_by_test_id('profile-A')).to_have_attribute('data-product-id','9')
-        expect(self.page.get_by_test_id('profile-B')).to_have_attribute('data-loaded','true')
-
-    def test_comparison_picker_state_survives_map_round_trip(self):
+    def test_comparison_roundtrip_keeps_arbitrary_pair(self):
         self.ready();self.page.get_by_role('button',name='两款对比',exact=True).click()
         self.page.get_by_role('button',name='更换产品 A',exact=True).click()
         self.page.get_by_role('combobox',name='搜索产品 A').fill('Serum 10')
         self.page.get_by_role('option',name='选择 SkinCeuticals Serum 10',exact=True).click()
-        expect(self.page.get_by_test_id('profile-A')).to_have_attribute('data-product-id','414')
-        self.page.get_by_role('button',name='产品地图',exact=True).click()
+        self.page.get_by_role('button',name='更换产品 B',exact=True).click()
+        self.page.get_by_role('combobox',name='搜索产品 B').fill('C E Ferulic')
+        self.page.get_by_role('option',name='选择 SkinCeuticals Prevent C E Ferulic® With 15% L-Ascorbic Acid',exact=True).click()
+        self.page.get_by_role('button',name='产品空间',exact=True).click()
         self.page.get_by_role('button',name='两款对比',exact=True).click()
         expect(self.page.get_by_test_id('profile-A')).to_have_attribute('data-product-id','414')
+        expect(self.page.get_by_test_id('profile-B')).to_have_attribute('data-product-id','3202')
         self.assertIn('compare=414',self.page.url)
 
-    def test_raw_coordinate_zero_and_maxima_are_drawn_after_reset(self):
-        rows=[]
-        for i,(x,y) in enumerate([(0,0),(1,2),(4.25,4.6)]):
-            scores=[x,1,y,1,1,1,1,1]
-            rows.append({'id':910001+i,'name':f'极值测试{i}','brand':'测试品牌','scores':scores,'statuses':['scored']*8,'coordinates':None,'ingredient_count':3,'evidence_ingredient_count':3,'source_count':1,'price_current':None})
-        self.page.route('**/api/product-space',lambda r:r.fulfill(json={'total':3,'directions':['保湿','抗皱','修护','舒缓','抗氧化','美白','控油祛痘','焕肤'],'method_version':'evidence-index-v1','projection':{'status':'unavailable'},'products':rows}))
-        self.page.reload();self.ready();self.page.get_by_role('button',name='重置地图',exact=True).click()
-        expect(self.page.get_by_test_id('space-map')).to_have_attribute('data-rendered-product-count','3')
-
-    def test_late_neighbors_do_not_replace_new_reference(self):
+    def test_rapid_selection_ignores_late_neighbors_and_clear(self):
         self.ready();delayed=[]
-        self.page.route('**/api/products/414/similar?*',lambda r:delayed.append((r,'composition')))
-        self.page.route('**/api/products/414/space-neighbors?*',lambda r:delayed.append((r,'evidence')))
+        self.page.route('**/api/products/414/similar?*',lambda r:delayed.append(r))
         with self.page.expect_request('**/api/products/414/similar?*'):
-            self.select('Serum 10','SkinCeuticals Serum 10')
-        self.page.get_by_role('button',name='功效证据接近',exact=True).click()
-        self.select('C E Ferulic','SkinCeuticals Prevent C E Ferulic® With 15% L-Ascorbic Acid')
-        region=self.page.get_by_role('region',name='相近产品')
-        expect(region.locator('.related-card')).to_have_count(3)
-        for route,kind in delayed:
-            item={'id':73,'name':'STALE_CANDIDATE','brand':'测试'}
-            route.fulfill(json={'similar':[item]} if kind=='composition' else {'available':True,'compared_directions':['保湿'],'items':[item]})
-        self.page.wait_for_timeout(200)
-        expect(region.get_by_text('STALE_CANDIDATE',exact=True)).to_have_count(0)
-        expect(self.page.get_by_role('complementary',name='产品详情').get_by_role('heading',name='SkinCeuticals Prevent C E Ferulic® With 15% L-Ascorbic Acid',exact=True)).to_be_visible()
+            self.choose('Serum 10','SkinCeuticals Serum 10')
+        self.choose('黑绷带面霜','黑绷带面霜（Re-Plasty Age Recovery Night）')
+        rows=self.page.get_by_test_id('projector-neighbors').locator('[data-neighbor-id]');expect(rows).to_have_count(100)
+        for route in delayed:route.fulfill(json={'product_id':414,'similar':[{'id':73,'score':1,'name':'STALE'}]})
+        expect(self.page.get_by_test_id('projector-info')).to_have_attribute('data-product-id','9')
+        expect(rows).to_have_count(100)
+        self.page.get_by_role('button',name='清除选择',exact=True).click()
+        expect(self.page.locator('.projector-point-label')).to_have_count(0)
 
-    def test_unavailable_neighbors_preserve_map_and_comparison(self):
-        self.page.route('**/api/products/9/similar?*',lambda r:r.fulfill(json={'similar':None,'reason':'成分索引暂不可用'}))
-        self.page.route('**/api/products/9/space-neighbors?*',lambda r:r.fulfill(json={'available':False,'reason':'参照资料不足（测试场景）','items':[]}))
-        self.page.reload();self.ready()
-        region=self.page.get_by_role('region',name='相近产品')
-        expect(region.get_by_text('成分索引暂不可用',exact=True)).to_be_visible()
-        self.page.get_by_role('button',name='功效证据接近',exact=True).click()
-        expect(region.get_by_text('参照资料不足（测试场景）',exact=True)).to_be_visible()
-        self.page.get_by_role('button',name='两款对比',exact=True).click()
+    def test_no_index_keeps_map_and_product_comparison_available(self):
+        self.page.route('**/api/products/9/similar?*',lambda r:r.fulfill(json={'product_id':9,'similar':None,'reason':'相似索引暂不可用（验收场景）'}))
+        self.ready();self.choose('黑绷带面霜','黑绷带面霜（Re-Plasty Age Recovery Night）')
+        expect(self.page.get_by_text('相似索引暂不可用（验收场景）',exact=True)).to_be_visible()
+        expect(self.page.get_by_test_id('projector-canvas')).to_have_attribute('data-rendered-count','3749')
+        self.page.get_by_role('button',name='两款对比',exact=True).first.click()
         expect(self.page.get_by_test_id('profile-A')).to_have_attribute('data-loaded','true')
-        expect(self.page.get_by_role('button',name='查看焕肤依据',exact=True)).to_be_visible()
+
+    def test_missing_three_dimensional_asset_does_not_fabricate_depth(self):
+        from frontend.e2e.browser_case import BASE_URL
+        data=self.page.request.get(BASE_URL+'/api/product-space').json()
+        data['projection']['umap_3d']['status']='unavailable';data['coordinate_count_3d']=0
+        for p in data['products']:p['coordinates_3d']=None
+        self.page.route('**/api/product-space',lambda r:r.fulfill(json=data));self.page.reload()
+        expect(self.page.get_by_role('alert')).to_contain_text('UMAP 3D 投影暂不可用')
+        self.page.get_by_role('button',name='二维',exact=True).click()
+        expect(self.page.get_by_test_id('projector-canvas')).to_have_attribute('data-rendered-count','3749')
+        self.page.get_by_role('button',name='两款对比',exact=True).click()
+        expect(self.page.get_by_test_id('profile-B')).to_have_attribute('data-loaded','true')
+
+    def test_mobile_tight_subset_is_fitted_and_panels_do_not_overflow(self):
+        self.ready()
+        for width,height in [(834,900),(390,844)]:
+            self.page.set_viewport_size({'width':width,'height':height})
+            self.assertLessEqual(self.page.evaluate('document.documentElement.scrollWidth'),width)
+        self.page.get_by_role('button',name='搜索与近邻',exact=False).click()
+        self.choose('Serum 10','SkinCeuticals Serum 10')
+        self.page.get_by_role('slider',name='近邻数量',exact=True).fill('5')
+        expect(self.page.get_by_test_id('projector-neighbors').locator('[data-neighbor-id]')).to_have_count(5)
+        ids=[414]+[int(x) for x in self.page.get_by_test_id('projector-neighbors').locator('[data-neighbor-id]').evaluate_all('(es)=>es.map(e=>e.dataset.neighborId)')]
+        self.page.get_by_role('button',name='隔离选择',exact=True).click()
+        expect(self.page.get_by_test_id('projector-canvas')).to_have_attribute('data-rendered-count','6')
+        positions=[self.point(pid) for pid in ids];self.assertTrue(all(p['visible'] for p in positions))
+        extent=max(p['x'] for p in positions)-min(p['x'] for p in positions)
+        self.assertGreater(extent,150)
+        self.assertLessEqual(self.page.evaluate('document.documentElement.scrollWidth'),390)
+
+    def test_keyboard_catalog_search_and_empty_results(self):
+        self.ready();search=self.page.get_by_role('combobox',name='搜索全部产品')
+        search.fill('没有这个产品abcdef');expect(self.page.get_by_text('未找到产品，试试其他名称或品牌。',exact=True)).to_be_visible()
+        search.fill('Serum 10');search.press('ArrowDown');search.press('ArrowUp');search.press('Enter')
+        expect(self.page.get_by_test_id('projector-info')).to_have_attribute('data-product-id','414')
+
+    def test_canvas_keeps_real_point_pixels_after_isolate_restore_and_resize(self):
+        import io
+        from PIL import Image
+        self.ready();self.choose('黑绷带面霜','黑绷带面霜（Re-Plasty Age Recovery Night）')
+        expect(self.page.get_by_test_id('projector-neighbors').locator('[data-neighbor-id]')).to_have_count(100)
+        self.page.get_by_role('button',name='隔离选择',exact=True).click()
+        expect(self.page.get_by_test_id('projector-canvas')).to_have_attribute('data-rendered-count','101')
+        self.page.get_by_role('button',name='显示全部',exact=True).click()
+        for width,height in [(1280,800),(390,844)]:
+            self.page.set_viewport_size({'width':width,'height':height})
+        canvas=self.page.get_by_test_id('projector-canvas')
+        expect(canvas).to_have_attribute('data-rendered-count','3749')
+        self.page.wait_for_timeout(200)
+        frame=canvas.bounding_box();info=self.page.get_by_test_id('projector-info').bounding_box()
+        raster=Image.open(io.BytesIO(canvas.screenshot())).convert('RGB')
+        grey=0
+        for y in range(raster.height):
+            for x in range(raster.width):
+                if info['x']<=x+frame['x']<=info['x']+info['width'] and info['y']<=y+frame['y']<=info['y']+info['height']:continue
+                r,g,b=raster.getpixel((x,y))
+                if 130<=min(r,g,b) and max(r,g,b)<242 and max(r,g,b)-min(r,g,b)<15:grey+=1
+        self.assertGreater(grey,1200,'Canvas must contain the real grey product cloud, not just retained DOM labels')
+
+    def test_webgl_context_loss_can_retry_without_losing_other_flows(self):
+        self.ready();canvas=self.page.get_by_test_id('projector-canvas')
+        supported=canvas.evaluate("e=>{const gl=e.getContext('webgl2');const ext=gl?.getExtension('WEBGL_lose_context');if(!ext)return false;ext.loseContext();return true}")
+        if not supported:self.skipTest('Browser has no WEBGL_lose_context extension')
+        expect(self.page.get_by_test_id('projector-stage')).to_have_attribute('data-renderer-state','unavailable')
+        expect(self.page.get_by_role('button',name='重试图形渲染',exact=True)).to_be_visible()
+        self.page.get_by_role('button',name='重试图形渲染',exact=True).click()
+        expect(self.page.get_by_test_id('projector-stage')).to_have_attribute('data-renderer-state','ready')
+        expect(self.page.get_by_test_id('projector-canvas')).to_have_attribute('data-rendered-count','3749')

@@ -156,3 +156,78 @@ def test_malformed_pinned_layout_degrades_only_the_projection(client,session,dat
     r=client.get('/api/product-space');assert r.status_code==200
     assert r.json()['projection']['status']=='unavailable'
     assert r.json()['total']==3 and r.json()['products'][0]['scores'][0]==1.6
+
+
+def projector_bundle(session, products):
+    from app.services.product_space import catalog_signature
+    return {'version':'ingredient-projector-v2','catalog_signature':catalog_signature(session),
+            'source_snapshot':settings.snapshot_revision,'input_dimensions':4096,
+            'parameters':{'n_neighbors':15,'min_dist':.15,'random_state':417,'metric':'cosine'},
+            'quality':{'neighbor_recall_10':.4},
+            'umap_3d':{'status':'ready','dimensions':3,
+                       'parameters':{'n_neighbors':15,'min_dist':.15,'random_state':417,'metric':'cosine'},
+                       'quality':{'neighbor_recall_10':.5}},
+            'pca':{'status':'ready','dimensions':3,'parameters':{'centered':True,'svd_solver':'full'},
+                   'explained_variance_ratio':[.2,.1,.05],'quality':{'neighbor_recall_10':.3}},
+            'points':[{'id':p.id,'x':1.,'y':2.,'umap3d':[1.,2.,3.],
+                       'pca3d':[-.1,.2,0.]} for p in products[:2]]}
+
+
+def pin_bundle(content,tmp_path,monkeypatch):
+    path=tmp_path/'projector.json';path.write_text(json.dumps(content))
+    monkeypatch.setattr(settings,'product_space_layout_path',str(path))
+    monkeypatch.setattr(settings,'product_space_layout_sha256',hashlib.sha256(path.read_bytes()).hexdigest())
+
+
+def test_projector_bundle_exposes_real_three_dimensional_spaces_without_changing_2d(client,session,data,tmp_path,monkeypatch):
+    content=projector_bundle(session,data[0]);pin_bundle(content,tmp_path,monkeypatch)
+    payload=client.get('/api/product-space').json()
+    assert payload['coordinate_count']==payload['coordinate_count_3d']==payload['pca_coordinate_count']==2
+    assert payload['projection']['artifact_version']=='ingredient-projector-v2'
+    assert payload['projection']['method']=='ingredient-umap-v1'
+    assert payload['projection']['umap_3d']['status']=='ready'
+    assert payload['projection']['pca']['explained_variance_ratio']==[.2,.1,.05]
+    for p in payload['products'][:2]:
+        assert p['coordinates']==[1.,2.] and p['coordinates_3d']==[1.,2.,3.]
+        assert p['pca_coordinates']==[-.1,.2,0.]
+        assert p['scores'][0]==1.6
+    assert payload['products'][2]['coordinates_3d'] is None
+    assert payload['products'][2]['pca_coordinates'] is None
+
+
+@pytest.mark.parametrize('space,key,bad',[
+    ('umap_3d','umap3d',[1.,2.]),('umap_3d','umap3d',[1.,2.,float('nan')]),
+    ('umap_3d','umap3d',[1.,2.,10**400]),('umap_3d','umap3d',[1.,2.,True]),
+    ('pca','pca3d','not-a-vector'),('pca','pca3d',[1.,None,2.]),
+])
+def test_bad_optional_3d_space_preserves_other_spaces_and_evidence(client,session,data,tmp_path,monkeypatch,space,key,bad):
+    content=projector_bundle(session,data[0]);content['points'][0][key]=bad
+    pin_bundle(content,tmp_path,monkeypatch)
+    response=client.get('/api/product-space');assert response.status_code==200
+    payload=response.json();assert payload['projection']['status']=='ready'
+    assert payload['projection'][space]['status']=='unavailable'
+    assert payload['products'][0]['coordinates']==[1.,2.] and payload['products'][0]['scores'][0]==1.6
+    field='coordinates_3d' if space=='umap_3d' else 'pca_coordinates'
+    other='pca_coordinates' if space=='umap_3d' else 'coordinates_3d'
+    assert all(p[field] is None for p in payload['products'])
+    assert payload['products'][0][other] is not None
+
+
+@pytest.mark.parametrize('bad',[None,[],[.2,.1],[.2,.1,float('nan')],[.8,.8,.1],[-.1,.2,.1]])
+def test_pca_requires_finite_explained_variance_without_hiding_umap(client,session,data,tmp_path,monkeypatch,bad):
+    content=projector_bundle(session,data[0]);content['pca']['explained_variance_ratio']=bad
+    pin_bundle(content,tmp_path,monkeypatch)
+    response=client.get('/api/product-space');assert response.status_code==200
+    payload=response.json();assert payload['projection']['umap_3d']['status']=='ready'
+    assert payload['projection']['pca']['status']=='unavailable'
+    assert payload['products'][0]['coordinates_3d']==[1.,2.,3.]
+
+
+def test_legacy_layout_cannot_claim_three_dimensional_coordinates(client,session,data,tmp_path,monkeypatch):
+    content=projector_bundle(session,data[0]);content['version']='ingredient-umap-v1'
+    pin_bundle(content,tmp_path,monkeypatch)
+    payload=client.get('/api/product-space').json()
+    assert payload['projection']['status']=='ready'
+    assert payload['projection']['umap_3d']['status']==payload['projection']['pca']['status']=='unavailable'
+    assert payload['coordinate_count_3d']==payload['pca_coordinate_count']==0
+    assert all(p['coordinates_3d'] is None and p['pca_coordinates'] is None for p in payload['products'])
