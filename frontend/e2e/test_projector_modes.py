@@ -83,6 +83,7 @@ class ProjectorModesTest(BrowserTestCase):
 
     def test_coincident_groups_remain_distinct_and_keyboard_accessible_without_labels(self):
         self.ready()
+        self.page.get_by_role('checkbox',name='展开重合点').uncheck()
         self.page.get_by_role('button',name='显示点标签',exact=True).click()
         summary=self.page.locator('.projector-coincident-summary')
         expect(summary).to_be_visible()

@@ -1,11 +1,12 @@
 import { forwardRef, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react'
 import * as THREE from 'three'
+import { coincidentDisplayOffsets, paperAxes, axisNumber, nearestVisiblePoint } from './projectorPresentation.mjs'
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
 import { normalizeUniverse, visibleProducts, screenHits, pointColor, layoutLabels, fitPerspective, groupCoincidentPoints, layoutCoincidentBadges } from './projectorGeometry.mjs'
 
 const EMPTY = []
 const DEFAULT_AXES = [0, 1, 2]
-const ROOT_STYLE = { position: 'relative', width: '100%', height: '100%', minHeight: 320, overflow: 'hidden', background: '#fff' }
+const ROOT_STYLE = { position: 'relative', width: '100%', height: '100%', minHeight: 220, overflow: 'hidden', background: '#fff' }
 const OVERLAY_STYLE = { position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', padding: 28, gap: 12, textAlign: 'center', background: '#fff', color: '#555', fontSize: 13 }
 
 function circleTexture() {
@@ -31,16 +32,18 @@ function disposeGroup(group) {
 // Each frame is requested by a data/camera/resize event. There is no idle animation loop.
 export default forwardRef(function ProjectorCanvas({ products = EMPTY, algorithm = 'umap', dimensions = 2,
   selected = null, neighbors = EMPTY, isolated = false, pointSize = 6, colorBy = 'none', showLabels = true, labelBy = 'name', axisOrder = DEFAULT_AXES,
-  onSelect, onCoincident }, ref) {
+  onSelect, onCoincident, spreadCoincident = true }, ref) {
   const root = useRef(null), canvas = useRef(null), runtime = useRef(null)
   const [attempt, setAttempt] = useState(0), [failure, setFailure] = useState(null)
-  const [frameInfo, setFrameInfo] = useState({ revision: 0, labels: [], badges: [], coincidentGroups: [] })
+  const [frameInfo, setFrameInfo] = useState({ revision: 0, labels: [], badges: [], coincidentGroups: [], axisLabels: [], spreadLeaders: [] })
   const [hover, setHover] = useState(null)
   const axisKey = JSON.stringify(axisOrder)
   const universe = useMemo(() => normalizeUniverse(products, algorithm, dimensions, axisOrder), [products, algorithm, dimensions, axisKey])
+  const displayOffsets=useMemo(()=>coincidentDisplayOffsets(universe.points),[universe])
+  const axisSpec=useMemo(()=>paperAxes(universe,{dimensions,algorithm,axisOrder}),[universe,dimensions,algorithm,axisKey])
   const drawn = useMemo(() => visibleProducts(universe.points, selected, neighbors, isolated), [universe, selected, neighbors, isolated])
   const latest = useRef(null)
-  latest.current = { products, selected, neighbors, isolated, pointSize, colorBy, showLabels, labelBy, onSelect, onCoincident, universe, drawn, dimensions }
+  latest.current = { products, selected, neighbors, isolated, pointSize, colorBy, showLabels, labelBy, onSelect, onCoincident, universe, drawn, dimensions, displayOffsets, spreadCoincident, axisSpec }
 
   useImperativeHandle(ref, () => ({
     reset: () => runtime.current?.reset(),
@@ -60,7 +63,7 @@ export default forwardRef(function ProjectorCanvas({ products = EMPTY, algorithm
     const labelMeasure = document.createElement('canvas').getContext('2d')
     scene.add(cloud, axes)
     const r = { renderer, element:canvas.current, scene, cloud, axes, texture, width: 1, height: 1, camera: null, controls: null,
-      dimensions: latest.current.dimensions, request: null, disposed: false, drawn: [], observer: null }
+      viewportUniform:{value:new THREE.Vector2(1,1)}, dimensions: latest.current.dimensions, request: null, disposed: false, drawn: [], observer: null }
     runtime.current = r
 
     r.project = point => {
@@ -68,15 +71,43 @@ export default forwardRef(function ProjectorCanvas({ products = EMPTY, algorithm
       r.camera.updateMatrixWorld()
       const vector = new THREE.Vector3(...point.position).project(r.camera)
       const x = (vector.x + 1) * r.width / 2, y = (1 - vector.y) * r.height / 2
-      return { product: point.product, position:point.position, x, y, depth: vector.z,
-        visible: Number.isFinite(x) && Number.isFinite(y) && vector.z >= -1 && vector.z <= 1 && x >= 0 && x <= r.width && y >= 0 && y <= r.height }
+      const offset=latest.current.spreadCoincident?(latest.current.displayOffsets.get(point.product.id)||[0,0]):[0,0]
+      const displayX=x+offset[0],displayY=y+offset[1]
+      return { product: point.product, position:point.position, rawX:x,rawY:y, displayOffset:offset,x:displayX,y:displayY,depth: vector.z,
+        visible: Number.isFinite(x) && Number.isFinite(y) && vector.z >= -1 && vector.z <= 1 && displayX >= 0 && displayX <= r.width && displayY >= 0 && displayY <= r.height }
     }
     r.getScreenPoint = id => {
       const point = r.drawn.find(p => p.product.id === id)
       if (!point) return null
       const projected = r.project(point), rect = canvas.current.getBoundingClientRect()
       return projected ? { x: projected.x, y: projected.y, clientX: rect.left + projected.x, clientY: rect.top + projected.y,
-        visible: projected.visible, depth: projected.depth } : null
+        visible: projected.visible, depth: projected.depth,rawX:projected.rawX,rawY:projected.rawY,displayOffset:projected.displayOffset } : null
+    }
+    r.projectPosition=position=>{
+      const v=new THREE.Vector3(...position).project(r.camera)
+      return {x:(v.x+1)*r.width/2,y:(1-v.y)*r.height/2,depth:v.z}
+    }
+    r.axisAnnotations=()=>{
+      if(!r.axes.visible)return []
+      const spec=latest.current.axisSpec
+      if(!spec.edges.length)return []
+      const center=r.projectPosition(spec.bounds.map(b=>(b[0]+b[1])/2)),labels=[]
+      for(const edge of spec.edges){
+        const a=r.projectPosition(edge.start),b=r.projectPosition(edge.end),dx=b.x-a.x,dy=b.y-a.y,length=Math.hypot(dx,dy)
+        if(length<26)continue
+        const mid={x:(a.x+b.x)/2,y:(a.y+b.y)/2},perp=[-dy/length,dx/length]
+        if((mid.x-center.x)*perp[0]+(mid.y-center.y)*perp[1]<0){perp[0]*=-1;perp[1]*=-1}
+        let angle=Math.atan2(dy,dx)*180/Math.PI
+        if(angle>90)angle-=180;if(angle< -90)angle+=180
+        labels.push({key:`axis-${edge.axis}`,kind:'name',text:edge.label,x:mid.x+perp[0]*36,y:mid.y+perp[1]*36,angle})
+        for(const [i,tick] of edge.ticks.entries()){
+          const p=r.projectPosition(tick.position)
+          if(p.depth< -1||p.depth>1)continue
+          labels.push({key:`tick-${edge.axis}-${i}`,kind:'tick',text:axisNumber(tick.value),x:p.x+perp[0]*13,y:p.y+perp[1]*13,
+            mark:{x1:p.x,y1:p.y,x2:p.x+perp[0]*4,y2:p.y+perp[1]*4}})
+        }
+      }
+      return labels.filter(l=>Number.isFinite(l.x)&&Number.isFinite(l.y)&&l.x>5&&l.y>5&&l.x<r.width-5&&l.y<r.height-5)
     }
     // This DOM method exposes the same actual projection as the React ref for browser acceptance tests.
     canvas.current.getScreenPoint = r.getScreenPoint
@@ -88,7 +119,9 @@ export default forwardRef(function ProjectorCanvas({ products = EMPTY, algorithm
         const props = latest.current
         const neighborIds = new Set(props.neighbors.map(p => p.id))
         const rank = new Map(props.neighbors.map((p,i)=>[p.id,i]))
-        const groups = groupCoincidentPoints(r.drawn.map(r.project).filter(p=>p?.visible))
+        const screenPoints=r.drawn.map(r.project).filter(p=>p?.visible)
+        const groups = props.spreadCoincident?screenPoints.map(p=>({key:String(p.product.id),members:[p]})):groupCoincidentPoints(screenPoints)
+        const axisLabels=r.axisAnnotations()
         const projected = props.showLabels && props.selected != null ? groups.map(group=>{
           const members=[...group.members].sort((a,b)=>Number(b.product.id===props.selected)-Number(a.product.id===props.selected)
             || (rank.get(a.product.id)??Infinity)-(rank.get(b.product.id)??Infinity))
@@ -98,11 +131,12 @@ export default forwardRef(function ProjectorCanvas({ products = EMPTY, algorithm
             || (rank.get(a.product.id)??Infinity)-(rank.get(b.product.id)??Infinity)).slice(0,101) : []
         const fontFamily = getComputedStyle(root.current).fontFamily
         const labelOptions={width:r.width,height:r.height,selected:props.selected,pointSize:props.pointSize,labelBy:props.labelBy,
-          measure:labelMeasure?(text,fontSize,primary)=>{labelMeasure.font=`${primary?600:400} ${fontSize}px ${fontFamily}`;return labelMeasure.measureText(text).width}:undefined}
+          separateIdentities:props.spreadCoincident,measure:labelMeasure?(text,fontSize,primary)=>{labelMeasure.font=`${primary?600:400} ${fontSize}px ${fontFamily}`;return labelMeasure.measureText(text).width}:undefined}
         const primaryLabels=layoutLabels(projected,{...labelOptions,onlySelected:true})
-        const badges=layoutCoincidentBadges(groups,{width:r.width,height:r.height,selected:props.selected,neighborIds,reserved:primaryLabels})
+        const badges=props.spreadCoincident?[]:layoutCoincidentBadges(groups,{width:r.width,height:r.height,selected:props.selected,neighborIds,reserved:primaryLabels})
         const labels=layoutLabels(projected,{...labelOptions,reserved:badges})
-        setFrameInfo(old => ({ revision: old.revision + 1, labels, badges, coincidentGroups:groups.filter(group=>group.members.length>1) }))
+        setFrameInfo(old => ({ revision: old.revision + 1, labels, badges, coincidentGroups:groups.filter(group=>group.members.length>1),axisLabels,
+          spreadLeaders:props.spreadCoincident?screenPoints.filter(p=>Math.hypot(...p.displayOffset)>.1):[] }))
     }
     r.invalidate = () => {
       if (r.disposed || r.request != null || renderer.getContext().isContextLost()) return
@@ -117,7 +151,8 @@ export default forwardRef(function ProjectorCanvas({ products = EMPTY, algorithm
       if (!r.camera) return
       const aspect = r.width / r.height
       if (r.dimensions === 2) {
-        const halfHeight = 1.25 * Math.max(1, 1 / aspect)
+        const bounds=latest.current.axisSpec.bounds
+        const halfHeight=bounds.length?Math.max((bounds[1][1]-bounds[1][0])/2,(bounds[0][1]-bounds[0][0])/2/aspect)/.76:1.25*Math.max(1,1/aspect)
         r.camera.left = -halfHeight * aspect; r.camera.right = halfHeight * aspect
         r.camera.top = halfHeight; r.camera.bottom = -halfHeight
       } else r.camera.aspect = aspect
@@ -132,12 +167,12 @@ export default forwardRef(function ProjectorCanvas({ products = EMPTY, algorithm
     }
     r.reset = () => {
       if (!r.camera || r.disposed) return
-      r.framingPoints = latest.current.universe.points
+      r.framingPoints = [...latest.current.universe.points,...latest.current.axisSpec.corners.map(position=>({position}))]
       r.frameMode = 'universe'; r.axes.visible = !latest.current.isolated
       r.controls.target.set(0, 0, 0)
       if (r.dimensions === 2) { r.camera.position.set(0, 0, 5); r.camera.up.set(0, 1, 0); r.camera.zoom = 1 }
       else {
-        const fit = fitPerspective(r.framingPoints.map(point=>point.position),{aspect:r.width/r.height,fov:r.camera.fov})
+        const fit = fitPerspective(r.framingPoints.map(point=>point.position),{aspect:r.width/r.height,fov:r.camera.fov,padding:r.width<600?.15:.11})
         r.controls.target.fromArray(fit.target);r.camera.position.fromArray(fit.position);r.camera.zoom = 1
       }
       r.updateFrustum();r.syncClip(); r.controls.update(); r.invalidate()
@@ -196,7 +231,7 @@ export default forwardRef(function ProjectorCanvas({ products = EMPTY, algorithm
       const { width, height } = entries[0].contentRect
       if (width <= 0 || height <= 0 || r.disposed) return
       const oldAspect = r.width / r.height
-      r.width = width; r.height = height
+      r.width = width; r.height = height;r.viewportUniform.value.set(width,height)
       renderer.setSize(width, height, false); r.updateFrustum()
       if (!measured) { measured = true; r.reset() }
       else if (r.dimensions === 3) {
@@ -226,12 +261,18 @@ export default forwardRef(function ProjectorCanvas({ products = EMPTY, algorithm
     const onMove = event => {
       if (down) { if (Math.hypot(event.clientX-down.x, event.clientY-down.y)>5) down.moved=true; return }
       const hits = hit(event), at = pointer(event)
-      setHover(hits.length ? { product: hits[0], count: hits.length, ...at } : null)
+      setHover(hits.length ? { product: hits[0], count:latest.current.spreadCoincident&&!event.shiftKey?1:hits.length,...at } : null)
     }
     const onUp = event => {
       const previous = down; down = null
       if (!previous || previous.moved || event.button !== 0) return
       const hits = hit(event); setHover(null)
+      if(hits.length&&latest.current.spreadCoincident&&!event.shiftKey){
+        const at=pointer(event),candidates=hits.map(p=>r.project(latest.current.universe.byId.get(p.id))).filter(Boolean)
+        const nearest=nearestVisiblePoint(candidates,at.x,at.y,Math.max(7,latest.current.pointSize*.85))
+        if(nearest)latest.current.onSelect?.(nearest)
+        return
+      }
       if (hits.length === 1) latest.current.onSelect?.(hits[0])
       else if (hits.length > 1) {
         const positions=hits.map(product=>latest.current.universe.byId.get(product.id)).filter(Boolean)
@@ -284,12 +325,12 @@ export default forwardRef(function ProjectorCanvas({ products = EMPTY, algorithm
     if (!r || r.disposed) return
     r.switchCamera(dimensions)
     disposeGroup(r.axes)
-    const colors = ['#e97133', '#68bc20', '#4d79e8']
-    for (let axis = 0; axis < dimensions; axis++) {
-      const start = [0,0,0], end = [0,0,0]; end[axis] = 1.15
-      const geometry = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(...start), new THREE.Vector3(...end)])
-      const material = new THREE.LineBasicMaterial({ color: colors[axis], transparent: true, opacity: .8 })
-      r.axes.add(new THREE.Line(geometry, material))
+    for(const kind of ['grid','frame']){
+      const segments=axisSpec.segments.filter(line=>line.kind===kind)
+      if(!segments.length)continue
+      const geometry=new THREE.BufferGeometry().setFromPoints(segments.flatMap(line=>[new THREE.Vector3(...line.a),new THREE.Vector3(...line.b)]))
+      const material=new THREE.LineBasicMaterial({color:kind==='grid'?'#e1e5eb':'#909baa',transparent:true,opacity:kind==='grid'?.6:.8,depthWrite:false})
+      const lines=new THREE.LineSegments(geometry,material);lines.renderOrder=0;r.axes.add(lines)
     }
     setHover(null); r.invalidate()
   }, [universe, dimensions, algorithm, attempt])
@@ -310,37 +351,50 @@ export default forwardRef(function ProjectorCanvas({ products = EMPTY, algorithm
     for (const point of drawn) groups[point.product.id === selected ? 2 : neighborIds.has(point.product.id) ? 1 : 0].push(point)
     groups.forEach((points, index) => {
       if (!points.length) return
-      const positions = new Float32Array(points.length * 3), colors = new Float32Array(points.length * 3), color = new THREE.Color()
+      const positions = new Float32Array(points.length * 3), colors = new Float32Array(points.length * 3),offsets=new Float32Array(points.length*2),color = new THREE.Color()
       points.forEach((point, i) => {
         positions.set(point.position.map((v,axis)=>v-origin[axis]), i * 3)
+        offsets.set(spreadCoincident?(displayOffsets.get(point.product.id)||[0,0]):[0,0],i*2)
         color.set(pointColor(point.product, { selected, neighborIds, colorBy, colorMax })); color.toArray(colors, i * 3)
       })
       const geometry = new THREE.BufferGeometry()
       geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3))
+      geometry.setAttribute('displayOffset',new THREE.BufferAttribute(offsets,2))
       geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3))
       const material = new THREE.PointsMaterial({ size: Math.max(1, Math.min(24, pointSize)) * [1, 1.3, 1.9][index], sizeAttenuation: false,
         map: r.texture, vertexColors: true, transparent: true, opacity: index ? .95 : selected != null ? .5 : .65,
         alphaTest: .1, depthWrite: false, depthTest: index === 0 })
-      const mesh = new THREE.Points(geometry, material); mesh.renderOrder = index + 1
+      material.onBeforeCompile=shader=>{
+        shader.uniforms.cfzViewport=r.viewportUniform
+        shader.vertexShader=shader.vertexShader.replace('#include <common>','#include <common>\nattribute vec2 displayOffset;\nuniform vec2 cfzViewport;')
+          .replace('#include <project_vertex>','#include <project_vertex>\ngl_Position.xy += vec2(displayOffset.x,-displayOffset.y) * 2.0 / cfzViewport * gl_Position.w;')
+      }
+      material.customProgramCacheKey=()=> 'projector-display-offset-v1'
+      const mesh = new THREE.Points(geometry, material); mesh.renderOrder = index + 1;mesh.frustumCulled=false
       r.cloud.add(mesh)
     })
     r.invalidate()
-  }, [drawn, products, neighbors, selected, pointSize, colorBy, showLabels, labelBy, attempt])
+  }, [drawn, products, neighbors, selected, pointSize, colorBy, showLabels, labelBy, spreadCoincident,displayOffsets,attempt])
 
   const currentLabelIds = new Set(selected == null ? [] : [selected,...neighbors.map(p=>p.id)])
   const activeLabels = showLabels ? frameInfo.labels.filter(label=>currentLabelIds.has(label.product.id)) : []
 
   return <div ref={root} className="projector-stage" style={ROOT_STYLE} data-testid="projector-stage"
-    data-rendered-count={failure ? 0 : drawn.length} data-unplaced-count={universe.missingIds.length} data-dimensions={dimensions} data-algorithm={algorithm}
+    data-spread-coincident={spreadCoincident} data-rendered-count={failure ? 0 : drawn.length} data-unplaced-count={universe.missingIds.length} data-dimensions={dimensions} data-algorithm={algorithm}
     data-camera-revision={frameInfo.revision} data-renderer-state={failure ? 'unavailable' : frameInfo.revision ? 'ready' : 'starting'}>
     <canvas key={attempt} ref={canvas} data-testid="projector-canvas" tabIndex={failure ? -1 : 0} role="img"
       data-rendered-count={failure ? 0 : drawn.length} data-dimensions={dimensions} data-algorithm={algorithm} data-camera-revision={frameInfo.revision}
       aria-label={`${dimensions}D ${algorithm.toUpperCase()} 产品投影，${drawn.length} 款有坐标产品。${dimensions === 3 ? '拖动旋转' : '拖动平移'}，滚轮缩放。方向键操作视图，Home 复位。全部产品也可通过搜索和列表选择。`}
       style={{ display:'block', width:'100%', height:'100%', outlineOffset:-3, touchAction:'none', visibility:failure?'hidden':'visible' }}/>
     {!failure && <svg aria-hidden="true" width="100%" height="100%" style={{position:'absolute',inset:0,pointerEvents:'none',zIndex:2}}>
+      {frameInfo.spreadLeaders?.map(p=><line key={`spread-${p.product.id}`} x1={p.rawX} y1={p.rawY} x2={p.x} y2={p.y} stroke="#a4adbc" strokeWidth=".6" opacity=".6"/>)}
       {activeLabels.filter(label=>label.leader).map(label=><line key={label.product.id} {...label.leader} stroke={label.product.id===selected?'#96004f':'#b08b45'} strokeWidth=".7" opacity=".65"/>)}
     </svg>}
-    {!failure && frameInfo.badges.map(badge=><button key={badge.key} type="button" className="projector-coincident-badge"
+    {!failure&&(selected!=null||colorBy==='sample')&&<div className="projector-paper-legend" aria-label="点颜色图例">{(selected!=null?[['#96004f','选中产品'],['#e9a023','近邻'],['#c8c8cc','其他']]:[['#596bb0','核验面霜'],['#9da5b4','其他记录']]).map(([color,label])=><span key={label}><i style={{background:color}}/>{label}</span>)}</div>}
+    {!failure&&<svg className="projector-paper-axes" data-testid="projector-paper-axes" aria-hidden="true" width="100%" height="100%">
+      {(frameInfo.axisLabels||[]).map(label=><g key={label.key}>{label.mark&&<line {...label.mark} stroke="#8b95a5" strokeWidth=".8"/>}<text x={label.x} y={label.y} textAnchor="middle" dominantBaseline="middle" className={`is-${label.kind}`} transform={label.kind==='name'?`rotate(${label.angle} ${label.x} ${label.y})`:undefined}>{label.text}</text></g>)}
+    </svg>}
+    {!failure && !spreadCoincident && frameInfo.badges.map(badge=><button key={badge.key} type="button" className="projector-coincident-badge"
       data-coincident-count={badge.count} data-testid="projector-coincident-badge"
       aria-label={`同一投影位置 ${badge.count} 款，展开产品记录。投影位置相同不代表同一产品、配方或原始向量。`}
       title={`同一投影位置 ${badge.count} 款，点击展开；不代表同一产品、配方或原始向量。`}
@@ -348,7 +402,7 @@ export default forwardRef(function ProjectorCanvas({ products = EMPTY, algorithm
       style={{position:'absolute',left:badge.left,top:badge.top,width:badge.width,height:badge.height,zIndex:5,
         border:0,background:'transparent',color:'#555a75',fontFamily:'inherit',fontSize:10,cursor:'pointer',padding:0,whiteSpace:'nowrap',display:'grid',placeItems:'center'}}
     ><span style={{display:'inline-block',border:'1px solid #d3d7e5',borderRadius:12,background:'#fffffff2',padding:'3px 5px',lineHeight:'14px',whiteSpace:'nowrap'}}>{badge.count}款</span></button>)}
-    {!failure && frameInfo.coincidentGroups.length>0 && <button type="button" className="projector-coincident-summary"
+    {!failure && !spreadCoincident && frameInfo.coincidentGroups.length>0 && <button type="button" className="projector-coincident-summary"
       title="查看当前画面中位于同一投影位置的产品记录组；不代表同配方或相同原始向量。"
       onClick={()=>{const groups=frameInfo.coincidentGroups.map(group=>group.members.map(p=>p.product));latest.current.onCoincident?.(groups.flat(),{kind:'projection-groups',groups})}}
       style={{position:'absolute',left:14,bottom:14,zIndex:5,border:'1px solid #e3e5ed',background:'#ffffffed',color:'#777c90',fontFamily:'inherit',fontSize:10,padding:'7px 9px',borderRadius:4,cursor:'pointer'}}

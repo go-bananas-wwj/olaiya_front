@@ -46,7 +46,7 @@ export function pointColor(product, { selected = null, neighborIds = new Set(), 
   if (product.id === selected) return '#96004f'
   if (neighborIds.has(product.id)) return '#e9a023'
   if (selected != null) return '#c8c8cc'
-  if(colorBy==='sample'&&product.id!==selected&&!neighborIds.has(product.id))return product.selection_sample&&product.category==='面霜'?'#25876c':'#c4d1cc'
+  if(colorBy==='sample'&&product.id!==selected&&!neighborIds.has(product.id))return product.selection_sample&&product.category==='面霜'?'#596bb0':'#9da5b4'
   if (colorBy === 'brand') {
     if (!product.brand) return '#b9bdc6'
     let hash = 0
@@ -114,10 +114,10 @@ const closestOnRect = (point, rect) => ({ x:Math.max(rect.left,Math.min(point.x,
 
 // Screen-space annotation placement never changes product coordinates. Dense
 // neighborhoods keep their true points; names without a clear slot are omitted.
-export function layoutLabels(points, { width, height, selected, pointSize = 6, labelBy = 'name', measure, reserved = [], onlySelected = false } = {}) {
+export function layoutLabels(points, { width, height, selected, pointSize = 6, labelBy = 'name', measure, reserved = [], onlySelected = false, separateIdentities = false } = {}) {
   if (!(width > 16 && height > 16)) return []
   const nodes = points.filter(p => p.visible && Number.isFinite(p.x) && Number.isFinite(p.y))
-  const order = groupCoincidentPoints(nodes).map(group=>{
+  const order = (separateIdentities?nodes.map(p=>({members:[p]})):groupCoincidentPoints(nodes)).map(group=>{
     const point=group.members.find(p=>p.product.id===selected)||group.members[0]
     return {...point,members:point.members||group.members,coincidentCount:point.coincidentCount||group.members.length}
   }).sort((a,b)=>Number(b.product.id===selected)-Number(a.product.id===selected))
