@@ -135,3 +135,5 @@ body.reference-compare,body.product-space-body{background:#fff}
 .comparison-page .ss-product-details a,.comparison-page .cap-text-button,.comparison-page .cap-source-actions a,.comparison-page .comparison-section-nav a:hover,.comparison-page .comparison-footer button{color:var(--compare-a)}
 .comparison-page .ss-photo-label{background:var(--compare-a-tint);color:var(--compare-a)}
 .comparison-page .compact-B .ss-photo-label{background:var(--compare-b-tint);color:var(--compare-b)}
+
+.projector-apply-similarity{display:block;width:100%;margin-top:13px;padding:10px 12px;border:0;border-radius:9px;background:#0071e3;color:#fff;font:inherit;font-size:12px;cursor:pointer}.projector-apply-similarity:disabled{opacity:.5;cursor:default}

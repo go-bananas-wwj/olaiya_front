@@ -32,3 +32,9 @@ export function needPlane(source,need='需求'){
 }
 export function needStatus(product,index,need){return Number.isFinite(product.scores?.[index])?'evidence':product.declared_directions?.includes(need)?'declared':'unknown'}
 export function needCounts(products,index,need){const counts={evidence:0,declared:0,unknown:0};for(const p of products)counts[needStatus(p,index,need)]++;return counts}
+
+export function distanceOpacity(distance,scale=1){
+ if(!Number.isFinite(distance))return .12
+ const ratio=Math.max(0,distance)/(Number.isFinite(scale)&&scale>0?scale:1)
+ return .12+.88*Math.exp(-ratio*ratio)
+}

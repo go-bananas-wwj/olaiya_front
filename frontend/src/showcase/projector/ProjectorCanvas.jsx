@@ -1,7 +1,7 @@
 import { forwardRef, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react'
 import * as THREE from 'three'
 import { coincidentDisplayOffsets, paperAxes, nearestVisiblePoint } from './projectorPresentation.mjs'
-import { radialUniverse,needPlane,similarityRadius } from './projectorExplore.mjs'
+import { radialUniverse,needPlane,similarityRadius,distanceOpacity } from './projectorExplore.mjs'
 import { boundedBallOffset, BALL_OFFSET_GLSL } from './projectorBallDisplay.mjs'
 import { displayUniverse, depthCue, DISPLAY_AXES } from './projectorDepth.mjs'
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
@@ -42,7 +42,8 @@ export default forwardRef(function ProjectorCanvas({ products = EMPTY, algorithm
   const [hover, setHover] = useState(null)
   const axisKey = JSON.stringify(axisOrder)
   const base = useMemo(() => ({...displayUniverse(normalizeUniverse(products, algorithm, facet?3:dimensions, axisOrder),facet?3:dimensions),catalogProducts:products}), [products, algorithm, dimensions, axisKey,!!facet])
-  const universe=useMemo(()=>radial?radialUniverse(base,selected,similarityRows,basis,dimensions):facet?needPlane(base,facet):base,[base,radial,selected,similarityRows,basis,facet,dimensions])
+  const unfilteredUniverse=useMemo(()=>facet?needPlane(base,facet):base,[base,facet])
+  const universe=useMemo(()=>radial?radialUniverse(base,selected,similarityRows,basis,dimensions):unfilteredUniverse,[base,unfilteredUniverse,radial,selected,similarityRows,basis,dimensions])
   const effectiveSpread=spreadCoincident||radial
   const displayOffsets=useMemo(()=>{
     const offsets=coincidentDisplayOffsets(universe.points,facet&&!radial?10:18)
@@ -96,7 +97,7 @@ export default forwardRef(function ProjectorCanvas({ products = EMPTY, algorithm
       if (!point) return null
       const projected = r.project(point), rect = canvas.current.getBoundingClientRect()
       return projected ? { x: projected.x, y: projected.y, clientX: rect.left + projected.x, clientY: rect.top + projected.y,
-        visible: projected.visible, depth: projected.depth,viewDepth:projected.viewDepth,pointScale:projected.pointScale,rawX:projected.rawX,rawY:projected.rawY,displayOffset:projected.displayOffset,worldPosition:r.positionFor(point),semanticRadius:point.semantic_radius,needMissing:point.need_missing,priceMissing:point.price_missing } : null
+        visible: projected.visible, depth: projected.depth,viewDepth:projected.viewDepth,pointScale:projected.pointScale,rawX:projected.rawX,rawY:projected.rawY,displayOffset:projected.displayOffset,worldPosition:r.positionFor(point),semanticRadius:point.semantic_radius,needMissing:point.need_missing,priceMissing:point.price_missing,displayOpacity:r.opacityById?.get(id)??1 } : null
     }
     r.projectPosition=position=>{
       const v=new THREE.Vector3(...position).project(r.camera)
@@ -470,6 +471,10 @@ export default forwardRef(function ProjectorCanvas({ products = EMPTY, algorithm
     const origin=universe.byId.get(selected)?.position||[0,0,0]
     r.cloud.position.fromArray(origin)
     const neighborIds = new Set(neighbors.map(p => p.id)), groups = [[], [], []]
+    const reference=universe.byId.get(selected)?.position
+    const distanceFor=p=>reference?Math.hypot(...p.position.map((v,i)=>v-reference[i])):0
+    const fadeScale=Math.max(.001,...drawn.map(distanceFor))*.42
+    r.opacityById=new Map()
     let colorMax = 1
     if(colorBy==='need')colorMax=Math.max(1,...products.map(p=>Number.isFinite(p.need_score)?p.need_score:0))
     if (Number.isInteger(colorBy)) for (const p of products) colorMax = Math.max(colorMax, Number.isFinite(p.scores?.[colorBy]) ? p.scores[colorBy] : 0)
@@ -482,7 +487,9 @@ export default forwardRef(function ProjectorCanvas({ products = EMPTY, algorithm
         positions.set(start.map((v,axis)=>v-origin[axis]), i * 3)
         targets.set(point.position.map((v,axis)=>v-origin[axis]),i*3)
         offsets.set(effectiveSpread?(displayOffsets.get(point.product.id)||[0,0]):[0,0],i*2)
-        alphas[i]=facet&&!radial&&point.need_missing?.38:1
+        alphas[i]=(facet&&!radial&&point.need_missing?.38:1)*(reference?distanceOpacity(distanceFor(point),fadeScale):1)
+        if(point.product.id===selected)alphas[i]=1
+        r.opacityById.set(point.product.id,alphas[i])
         color.set(pointColor(point.product, { selected, neighborIds, colorBy, colorMax })); color.toArray(colors, i * 3)
       })
       const geometry = new THREE.BufferGeometry()
@@ -492,7 +499,7 @@ export default forwardRef(function ProjectorCanvas({ products = EMPTY, algorithm
       geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3))
       geometry.setAttribute('displayAlpha',new THREE.BufferAttribute(alphas,1))
       const material = new THREE.PointsMaterial({ size: Math.max(1, Math.min(24, pointSize)) * [radial?.75:facet?.7:1, 1.3, 1.9][index], sizeAttenuation: false,
-        map: r.texture, vertexColors: true, transparent: true, opacity: index ? 1 : facet&&!radial ? .38 : radial ? .36 : facet ? .8 : selected != null ? .22 : .85,
+        map: r.texture, vertexColors: true, transparent: true, opacity: selected!=null?1:index ? 1 : facet&&!radial ? .38 : radial ? .36 : facet ? .8 : selected != null ? .22 : .85,
         alphaTest: .1, depthWrite: false, depthTest: index === 0 })
       material.onBeforeCompile=shader=>{
         shader.uniforms.cfzViewport=r.viewportUniform
@@ -515,7 +522,7 @@ export default forwardRef(function ProjectorCanvas({ products = EMPTY, algorithm
     r.invalidate()
   }, [drawn, products, neighbors, selected, pointSize, colorBy, showLabels, labelBy, spreadCoincident,displayOffsets,attempt])
 
-  useEffect(()=>{const r=runtime.current;if(!r)return;if(selected!=null&&!radial&&!facet)r.focusLocal();else r.cancelFocus();return()=>r.cancelFocus()},[selected,universe,attempt])
+  useEffect(()=>{const r=runtime.current;if(!r)return;r.cancelFocus();return()=>r.cancelFocus()},[selected,universe,attempt])
 
   useEffect(()=>{runtime.current?.invalidate()},[overlayExpanded])
 
