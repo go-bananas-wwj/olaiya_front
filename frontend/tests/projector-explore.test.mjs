@@ -20,7 +20,7 @@ test('radial positions use native distance, keep zero vectors, and never depend 
 })
 test('need view preserves identities, and lack of price never excludes',()=>{
  const plane=needPlane(source)
- assert.equal(plane.points[2].position[2],0);assert.equal(plane.points.length,source.points.length)
+ assert.equal(plane.points[2].price_missing,true);assert.equal(plane.points.length,source.points.length)
  assert.equal(needStatus({scores:[0],declared_directions:[]},0,'保湿'),'evidence')
  assert.equal(needStatus({scores:[null],declared_directions:['保湿']},0,'保湿'),'declared')
  assert.equal(needStatus({scores:[null],declared_directions:[]},0,'保湿'),'unknown')

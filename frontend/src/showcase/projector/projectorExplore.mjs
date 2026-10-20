@@ -23,9 +23,10 @@ export function needPlane(source,need='需求'){
  const products=source.catalogProducts||source.points.map(p=>p.product)
  const maxCount=Math.max(1,...products.map(p=>Number.isFinite(p.ingredient_count)?p.ingredient_count:0))
  const maxScore=Math.max(1,...products.flatMap(p=>(p.scores||[]).filter(Number.isFinite)))
- const needAxes={need,xLabel:'已收录成分数（项）',yLabel:`${need}成分证据指数`,xMax:Math.max(20,Math.ceil(maxCount/20)*20),yMax:Math.max(1,Math.ceil(maxScore/4)*4),x0:-1.8,x1:1.8,y0:-1.3,y1:1.3,missingY:-2.15}
- const a=needAxes,points=source.points.map(p=>{const score=p.product.need_score,count=Number.isFinite(p.product.ingredient_count)?p.product.ingredient_count:0,missing=!Number.isFinite(score)
-  return {...p,need_missing:missing,position:[a.x0+count/a.xMax*(a.x1-a.x0),missing?a.missingY:a.y0+score/a.yMax*(a.y1-a.y0),0]}
+ const maxPrice=Math.max(1,...source.points.map(({product:p})=>Number.isFinite(p.price_current)&&p.price_current>=0?p.price_current:0))
+ const needAxes={need,zLabel:'整件参考价（元）',zMax:Math.max(100,Math.ceil(maxPrice/400)*400),z0:-1.2,z1:1.4,missingZ:-2.2,xLabel:'已收录成分数（项）',yLabel:`${need}成分证据指数`,xMax:Math.max(20,Math.ceil(maxCount/20)*20),yMax:Math.max(1,Math.ceil(maxScore/4)*4),x0:-1.8,x1:1.8,y0:-1.3,y1:1.3,missingY:-2.15}
+ const a=needAxes,points=source.points.map(p=>{const score=p.product.need_score,count=Number.isFinite(p.product.ingredient_count)?p.product.ingredient_count:0,missing=!Number.isFinite(score),priceMissing=!Number.isFinite(p.product.price_current)||p.product.price_current<0
+  return {...p,need_missing:missing,price_missing:priceMissing,position:[a.x0+count/a.xMax*(a.x1-a.x0),missing?a.missingY:a.y0+score/a.yMax*(a.y1-a.y0),priceMissing?a.missingZ:a.z0+p.product.price_current/a.zMax*(a.z1-a.z0)]}
  })
  return {...source,needAxes,points,byId:new Map(points.map(p=>[p.product.id,p]))}
 }
