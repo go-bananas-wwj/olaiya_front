@@ -10,18 +10,19 @@ class ProjectorPolishTest(BrowserTestCase):
     def test_intro_and_neutral_sidebar_explain_the_product_without_filling_the_plot(self):
         self.page.set_viewport_size({'width':1280,'height':800});self.ready()
         intro=self.page.get_by_role('region',name='产品介绍')
-        expect(intro).to_contain_text('护肤品地图')
+        expect(intro).to_contain_text('护肤品选品地图')
         expect(intro).to_contain_text('参考价格')
-        self.assertLess(intro.bounding_box()['height'],100)
+        self.assertLess(intro.bounding_box()['height'],140)
         side=self.page.get_by_role('complementary',name='数据与投影设置')
         self.assertNotIn('无向量',side.inner_text())
         self.assertNotIn('绿色突出',side.inner_text())
         color=side.locator('.projector-need-intro').evaluate('e=>getComputedStyle(e).backgroundColor')
-        self.assertIn(color,['rgb(255, 255, 255)','rgb(249, 250, 252)'])
+        self.assertIn(color,['rgb(255, 255, 255)','rgba(0, 0, 0, 0)'])
         expect(self.page.get_by_test_id('projector-paper-axes')).to_have_count(0)
         expect(self.page.locator('.projector-toolbar-stat,.projector-paper-legend,.projector-plot-footer')).to_have_count(0)
-        expect(self.page.get_by_role('region',name='成分群组')).to_be_visible()
-        self.assertNotEqual(self.page.locator('.projector-center').evaluate('e=>getComputedStyle(e).backgroundImage'),'none')
+        expect(self.page.get_by_role('region',name='成分群组')).to_have_count(0)
+        self.assertEqual(self.page.locator('.projector-center').evaluate('e=>getComputedStyle(e).backgroundColor'),'rgb(255, 255, 255)')
+        self.assertEqual(self.page.locator('.projector-header').evaluate('e=>getComputedStyle(e).backgroundColor'),'rgba(255, 255, 255, 0.86)')
 
     def test_spread_points_are_individually_drawn_at_their_hit_targets_and_source_coords_stay_equal(self):
         self.ready();data=self.page.request.get(BASE_URL+'/api/product-space').json();groups={}
@@ -106,3 +107,17 @@ class ProjectorPolishTest(BrowserTestCase):
         for rect in self.page.locator('.projector-point-label').evaluate_all('(es)=>es.map(e=>{const r=e.getBoundingClientRect();return {left:r.left,top:r.top,right:r.right,bottom:r.bottom}})'):
             c=card.bounding_box()
             self.assertTrue(rect['right']<=c['x'] or rect['left']>=c['x']+c['width'] or rect['bottom']<=c['y'] or rect['top']>=c['y']+c['height'])
+
+    def test_expanded_3d_depth_has_actual_depth_cues_and_original_2d_stays_unscaled(self):
+        self.ready();stage=self.page.get_by_test_id('projector-stage');canvas=self.page.get_by_test_id('projector-canvas')
+        expect(stage).to_have_attribute('data-display-axes','1.12,1.1,2.1')
+        data=self.page.request.get(BASE_URL+'/api/product-space').json()
+        ids=[p['id'] for p in data['products'] if p['coordinates_3d'] is not None]
+        points=canvas.evaluate('(e,ids)=>ids.map(id=>e.getScreenPoint(id)).filter(p=>p&&p.visible)',ids)
+        scales=[p['pointScale'] for p in points]
+        self.assertGreater(max(scales)/min(scales),1.3)
+        self.page.locator('.projector-explore-settings').evaluate('e=>e.open=true')
+        self.page.get_by_role('button',name='二维',exact=True).click()
+        expect(stage).to_have_attribute('data-display-axes','1,1,1')
+        self.assertEqual(canvas.evaluate('e=>e.getScreenPoint(9).pointScale'),1)
+        self.assertEqual(self.page.request.get(BASE_URL+'/api/product-space').json(),data)

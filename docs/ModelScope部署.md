@@ -219,3 +219,7 @@ v3小型布局bundle附带独立证据PCA，完整保留v2旧语义points、UMAP
 - 产品点选以640ms平滑聚焦局部，最多四项标签；支持减少动态效果偏好及拖动/键盘/切换/清除时取消动画。手机默认折叠资料卡，图标签避让资料卡。
 - `data/tools/build_composition_families.py` 从固定Faiss归一化向量计算8组球面K-means，种子20261020。小型分组文件随前端源码发布，绑定源索引SHA；原始坐标、检索分数和ID映射不改变。群组A–H是统计分组，不标成功效分类。
 - 视觉参考：[Embedding Atlas](https://github.com/apple/embedding-atlas)、[Nomic Data Maps](https://docs.nomic.ai/atlas/datasets/data-maps)。私有免费CPU配置不变。
+
+## 2026-10-20 白色页头与纵深显示
+
+本轮前端改为白色通透页头、项目标题与用途介绍优先、删除A–H群组说明。`projectorDepth.mjs`仅将三维显示坐标X/Y/Z按1.12/1.10/2.10展开，并使用真实相机深度控制有界点径／透明度；2D与原始检索保持原样。Docker继续构建展示版，数据库、Faiss、布局及持久目录版本保持现状。验收见`产品空间-白色纵深改版验收.md`。

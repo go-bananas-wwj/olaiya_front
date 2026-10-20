@@ -1,0 +1,44 @@
+/* White, translucent chrome. The data carries the colour. */
+.projector-header{background:rgba(255,255,255,.86);color:#1d1d1f;border-bottom:1px solid #ededf0;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);gap:16px;padding:0 25px;box-sizing:border-box}
+.projector-header .projector-brand{font-weight:600;letter-spacing:-.3px;font-size:19px!important;gap:10px}
+.projector-header .projector-brand span{color:#6e6e73;font-weight:400;font-size:12px}
+.projector-header nav{height:38px;padding:3px;gap:2px;background:#f5f5f7;border-radius:12px;box-sizing:border-box}
+.projector-header nav button{height:30px;min-width:92px;border-radius:9px;font-size:13px;color:#6e6e73}
+.projector-header nav button[aria-current=page]{background:#fff;color:#1d1d1f;box-shadow:0 1px 4px #00000012}
+.projector-header .projector-help{color:#6e6e73}
+body.projector-body{background:#fff;color:#1d1d1f}
+.projector-overview{background:#fff}
+.projector-overview .projector-product-intro{padding:22px 28px 23px;background:transparent;border-bottom:1px solid #ededf0;color:#6e6e73}
+.projector-product-intro h1{margin:0 0 9px;font-size:26px;line-height:1.25;font-weight:600;letter-spacing:-.6px;color:#1d1d1f}
+.projector-overview .projector-product-intro p{max-width:1050px;font-size:14px;line-height:1.75;color:#6e6e73;margin:0}
+.projector-overview>.projector-shell{grid-template-columns:220px minmax(0,1fr) 280px;background:#fff}
+.projector-overview .projector-settings,.projector-overview .projector-inspector{background:rgba(255,255,255,.84);border-color:#ededf0}
+.projector-overview .projector-center{background:#fff}
+.projector-overview .projector-need-intro{background:transparent;padding:24px 17px 25px;border-bottom-color:#ededf0}
+.projector-overview .projector-need-intro h2{color:#1d1d1f;font-size:13px;margin-bottom:16px;font-weight:500}
+.projector-overview .projector-settings .selection-needs button{background:#fff;border-color:#e8e8ed;color:#515157;border-radius:11px;padding:11px 9px;gap:7px;font-size:12px;box-shadow:none;min-height:43px}
+.projector-overview .projector-settings .selection-needs button svg{color:#85858d}
+.projector-overview .projector-settings .selection-needs button:hover{border-color:#abc5e3;color:#0071e3;background:#f7faff}
+.projector-overview .projector-explore-settings>summary{padding:19px 17px;color:#86868b}
+.projector-overview .projector-toolbar button{color:#86868b;border-radius:9px}
+.projector-overview .projector-toolbar button:hover{background:#f5f5f7;color:#1d1d1f}
+.projector-overview .projector-selection-actions{padding:12px 16px;gap:7px}
+.projector-overview .projector-selection-actions>button{border-radius:11px;background:#f5f5f7;color:#515157;font-size:12px;min-height:48px}
+.projector-overview .projector-selection-actions>button:disabled{background:#fafafa;color:#b0b0b5}
+.projector-overview .projector-search{padding-left:17px;padding-right:17px}
+.projector-overview .projector-search input{border-color:#dedee4;color:#1d1d1f}
+.projector-overview .projector-neighbor-count input{accent-color:#0071e3}
+.projector-overview .projector-neighbor-main>button{color:#303038}
+.projector-overview .projector-neighbor-main>span{color:#0071e3}
+.projector-overview .projector-neighbor-baseline{background:#f0f0f4}
+.projector-overview .projector-neighbor-baseline i{background:#9ac1eb}
+.projector-overview .projector-info{border-color:#e8e8ed;background:#ffffffdc;box-shadow:0 4px 20px #00000009;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+.projector-overview .projector-info-heading{background:transparent}
+.projector-overview .projector-info-actions button{color:#0071e3}
+.projector-overview .projector-mobile-controls,.projector-overview .projector-mobile-needs{background:#fff;border-color:#ededf0}
+.projector-overview .projector-mobile-needs .selection-needs button{border-color:#e8e8ed;background:#fff;color:#515157;border-radius:10px}
+.projector-overview .projector-mobile-needs .selection-needs button svg{color:#85858d}
+@media(max-width:1000px){.projector-header{padding:0 14px}.projector-header nav{height:36px}.projector-header nav button{min-width:76px;height:28px;padding:0 10px;font-size:12px}.projector-overview>.projector-shell{grid-template-columns:minmax(0,1fr)}.projector-overview .projector-product-intro{padding:17px 17px 18px}.projector-product-intro h1{font-size:21px;letter-spacing:-.4px;margin-bottom:8px}.projector-overview .projector-product-intro p{font-size:12px;line-height:1.8}.projector-overview .projector-settings .selection-needs button{min-height:44px}}
+.projector-header .projector-brand .selection-brand-text{color:#86868b!important}
+.projector-overview .projector-settings .selection-needs button{padding-left:8px;padding-right:8px;gap:6px;white-space:nowrap}
+.projector-overview .projector-settings .selection-needs button>svg{flex:none}

@@ -196,13 +196,13 @@ class ProductSpaceTest(BrowserTestCase):
         self.page.wait_for_timeout(200)
         frame=canvas.bounding_box();info=self.page.get_by_test_id('projector-info').bounding_box()
         raster=Image.open(io.BytesIO(canvas.screenshot())).convert('RGB')
-        grey=0
+        coloured=0
         for y in range(raster.height):
             for x in range(raster.width):
                 if info['x']<=x+frame['x']<=info['x']+info['width'] and info['y']<=y+frame['y']<=info['y']+info['height']:continue
                 r,g,b=raster.getpixel((x,y))
-                if 130<=min(r,g,b) and max(r,g,b)<242 and max(r,g,b)-min(r,g,b)<15:grey+=1
-        self.assertGreater(grey,1200,'Canvas must contain the real grey product cloud, not just retained DOM labels')
+                if min(r,g,b)<220 and max(r,g,b)-min(r,g,b)>25:coloured+=1
+        self.assertGreater(coloured,1200,'Canvas must contain the actual coloured point cloud, not background or DOM labels')
 
     def test_webgl_context_loss_can_retry_without_losing_other_flows(self):
         self.ready();canvas=self.page.get_by_test_id('projector-canvas')

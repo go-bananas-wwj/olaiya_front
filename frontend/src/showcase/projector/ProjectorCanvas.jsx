@@ -1,6 +1,7 @@
 import { forwardRef, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react'
 import * as THREE from 'three'
 import { coincidentDisplayOffsets, paperAxes, nearestVisiblePoint } from './projectorPresentation.mjs'
+import { displayUniverse, depthCue, DISPLAY_AXES } from './projectorDepth.mjs'
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
 import { normalizeUniverse, visibleProducts, screenHits, pointColor, layoutLabels, fitPerspective, groupCoincidentPoints, layoutCoincidentBadges } from './projectorGeometry.mjs'
 
@@ -38,7 +39,7 @@ export default forwardRef(function ProjectorCanvas({ products = EMPTY, algorithm
   const [frameInfo, setFrameInfo] = useState({ revision: 0, labels: [], badges: [], coincidentGroups: [], axisLabels: [], spreadLeaders: [] })
   const [hover, setHover] = useState(null)
   const axisKey = JSON.stringify(axisOrder)
-  const universe = useMemo(() => normalizeUniverse(products, algorithm, dimensions, axisOrder), [products, algorithm, dimensions, axisKey])
+  const universe = useMemo(() => displayUniverse(normalizeUniverse(products, algorithm, dimensions, axisOrder),dimensions), [products, algorithm, dimensions, axisKey])
   const displayOffsets=useMemo(()=>coincidentDisplayOffsets(universe.points),[universe])
   const axisSpec=useMemo(()=>paperAxes(universe,{dimensions,algorithm,axisOrder}),[universe,dimensions,algorithm,axisKey])
   const drawn = useMemo(() => visibleProducts(universe.points, selected, neighbors, isolated), [universe, selected, neighbors, isolated])
@@ -63,17 +64,19 @@ export default forwardRef(function ProjectorCanvas({ products = EMPTY, algorithm
     const labelMeasure = document.createElement('canvas').getContext('2d')
     scene.add(cloud, axes)
     const r = { renderer, element:canvas.current, scene, cloud, axes, texture, width: 1, height: 1, camera: null, controls: null,
-      viewportUniform:{value:new THREE.Vector2(1,1)}, dimensions: latest.current.dimensions, request: null, disposed: false, drawn: [], observer: null }
+      viewportUniform:{value:new THREE.Vector2(1,1)}, depthUniform:{value:new THREE.Vector2(1,1)}, dimensions: latest.current.dimensions, request: null, disposed: false, drawn: [], observer: null }
     runtime.current = r
 
     r.project = point => {
       if (!r.camera || r.disposed) return null
       r.camera.updateMatrixWorld()
       const vector = new THREE.Vector3(...point.position).project(r.camera)
+      const viewDepth=-new THREE.Vector3(...point.position).applyMatrix4(r.camera.matrixWorldInverse).z
+      const cue=depthCue(viewDepth,r.camera.position.distanceTo(r.controls.target),r.dimensions)
       const x = (vector.x + 1) * r.width / 2, y = (1 - vector.y) * r.height / 2
       const offset=latest.current.spreadCoincident?(latest.current.displayOffsets.get(point.product.id)||[0,0]):[0,0]
       const displayX=x+offset[0],displayY=y+offset[1]
-      return { product: point.product, position:point.position, rawX:x,rawY:y, displayOffset:offset,x:displayX,y:displayY,depth: vector.z,
+      return { product: point.product, position:point.position, rawX:x,rawY:y, displayOffset:offset,viewDepth,pointScale:cue.scale,x:displayX,y:displayY,depth: vector.z,
         visible: Number.isFinite(x) && Number.isFinite(y) && vector.z >= -1 && vector.z <= 1 && displayX >= 0 && displayX <= r.width && displayY >= 0 && displayY <= r.height }
     }
     r.getScreenPoint = id => {
@@ -81,7 +84,7 @@ export default forwardRef(function ProjectorCanvas({ products = EMPTY, algorithm
       if (!point) return null
       const projected = r.project(point), rect = canvas.current.getBoundingClientRect()
       return projected ? { x: projected.x, y: projected.y, clientX: rect.left + projected.x, clientY: rect.top + projected.y,
-        visible: projected.visible, depth: projected.depth,rawX:projected.rawX,rawY:projected.rawY,displayOffset:projected.displayOffset } : null
+        visible: projected.visible, depth: projected.depth,viewDepth:projected.viewDepth,pointScale:projected.pointScale,rawX:projected.rawX,rawY:projected.rawY,displayOffset:projected.displayOffset } : null
     }
     r.projectPosition=position=>{
       const v=new THREE.Vector3(...position).project(r.camera)
@@ -93,6 +96,7 @@ export default forwardRef(function ProjectorCanvas({ products = EMPTY, algorithm
         r.request = null
         if (r.disposed || !r.camera || renderer.getContext().isContextLost()) return
         r.syncClip()
+        r.depthUniform.value.set(r.camera.position.distanceTo(r.controls.target),r.dimensions===3?1:0)
         renderer.render(scene, r.camera)
         root.current?.setAttribute('data-camera-distance',r.camera.position.distanceTo(r.controls.target).toFixed(6))
         const props = latest.current
@@ -154,7 +158,7 @@ export default forwardRef(function ProjectorCanvas({ products = EMPTY, algorithm
       r.controls.target.set(0, 0, 0)
       if (r.dimensions === 2) { r.camera.position.set(0, 0, 5); r.camera.up.set(0, 1, 0); r.camera.zoom = 1 }
       else {
-        const fit = fitPerspective(r.framingPoints.map(point=>point.position),{aspect:r.width/r.height,fov:r.camera.fov,padding:r.width<600?.15:.11})
+        const fit = fitPerspective(r.framingPoints.map(point=>point.position),{aspect:r.width/r.height,direction:[.9,.32,1],fov:r.camera.fov,padding:r.width<600?.1:.055})
         r.controls.target.fromArray(fit.target);r.camera.position.fromArray(fit.position);r.camera.zoom = 1
       }
       r.updateFrustum();r.syncClip(); r.controls.update(); r.invalidate()
@@ -163,7 +167,7 @@ export default forwardRef(function ProjectorCanvas({ products = EMPTY, algorithm
       r.controls?.dispose()
       r.dimensions = dims
       r.camera = dims === 2 ? new THREE.OrthographicCamera(-2, 2, 2, -2, .01, 1000)
-        : new THREE.PerspectiveCamera(42, r.width / r.height, .01, 1000)
+        : new THREE.PerspectiveCamera(58, r.width / r.height, .01, 1000)
       r.controls = new OrbitControls(r.camera, canvas.current)
       r.controls.enableDamping = false
       r.controls.enableRotate = dims === 3
@@ -278,7 +282,7 @@ export default forwardRef(function ProjectorCanvas({ products = EMPTY, algorithm
     r.observer.observe(root.current)
     let down = null
     const pointer = event => { const rect = canvas.current.getBoundingClientRect(); return { x: event.clientX - rect.left, y: event.clientY - rect.top } }
-    const hit = event => { const at = pointer(event); return screenHits(r.drawn.map(r.project).filter(Boolean), at.x, at.y, Math.max(7, latest.current.pointSize * .85)) }
+    const hit = event => { const at = pointer(event); return screenHits(r.drawn.map(r.project).filter(Boolean), at.x, at.y, Math.max(7, latest.current.pointSize * 1.5)) }
     const onDown = event => { if (event.button === 0) down = { x: event.clientX, y: event.clientY, moved: false }; setHover(null) }
     const onMove = event => {
       if (down) { if (Math.hypot(event.clientX-down.x, event.clientY-down.y)>5) down.moved=true; return }
@@ -291,7 +295,7 @@ export default forwardRef(function ProjectorCanvas({ products = EMPTY, algorithm
       const hits = hit(event); setHover(null)
       if(hits.length&&latest.current.spreadCoincident&&!event.shiftKey){
         const at=pointer(event),candidates=hits.map(p=>r.project(latest.current.universe.byId.get(p.id))).filter(Boolean)
-        const nearest=nearestVisiblePoint(candidates,at.x,at.y,Math.max(7,latest.current.pointSize*.85))
+        const nearest=nearestVisiblePoint(candidates,at.x,at.y,Math.max(7,latest.current.pointSize*1.5))
         if(nearest)latest.current.onSelect?.(nearest)
         return
       }
@@ -383,10 +387,13 @@ export default forwardRef(function ProjectorCanvas({ products = EMPTY, algorithm
         alphaTest: .1, depthWrite: false, depthTest: index === 0 })
       material.onBeforeCompile=shader=>{
         shader.uniforms.cfzViewport=r.viewportUniform
-        shader.vertexShader=shader.vertexShader.replace('#include <common>','#include <common>\nattribute vec2 displayOffset;\nuniform vec2 cfzViewport;')
-          .replace('#include <project_vertex>','#include <project_vertex>\ngl_Position.xy += vec2(displayOffset.x,-displayOffset.y) * 2.0 / cfzViewport * gl_Position.w;')
+        shader.uniforms.cfzDepth=r.depthUniform
+        shader.vertexShader=shader.vertexShader.replace('#include <common>','#include <common>\nattribute vec2 displayOffset;\nuniform vec2 cfzViewport;\nuniform vec2 cfzDepth;\nvarying float cfzDepthOpacity;')
+          .replace('#include <project_vertex>','#include <project_vertex>\ngl_Position.xy += vec2(displayOffset.x,-displayOffset.y) * 2.0 / cfzViewport * gl_Position.w;\nfloat cfzScale = cfzDepth.y > .5 ? clamp(cfzDepth.x / max(.000001, -mvPosition.z), .65, 1.55) : 1.0;\ncfzDepthOpacity = cfzDepth.y > .5 ? clamp(.4 + .6 * cfzScale, .55, 1.0) : 1.0;')
+        shader.vertexShader=shader.vertexShader.replace('gl_PointSize = size;','gl_PointSize = size * cfzScale;')
+        shader.fragmentShader=shader.fragmentShader.replace('#include <common>','#include <common>\nvarying float cfzDepthOpacity;').replace('#include <opaque_fragment>','#include <opaque_fragment>\ngl_FragColor.a *= cfzDepthOpacity;')
       }
-      material.customProgramCacheKey=()=> 'projector-display-offset-v1'
+      material.customProgramCacheKey=()=> 'projector-display-depth-v2'
       const mesh = new THREE.Points(geometry, material); mesh.renderOrder = index + 1;mesh.frustumCulled=false
       r.cloud.add(mesh)
     })
@@ -401,7 +408,7 @@ export default forwardRef(function ProjectorCanvas({ products = EMPTY, algorithm
   const activeLabels = showLabels ? frameInfo.labels.filter(label=>currentLabelIds.has(label.product.id)) : []
 
   return <div ref={root} className="projector-stage" style={ROOT_STYLE} data-testid="projector-stage"
-    data-camera-motion="idle" data-spread-coincident={spreadCoincident} data-rendered-count={failure ? 0 : drawn.length} data-unplaced-count={universe.missingIds.length} data-dimensions={dimensions} data-algorithm={algorithm}
+    data-display-axes={dimensions===3?DISPLAY_AXES.join(','):'1,1,1'} data-camera-motion="idle" data-spread-coincident={spreadCoincident} data-rendered-count={failure ? 0 : drawn.length} data-unplaced-count={universe.missingIds.length} data-dimensions={dimensions} data-algorithm={algorithm}
     data-camera-revision={frameInfo.revision} data-renderer-state={failure ? 'unavailable' : frameInfo.revision ? 'ready' : 'starting'}>
     <canvas key={attempt} ref={canvas} data-testid="projector-canvas" tabIndex={failure ? -1 : 0} role="img"
       data-rendered-count={failure ? 0 : drawn.length} data-dimensions={dimensions} data-algorithm={algorithm} data-camera-revision={frameInfo.revision}
