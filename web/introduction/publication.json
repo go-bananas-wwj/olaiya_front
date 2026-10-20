@@ -1,10 +1,15 @@
 {
-  "title": "颜鉴：把护肤品的成分、价格与证据放到一张地图上",
+  "title": "【欧莱雅美妆科技黑客松】颜鉴：把护肤品的成分、价格与证据放到一张地图上",
   "url": "https://modelscope.cn/posts/437498",
   "studio": "https://modelscope.cn/studios/WeijieWu/yanjian-ingredient-compare",
   "author": "WeijieWu",
   "team": "见微知颜",
   "published_on": "2026-10-20",
   "timezone": "Asia/Shanghai",
-  "style_reference": "https://deepseek.club/topic/5301"
+  "style_reference": "https://deepseek.club/topic/5301",
+  "animated_media": [
+    "images/need-transition.gif",
+    "images/compare-scroll.gif"
+  ],
+  "paragraph_blank_lines": 2
 }
