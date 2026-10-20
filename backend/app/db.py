@@ -23,7 +23,7 @@ def _enable_sqlite_fk(dbapi_conn, _):
 
 # create_all 只建新表、不给既有表加列；新增的可空列在这里幂等补登（SQLite/PostgreSQL 通用）
 _ADDITIVE_COLUMNS: dict[str, dict[str, str]] = {
-    "products": {"buy_url": "VARCHAR(500)"},
+    "products": {"buy_url": "VARCHAR(500)", "source_key": "VARCHAR(300)"},
     "ingredients": {"typical_use_low": "FLOAT", "typical_use_high": "FLOAT"},
 }
 
@@ -47,6 +47,9 @@ def ensure_additive_columns() -> None:
             for col, ddl in cols.items():
                 if col not in existing_cols:
                     conn.execute(text(f"ALTER TABLE {table} ADD COLUMN {col} {ddl}"))
+
+        if 'products' in existing_tables:
+            conn.execute(text('CREATE UNIQUE INDEX IF NOT EXISTS ix_products_source_key ON products (source_key)'))
 
 
 SessionLocal = sessionmaker(bind=engine, autoflush=False, expire_on_commit=False)

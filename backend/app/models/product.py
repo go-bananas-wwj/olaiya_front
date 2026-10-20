@@ -15,6 +15,7 @@ class Product(Base):
     name: Mapped[str] = mapped_column(String(300), index=True)
     brand: Mapped[str] = mapped_column(String(200), index=True)
     category: Mapped[str | None] = mapped_column(String(100), nullable=True)
+    source_key: Mapped[str | None] = mapped_column(String(300), nullable=True, unique=True, index=True)  # 公开来源命名空间+官方商品码
     nmpa_id: Mapped[str | None] = mapped_column(String(100), unique=True, nullable=True)  # 备案编号
     registrant: Mapped[str | None] = mapped_column(String(300), nullable=True)   # 备案人
     filing_date: Mapped[str | None] = mapped_column(String(20), nullable=True)   # 备案日期（源站字符串原样存）

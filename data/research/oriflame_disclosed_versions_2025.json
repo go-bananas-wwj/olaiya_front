@@ -1,0 +1,1628 @@
+{
+  "review_date": "2026-10-20",
+  "reviewer": "official_catalog_c",
+  "source_pdf": {
+    "url": "https://media-cdn.oriflame.cn/static-media-web/c4b729e2-c5e3-4b7f-be8e-819d46bb0e72?mimeType=application%2Fpdf",
+    "path": "data/raw/selection-map/official-oriflame-full-ingredients-20261020.pdf",
+    "sha256": "e475c6b6658c2e70d35aea435ff44f046176af53819a3c69c3fc1a283a45fc79",
+    "pages": 35,
+    "document_created": "2025-07-08",
+    "raw_rows": 390,
+    "extraction": "pdfplumber native table cells; no OCR; pages 10 and 15 visually checked. Some ORIGINAL PDF cells are clipped; no continuations were invented. Search cache content differed from actual PDF and was discarded."
+  },
+  "records": [
+    {
+      "brand": "欧瑞莲",
+      "official_id": "34560",
+      "official_code": "34560",
+      "current_name": "时之钥抚纹抗痕晚霜",
+      "source_disclosure_name": "欧瑞莲时之钥抚纹抗痕晚霜",
+      "name": "时之钥抚纹抗痕晚霜（官方披露版本）",
+      "category": "面霜",
+      "source_url": "https://www.oriflame.cn/products/product?code=34560",
+      "ingredient_source_url": "https://media-cdn.oriflame.cn/static-media-web/c4b729e2-c5e3-4b7f-be8e-819d46bb0e72?mimeType=application%2Fpdf",
+      "ingredient_source_path": "data/raw/selection-map/official-oriflame-full-ingredients-20261020.pdf",
+      "ingredient_source_sha256": "e475c6b6658c2e70d35aea435ff44f046176af53819a3c69c3fc1a283a45fc79",
+      "pdf_page": 6,
+      "pdf_row_bbox": [
+        51.480000000000004,
+        164.42000000000002,
+        779.5000200000001,
+        201.17000000000002
+      ],
+      "pdf_ingredient_cell_bbox": [
+        370.130005,
+        164.42000000000002,
+        543.30999,
+        201.17000000000002
+      ],
+      "source_row_screenshot": "data/raw/selection-map/official-oriflame-independent-row-34560-20261020.png",
+      "source_cell_screenshot": "data/raw/selection-map/official-oriflame-independent-cell-34560-20261020.png",
+      "raw_ingredient_text": "成分：水、甘油、碳酸二辛酯、辛酸/癸酸甘油三酯、环五聚二甲基硅氧\n烷、烟酰胺、鲸蜡硬脂基葡糖苷、山梨坦橄榄油酸酯、环己硅氧烷、\n1,3-丙二醇、季戊四醇四异硬脂酸酯、牛油果树果脂、聚丙烯酸钠、CI\n77891、苯氧乙醇、生育酚乙酸酯、丁二醇、辛甘醇、鲸蜡醇、硬脂醇、\n香精、EDTA 二钠、黄原胶、一粒小麦籽提取物 、水解大米蛋白、水解\n酵母蛋白、苯乙醇、糖类同分异构体。",
+      "raw_ingredient_names": [
+        "水",
+        "甘油",
+        "碳酸二辛酯",
+        "辛酸/癸酸甘油三酯",
+        "环五聚二甲基硅氧烷",
+        "烟酰胺",
+        "鲸蜡硬脂基葡糖苷",
+        "山梨坦橄榄油酸酯",
+        "环己硅氧烷",
+        "1,3-丙二醇",
+        "季戊四醇四异硬脂酸酯",
+        "牛油果树果脂",
+        "聚丙烯酸钠",
+        "CI77891",
+        "苯氧乙醇",
+        "生育酚乙酸酯",
+        "丁二醇",
+        "辛甘醇",
+        "鲸蜡醇",
+        "硬脂醇",
+        "香精",
+        "EDTA 二钠",
+        "黄原胶",
+        "一粒小麦籽提取物",
+        "水解大米蛋白",
+        "水解酵母蛋白",
+        "苯乙醇",
+        "糖类同分异构体"
+      ],
+      "full_ingredient_names": [
+        "水",
+        "甘油",
+        "碳酸二辛酯",
+        "辛酸/癸酸甘油三酯",
+        "环五聚二甲基硅氧烷",
+        "烟酰胺",
+        "鲸蜡硬脂基葡糖苷",
+        "山梨坦橄榄油酸酯",
+        "环己硅氧烷",
+        "1,3-丙二醇",
+        "季戊四醇四异硬脂酸酯",
+        "牛油果树果脂",
+        "聚丙烯酸钠",
+        "CI77891",
+        "苯氧乙醇",
+        "生育酚乙酸酯",
+        "丁二醇",
+        "辛甘醇",
+        "鲸蜡醇",
+        "硬脂醇",
+        "香精",
+        "EDTA 二钠",
+        "黄原胶",
+        "一粒小麦籽提取物",
+        "水解大米蛋白",
+        "水解酵母蛋白",
+        "苯乙醇",
+        "糖类同分异构体"
+      ],
+      "ingredient_count": 28,
+      "ingredient_list_status": "official_full",
+      "ingredient_completeness": "full",
+      "completeness_verdict": "The exact code/name row begins with 成分 and ends with a visibly complete Chinese full stop; no glyph is cut off at the cell boundary and no continuation is omitted. Independently rendered from native PDF vectors; no OCR.",
+      "all_token_matching": [
+        {
+          "source_index": 1,
+          "source_name": "水",
+          "iecic_exact_candidates": [
+            {
+              "inci_name": "AQUA",
+              "cn_name": "水",
+              "iecic_serial": "06259"
+            },
+            {
+              "inci_name": "WATER",
+              "cn_name": "水",
+              "iecic_serial": "06260"
+            }
+          ],
+          "status": "matched"
+        },
+        {
+          "source_index": 2,
+          "source_name": "甘油",
+          "iecic_exact_candidates": [
+            {
+              "inci_name": "GLYCERIN",
+              "cn_name": "甘油",
+              "iecic_serial": "02421"
+            }
+          ],
+          "status": "matched"
+        },
+        {
+          "source_index": 3,
+          "source_name": "碳酸二辛酯",
+          "iecic_exact_candidates": [
+            {
+              "inci_name": "DICAPRYLYL CARBONATE",
+              "cn_name": "碳酸二辛酯",
+              "iecic_serial": "06577"
+            }
+          ],
+          "status": "matched"
+        },
+        {
+          "source_index": 4,
+          "source_name": "辛酸/癸酸甘油三酯",
+          "iecic_exact_candidates": [
+            {
+              "inci_name": "CAPRYLIC/CAPRIC TRIGLYCERIDE",
+              "cn_name": "辛酸/癸酸甘油三酯",
+              "iecic_serial": "07206"
+            }
+          ],
+          "status": "matched"
+        },
+        {
+          "source_index": 5,
+          "source_name": "环五聚二甲基硅氧烷",
+          "iecic_exact_candidates": [
+            {
+              "inci_name": "CYCLOPENTASILOXANE",
+              "cn_name": "环五聚二甲基硅氧烷",
+              "iecic_serial": "03031"
+            }
+          ],
+          "status": "matched"
+        },
+        {
+          "source_index": 6,
+          "source_name": "烟酰胺",
+          "iecic_exact_candidates": [
+            {
+              "inci_name": "NIACINAMIDE",
+              "cn_name": "烟酰胺",
+              "iecic_serial": "07359"
+            }
+          ],
+          "status": "matched"
+        },
+        {
+          "source_index": 7,
+          "source_name": "鲸蜡硬脂基葡糖苷",
+          "iecic_exact_candidates": [
+            {
+              "inci_name": "CETEARYL GLUCOSIDE",
+              "cn_name": "鲸蜡硬脂基葡糖苷",
+              "iecic_serial": "03636"
+            }
+          ],
+          "status": "matched"
+        },
+        {
+          "source_index": 8,
+          "source_name": "山梨坦橄榄油酸酯",
+          "iecic_exact_candidates": [
+            {
+              "inci_name": "SORBITAN OLIVATE",
+              "cn_name": "山梨坦橄榄油酸酯",
+              "iecic_serial": "05917"
+            }
+          ],
+          "status": "matched"
+        },
+        {
+          "source_index": 9,
+          "source_name": "环己硅氧烷",
+          "iecic_exact_candidates": [
+            {
+              "inci_name": "CYCLOHEXASILOXANE",
+              "cn_name": "环己硅氧烷",
+              "iecic_serial": "03023"
+            }
+          ],
+          "status": "matched"
+        },
+        {
+          "source_index": 10,
+          "source_name": "1,3-丙二醇",
+          "iecic_exact_candidates": [
+            {
+              "inci_name": "PROPANEDIOL",
+              "cn_name": "1,3-丙二醇",
+              "iecic_serial": "00006"
+            }
+          ],
+          "status": "matched"
+        },
+        {
+          "source_index": 11,
+          "source_name": "季戊四醇四异硬脂酸酯",
+          "iecic_exact_candidates": [
+            {
+              "inci_name": "PENTAERYTHRITYL TETRAISOSTEARATE",
+              "cn_name": "季戊四醇四异硬脂酸酯",
+              "iecic_serial": "03255"
+            }
+          ],
+          "status": "matched"
+        },
+        {
+          "source_index": 12,
+          "source_name": "牛油果树果脂",
+          "iecic_exact_candidates": [],
+          "status": "unmatched_preserve_raw"
+        },
+        {
+          "source_index": 13,
+          "source_name": "聚丙烯酸钠",
+          "iecic_exact_candidates": [
+            {
+              "inci_name": "SODIUM POLYACRYLATE",
+              "cn_name": "聚丙烯酸钠",
+              "iecic_serial": "03707"
+            }
+          ],
+          "status": "matched"
+        },
+        {
+          "source_index": 14,
+          "source_name": "CI77891",
+          "iecic_exact_candidates": [
+            {
+              "inci_name": "CI 77891",
+              "cn_name": "CI 77891",
+              "iecic_serial": "00375"
+            }
+          ],
+          "status": "matched"
+        },
+        {
+          "source_index": 15,
+          "source_name": "苯氧乙醇",
+          "iecic_exact_candidates": [
+            {
+              "inci_name": "PHENOXYETHANOL",
+              "cn_name": "苯氧乙醇",
+              "iecic_serial": "01294"
+            }
+          ],
+          "status": "matched"
+        },
+        {
+          "source_index": 16,
+          "source_name": "生育酚乙酸酯",
+          "iecic_exact_candidates": [
+            {
+              "inci_name": "TOCOPHERYL ACETATE",
+              "cn_name": "生育酚乙酸酯",
+              "iecic_serial": "06043"
+            }
+          ],
+          "status": "matched"
+        },
+        {
+          "source_index": 17,
+          "source_name": "丁二醇",
+          "iecic_exact_candidates": [
+            {
+              "inci_name": "BUTYLENE GLYCOL",
+              "cn_name": "丁二醇",
+              "iecic_serial": "01946"
+            }
+          ],
+          "status": "matched"
+        },
+        {
+          "source_index": 18,
+          "source_name": "辛甘醇",
+          "iecic_exact_candidates": [
+            {
+              "inci_name": "CAPRYLYL GLYCOL",
+              "cn_name": "辛甘醇",
+              "iecic_serial": "07160"
+            }
+          ],
+          "status": "matched"
+        },
+        {
+          "source_index": 19,
+          "source_name": "鲸蜡醇",
+          "iecic_exact_candidates": [
+            {
+              "inci_name": "CETYL ALCOHOL",
+              "cn_name": "鲸蜡醇",
+              "iecic_serial": "03526"
+            }
+          ],
+          "status": "matched"
+        },
+        {
+          "source_index": 20,
+          "source_name": "硬脂醇",
+          "iecic_exact_candidates": [
+            {
+              "inci_name": "STEARYL ALCOHOL",
+              "cn_name": "硬脂醇",
+              "iecic_serial": "07972"
+            }
+          ],
+          "status": "matched"
+        },
+        {
+          "source_index": 21,
+          "source_name": "香精",
+          "iecic_exact_candidates": [
+            {
+              "inci_name": "AROMA",
+              "cn_name": "香精",
+              "iecic_serial": "07007"
+            },
+            {
+              "inci_name": "PARFUM",
+              "cn_name": "香精",
+              "iecic_serial": "07008"
+            }
+          ],
+          "status": "matched"
+        },
+        {
+          "source_index": 22,
+          "source_name": "EDTA 二钠",
+          "iecic_exact_candidates": [
+            {
+              "inci_name": "DISODIUM EDTA",
+              "cn_name": "EDTA 二钠",
+              "iecic_serial": "00388"
+            }
+          ],
+          "status": "matched"
+        },
+        {
+          "source_index": 23,
+          "source_name": "黄原胶",
+          "iecic_exact_candidates": [
+            {
+              "inci_name": "XANTHAN GUM",
+              "cn_name": "黄原胶",
+              "iecic_serial": "03086"
+            }
+          ],
+          "status": "matched"
+        },
+        {
+          "source_index": 24,
+          "source_name": "一粒小麦籽提取物",
+          "iecic_exact_candidates": [],
+          "status": "unmatched_preserve_raw"
+        },
+        {
+          "source_index": 25,
+          "source_name": "水解大米蛋白",
+          "iecic_exact_candidates": [
+            {
+              "inci_name": "HYDROLYZED RICE PROTEIN",
+              "cn_name": "水解大米蛋白",
+              "iecic_serial": "06291"
+            }
+          ],
+          "status": "matched"
+        },
+        {
+          "source_index": 26,
+          "source_name": "水解酵母蛋白",
+          "iecic_exact_candidates": [
+            {
+              "inci_name": "HYDROLYZED YEAST PROTEIN",
+              "cn_name": "水解酵母蛋白",
+              "iecic_serial": "06323"
+            }
+          ],
+          "status": "matched"
+        },
+        {
+          "source_index": 27,
+          "source_name": "苯乙醇",
+          "iecic_exact_candidates": [
+            {
+              "inci_name": "PHENETHYL ALCOHOL",
+              "cn_name": "苯乙醇",
+              "iecic_serial": "01296"
+            }
+          ],
+          "status": "matched"
+        },
+        {
+          "source_index": 28,
+          "source_name": "糖类同分异构体",
+          "iecic_exact_candidates": [
+            {
+              "inci_name": "SACCHARIDE ISOMERATE",
+              "cn_name": "糖类同分异构体",
+              "iecic_serial": "06596"
+            }
+          ],
+          "status": "matched"
+        }
+      ],
+      "unmatched_tokens": [
+        "牛油果树果脂",
+        "一粒小麦籽提取物"
+      ],
+      "unmatched_policy": "Preserve these source names in the complete raw list. Missing canonical matching does not turn a complete source list into partial; never invent a Latin/species name or silently delete a token. Canonical Chinese display still requires the existing IECIC rules.",
+      "position": null,
+      "ingredient_order_status": "unknown_for_application",
+      "concentration_inference_allowed": false,
+      "document_created_date": "2025-07-08",
+      "document_date_basis": "PDF metadata creation date; official publication/effective date not independently provided.",
+      "observed_date": "2026-10-20",
+      "reference_price": 478,
+      "currency": "CNY",
+      "spec": "50毫升",
+      "price_source_url": "https://www.oriflame.cn/products/product?code=34560",
+      "price_sampled_at": "2026-10-20",
+      "price_reference_note": "2026-10-20同商品码官网参考标价；与PDF文档创建日期分开，不代表该价售出的所有现货批次成分已确认。",
+      "current_official_code_matches": true,
+      "current_official_name": "时之钥抚纹抗痕晚霜",
+      "current_page_ingredient_field": null,
+      "current_page_links_pdf": false,
+      "current_formula_unchanged_verified": false,
+      "current_formula_conflict_found": false,
+      "current_formula_conflict_note": "No independent current ingredients list or package label was archived for these3 codes, so no contradiction found is not proof that composition is unchanged. The known41063 English/PDF discrepancy is not borrowed into these records.",
+      "version_match_status": "exact_official_code_and_product_name_for_disclosed_version_only",
+      "ready_to_import": true,
+      "ready_to_import_scope": "official_disclosed_version_only",
+      "ready_as_latest_current_formula": false,
+      "formal_layer_conditions": [
+        "产品名或紧邻说明必须明确“官方披露版本”。",
+        "保留PDF文档日期/来源、当前价格采样日期两个独立时间字段。",
+        "不称最新配方、当前成分已一致核验、所有现货批次相同。",
+        "不得与另一来源英文表拼接；不基于完整表推断位次/浓度。",
+        "如应用层无法展示披露版本和两个日期，先留来源档案，不纳入未分版本的当前配方指数。"
+      ],
+      "commercial_product_increment": 0
+    },
+    {
+      "brand": "欧瑞莲",
+      "official_id": "45094",
+      "official_code": "45094",
+      "current_name": "优萃佳颜+亮妍日霜",
+      "source_disclosure_name": "欧瑞莲优萃佳颜亮妍日霜",
+      "name": "优萃佳颜+亮妍日霜（官方披露版本）",
+      "category": "面霜",
+      "source_url": "https://www.oriflame.cn/products/product?code=45094",
+      "ingredient_source_url": "https://media-cdn.oriflame.cn/static-media-web/c4b729e2-c5e3-4b7f-be8e-819d46bb0e72?mimeType=application%2Fpdf",
+      "ingredient_source_path": "data/raw/selection-map/official-oriflame-full-ingredients-20261020.pdf",
+      "ingredient_source_sha256": "e475c6b6658c2e70d35aea435ff44f046176af53819a3c69c3fc1a283a45fc79",
+      "pdf_page": 9,
+      "pdf_row_bbox": [
+        51.480000000000004,
+        195.05000000000007,
+        779.5000200000001,
+        250.13000000000005
+      ],
+      "pdf_ingredient_cell_bbox": [
+        370.130005,
+        195.05000000000007,
+        543.30999,
+        250.13000000000005
+      ],
+      "source_row_screenshot": "data/raw/selection-map/official-oriflame-independent-row-45094-20261020.png",
+      "source_cell_screenshot": "data/raw/selection-map/official-oriflame-independent-cell-45094-20261020.png",
+      "raw_ingredient_text": "成分：水、丁二醇、异壬酸异壬酯、甘油、甜菜碱、氢化椰油甘油酯类\n、二辛基醚、聚二甲基硅氧烷、海水、鲸蜡硬脂醇、假丝酵母/葡萄糖/\n油菜籽油酸甲酯发酵产物、PEG-20 甲基葡糖倍半硬脂酸酯、木糖醇基葡\n糖苷、苯氧乙醇、甘油硬脂酸酯、丙烯酰二甲基牛磺酸铵/VP 共聚物、\n脱水木糖醇、山嵛醇、硬脂醇、丙烯酸（酯）类/C10-30 烷醇丙烯酸酯\n交联聚合物、双丙甘醇、PEG-100 硬脂酸酯、PEG-20 植物甾醇、木糖醇\n、辛甘醇、乙基己基甘油、鲸蜡醇、植物甾醇类、氢氧化钠、氢化卵磷\n脂、辛酸/癸酸甘油三酯、透明质酸钠、水解藻提取物、抗坏血酸（维生\n素C）、生育酚（维生素E）、向日葵籽油、柠檬酸、苯甲酸钠。",
+      "raw_ingredient_names": [
+        "水",
+        "丁二醇",
+        "异壬酸异壬酯",
+        "甘油",
+        "甜菜碱",
+        "氢化椰油甘油酯类",
+        "二辛基醚",
+        "聚二甲基硅氧烷",
+        "海水",
+        "鲸蜡硬脂醇",
+        "假丝酵母/葡萄糖/油菜籽油酸甲酯发酵产物",
+        "PEG-20 甲基葡糖倍半硬脂酸酯",
+        "木糖醇基葡糖苷",
+        "苯氧乙醇",
+        "甘油硬脂酸酯",
+        "丙烯酰二甲基牛磺酸铵/VP 共聚物",
+        "脱水木糖醇",
+        "山嵛醇",
+        "硬脂醇",
+        "丙烯酸（酯）类/C10-30 烷醇丙烯酸酯交联聚合物",
+        "双丙甘醇",
+        "PEG-100 硬脂酸酯",
+        "PEG-20 植物甾醇",
+        "木糖醇",
+        "辛甘醇",
+        "乙基己基甘油",
+        "鲸蜡醇",
+        "植物甾醇类",
+        "氢氧化钠",
+        "氢化卵磷脂",
+        "辛酸/癸酸甘油三酯",
+        "透明质酸钠",
+        "水解藻提取物",
+        "抗坏血酸（维生素C）",
+        "生育酚（维生素E）",
+        "向日葵籽油",
+        "柠檬酸",
+        "苯甲酸钠"
+      ],
+      "full_ingredient_names": [
+        "水",
+        "丁二醇",
+        "异壬酸异壬酯",
+        "甘油",
+        "甜菜碱",
+        "氢化椰油甘油酯类",
+        "二辛基醚",
+        "聚二甲基硅氧烷",
+        "海水",
+        "鲸蜡硬脂醇",
+        "假丝酵母/葡萄糖/油菜籽油酸甲酯发酵产物",
+        "PEG-20 甲基葡糖倍半硬脂酸酯",
+        "木糖醇基葡糖苷",
+        "苯氧乙醇",
+        "甘油硬脂酸酯",
+        "丙烯酰二甲基牛磺酸铵/VP 共聚物",
+        "脱水木糖醇",
+        "山嵛醇",
+        "硬脂醇",
+        "丙烯酸（酯）类/C10-30 烷醇丙烯酸酯交联聚合物",
+        "双丙甘醇",
+        "PEG-100 硬脂酸酯",
+        "PEG-20 植物甾醇",
+        "木糖醇",
+        "辛甘醇",
+        "乙基己基甘油",
+        "鲸蜡醇",
+        "植物甾醇类",
+        "氢氧化钠",
+        "氢化卵磷脂",
+        "辛酸/癸酸甘油三酯",
+        "透明质酸钠",
+        "水解藻提取物",
+        "抗坏血酸（维生素C）",
+        "生育酚（维生素E）",
+        "向日葵籽油",
+        "柠檬酸",
+        "苯甲酸钠"
+      ],
+      "ingredient_count": 38,
+      "ingredient_list_status": "official_full",
+      "ingredient_completeness": "full",
+      "completeness_verdict": "The exact code/name row begins with 成分 and ends with a visibly complete Chinese full stop; no glyph is cut off at the cell boundary and no continuation is omitted. Independently rendered from native PDF vectors; no OCR.",
+      "all_token_matching": [
+        {
+          "source_index": 1,
+          "source_name": "水",
+          "iecic_exact_candidates": [
+            {
+              "inci_name": "AQUA",
+              "cn_name": "水",
+              "iecic_serial": "06259"
+            },
+            {
+              "inci_name": "WATER",
+              "cn_name": "水",
+              "iecic_serial": "06260"
+            }
+          ],
+          "status": "matched"
+        },
+        {
+          "source_index": 2,
+          "source_name": "丁二醇",
+          "iecic_exact_candidates": [
+            {
+              "inci_name": "BUTYLENE GLYCOL",
+              "cn_name": "丁二醇",
+              "iecic_serial": "01946"
+            }
+          ],
+          "status": "matched"
+        },
+        {
+          "source_index": 3,
+          "source_name": "异壬酸异壬酯",
+          "iecic_exact_candidates": [
+            {
+              "inci_name": "ISONONYL ISONONANOATE",
+              "cn_name": "异壬酸异壬酯",
+              "iecic_serial": "07834"
+            }
+          ],
+          "status": "matched"
+        },
+        {
+          "source_index": 4,
+          "source_name": "甘油",
+          "iecic_exact_candidates": [
+            {
+              "inci_name": "GLYCERIN",
+              "cn_name": "甘油",
+              "iecic_serial": "02421"
+            }
+          ],
+          "status": "matched"
+        },
+        {
+          "source_index": 5,
+          "source_name": "甜菜碱",
+          "iecic_exact_candidates": [
+            {
+              "inci_name": "BETAINE",
+              "cn_name": "甜菜碱",
+              "iecic_serial": "06665"
+            }
+          ],
+          "status": "matched"
+        },
+        {
+          "source_index": 6,
+          "source_name": "氢化椰油甘油酯类",
+          "iecic_exact_candidates": [
+            {
+              "inci_name": "HYDROGENATED COCO-GLYCERIDES",
+              "cn_name": "氢化椰油甘油酯类",
+              "iecic_serial": "05410"
+            }
+          ],
+          "status": "matched"
+        },
+        {
+          "source_index": 7,
+          "source_name": "二辛基醚",
+          "iecic_exact_candidates": [
+            {
+              "inci_name": "DICAPRYLYL ETHER",
+              "cn_name": "二辛基醚",
+              "iecic_serial": "02200"
+            }
+          ],
+          "status": "matched"
+        },
+        {
+          "source_index": 8,
+          "source_name": "聚二甲基硅氧烷",
+          "iecic_exact_candidates": [
+            {
+              "inci_name": "DIMETHICONE",
+              "cn_name": "聚二甲基硅氧烷",
+              "iecic_serial": "03732"
+            }
+          ],
+          "status": "matched"
+        },
+        {
+          "source_index": 9,
+          "source_name": "海水",
+          "iecic_exact_candidates": [
+            {
+              "inci_name": "MARIS AQUA",
+              "cn_name": "海水",
+              "iecic_serial": "02732"
+            },
+            {
+              "inci_name": "SEA WATER",
+              "cn_name": "海水",
+              "iecic_serial": "02733"
+            }
+          ],
+          "status": "matched"
+        },
+        {
+          "source_index": 10,
+          "source_name": "鲸蜡硬脂醇",
+          "iecic_exact_candidates": [
+            {
+              "inci_name": "CETEARYL ALCOHOL",
+              "cn_name": "鲸蜡硬脂醇",
+              "iecic_serial": "03580"
+            }
+          ],
+          "status": "matched"
+        },
+        {
+          "source_index": 11,
+          "source_name": "假丝酵母/葡萄糖/油菜籽油酸甲酯发酵产物",
+          "iecic_exact_candidates": [],
+          "status": "unmatched_preserve_raw"
+        },
+        {
+          "source_index": 12,
+          "source_name": "PEG-20 甲基葡糖倍半硬脂酸酯",
+          "iecic_exact_candidates": [
+            {
+              "inci_name": "PEG-20 METHYL GLUCOSE SESQUISTEARATE",
+              "cn_name": "PEG-20 甲基葡糖倍半硬脂酸酯",
+              "iecic_serial": "00581"
+            }
+          ],
+          "status": "matched"
+        },
+        {
+          "source_index": 13,
+          "source_name": "木糖醇基葡糖苷",
+          "iecic_exact_candidates": [
+            {
+              "inci_name": "XYLITYLGLUCOSIDE",
+              "cn_name": "木糖醇基葡糖苷",
+              "iecic_serial": "04785"
+            }
+          ],
+          "status": "matched"
+        },
+        {
+          "source_index": 14,
+          "source_name": "苯氧乙醇",
+          "iecic_exact_candidates": [
+            {
+              "inci_name": "PHENOXYETHANOL",
+              "cn_name": "苯氧乙醇",
+              "iecic_serial": "01294"
+            }
+          ],
+          "status": "matched"
+        },
+        {
+          "source_index": 15,
+          "source_name": "甘油硬脂酸酯",
+          "iecic_exact_candidates": [
+            {
+              "inci_name": "GLYCERYL STEARATE",
+              "cn_name": "甘油硬脂酸酯",
+              "iecic_serial": "02490"
+            }
+          ],
+          "status": "matched"
+        },
+        {
+          "source_index": 16,
+          "source_name": "丙烯酰二甲基牛磺酸铵/VP 共聚物",
+          "iecic_exact_candidates": [
+            {
+              "inci_name": "AMMONIUM ACRYLOYLDIMETHYLTAURATE/VP COPOLYMER",
+              "cn_name": "丙烯酰二甲基牛磺酸铵/VP 共聚物",
+              "iecic_serial": "01503"
+            }
+          ],
+          "status": "matched"
+        },
+        {
+          "source_index": 17,
+          "source_name": "脱水木糖醇",
+          "iecic_exact_candidates": [
+            {
+              "inci_name": "ANHYDROXYLITOL",
+              "cn_name": "脱水木糖醇",
+              "iecic_serial": "06749"
+            }
+          ],
+          "status": "matched"
+        },
+        {
+          "source_index": 18,
+          "source_name": "山嵛醇",
+          "iecic_exact_candidates": [
+            {
+              "inci_name": "BEHENYL ALCOHOL",
+              "cn_name": "山嵛醇",
+              "iecic_serial": "05946"
+            }
+          ],
+          "status": "matched"
+        },
+        {
+          "source_index": 19,
+          "source_name": "硬脂醇",
+          "iecic_exact_candidates": [
+            {
+              "inci_name": "STEARYL ALCOHOL",
+              "cn_name": "硬脂醇",
+              "iecic_serial": "07972"
+            }
+          ],
+          "status": "matched"
+        },
+        {
+          "source_index": 20,
+          "source_name": "丙烯酸（酯）类/C10-30 烷醇丙烯酸酯交联聚合物",
+          "iecic_exact_candidates": [
+            {
+              "inci_name": "ACRYLATES/C10-30 ALKYL ACRYLATE CROSSPOLYMER",
+              "cn_name": "丙烯酸（酯）类/C10-30 烷醇丙烯酸酯交联聚合物",
+              "iecic_serial": "01423"
+            }
+          ],
+          "status": "matched"
+        },
+        {
+          "source_index": 21,
+          "source_name": "双丙甘醇",
+          "iecic_exact_candidates": [
+            {
+              "inci_name": "DIPROPYLENE GLYCOL",
+              "cn_name": "双丙甘醇",
+              "iecic_serial": "06223"
+            }
+          ],
+          "status": "matched"
+        },
+        {
+          "source_index": 22,
+          "source_name": "PEG-100 硬脂酸酯",
+          "iecic_exact_candidates": [
+            {
+              "inci_name": "PEG-100 STEARATE",
+              "cn_name": "PEG-100 硬脂酸酯",
+              "iecic_serial": "00494"
+            }
+          ],
+          "status": "matched"
+        },
+        {
+          "source_index": 23,
+          "source_name": "PEG-20 植物甾醇",
+          "iecic_exact_candidates": [
+            {
+              "inci_name": "PEG-20 PHYTOSTEROL",
+              "cn_name": "PEG-20 植物甾醇",
+              "iecic_serial": "00598"
+            }
+          ],
+          "status": "matched"
+        },
+        {
+          "source_index": 24,
+          "source_name": "木糖醇",
+          "iecic_exact_candidates": [
+            {
+              "inci_name": "XYLITOL",
+              "cn_name": "木糖醇",
+              "iecic_serial": "04784"
+            }
+          ],
+          "status": "matched"
+        },
+        {
+          "source_index": 25,
+          "source_name": "辛甘醇",
+          "iecic_exact_candidates": [
+            {
+              "inci_name": "CAPRYLYL GLYCOL",
+              "cn_name": "辛甘醇",
+              "iecic_serial": "07160"
+            }
+          ],
+          "status": "matched"
+        },
+        {
+          "source_index": 26,
+          "source_name": "乙基己基甘油",
+          "iecic_exact_candidates": [
+            {
+              "inci_name": "ETHYLHEXYLGLYCERIN",
+              "cn_name": "乙基己基甘油",
+              "iecic_serial": "07706"
+            }
+          ],
+          "status": "matched"
+        },
+        {
+          "source_index": 27,
+          "source_name": "鲸蜡醇",
+          "iecic_exact_candidates": [
+            {
+              "inci_name": "CETYL ALCOHOL",
+              "cn_name": "鲸蜡醇",
+              "iecic_serial": "03526"
+            }
+          ],
+          "status": "matched"
+        },
+        {
+          "source_index": 28,
+          "source_name": "植物甾醇类",
+          "iecic_exact_candidates": [
+            {
+              "inci_name": "PHYTOSTEROLS",
+              "cn_name": "植物甾醇类",
+              "iecic_serial": "08605"
+            }
+          ],
+          "status": "matched"
+        },
+        {
+          "source_index": 29,
+          "source_name": "氢氧化钠",
+          "iecic_exact_candidates": [
+            {
+              "inci_name": "SODIUM HYDROXIDE",
+              "cn_name": "氢氧化钠",
+              "iecic_serial": "05436"
+            }
+          ],
+          "status": "matched"
+        },
+        {
+          "source_index": 30,
+          "source_name": "氢化卵磷脂",
+          "iecic_exact_candidates": [
+            {
+              "inci_name": "HYDROGENATED LECITHIN",
+              "cn_name": "氢化卵磷脂",
+              "iecic_serial": "05378"
+            }
+          ],
+          "status": "matched"
+        },
+        {
+          "source_index": 31,
+          "source_name": "辛酸/癸酸甘油三酯",
+          "iecic_exact_candidates": [
+            {
+              "inci_name": "CAPRYLIC/CAPRIC TRIGLYCERIDE",
+              "cn_name": "辛酸/癸酸甘油三酯",
+              "iecic_serial": "07206"
+            }
+          ],
+          "status": "matched"
+        },
+        {
+          "source_index": 32,
+          "source_name": "透明质酸钠",
+          "iecic_exact_candidates": [
+            {
+              "inci_name": "SODIUM HYALURONATE",
+              "cn_name": "透明质酸钠",
+              "iecic_serial": "06722"
+            }
+          ],
+          "status": "matched"
+        },
+        {
+          "source_index": 33,
+          "source_name": "水解藻提取物",
+          "iecic_exact_candidates": [
+            {
+              "inci_name": "HYDROLYZED ALGAE EXTRACT",
+              "cn_name": "水解藻提取物",
+              "iecic_serial": "06391"
+            }
+          ],
+          "status": "matched"
+        },
+        {
+          "source_index": 34,
+          "source_name": "抗坏血酸（维生素C）",
+          "iecic_exact_candidates": [
+            {
+              "inci_name": "ASCORBIC ACID",
+              "cn_name": "抗坏血酸（维生素C）",
+              "iecic_serial": "04092"
+            }
+          ],
+          "status": "matched"
+        },
+        {
+          "source_index": 35,
+          "source_name": "生育酚（维生素E）",
+          "iecic_exact_candidates": [
+            {
+              "inci_name": "TOCOPHEROL",
+              "cn_name": "生育酚（维生素E）",
+              "iecic_serial": "06029"
+            }
+          ],
+          "status": "matched"
+        },
+        {
+          "source_index": 36,
+          "source_name": "向日葵籽油",
+          "iecic_exact_candidates": [],
+          "status": "unmatched_preserve_raw"
+        },
+        {
+          "source_index": 37,
+          "source_name": "柠檬酸",
+          "iecic_exact_candidates": [
+            {
+              "inci_name": "CITRIC ACID",
+              "cn_name": "柠檬酸",
+              "iecic_serial": "04849"
+            }
+          ],
+          "status": "matched"
+        },
+        {
+          "source_index": 38,
+          "source_name": "苯甲酸钠",
+          "iecic_exact_candidates": [
+            {
+              "inci_name": "SODIUM BENZOATE",
+              "cn_name": "苯甲酸钠",
+              "iecic_serial": "01289"
+            }
+          ],
+          "status": "matched"
+        }
+      ],
+      "unmatched_tokens": [
+        "假丝酵母/葡萄糖/油菜籽油酸甲酯发酵产物",
+        "向日葵籽油"
+      ],
+      "unmatched_policy": "Preserve these source names in the complete raw list. Missing canonical matching does not turn a complete source list into partial; never invent a Latin/species name or silently delete a token. Canonical Chinese display still requires the existing IECIC rules.",
+      "position": null,
+      "ingredient_order_status": "unknown_for_application",
+      "concentration_inference_allowed": false,
+      "document_created_date": "2025-07-08",
+      "document_date_basis": "PDF metadata creation date; official publication/effective date not independently provided.",
+      "observed_date": "2026-10-20",
+      "reference_price": 298,
+      "currency": "CNY",
+      "spec": "50毫升",
+      "price_source_url": "https://www.oriflame.cn/products/product?code=45094",
+      "price_sampled_at": "2026-10-20",
+      "price_reference_note": "2026-10-20同商品码官网参考标价；与PDF文档创建日期分开，不代表该价售出的所有现货批次成分已确认。",
+      "current_official_code_matches": true,
+      "current_official_name": "优萃佳颜+亮妍日霜",
+      "current_page_ingredient_field": null,
+      "current_page_links_pdf": false,
+      "current_formula_unchanged_verified": false,
+      "current_formula_conflict_found": false,
+      "current_formula_conflict_note": "No independent current ingredients list or package label was archived for these3 codes, so no contradiction found is not proof that composition is unchanged. The known41063 English/PDF discrepancy is not borrowed into these records.",
+      "version_match_status": "exact_official_code_and_product_name_for_disclosed_version_only",
+      "ready_to_import": true,
+      "ready_to_import_scope": "official_disclosed_version_only",
+      "ready_as_latest_current_formula": false,
+      "formal_layer_conditions": [
+        "产品名或紧邻说明必须明确“官方披露版本”。",
+        "保留PDF文档日期/来源、当前价格采样日期两个独立时间字段。",
+        "不称最新配方、当前成分已一致核验、所有现货批次相同。",
+        "不得与另一来源英文表拼接；不基于完整表推断位次/浓度。",
+        "如应用层无法展示披露版本和两个日期，先留来源档案，不纳入未分版本的当前配方指数。"
+      ],
+      "commercial_product_increment": 0
+    },
+    {
+      "brand": "欧瑞莲",
+      "official_id": "45095",
+      "official_code": "45095",
+      "current_name": "优萃佳颜+亮妍晚霜",
+      "source_disclosure_name": "欧瑞莲优萃佳颜亮妍晚霜",
+      "name": "优萃佳颜+亮妍晚霜（官方披露版本）",
+      "category": "面霜",
+      "source_url": "https://www.oriflame.cn/products/product?code=45095",
+      "ingredient_source_url": "https://media-cdn.oriflame.cn/static-media-web/c4b729e2-c5e3-4b7f-be8e-819d46bb0e72?mimeType=application%2Fpdf",
+      "ingredient_source_path": "data/raw/selection-map/official-oriflame-full-ingredients-20261020.pdf",
+      "ingredient_source_sha256": "e475c6b6658c2e70d35aea435ff44f046176af53819a3c69c3fc1a283a45fc79",
+      "pdf_page": 9,
+      "pdf_row_bbox": [
+        51.480000000000004,
+        250.13000000000005,
+        779.5000200000001,
+        292.96999500000004
+      ],
+      "pdf_ingredient_cell_bbox": [
+        370.130005,
+        250.13000000000005,
+        543.30999,
+        292.96999500000004
+      ],
+      "source_row_screenshot": "data/raw/selection-map/official-oriflame-independent-row-45095-20261020.png",
+      "source_cell_screenshot": "data/raw/selection-map/official-oriflame-independent-cell-45095-20261020.png",
+      "raw_ingredient_text": "成分：水、甘油、异壬酸异壬酯、C12-20 酸 PEG-8 酯、1,2-戊二醇、聚\n二甲基硅氧烷、甜菜碱、丁二醇、鲸蜡醇、角鲨烷、硬脂酸、海水、甘\n油硬脂酸酯、木糖醇基葡糖苷、PEG-40 硬脂酸酯、假丝酵母/葡萄糖/油\n菜籽油酸甲酯发酵产物、脱水木糖醇、PEG-100 硬脂酸酯、丙烯酰二甲\n基牛磺酸铵/VP 共聚物、木糖醇、苯氧乙醇、双丙甘醇、卡波姆、辛甘\n醇、乙基己基甘油、氢氧化钠、水解透明质酸钠、水解藻提取物、EDTA\n二钠、抗坏血酸（维生素C）、向日葵籽油、柠檬酸、苯甲酸钠。",
+      "raw_ingredient_names": [
+        "水",
+        "甘油",
+        "异壬酸异壬酯",
+        "C12-20 酸 PEG-8 酯",
+        "1,2-戊二醇",
+        "聚二甲基硅氧烷",
+        "甜菜碱",
+        "丁二醇",
+        "鲸蜡醇",
+        "角鲨烷",
+        "硬脂酸",
+        "海水",
+        "甘油硬脂酸酯",
+        "木糖醇基葡糖苷",
+        "PEG-40 硬脂酸酯",
+        "假丝酵母/葡萄糖/油菜籽油酸甲酯发酵产物",
+        "脱水木糖醇",
+        "PEG-100 硬脂酸酯",
+        "丙烯酰二甲基牛磺酸铵/VP 共聚物",
+        "木糖醇",
+        "苯氧乙醇",
+        "双丙甘醇",
+        "卡波姆",
+        "辛甘醇",
+        "乙基己基甘油",
+        "氢氧化钠",
+        "水解透明质酸钠",
+        "水解藻提取物",
+        "EDTA二钠",
+        "抗坏血酸（维生素C）",
+        "向日葵籽油",
+        "柠檬酸",
+        "苯甲酸钠"
+      ],
+      "full_ingredient_names": [
+        "水",
+        "甘油",
+        "异壬酸异壬酯",
+        "C12-20 酸 PEG-8 酯",
+        "1,2-戊二醇",
+        "聚二甲基硅氧烷",
+        "甜菜碱",
+        "丁二醇",
+        "鲸蜡醇",
+        "角鲨烷",
+        "硬脂酸",
+        "海水",
+        "甘油硬脂酸酯",
+        "木糖醇基葡糖苷",
+        "PEG-40 硬脂酸酯",
+        "假丝酵母/葡萄糖/油菜籽油酸甲酯发酵产物",
+        "脱水木糖醇",
+        "PEG-100 硬脂酸酯",
+        "丙烯酰二甲基牛磺酸铵/VP 共聚物",
+        "木糖醇",
+        "苯氧乙醇",
+        "双丙甘醇",
+        "卡波姆",
+        "辛甘醇",
+        "乙基己基甘油",
+        "氢氧化钠",
+        "水解透明质酸钠",
+        "水解藻提取物",
+        "EDTA二钠",
+        "抗坏血酸（维生素C）",
+        "向日葵籽油",
+        "柠檬酸",
+        "苯甲酸钠"
+      ],
+      "ingredient_count": 33,
+      "ingredient_list_status": "official_full",
+      "ingredient_completeness": "full",
+      "completeness_verdict": "The exact code/name row begins with 成分 and ends with a visibly complete Chinese full stop; no glyph is cut off at the cell boundary and no continuation is omitted. Independently rendered from native PDF vectors; no OCR.",
+      "all_token_matching": [
+        {
+          "source_index": 1,
+          "source_name": "水",
+          "iecic_exact_candidates": [
+            {
+              "inci_name": "AQUA",
+              "cn_name": "水",
+              "iecic_serial": "06259"
+            },
+            {
+              "inci_name": "WATER",
+              "cn_name": "水",
+              "iecic_serial": "06260"
+            }
+          ],
+          "status": "matched"
+        },
+        {
+          "source_index": 2,
+          "source_name": "甘油",
+          "iecic_exact_candidates": [
+            {
+              "inci_name": "GLYCERIN",
+              "cn_name": "甘油",
+              "iecic_serial": "02421"
+            }
+          ],
+          "status": "matched"
+        },
+        {
+          "source_index": 3,
+          "source_name": "异壬酸异壬酯",
+          "iecic_exact_candidates": [
+            {
+              "inci_name": "ISONONYL ISONONANOATE",
+              "cn_name": "异壬酸异壬酯",
+              "iecic_serial": "07834"
+            }
+          ],
+          "status": "matched"
+        },
+        {
+          "source_index": 4,
+          "source_name": "C12-20 酸 PEG-8 酯",
+          "iecic_exact_candidates": [
+            {
+              "inci_name": "C12-20 ACID PEG-8 ESTER",
+              "cn_name": "C12-20 酸 PEG-8 酯",
+              "iecic_serial": "00164"
+            }
+          ],
+          "status": "matched"
+        },
+        {
+          "source_index": 5,
+          "source_name": "1,2-戊二醇",
+          "iecic_exact_candidates": [
+            {
+              "inci_name": "PENTYLENE GLYCOL",
+              "cn_name": "1,2-戊二醇",
+              "iecic_serial": "00005"
+            }
+          ],
+          "status": "matched"
+        },
+        {
+          "source_index": 6,
+          "source_name": "聚二甲基硅氧烷",
+          "iecic_exact_candidates": [
+            {
+              "inci_name": "DIMETHICONE",
+              "cn_name": "聚二甲基硅氧烷",
+              "iecic_serial": "03732"
+            }
+          ],
+          "status": "matched"
+        },
+        {
+          "source_index": 7,
+          "source_name": "甜菜碱",
+          "iecic_exact_candidates": [
+            {
+              "inci_name": "BETAINE",
+              "cn_name": "甜菜碱",
+              "iecic_serial": "06665"
+            }
+          ],
+          "status": "matched"
+        },
+        {
+          "source_index": 8,
+          "source_name": "丁二醇",
+          "iecic_exact_candidates": [
+            {
+              "inci_name": "BUTYLENE GLYCOL",
+              "cn_name": "丁二醇",
+              "iecic_serial": "01946"
+            }
+          ],
+          "status": "matched"
+        },
+        {
+          "source_index": 9,
+          "source_name": "鲸蜡醇",
+          "iecic_exact_candidates": [
+            {
+              "inci_name": "CETYL ALCOHOL",
+              "cn_name": "鲸蜡醇",
+              "iecic_serial": "03526"
+            }
+          ],
+          "status": "matched"
+        },
+        {
+          "source_index": 10,
+          "source_name": "角鲨烷",
+          "iecic_exact_candidates": [
+            {
+              "inci_name": "SQUALANE",
+              "cn_name": "角鲨烷",
+              "iecic_serial": "03432"
+            }
+          ],
+          "status": "matched"
+        },
+        {
+          "source_index": 11,
+          "source_name": "硬脂酸",
+          "iecic_exact_candidates": [
+            {
+              "inci_name": "STEARIC ACID",
+              "cn_name": "硬脂酸",
+              "iecic_serial": "08028"
+            }
+          ],
+          "status": "matched"
+        },
+        {
+          "source_index": 12,
+          "source_name": "海水",
+          "iecic_exact_candidates": [
+            {
+              "inci_name": "MARIS AQUA",
+              "cn_name": "海水",
+              "iecic_serial": "02732"
+            },
+            {
+              "inci_name": "SEA WATER",
+              "cn_name": "海水",
+              "iecic_serial": "02733"
+            }
+          ],
+          "status": "matched"
+        },
+        {
+          "source_index": 13,
+          "source_name": "甘油硬脂酸酯",
+          "iecic_exact_candidates": [
+            {
+              "inci_name": "GLYCERYL STEARATE",
+              "cn_name": "甘油硬脂酸酯",
+              "iecic_serial": "02490"
+            }
+          ],
+          "status": "matched"
+        },
+        {
+          "source_index": 14,
+          "source_name": "木糖醇基葡糖苷",
+          "iecic_exact_candidates": [
+            {
+              "inci_name": "XYLITYLGLUCOSIDE",
+              "cn_name": "木糖醇基葡糖苷",
+              "iecic_serial": "04785"
+            }
+          ],
+          "status": "matched"
+        },
+        {
+          "source_index": 15,
+          "source_name": "PEG-40 硬脂酸酯",
+          "iecic_exact_candidates": [
+            {
+              "inci_name": "PEG-40 STEARATE",
+              "cn_name": "PEG-40 硬脂酸酯",
+              "iecic_serial": "00693"
+            }
+          ],
+          "status": "matched"
+        },
+        {
+          "source_index": 16,
+          "source_name": "假丝酵母/葡萄糖/油菜籽油酸甲酯发酵产物",
+          "iecic_exact_candidates": [],
+          "status": "unmatched_preserve_raw"
+        },
+        {
+          "source_index": 17,
+          "source_name": "脱水木糖醇",
+          "iecic_exact_candidates": [
+            {
+              "inci_name": "ANHYDROXYLITOL",
+              "cn_name": "脱水木糖醇",
+              "iecic_serial": "06749"
+            }
+          ],
+          "status": "matched"
+        },
+        {
+          "source_index": 18,
+          "source_name": "PEG-100 硬脂酸酯",
+          "iecic_exact_candidates": [
+            {
+              "inci_name": "PEG-100 STEARATE",
+              "cn_name": "PEG-100 硬脂酸酯",
+              "iecic_serial": "00494"
+            }
+          ],
+          "status": "matched"
+        },
+        {
+          "source_index": 19,
+          "source_name": "丙烯酰二甲基牛磺酸铵/VP 共聚物",
+          "iecic_exact_candidates": [
+            {
+              "inci_name": "AMMONIUM ACRYLOYLDIMETHYLTAURATE/VP COPOLYMER",
+              "cn_name": "丙烯酰二甲基牛磺酸铵/VP 共聚物",
+              "iecic_serial": "01503"
+            }
+          ],
+          "status": "matched"
+        },
+        {
+          "source_index": 20,
+          "source_name": "木糖醇",
+          "iecic_exact_candidates": [
+            {
+              "inci_name": "XYLITOL",
+              "cn_name": "木糖醇",
+              "iecic_serial": "04784"
+            }
+          ],
+          "status": "matched"
+        },
+        {
+          "source_index": 21,
+          "source_name": "苯氧乙醇",
+          "iecic_exact_candidates": [
+            {
+              "inci_name": "PHENOXYETHANOL",
+              "cn_name": "苯氧乙醇",
+              "iecic_serial": "01294"
+            }
+          ],
+          "status": "matched"
+        },
+        {
+          "source_index": 22,
+          "source_name": "双丙甘醇",
+          "iecic_exact_candidates": [
+            {
+              "inci_name": "DIPROPYLENE GLYCOL",
+              "cn_name": "双丙甘醇",
+              "iecic_serial": "06223"
+            }
+          ],
+          "status": "matched"
+        },
+        {
+          "source_index": 23,
+          "source_name": "卡波姆",
+          "iecic_exact_candidates": [
+            {
+              "inci_name": "CARBOMER",
+              "cn_name": "卡波姆",
+              "iecic_serial": "04079"
+            }
+          ],
+          "status": "matched"
+        },
+        {
+          "source_index": 24,
+          "source_name": "辛甘醇",
+          "iecic_exact_candidates": [
+            {
+              "inci_name": "CAPRYLYL GLYCOL",
+              "cn_name": "辛甘醇",
+              "iecic_serial": "07160"
+            }
+          ],
+          "status": "matched"
+        },
+        {
+          "source_index": 25,
+          "source_name": "乙基己基甘油",
+          "iecic_exact_candidates": [
+            {
+              "inci_name": "ETHYLHEXYLGLYCERIN",
+              "cn_name": "乙基己基甘油",
+              "iecic_serial": "07706"
+            }
+          ],
+          "status": "matched"
+        },
+        {
+          "source_index": 26,
+          "source_name": "氢氧化钠",
+          "iecic_exact_candidates": [
+            {
+              "inci_name": "SODIUM HYDROXIDE",
+              "cn_name": "氢氧化钠",
+              "iecic_serial": "05436"
+            }
+          ],
+          "status": "matched"
+        },
+        {
+          "source_index": 27,
+          "source_name": "水解透明质酸钠",
+          "iecic_exact_candidates": [
+            {
+              "inci_name": "HYDROLYZED SODIUM HYALURONATE",
+              "cn_name": "水解透明质酸钠",
+              "iecic_serial": "06354"
+            }
+          ],
+          "status": "matched"
+        },
+        {
+          "source_index": 28,
+          "source_name": "水解藻提取物",
+          "iecic_exact_candidates": [
+            {
+              "inci_name": "HYDROLYZED ALGAE EXTRACT",
+              "cn_name": "水解藻提取物",
+              "iecic_serial": "06391"
+            }
+          ],
+          "status": "matched"
+        },
+        {
+          "source_index": 29,
+          "source_name": "EDTA二钠",
+          "iecic_exact_candidates": [
+            {
+              "inci_name": "DISODIUM EDTA",
+              "cn_name": "EDTA 二钠",
+              "iecic_serial": "00388"
+            }
+          ],
+          "status": "matched"
+        },
+        {
+          "source_index": 30,
+          "source_name": "抗坏血酸（维生素C）",
+          "iecic_exact_candidates": [
+            {
+              "inci_name": "ASCORBIC ACID",
+              "cn_name": "抗坏血酸（维生素C）",
+              "iecic_serial": "04092"
+            }
+          ],
+          "status": "matched"
+        },
+        {
+          "source_index": 31,
+          "source_name": "向日葵籽油",
+          "iecic_exact_candidates": [],
+          "status": "unmatched_preserve_raw"
+        },
+        {
+          "source_index": 32,
+          "source_name": "柠檬酸",
+          "iecic_exact_candidates": [
+            {
+              "inci_name": "CITRIC ACID",
+              "cn_name": "柠檬酸",
+              "iecic_serial": "04849"
+            }
+          ],
+          "status": "matched"
+        },
+        {
+          "source_index": 33,
+          "source_name": "苯甲酸钠",
+          "iecic_exact_candidates": [
+            {
+              "inci_name": "SODIUM BENZOATE",
+              "cn_name": "苯甲酸钠",
+              "iecic_serial": "01289"
+            }
+          ],
+          "status": "matched"
+        }
+      ],
+      "unmatched_tokens": [
+        "假丝酵母/葡萄糖/油菜籽油酸甲酯发酵产物",
+        "向日葵籽油"
+      ],
+      "unmatched_policy": "Preserve these source names in the complete raw list. Missing canonical matching does not turn a complete source list into partial; never invent a Latin/species name or silently delete a token. Canonical Chinese display still requires the existing IECIC rules.",
+      "position": null,
+      "ingredient_order_status": "unknown_for_application",
+      "concentration_inference_allowed": false,
+      "document_created_date": "2025-07-08",
+      "document_date_basis": "PDF metadata creation date; official publication/effective date not independently provided.",
+      "observed_date": "2026-10-20",
+      "reference_price": 298,
+      "currency": "CNY",
+      "spec": "50毫升",
+      "price_source_url": "https://www.oriflame.cn/products/product?code=45095",
+      "price_sampled_at": "2026-10-20",
+      "price_reference_note": "2026-10-20同商品码官网参考标价；与PDF文档创建日期分开，不代表该价售出的所有现货批次成分已确认。",
+      "current_official_code_matches": true,
+      "current_official_name": "优萃佳颜+亮妍晚霜",
+      "current_page_ingredient_field": null,
+      "current_page_links_pdf": false,
+      "current_formula_unchanged_verified": false,
+      "current_formula_conflict_found": false,
+      "current_formula_conflict_note": "No independent current ingredients list or package label was archived for these3 codes, so no contradiction found is not proof that composition is unchanged. The known41063 English/PDF discrepancy is not borrowed into these records.",
+      "version_match_status": "exact_official_code_and_product_name_for_disclosed_version_only",
+      "ready_to_import": true,
+      "ready_to_import_scope": "official_disclosed_version_only",
+      "ready_as_latest_current_formula": false,
+      "formal_layer_conditions": [
+        "产品名或紧邻说明必须明确“官方披露版本”。",
+        "保留PDF文档日期/来源、当前价格采样日期两个独立时间字段。",
+        "不称最新配方、当前成分已一致核验、所有现货批次相同。",
+        "不得与另一来源英文表拼接；不基于完整表推断位次/浓度。",
+        "如应用层无法展示披露版本和两个日期，先留来源档案，不纳入未分版本的当前配方指数。"
+      ],
+      "commercial_product_increment": 0
+    }
+  ],
+  "counts": {
+    "visually_complete_source_lists": 3,
+    "latest_current_formula_verified": 0,
+    "new_commercial_identities": 0
+  },
+  "verdict": "3 items can enter the formal official-disclosed-version source layer with the listed labeling conditions; none is independently verified as the latest2026/current-batch composition.",
+  "no_new_collection": true,
+  "production_files_modified": false
+}

@@ -18,6 +18,7 @@ from ..config import settings
 from ..models.product import Product, ProductIngredient
 from ..models.ingredient import EfficacyAssertion
 from .capability_profile import DIRECTIONS, METHOD_VERSION, INDEX_NOTE, index_sum, select_index_assertions
+from .selection_catalog import verified_items
 from .comparison_metadata import matching_price_points, price_fields
 
 _CACHE = {}
@@ -48,7 +49,7 @@ def _cache_key(session):
         files = (path, _file_stamp(path), _file_stamp(path + '-wal'))
     return (id(engine), files, settings.snapshot_revision,
             settings.product_space_layout_path, _file_stamp(settings.product_space_layout_path),
-            settings.product_space_layout_sha256)
+            settings.product_space_layout_sha256, settings.selection_catalog_path, _file_stamp(settings.selection_catalog_path))
 
 
 def _signature(products, links):
@@ -205,6 +206,7 @@ def product_space(session):
         for pid, iid, _ in links:
             ingredients[pid].add(iid)
         items = []
+        verified = verified_items(products)
         for p in products:
             ids = ingredients[p.id]
             families = defaultdict(list)
@@ -219,6 +221,8 @@ def product_space(session):
             if price['price_current'] is not None and (not math.isfinite(price['price_current']) or price['price_current'] < 0):
                 price['price_current'] = None
             items.append({'id': p.id, 'name': p.name, 'brand': p.brand, 'nmpa_id': p.nmpa_id,
+                          'category':p.category,'category_verified':p.id in verified,'selection_sample':p.id in verified,
+                          'ingredient_list_status':verified.get(p.id,{}).get('ingredient_list_status','existing_record'),
                           'scores': scores, 'statuses': statuses, 'ingredient_count': len(ids),
                           'evidence_ingredient_count': len(scored_ids), 'source_count': len(source_ids),
                           'coordinates': coordinates.get(p.id), 'coordinates_3d':coordinates3d.get(p.id),

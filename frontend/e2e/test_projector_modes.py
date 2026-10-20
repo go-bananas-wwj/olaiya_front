@@ -14,7 +14,7 @@ class ProjectorModesTest(BrowserTestCase):
         expect(self.page.get_by_test_id('projector-canvas')).to_have_attribute('data-algorithm','pca')
         expect(self.page.get_by_test_id('projector-canvas')).to_have_attribute('data-rendered-count','39',timeout=15000)
         expect(self.page.get_by_test_id('mode-coverage')).to_contain_text('39')
-        expect(self.page.get_by_test_id('mode-coverage')).to_contain_text('3710')
+        expect(self.page.get_by_test_id('mode-coverage')).to_contain_text(str(self.page.request.get(BASE_URL+'/api/product-space/evidence').json()['excluded_count']))
         self.page.get_by_role('button',name='成分组成相似',exact=True).click()
         expect(self.page.get_by_test_id('projector-canvas')).to_have_attribute('data-rendered-count','3749')
 

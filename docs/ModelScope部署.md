@@ -4,7 +4,9 @@
 
 ## 当前展示主线与指数方法
 
-当前有「产品空间 / 两款对比」两个同级入口。产品空间分为“成分组成相似”（3749款4096维语义向量，UMAP／PCA）与“功效证据相似”（八方向证据指数，39款资料完整者，离线PCA）；未知不补零，3710款资料不完整仍可搜索／对比。点选后背景灰、近邻橙、资料与原空间距离列表联动，默认100近邻，可隔离／恢复／清除。两款对比支持任意A/B及完整八方向。主流程不调用实时生成模型，比较页不预取空间近邻。
+改版主线为「产品空间 / 按需选品 / 两款对比」。三维保留原3749条语义向量与坐标；补充记录无真实向量时不补点。默认突出核验面霜，需求入口进入二维价格／单方向证据图。品牌和整件预算只改变突出状态，不改变坐标尺度；同单位分组、至多4款候选、两款对比往返。旧八方向完整证据空间和原API保持兼容。实际发布状态与覆盖见[实施验收](需求选品地图-实施与验收.md)。
+
+新增 `GET /api/selection-map`，接收 `category/efficacy/unit/brand/max_package_price`；后端集中做来源资格、价格换算、指数与固定轴范围。完整标签与知识库匹配分别记录；部分表不进入正式主图。按月目录保留月份及日龄范围，不将读取日或月初冒充报价采样日。
 
 新增 `GET /api/products/{id}/capability-profile`，方法版本为 `evidence-index-v1`。八个方向固定为保湿、抗皱、修护、舒缓、抗氧化、美白、控油祛痘、焕肤；指数为每个成分在该方向的最高合格证据权重之和，来源数按证据 ID 去重。返回贡献明细、原始来源、备注、排除原因和浓度资料覆盖。空资料返回 `no_evidence`／`score=null`，未评级返回 `unrated`／`score=null`，真实零权重保留 `scored`／`score=0`。
 
@@ -12,9 +14,20 @@
 
 浓度不乘进主指数。披露锚点优先于估计；位次未知时不使用存量区间推测浓度。文献浓度缺失与产品浓度未知分别显示，进一步对照复用既有剂量判定。未知值不补零，不输出百分制总分、有效率或性价比结论。两款产品、八方向共用一套图表刻度。
 
-本次只新增读取与聚合服务，不新增数据库列或 `EvidenceType`，SQLite/PostgreSQL 均无需迁移；原有指纹、排行榜与圆桌接口口径保持兼容。固定数据集提交不变，无需重新上传数据库或模型。
+本次新增可空 `products.source_key VARCHAR(300)` 及唯一索引，保存公开来源命名空间、官方商品码及完整原文/法定版本签名；同官方码配方或备案改变时拒绝静默合并。`ensure_additive_columns` 幂等补列，旧数据保持NULL，无新增 `EvidenceType`。PostgreSQL可显式执行：
+
+```sql
+ALTER TABLE products ADD COLUMN IF NOT EXISTS source_key VARCHAR(300);
+CREATE UNIQUE INDEX IF NOT EXISTS ix_products_source_key ON products(source_key);
+```
+
+采集原件不提交。可审计事实保存在 `data/research/selection_catalog_20261020.json`，既有记录复用在 `selection_legacy_audit.json`；在可写的SQLite备份上运行 `PYTHONPATH=backend .venv/bin/python -m data.tools.build_selection_catalog`，同时导出部署所需 `data/seed/selection_catalog.json`。默认不导入部分表成分、不模糊匹配旧版本。旧价格加载器要求真实完整日期；缺日期、只有月份或未来日期不改写入库时间。
+
+发布新数据库/索引/映射一致快照并固定资源版本。`rebind_product_space` 先验证旧产品成分/位次关联完全一致，才保留旧语义坐标、重绑新快照，并离线重建证据PCA；新产品无嵌入时坐标为空。原快照和原布局保持可回滚，不覆盖已有持久目录。
 
 ## 资源与数据
+
+本轮为**覆盖预览**，不是全计划最终验收：新增官网目录280款、完整官方标签17款；默认严格保湿面霜ml图11款，20款门槛未过。新快照 `15b764ae05d73ffe934b1d2d25d3ca8651992770`，清单SHA-256 `26099127c043ae6cc65d75870574ea63e40780f08123cc7a63c9e7a98e82acd2`；布局固定提交 `75a1e44e709e241ecb44ff937bf2fa0da2a4caa6`，文件SHA-256 `24add5abfbff62373d0a3b92bc7d19ddbe9a3d5d58fe2de709d69ee2dfcd2b17`。原3749条语义坐标、4个案例画像逐项验证不变，新增280条无向量记录保留搜索入口，不补坐标。
 
 - 私有创空间：`WeijieWu/yanjian-ingredient-compare`，创建时选择平台返回的免费 `platform/2v-cpu-8g-mem`。调整硬件前重新查询可用资源，不自动切换付费实例。
 - 私有数据集：`WeijieWu/yanjian-showcase-data`。快照包含 SQLite 在线备份、两组 Faiss 文件及 ID 映射、SHA-256 清单；没有模型权重或原始采集文件。

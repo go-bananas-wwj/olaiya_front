@@ -17,3 +17,11 @@ def test_ensure_additive_columns_backfills_buy_url(session):
     ensure_additive_columns()
     assert "buy_url" in {c["name"] for c in inspect(engine).get_columns("products")}
     ensure_additive_columns()  # 第二次执行不报错（幂等）
+
+
+def test_ensure_additive_source_identity_on_legacy_database(session):
+    with engine.begin() as conn:
+        conn.execute(text('DROP INDEX IF EXISTS ix_products_source_key'))
+        conn.execute(text('ALTER TABLE products DROP COLUMN source_key'))
+    ensure_additive_columns();ensure_additive_columns()
+    assert 'source_key' in {c['name'] for c in inspect(engine).get_columns('products')}

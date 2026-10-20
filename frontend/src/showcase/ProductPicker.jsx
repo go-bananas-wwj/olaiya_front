@@ -32,7 +32,7 @@ export default function ProductPicker({ side, productId, state, onSelect, compac
   }, [])
   function choose(product) { setOpen(false); setEditing(false); setQuery(''); onSelect(product.id) }
   const product = state.data
-  const shortName = product?.name.split('（')[0].replace(/^SkinCeuticals (?:Prevent )?/, '').replace(/® With.*$/, '')
+  const shortName = product?.name
   return <section ref={box} className={`ss-product ${compact ? `is-compact compact-${side}` : ''}`} data-testid={side === 'A' ? 'target-product' : 'candidate-product'}>
     <button type="button" className="ss-change-product" aria-label={`更换产品 ${side}`} aria-expanded={editing} onClick={() => setEditing(v => !v)}><MagnifyingGlass size={15} aria-hidden="true" /> {compact ? '更换' : `更换产品 ${side}`}</button>
     {editing && <div className="ss-product-search">
@@ -61,9 +61,14 @@ export default function ProductPicker({ side, productId, state, onSelect, compac
       <p className="ss-product-brand">{compact && <b className="compact-side">{side}</b>}<span>{product.brand}</span></p>
       <h2 className="ss-product-name" title={product.name} aria-label={product.name}>{compact ? shortName : product.name}</h2>
       <p className="ss-product-price">{product.price_current == null ? '暂无价格' : `参考价 ¥${Number(product.price_current).toFixed(2)}`}{product.spec && <span> / {product.spec}</span>}</p>
+      {product.source_coverage&&product.source_coverage.ingredient_list_status!=='existing_record'&&<p className="ss-source-coverage">{product.source_coverage.ingredient_list_status==='missing'?'完整成分表待核；资料不足不等于无效':product.source_coverage.ingredient_list_status==='official_partial'?'仅有部分成分资料，不能据此比较完整配方':product.source_coverage.ingredient_list_status==='official_full'?`官方完整标签 · ${(product.source_coverage.unmapped_ingredients||[]).length} 项原文待匹配`:'既有成分来源，版本以来源记录为准'}</p>}
+      {product.price_reference_period&&<p className="ss-source-coverage">{product.price_reference_period} 目录参考价；{product.price_note}</p>}
       <details className="ss-product-details"><summary>{compact ? '来源' : '完整名称与来源'}</summary><p>{product.name}</p>
         {product.source_url ? <a href={product.source_url} target="_blank" rel="noreferrer">产品与成分来源 ↗</a> : <p>来源链接未记录</p>}
         {product.note && <p>{product.note}</p>}
+        {product.source_coverage?.ingredient_note&&<p>{product.source_coverage.ingredient_note}</p>}
+        {product.source_coverage?.ingredient_source_url&&<a href={product.source_coverage.ingredient_source_url} target="_blank" rel="noreferrer">完整标签与成分原文 ↗</a>}
+        {product.source_coverage?.unmapped_ingredients?.length>0&&<p>待匹配原文：{product.source_coverage.unmapped_ingredients.join('、')}</p>}
       </details>
     </>}
   </section>

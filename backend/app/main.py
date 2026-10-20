@@ -36,7 +36,9 @@ from .services.transdermal import get_transdermal_info
 from .services import vision_detect
 from .services.comparison_metadata import enrich_candidates, matching_price_points, price_fields
 from .services.capability_profile import capability_profile
+from .services.selection_catalog import product_source_metadata
 from .services.product_space import product_space, evidence_neighbors
+from .services.selection_map import selection_map
 from .services.evidence_space import evidence_product_space, evidence_space_neighbors
 
 # 成分理化映射（D3 透皮判定数据源）：启动时读入内存常量，避免每请求 IO
@@ -245,6 +247,16 @@ def list_brands(db: Session = Depends(get_db)):
     return [b for b in rows if b]
 
 
+@app.get("/api/selection-map")
+def get_selection_map(category: str = '面霜', efficacy: str = '保湿', unit: str | None = None,
+                      brand: str | None = None, max_package_price: float | None = Query(None, ge=0),
+                      db: Session = Depends(get_db)):
+    try:
+        return selection_map(db,category,efficacy,unit,brand,max_package_price)
+    except ValueError as error:
+        raise HTTPException(status_code=422,detail=str(error))
+
+
 @app.get("/api/product-space")
 def get_product_space(request: Request, db: Session = Depends(get_db)):
     data = product_space(db)
@@ -379,6 +391,7 @@ def product_detail(product_id: int, db: Session = Depends(get_db)):
         "spec": p.spec,
         "buy_url": p.buy_url,
         "note": p.note,
+        **product_source_metadata(p),
         **price_fields(p, matching_price_points(db, [p.id]).get(p.id)),
         "ingredients": [{
             "ingredient_id": l.ingredient_id,

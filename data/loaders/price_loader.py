@@ -6,7 +6,7 @@ match 模糊通道）；否则 match 串对产品名做子串模糊匹配，同�
 「有序产品（有位次关联）优先 + brand 匹配」消歧（如理肤泉 B5：有序「B5多效修复霜
 （Cicaplast Baume B5）」胜出，无序「理肤泉新B5多效修复霜」不误写）。无法唯一
 消歧时不猜写，计入 unmatched。写入 product.price_current / product.spec，并落
-一条 PricePoint（date=今天、source=source_url、is_manual=True）；同日同源重复
+一条 PricePoint（date=真实采样日、source=source_url、is_manual=True）；同采样日同源重复
 执行更新价格而非重复插点（幂等）。item 可选 buy_url（官方购买页，如品牌官网
 产品页），有则回填 product.buy_url；products.buy_url 列对既有库的补列迁移由
 app.db.ensure_additive_columns（init_db 调用链）完成。
@@ -87,13 +87,23 @@ def _resolve_product(session: Session, item: dict) -> Product | None:
 
 
 def load_prices(session: Session, path: Path = PRICE_PATH) -> dict:
-    """价格/规格入库，返回统计。幂等：同日同源 PricePoint 更新不重复。"""
+    """价格/规格入库，返回统计。幂等：同采样日同源 PricePoint 更新不重复。"""
     data = json.loads(Path(path).read_text(encoding="utf-8"))
     today = datetime.date.today()
+    def sampled_date(item):
+        raw = item.get('sampled_at', data.get('_采样日期', ''))
+        if not isinstance(raw, str) or len(raw) != 10:
+            return None
+        try:
+            value = datetime.date.fromisoformat(raw)
+        except ValueError:
+            return None
+        return value if value <= today else None
     stats = {
         "items": len(data["items"]),
         "matched": 0,
         "unmatched": [],
+        "invalid_dates": [],
         "price_points_added": 0,
         "price_points_updated": 0,
     }
@@ -102,19 +112,23 @@ def load_prices(session: Session, path: Path = PRICE_PATH) -> dict:
         if product is None:
             stats["unmatched"].append(item["match"])
             continue
+        sample_day = sampled_date(item)
+        if sample_day is None:
+            stats['invalid_dates'].append(item['match'])
+            continue
         product.price_current = item["price"]
         product.spec = item["spec"]
         if item.get("buy_url"):  # 官方购买页（可选字段，提供才写，幂等同值）
             product.buy_url = item["buy_url"]
         point = (
             session.query(PricePoint)
-            .filter_by(product_id=product.id, date=today, source=item["source_url"])
+            .filter_by(product_id=product.id, date=sample_day, source=item["source_url"])
             .one_or_none()
         )
         if point is None:
             session.add(PricePoint(
                 product_id=product.id,
-                date=today,
+                date=sample_day,
                 price=item["price"],
                 source=item["source_url"],
                 is_manual=True,
@@ -136,6 +150,8 @@ def main() -> None:
         print(f"items={stats['items']} matched={stats['matched']} "
               f"points_added={stats['price_points_added']} "
               f"points_updated={stats['price_points_updated']}")
+        for m in stats["invalid_dates"]:
+            print(f"  跳过未知或无效采样日期：{m}")
         for m in stats["unmatched"]:
             print(f"  未匹配：{m}")
 

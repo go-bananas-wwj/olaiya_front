@@ -112,3 +112,7 @@
  .is-compact .ss-change-product { grid-column:3; grid-row:3; align-self:center; }
  .is-compact .ss-product-details { grid-column:3; grid-row:1; }
 }
+
+.ss-source-coverage{font-size:10px;color:#655d68;line-height:1.7;margin:4px auto;max-width:90%}@media(max-width:720px){.ss-source-coverage{font-size:11px}}
+
+.is-compact .ss-source-coverage{grid-column:1/-1;max-width:none;width:100%;margin:3px 0 0;text-align:left;line-height:1.5}

@@ -13,7 +13,7 @@ from data.loaders.seed_loader import load_ordered_products, load_seed
 
 def _write_price_file(tmp_path, items):
     f = tmp_path / "prices.json"
-    f.write_text(json.dumps({"items": items}, ensure_ascii=False), encoding="utf-8")
+    f.write_text(json.dumps({"_采样日期":"2025-03-12", "items": items}, ensure_ascii=False), encoding="utf-8")
     return f
 
 
@@ -44,7 +44,7 @@ def test_load_prices_writes_price_spec_and_point(session, price_file):
     assert points[0].price == 1720.0
     assert points[0].source == "https://example.com/ce"
     assert points[0].is_manual is True
-    assert points[0].date == datetime.date.today()
+    assert points[0].date == datetime.date(2025, 3, 12)
     assert stats["items"] == 3
     assert stats["matched"] == 2
     assert stats["unmatched"] == ["绝不存在的产品xyz"]

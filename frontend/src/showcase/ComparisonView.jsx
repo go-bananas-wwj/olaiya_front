@@ -13,7 +13,7 @@ import { compareIngredients } from './logic.mjs'
 import './showcase.css'
 import './comparison.css'
 const CASES=[{label:'黑绷带 / A.G.E.',a:9,b:73},{label:'Serum 10 / C E Ferulic',a:414,b:3202}]
-export default function ComparisonView({initialPair={a:9,b:73},onBack,onPairChange}){
+export default function ComparisonView({initialPair={a:9,b:73},onBack,onPairChange,backLabel='返回产品空间'}){
  const [pair,setPair]=useState(initialPair),[family,setFamily]=useState('保湿'),[source,setSource]=useState(null),[similar,setSimilar]=useState(null),[sticky,setSticky]=useState(false)
  const cards=useRef(null),contributions=useRef(null)
  const a=useResource(()=>api.product(pair.a),[pair.a]),b=useResource(()=>api.product(pair.b),[pair.b])
@@ -32,7 +32,7 @@ export default function ComparisonView({initialPair={a:9,b:73},onBack,onPairChan
   <section ref={contributions} id="key-ingredients" className="comparison-contributions"><div className="comparison-subtitle"><h2>{family}，依据在哪里？</h2><span>同一套规则，两边都可追溯</span></div><Contributions a={aProfile} b={bProfile} family={family} onSource={setSource}/></section>
   <SecondaryPanels key={`${pair.a}-${pair.b}`} a={a.data} b={b.data} onIngredient={setSource}/>
   <section id="alternatives" className="comparison-alternatives"><h2>想继续找相近产品？</h2><div>{[[a,'A','b'],[b,'B','a']].map(([p,side,replace])=><button type="button" key={side} disabled={!p.data} aria-label={side==='A'?'找相似产品':'查找与产品 B 相似的候选'} onClick={()=>setSimilar({id:p.data.id,side,replace})}>查找与产品 {side} 成分接近的产品</button>)}</div></section>
-  <footer className="comparison-footer">成分证据不等于成品功效；相近不代表等同。参考图用于产品识别，历史价格不等于实时售价。{onBack&&<button type="button" onClick={onBack}><ArrowLeft size={14}/>返回产品空间</button>}</footer>
+  <footer className="comparison-footer">成分证据不等于成品功效；相近不代表等同。参考图用于产品识别，历史价格不等于实时售价。{onBack&&<button type="button" onClick={onBack}><ArrowLeft size={14}/>{backLabel}</button>}</footer>
   <div className="ss-sticky-products" data-testid="comparison-sticky" hidden={!sticky}><div className="ss-two-columns">{[[a.data,'A'],[b.data,'B']].map(([p,side])=><a href="#overview" key={side}><ProductPhoto product={p} side={side} mini/><span>产品 {side} · {p?.brand}<strong>{p?.name||`产品 ${side}`}</strong></span></a>)}</div></div>
   {source&&<EvidenceDrawer key={`${source.ingredientId}-${source.contribution?.assertion_id||''}`} ingredientId={source.ingredientId} context={source} onClose={()=>setSource(null)}/>}
   {similar&&<SimilarPicker targetId={similar.id} referenceLabel={similar.side} onClose={()=>setSimilar(null)} onSelect={id=>select(similar.replace,id)}/>}

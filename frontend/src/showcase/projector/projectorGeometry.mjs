@@ -46,6 +46,7 @@ export function pointColor(product, { selected = null, neighborIds = new Set(), 
   if (product.id === selected) return '#96004f'
   if (neighborIds.has(product.id)) return '#e9a023'
   if (selected != null) return '#c8c8cc'
+  if(colorBy==='sample'&&product.id!==selected&&!neighborIds.has(product.id))return product.selection_sample&&product.category==='面霜'?'#25876c':'#c4d1cc'
   if (colorBy === 'brand') {
     if (!product.brand) return '#b9bdc6'
     let hash = 0

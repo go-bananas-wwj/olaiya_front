@@ -3,7 +3,11 @@ from frontend.e2e.browser_case import BrowserTestCase
 
 class ProductSpaceTest(BrowserTestCase):
     def ready(self):
-        expect(self.page.get_by_test_id('projector-shell')).to_have_attribute('data-total','3749',timeout=30000)
+        from frontend.e2e.browser_case import BASE_URL
+        total=self.page.request.get(BASE_URL+'/api/product-space').json()['total']
+        self.assertGreaterEqual(total,3749)
+        expect(self.page.get_by_test_id('projector-shell')).to_have_attribute('data-total',str(total),timeout=30000)
+        self.page.locator('.projector-explore-settings').evaluate("e=>e.open=true")
         expect(self.page.get_by_test_id('projector-canvas')).to_have_attribute('data-dimensions','3')
         expect(self.page.get_by_test_id('projector-stage')).to_have_attribute('data-renderer-state','ready')
         expect(self.page.get_by_test_id('projector-canvas')).to_have_attribute('data-rendered-count','3749')
@@ -146,7 +150,7 @@ class ProductSpaceTest(BrowserTestCase):
         for p in data['products']:p['coordinates_3d']=None
         self.page.route('**/api/product-space',lambda r:r.fulfill(json=data));self.page.reload()
         expect(self.page.get_by_role('alert')).to_contain_text('UMAP 3D 投影暂不可用')
-        self.page.get_by_role('button',name='二维',exact=True).click()
+        self.page.get_by_role('button',name='查看二维投影',exact=True).click()
         expect(self.page.get_by_test_id('projector-canvas')).to_have_attribute('data-rendered-count','3749')
         self.page.get_by_role('button',name='两款对比',exact=True).click()
         expect(self.page.get_by_test_id('profile-B')).to_have_attribute('data-loaded','true')

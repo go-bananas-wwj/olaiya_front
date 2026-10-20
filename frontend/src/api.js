@@ -59,6 +59,7 @@ async function postFile(path, file) {
 
 export const api = {
   stats: () => get('/api/stats'),
+  selectionMap: params => get('/api/selection-map',params),
   productSpace: () => get('/api/product-space'),
   productEvidenceSpace: () => get('/api/product-space/evidence'),
   productEvidenceSpaceNeighbors: (id, params) => get(`/api/products/${id}/evidence-space-neighbors`, params),

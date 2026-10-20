@@ -10,9 +10,14 @@ from data.tools.run_inference import run_inference
 
 
 @pytest.fixture()
-def client(session):
+def client(session, tmp_path):
     load_seed(session)
-    load_prices(session)  # 真实 price_specs.json：CE 1720/30ml、TO 59/30ml
+    # Cost API fixtures explicitly date their observations; production undated seeds are skipped.
+    import json
+    from data.loaders.price_loader import PRICE_PATH
+    prices = json.loads(PRICE_PATH.read_text()); prices['_采样日期']='2025-03-12'
+    dated = tmp_path/'dated-prices.json'; dated.write_text(json.dumps(prices))
+    load_prices(session, path=dated)  # 真实 price_specs.json：CE 1720/30ml、TO 59/30ml
     run_inference(session)
     session.commit()
     app.dependency_overrides[get_db] = lambda: session
