@@ -6,7 +6,7 @@ test('third axis maps actual whole-item reference price while unknown price stay
  const p=needPlane(source,'保湿'),a=p.needAxes
  assert.equal(a.zLabel,'整件参考价（元）');assert.ok(a.zMax>=100)
  assert.equal(p.byId.get(1).position[2],a.z0+100/a.zMax*(a.z1-a.z0))
- assert.equal(p.byId.get(2).position[2],a.missingZ);assert.equal(p.byId.get(2).price_missing,true)
+ assert.equal(p.byId.has(2),false);assert.equal(p.excluded[0].product.id,2)
  assert.equal(p.byId.get(3).position[2],a.z0);assert.equal(p.byId.get(3).price_missing,false)
- assert.deepEqual(source.points[0].position,[1,2,3]);assert.equal(p.points.length,3)
+ assert.deepEqual(source.points[0].position,[1,2,3]);assert.equal(p.points.length,2)
 })

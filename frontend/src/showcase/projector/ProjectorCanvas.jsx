@@ -42,12 +42,12 @@ export default forwardRef(function ProjectorCanvas({ products = EMPTY, algorithm
   const [hover, setHover] = useState(null)
   const axisKey = JSON.stringify(axisOrder)
   const base = useMemo(() => ({...displayUniverse(normalizeUniverse(products, algorithm, facet?3:dimensions, axisOrder),facet?3:dimensions),catalogProducts:products}), [products, algorithm, dimensions, axisKey,!!facet])
-  const unfilteredUniverse=useMemo(()=>facet?needPlane(base,facet):base,[base,facet])
+  const unfilteredUniverse=useMemo(()=>facet?needPlane(base,facet,dimensions):base,[base,facet,dimensions])
   const universe=useMemo(()=>radial?radialUniverse(base,selected,similarityRows,basis,dimensions):unfilteredUniverse,[base,unfilteredUniverse,radial,selected,similarityRows,basis,dimensions])
   const effectiveSpread=spreadCoincident||radial
   const displayOffsets=useMemo(()=>{
     const offsets=coincidentDisplayOffsets(universe.points,facet&&!radial?10:18)
-    if(facet&&!radial)for(const point of universe.points){const offset=offsets.get(point.product.id)||[0,0],length=Math.hypot(...offset),scale=Math.min(1,16/Math.max(1,length));offsets.set(point.product.id,[offset[0]*scale,offset[1]*scale*(point.need_missing?.3:1)])}
+    if(facet&&!radial)for(const point of universe.points){const offset=offsets.get(point.product.id)||[0,0],length=Math.hypot(...offset),scale=Math.min(1,16/Math.max(1,length));offsets.set(point.product.id,[offset[0]*scale,point.product.need_score===0?0:offset[1]*scale])}
     return offsets
   },[universe,facet,radial])
   const axisSpec=useMemo(()=>paperAxes(universe,{dimensions,algorithm,axisOrder}),[universe,dimensions,algorithm,axisKey])
@@ -73,11 +73,14 @@ export default forwardRef(function ProjectorCanvas({ products = EMPTY, algorithm
     const scene = new THREE.Scene(), cloud = new THREE.Group(), axes = new THREE.Group(), envelope = new THREE.Group(), texture = circleTexture()
     const labelMeasure = document.createElement('canvas').getContext('2d')
     scene.add(cloud, axes, envelope)
-    const r = { renderer, element:canvas.current, scene, cloud, axes, envelope, texture, morphUniform:{value:1}, ballCamera:{value:new THREE.Vector4()}, ballProjection:{value:new THREE.Vector2(1,1)}, ballOffsetLimit:{value:0}, radialUniform:{value:0}, width: 1, height: 1, camera: null, controls: null,
+    const r = { renderer, element:canvas.current, scene, cloud, axes, envelope, texture, morphUniform:{value:1}, bridgeUniform:{value:0}, ballCamera:{value:new THREE.Vector4()}, ballProjection:{value:new THREE.Vector2(1,1)}, ballOffsetLimit:{value:0}, radialUniform:{value:0}, width: 1, height: 1, camera: null, controls: null,
       viewportUniform:{value:new THREE.Vector2(1,1)}, depthUniform:{value:new THREE.Vector2(1,1)}, dimensions: latest.current.dimensions, request: null, disposed: false, drawn: [], observer: null }
     runtime.current = r
 
-    r.positionFor=point=>{const to=r.targetPositions?.get(point.product.id)||point.position,from=r.startPositions?.get(point.product.id)||to,t=r.morphUniform.value;return from.map((v,i)=>v+(to[i]-v)*t)}
+    r.positionFor=point=>{const to=r.targetPositions?.get(point.product.id)||point.position,from=r.startPositions?.get(point.product.id)||to,t=r.morphUniform.value
+      if(r.bridgeUniform.value>.5){const mid=r.bridgePositions?.get(point.product.id)||to,u=t<.5?t*2:t*2-1,e=u*u*(3-2*u),a=t<.5?from:mid,b=t<.5?mid:to;return a.map((v,i)=>v+(b[i]-v)*e)}
+      return from.map((v,i)=>v+(to[i]-v)*t)
+    }
     r.project = point => {
       if (!r.camera || r.disposed) return null
       r.camera.updateMatrixWorld()
@@ -118,7 +121,7 @@ export default forwardRef(function ProjectorCanvas({ products = EMPTY, algorithm
         r.ballOffsetLimit.value=Math.min(18,screenRadius*.17)
         r.radialUniform.value=latest.current.radial?(r.dimensions===2?2:1):0
         root.current?.setAttribute('data-sphere-screen-diameter',String(screenRadius*2))
-        r.depthUniform.value.set(r.camera.position.distanceTo(r.controls.target),r.dimensions===3?1:0)
+        r.depthUniform.value.set(r.camera.position.distanceTo(r.controls.target),(r.dimensions===3||r.bridgeUniform.value>.5&&r.morphUniform.value<.8)?1:0)
         r.envelope.visible=latest.current.radial&&r.morphUniform.value>=1
         if(r.silhouette&&latest.current.dimensions===3){
           const distance=r.camera.position.length(),radius=nativeRadius
@@ -141,8 +144,8 @@ export default forwardRef(function ProjectorCanvas({ products = EMPTY, algorithm
         let needAxes=null
         if(props.universe.needAxes&&!props.radial){
           const spec=props.universe.needAxes,project=(x,y,z=spec.z0)=>r.projectPosition([x,y,z])
-          needAxes={...spec,opacity:Math.max(0,(r.morphUniform.value-.4)/.6),origin:project(spec.x0,spec.y0),topLeft:project(spec.x0,spec.y1),bottomRight:project(spec.x1,spec.y0),corner:project(spec.x1,spec.y1),missing:project(spec.x0,spec.missingY),missingEnd:project(spec.x1,spec.missingY),zEnd:project(spec.x0,spec.y0,spec.z1),noPrice:project(spec.x1,spec.y1,spec.missingZ),noPriceEnd:project(spec.x1,spec.y1,spec.missingZ),zLabel:spec.zLabel,
-            zTicks:Array.from({length:5},(_,i)=>({value:spec.zMax*i/4,...project(spec.x0,spec.y0,spec.z0+(spec.z1-spec.z0)*i/4),end:project(spec.x1,spec.y0,spec.z0+(spec.z1-spec.z0)*i/4)})),
+          needAxes={...spec,opacity:Math.max(0,(r.morphUniform.value-(r.bridgeUniform.value>.5?.75:.4))/(r.bridgeUniform.value>.5?.25:.6)),origin:project(spec.x0,spec.y0),topLeft:project(spec.x0,spec.y1),bottomRight:project(spec.x1,spec.y0),corner:project(spec.x1,spec.y1),missing:project(spec.x0,spec.missingY),missingEnd:project(spec.x1,spec.missingY),zEnd:project(spec.x0,spec.y0,spec.z1),noPrice:project(spec.x1,spec.y1,spec.missingZ),noPriceEnd:project(spec.x1,spec.y1,spec.missingZ),zLabel:spec.zLabel,
+            zTicks:spec.is3D?Array.from({length:5},(_,i)=>({value:spec.zMax*i/4,...project(spec.x0,spec.y0,spec.z0+(spec.z1-spec.z0)*i/4),end:project(spec.x1,spec.y0,spec.z0+(spec.z1-spec.z0)*i/4)})):[],
             xTicks:Array.from({length:5},(_,i)=>({value:spec.xMax*i/4,...project(spec.x0+(spec.x1-spec.x0)*i/4,spec.y0),end:project(spec.x0+(spec.x1-spec.x0)*i/4,spec.y1)})),
             yTicks:Array.from({length:5},(_,i)=>({value:spec.yMax*i/4,...project(spec.x0,spec.y0+(spec.y1-spec.y0)*i/4),end:project(spec.x1,spec.y0+(spec.y1-spec.y0)*i/4)}))}
         }
@@ -198,7 +201,7 @@ export default forwardRef(function ProjectorCanvas({ products = EMPTY, algorithm
       r.framingPoints = latest.current.universe.points
       if(latest.current.universe.needAxes&&!latest.current.radial){
         const a=latest.current.universe.needAxes
-        r.framingPoints=[...latest.current.universe.points,...[[a.x0-.25,a.y0,a.z0],[a.x1+.25,a.y0,a.z0],[a.x0-.25,a.y1+.3,a.z0],[a.x1+.25,a.y1+.3,a.z0],[a.x0,a.y0,a.z1+.3],[a.x0,a.missingY-.3,a.z0],[a.x1,a.missingY-.3,a.z0],[a.x1,a.y1+.3,a.missingZ]].map(position=>({position}))]
+        r.framingPoints=r.dimensions===2?[{position:[a.x0-.3,a.y0-.45,0]},{position:[a.x1+.2,a.y1+.3,0]}]:[...latest.current.universe.points,...[[a.x0-.25,a.y0,a.z0],[a.x1+.25,a.y0,a.z0],[a.x0-.25,a.y1+.3,a.z0],[a.x1+.25,a.y1+.3,a.z0],[a.x0,a.y0,a.z1+.3],[a.x0,a.missingY-.3,a.z0],[a.x1,a.missingY-.3,a.z0],[a.x1,a.y1+.3,a.missingZ]].map(position=>({position}))]
       }
       r.frameMode = 'universe'; r.axes.visible = false
       r.controls.target.set(0, 0, 0)
@@ -323,23 +326,27 @@ export default forwardRef(function ProjectorCanvas({ products = EMPTY, algorithm
       if(r.morphRequest!=null)cancelAnimationFrame(r.morphRequest)
       r.morphRequest=null;r.morphUniform.value=1
       if(r.morphCamera&&r.camera){r.camera.position.copy(r.morphCamera.position);r.controls.target.copy(r.morphCamera.target);r.camera.zoom=r.morphCamera.zoom;r.camera.updateProjectionMatrix();r.controls.update()}
-      r.morphCamera=null;root.current?.setAttribute('data-transition-state','idle');if(r.entryPlayed)root.current?.setAttribute('data-entry-animation','complete')
+      r.morphCamera=null;r.bridgeUniform.value=0;root.current?.setAttribute('data-transition-phase','idle');root.current?.setAttribute('data-transition-state','idle');if(r.entryPlayed)root.current?.setAttribute('data-entry-animation','complete')
     }
-    r.startMorph=(from,oldCamera,entry=false)=>{
+    r.startMorph=(from,oldCamera,entry=false,bridge=null)=>{
       r.finishMorph()
-      r.startPositions=from;r.targetPositions=new Map(latest.current.universe.points.map(p=>[p.product.id,p.position]))
+      r.startPositions=from;r.bridgePositions=bridge?new Map(bridge.points.map(p=>[p.product.id,p.position])):null;r.bridgeUniform.value=bridge?1:0;r.targetPositions=new Map(latest.current.universe.points.map(p=>[p.product.id,p.position]))
       if(!from.size&&!r.entryPlayed&&latest.current.dimensions===3&&!latest.current.facet&&!latest.current.radial){
         r.entryFrom=new Map(latest.current.universe.points.map(p=>[p.product.id,p.position.map(v=>v*.012)]));r.startPositions=r.entryFrom;r.morphUniform.value=0;return
       }
       if(!from.size){r.morphUniform.value=1;return}
       if(entry){r.entryPlayed=true;r.entryFrom=null;root.current?.setAttribute('data-entry-animation','expanding')}
       const destination={position:r.camera.position.clone(),target:r.controls.target.clone(),zoom:r.camera.zoom}
+      const bridgeFit=bridge?fitPerspective(bridge.points.map(p=>p.position),{direction:[.9,.32,1],aspect:r.width/r.height,fov:r.camera.fov}):null
+      const middle=bridgeFit?{position:new THREE.Vector3(...bridgeFit.position),target:new THREE.Vector3(...bridgeFit.target),zoom:1}:null
       r.morphCamera=destination;r.camera.position.copy(oldCamera.position);r.controls.target.copy(oldCamera.target);r.camera.zoom=oldCamera.zoom;r.controls.update()
       r.morphUniform.value=0;root.current?.setAttribute('data-transition-state','morphing')
-      const duration=window.matchMedia('(prefers-reduced-motion: reduce)').matches?0:entry?1400:760,start=performance.now()
-      const step=now=>{if(r.disposed)return;const t=duration?Math.min(1,(now-start)/duration):1,e=entry?1-Math.pow(1-t,3):t*t*(3-2*t);r.morphUniform.value=e
-        r.camera.position.lerpVectors(oldCamera.position,destination.position,e);r.controls.target.lerpVectors(oldCamera.target,destination.target,e);r.camera.zoom=oldCamera.zoom+(destination.zoom-oldCamera.zoom)*e;r.camera.updateProjectionMatrix();r.controls.update();r.invalidate()
-        if(t<1)r.morphRequest=requestAnimationFrame(step);else{r.morphRequest=null;r.morphCamera=null;root.current?.setAttribute('data-transition-state','idle');if(entry)root.current?.setAttribute('data-entry-animation','complete')}
+      const duration=window.matchMedia('(prefers-reduced-motion: reduce)').matches?0:bridge?1800:entry?1400:760,start=performance.now()
+      const step=now=>{if(r.disposed)return;const t=duration?Math.min(1,(now-start)/duration):1,e=entry?1-Math.pow(1-t,3):t*t*(3-2*t);const progress=bridge?(t<.375?t/.375*.5:t<.625?.5:.5+(t-.625)/.375*.5):e;r.morphUniform.value=progress
+        const phase=t<.375?'to-overview':t<.625?'overview':'to-need';if(bridge)root.current?.setAttribute('data-transition-phase',phase)
+        const u=bridge?(progress<.5?progress*2:progress*2-1):e,k=bridge?u*u*(3-2*u):u,a=bridge&&progress>=.5?middle:oldCamera,b=bridge&&progress<.5?middle:destination
+        r.camera.position.lerpVectors(a.position,b.position,k);r.controls.target.lerpVectors(a.target,b.target,k);r.camera.zoom=a.zoom+(b.zoom-a.zoom)*k;r.camera.updateProjectionMatrix();r.controls.update();r.invalidate()
+        if(t<1)r.morphRequest=requestAnimationFrame(step);else{r.morphRequest=null;r.morphCamera=null;root.current?.setAttribute('data-transition-phase','idle');root.current?.setAttribute('data-transition-state','idle');if(entry)root.current?.setAttribute('data-entry-animation','complete')}
       }
       if(duration)r.morphRequest=requestAnimationFrame(step);else step(start)
     }
@@ -455,7 +462,9 @@ export default forwardRef(function ProjectorCanvas({ products = EMPTY, algorithm
     r.finishMorph();r.cancelFocus();r.switchCamera(dimensions)
     if(radial)r.focusLocal(true)
     r.cancelFocus()
-    r.startMorph(from,oldCamera)
+    const bridge=r.lastFacet&&facet&&r.lastFacet!==facet&&!radial&&!r.lastRadial?base:null
+    r.lastFacet=facet;r.lastRadial=radial
+    r.startMorph(from,oldCamera,false,bridge)
     disposeGroup(r.axes)
     setHover(null); r.invalidate()
   }, [universe, dimensions, algorithm, attempt])
@@ -481,41 +490,47 @@ export default forwardRef(function ProjectorCanvas({ products = EMPTY, algorithm
     for (const point of drawn) groups[point.product.id === selected ? 2 : facet&&!radial ? (point.price_missing?0:1) : neighborIds.has(point.product.id) ? 1 : 0].push(point)
     groups.forEach((points, index) => {
       if (!points.length) return
-      const positions = new Float32Array(points.length * 3), targets=new Float32Array(points.length*3), colors = new Float32Array(points.length * 3),alphas=new Float32Array(points.length),offsets=new Float32Array(points.length*2),color = new THREE.Color()
+      const positions = new Float32Array(points.length * 3), targets=new Float32Array(points.length*3),bridges=new Float32Array(points.length*3),bridgeColors=new Float32Array(points.length*3), colors = new Float32Array(points.length * 3),alphas=new Float32Array(points.length),offsets=new Float32Array(points.length*2),color = new THREE.Color()
       points.forEach((point, i) => {
         const start=r.startPositions?.get(point.product.id)||point.position
         positions.set(start.map((v,axis)=>v-origin[axis]), i * 3)
         targets.set(point.position.map((v,axis)=>v-origin[axis]),i*3)
+        bridges.set((r.bridgePositions?.get(point.product.id)||point.position).map((v,axis)=>v-origin[axis]),i*3)
         offsets.set(effectiveSpread?(displayOffsets.get(point.product.id)||[0,0]):[0,0],i*2)
         alphas[i]=(facet&&!radial&&point.need_missing?.38:1)*(reference?distanceOpacity(distanceFor(point),fadeScale):1)
         if(point.product.id===selected)alphas[i]=1
         r.opacityById.set(point.product.id,alphas[i])
         color.set(pointColor(point.product, { selected, neighborIds, colorBy, colorMax })); color.toArray(colors, i * 3)
+        color.set(pointColor(point.product,{colorBy:'family'}));color.toArray(bridgeColors,i*3)
       })
       const geometry = new THREE.BufferGeometry()
       geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3))
       geometry.setAttribute('morphTarget',new THREE.BufferAttribute(targets,3))
+      geometry.setAttribute('bridgeTarget',new THREE.BufferAttribute(bridges,3))
+      geometry.setAttribute('bridgeColor',new THREE.BufferAttribute(bridgeColors,3))
       geometry.setAttribute('displayOffset',new THREE.BufferAttribute(offsets,2))
       geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3))
       geometry.setAttribute('displayAlpha',new THREE.BufferAttribute(alphas,1))
       const material = new THREE.PointsMaterial({ size: Math.max(1, Math.min(24, pointSize)) * [radial?.75:facet?.7:1, 1.3, 1.9][index], sizeAttenuation: false,
-        map: r.texture, vertexColors: true, transparent: true, opacity: selected!=null?1:index ? 1 : facet&&!radial ? .38 : radial ? .36 : facet ? .8 : selected != null ? .22 : .85,
+        map: r.texture, vertexColors: true, transparent: true, opacity: selected!=null?1:index ? 1 : facet&&!radial ? (dimensions===2?.78:.38) : radial ? .36 : facet ? .8 : selected != null ? .22 : .85,
         alphaTest: .1, depthWrite: false, depthTest: index === 0 })
       material.onBeforeCompile=shader=>{
         shader.uniforms.cfzViewport=r.viewportUniform
         shader.uniforms.cfzDepth=r.depthUniform
         shader.uniforms.cfzMorph=r.morphUniform
+        shader.uniforms.cfzBridge=r.bridgeUniform
         shader.uniforms.cfzBallCamera=r.ballCamera
         shader.uniforms.cfzProjection=r.ballProjection
         shader.uniforms.cfzBallOffsetLimit=r.ballOffsetLimit
         shader.uniforms.cfzRadial=r.radialUniform
-        shader.vertexShader=shader.vertexShader.replace('#include <common>','#include <common>\nattribute vec2 displayOffset;\nattribute float displayAlpha;\nvarying float cfzDisplayAlpha;\nattribute vec3 morphTarget;\nuniform float cfzMorph;\nuniform vec2 cfzViewport;\nuniform vec2 cfzDepth;\nvarying float cfzDepthOpacity;'+BALL_OFFSET_GLSL)
-          .replace('#include <begin_vertex>','vec3 transformed = mix(position, morphTarget, cfzMorph); cfzDisplayAlpha = displayAlpha;')
+        shader.vertexShader=shader.vertexShader.replace('#include <common>','#include <common>\nattribute vec2 displayOffset;\nattribute float displayAlpha;\nvarying float cfzDisplayAlpha;\nattribute vec3 morphTarget;\nattribute vec3 bridgeTarget;\nattribute vec3 bridgeColor;\nuniform float cfzBridge;\nuniform float cfzMorph;\nuniform vec2 cfzViewport;\nuniform vec2 cfzDepth;\nvarying float cfzDepthOpacity;'+BALL_OFFSET_GLSL)
+          .replace('#include <color_vertex>','#include <color_vertex>\nvColor.rgb=mix(vColor.rgb,bridgeColor,cfzBridge*smoothstep(0.0,.8,1.0-abs(cfzMorph*2.0-1.0)));')
+          .replace('#include <begin_vertex>','float u=cfzMorph<.5?cfzMorph*2.0:cfzMorph*2.0-1.0;float eased=u*u*(3.0-2.0*u);vec3 via=cfzMorph<.5?mix(position,bridgeTarget,eased):mix(bridgeTarget,morphTarget,eased);vec3 transformed = cfzBridge>.5?via:mix(position,morphTarget,cfzMorph); cfzDisplayAlpha = displayAlpha;')
           .replace('#include <project_vertex>','#include <project_vertex>\nvec2 cfzPixel=vec2((gl_Position.x/gl_Position.w+1.0)*cfzViewport.x*.5,(1.0-gl_Position.y/gl_Position.w)*cfzViewport.y*.5);\nvec2 cfzOffset=cfzRadial>.5 ? cfzBoundOffset(cfzPixel,displayOffset) : displayOffset;\ngl_Position.xy += vec2(cfzOffset.x,-cfzOffset.y) * 2.0 / cfzViewport * gl_Position.w;\nfloat cfzScale = cfzDepth.y > .5 ? clamp(cfzDepth.x / max(.000001, -mvPosition.z), .65, 1.55) : 1.0;\ncfzDepthOpacity = cfzDepth.y > .5 ? clamp(.4 + .6 * cfzScale, .55, 1.0) : 1.0;')
         shader.vertexShader=shader.vertexShader.replace('gl_PointSize = size;','gl_PointSize = size * cfzScale;')
         shader.fragmentShader=shader.fragmentShader.replace('#include <common>','#include <common>\nvarying float cfzDepthOpacity;\nvarying float cfzDisplayAlpha;').replace('#include <opaque_fragment>','#include <opaque_fragment>\ngl_FragColor.a *= cfzDepthOpacity * cfzDisplayAlpha;')
       }
-      material.customProgramCacheKey=()=> 'projector-display-morph-ball-v4'
+      material.customProgramCacheKey=()=> 'projector-display-morph-bridge-v5'
       const mesh = new THREE.Points(geometry, material); mesh.renderOrder = index + 1;mesh.frustumCulled=false
       r.cloud.add(mesh)
     })
@@ -540,7 +555,7 @@ export default forwardRef(function ProjectorCanvas({ products = EMPTY, algorithm
   const activeLabels = showLabels ? frameInfo.labels.filter(label=>currentLabelIds.has(label.product.id)) : []
 
   return <div ref={root} className="projector-stage" style={ROOT_STYLE} data-testid="projector-stage"
-    data-entry-animation="pending" data-envelope-style="surface" data-context-opacity={radial?.36:undefined} data-transition-state="idle" data-view-kind={radial?'similarity':facet?'need':'overview'} data-sphere-radius={radial?(basis==='evidence'?1-threshold+1e-6:similarityRadius(threshold)):undefined} data-display-axes={dimensions===3&&!radial?DISPLAY_AXES.join(','):'1,1,1'} data-camera-motion="idle" data-spread-coincident={effectiveSpread} data-rendered-count={failure ? 0 : drawn.length} data-unplaced-count={universe.missingIds.length} data-dimensions={dimensions} data-algorithm={algorithm}
+    data-transition-phase="idle" data-entry-animation="pending" data-envelope-style="surface" data-context-opacity={radial?.36:undefined} data-transition-state="idle" data-view-kind={radial?'similarity':facet?'need':'overview'} data-sphere-radius={radial?(basis==='evidence'?1-threshold+1e-6:similarityRadius(threshold)):undefined} data-display-axes={dimensions===3&&!radial?DISPLAY_AXES.join(','):'1,1,1'} data-camera-motion="idle" data-spread-coincident={effectiveSpread} data-rendered-count={failure ? 0 : drawn.length} data-unplaced-count={universe.missingIds.length} data-dimensions={dimensions} data-algorithm={algorithm}
     data-camera-revision={frameInfo.revision} data-renderer-state={failure ? 'unavailable' : frameInfo.revision ? 'ready' : 'starting'}>
     <canvas key={attempt} ref={canvas} data-testid="projector-canvas" tabIndex={failure ? -1 : 0} role="img"
       data-rendered-count={failure ? 0 : drawn.length} data-dimensions={dimensions} data-algorithm={algorithm} data-camera-revision={frameInfo.revision}
@@ -553,15 +568,13 @@ export default forwardRef(function ProjectorCanvas({ products = EMPTY, algorithm
         {frameInfo.needAxes.xTicks.map(t=><g key={`x-${t.value}`}><line x1={t.x} y1={t.y} x2={t.end.x} y2={t.end.y}/><text x={t.x} y={t.y+18} textAnchor="middle" stroke="none">{Number(t.value.toFixed(1))}</text></g>)}
       </g>
       <path d={`M${frameInfo.needAxes.topLeft.x},${frameInfo.needAxes.topLeft.y}L${frameInfo.needAxes.origin.x},${frameInfo.needAxes.origin.y}L${frameInfo.needAxes.bottomRight.x},${frameInfo.needAxes.bottomRight.y}`} stroke="#a9b3c3" strokeWidth="1" fill="none"/>
-      <line x1={frameInfo.needAxes.origin.x} y1={frameInfo.needAxes.origin.y} x2={frameInfo.needAxes.zEnd.x} y2={frameInfo.needAxes.zEnd.y} stroke="#9aabca" strokeWidth="1"/>
+      {frameInfo.needAxes.is3D&&<line x1={frameInfo.needAxes.origin.x} y1={frameInfo.needAxes.origin.y} x2={frameInfo.needAxes.zEnd.x} y2={frameInfo.needAxes.zEnd.y} stroke="#9aabca" strokeWidth="1"/>}
       <g fill="#4c5564" fontSize="11" fontWeight="500">
-        <text x={Math.max(8,Math.min((root.current?.clientWidth||600)-115,frameInfo.needAxes.zEnd.x-12))} y={frameInfo.needAxes.zEnd.y+30}>{frameInfo.needAxes.zLabel}</text>
-        <text x={frameInfo.needAxes.noPrice.x} y={frameInfo.needAxes.noPrice.y-14} textAnchor="end" fill="#8991a0" fontSize="10">未收录价格</text>
+        {frameInfo.needAxes.is3D&&<text x={Math.max(8,Math.min((root.current?.clientWidth||600)-115,frameInfo.needAxes.zEnd.x-12))} y={frameInfo.needAxes.zEnd.y+30}>{frameInfo.needAxes.zLabel}</text>}
         <text x={frameInfo.needAxes.origin.x} y={frameInfo.needAxes.corner.y-17}>{frameInfo.needAxes.yLabel||`${facet}成分证据指数`}</text>
         <text x={(frameInfo.needAxes.origin.x+frameInfo.needAxes.corner.x)/2} y={frameInfo.needAxes.origin.y+37} textAnchor="middle">{frameInfo.needAxes.xLabel||'已收录成分数（项）'}</text>
       </g>
-      <line data-testid="projector-need-missing-rail" x1={frameInfo.needAxes.missing.x} y1={frameInfo.needAxes.missing.y} x2={frameInfo.needAxes.missingEnd.x} y2={frameInfo.needAxes.missingEnd.y} stroke="#cbd2df" strokeDasharray="3 4"/>
-      <text x={frameInfo.needAxes.missing.x} y={frameInfo.needAxes.missing.y+18} fill="#8991a0">资料待补 · 未赋指数</text>
+
     </svg>}
     {!failure && <svg aria-hidden="true" width="100%" height="100%" style={{position:'absolute',inset:0,pointerEvents:'none',zIndex:2}}>
       {frameInfo.spreadLeaders?.map(p=><line key={`spread-${p.product.id}`} x1={p.rawX} y1={p.rawY} x2={p.x} y2={p.y} stroke="#a4adbc" strokeWidth=".6" opacity=".6"/>)}

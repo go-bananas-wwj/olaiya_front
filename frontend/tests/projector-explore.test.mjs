@@ -18,9 +18,9 @@ test('radial positions use native distance, keep zero vectors, and never depend 
  assert.equal(Math.hypot(...radial.byId.get(1).position),0)
  assert.deepEqual(source.points[2].position,[1,2,3])
 })
-test('need view preserves identities, and lack of price never excludes',()=>{
+test('need view keeps unavailable records outside numeric axes',()=>{
  const plane=needPlane(source)
- assert.equal(plane.points[2].price_missing,true);assert.equal(plane.points.length,source.points.length)
+ assert.equal(plane.points.length,0);assert.equal(plane.excluded.length,source.points.length)
  assert.equal(needStatus({scores:[0],declared_directions:[]},0,'保湿'),'evidence')
  assert.equal(needStatus({scores:[null],declared_directions:['保湿']},0,'保湿'),'declared')
  assert.equal(needStatus({scores:[null],declared_directions:[]},0,'保湿'),'unknown')
