@@ -33,7 +33,7 @@ function disposeGroup(group) {
 // Each frame is requested by a data/camera/resize event. There is no idle animation loop.
 export default forwardRef(function ProjectorCanvas({ products = EMPTY, algorithm = 'umap', dimensions = 2,
   selected = null, neighbors = EMPTY, isolated = false, pointSize = 6, colorBy = 'none', showLabels = true, labelBy = 'name', axisOrder = DEFAULT_AXES,
-  onSelect, onCoincident, spreadCoincident = true, overlayExpanded = true }, ref) {
+  onSelect, onClear, onCoincident, spreadCoincident = true, overlayExpanded = true }, ref) {
   const root = useRef(null), canvas = useRef(null), runtime = useRef(null)
   const [attempt, setAttempt] = useState(0), [failure, setFailure] = useState(null)
   const [frameInfo, setFrameInfo] = useState({ revision: 0, labels: [], badges: [], coincidentGroups: [], axisLabels: [], spreadLeaders: [] })
@@ -44,10 +44,11 @@ export default forwardRef(function ProjectorCanvas({ products = EMPTY, algorithm
   const axisSpec=useMemo(()=>paperAxes(universe,{dimensions,algorithm,axisOrder}),[universe,dimensions,algorithm,axisKey])
   const drawn = useMemo(() => visibleProducts(universe.points, selected, neighbors, isolated), [universe, selected, neighbors, isolated])
   const latest = useRef(null)
-  latest.current = { products, selected, neighbors, isolated, pointSize, colorBy, showLabels, labelBy, onSelect, onCoincident, universe, drawn, dimensions, displayOffsets, spreadCoincident, axisSpec }
+  latest.current = { products, selected, neighbors, isolated, pointSize, colorBy, showLabels, labelBy, onSelect, onClear, onCoincident, universe, drawn, dimensions, displayOffsets, spreadCoincident, axisSpec }
 
   useImperativeHandle(ref, () => ({
     reset: () => runtime.current?.reset(),
+    refresh: () => runtime.current?.invalidate(),
     focusSelection: () => runtime.current?.focusSelection(),
     zoom: factor => runtime.current?.zoom(factor),
     getScreenPoint: id => runtime.current?.getScreenPoint(id) ?? null,
@@ -233,6 +234,15 @@ export default forwardRef(function ProjectorCanvas({ products = EMPTY, algorithm
       const targetPosition=r.dimensions===2?center.clone().add(new THREE.Vector3(0,0,5)):
         center.clone().add(direction.multiplyScalar(radius/Math.sin(THREE.MathUtils.degToRad(r.camera.fov/2))/Math.min(1,r.width/r.height)))
       const targetZoom=r.dimensions===2?Math.min(r.camera.right-r.camera.left,r.camera.top-r.camera.bottom)/(radius*2.6):1
+      const targetCenter=center.clone()
+      // Keep the selected point above the mobile product sheet. This is a
+      // camera pan only; product geometry and retrieval remain untouched.
+      if(window.matchMedia('(max-width:1000px)').matches){
+        const height=r.dimensions===2?(r.camera.top-r.camera.bottom)/targetZoom:
+          2*targetPosition.distanceTo(center)*Math.tan(THREE.MathUtils.degToRad(r.camera.fov/2))
+        const shift=new THREE.Vector3(0,1,0).applyQuaternion(r.camera.quaternion).multiplyScalar(height*.19)
+        targetCenter.sub(shift);targetPosition.sub(shift)
+      }
       r.frameMode='local'
       r.framingPoints=[{position:center.clone().addScalar(-radius).toArray()},{position:center.clone().addScalar(radius).toArray()}]
       const duration=window.matchMedia('(prefers-reduced-motion: reduce)').matches?0:640
@@ -242,7 +252,7 @@ export default forwardRef(function ProjectorCanvas({ products = EMPTY, algorithm
         if(r.disposed)return
         const t=duration?Math.min(1,(now-start)/duration):1, eased=t*t*(3-2*t)
         r.camera.position.lerpVectors(startPosition,targetPosition,eased)
-        r.controls.target.lerpVectors(startTarget,center,eased)
+        r.controls.target.lerpVectors(startTarget,targetCenter,eased)
         r.camera.zoom=startZoom+(targetZoom-startZoom)*eased
         r.camera.updateProjectionMatrix();r.controls.update();r.invalidate()
         if(t<1)r.motionRequest=requestAnimationFrame(step)
@@ -293,6 +303,7 @@ export default forwardRef(function ProjectorCanvas({ products = EMPTY, algorithm
       const previous = down; down = null
       if (!previous || previous.moved || event.button !== 0) return
       const hits = hit(event); setHover(null)
+      if(!hits.length&&latest.current.selected!=null){latest.current.onClear?.();return}
       if(hits.length&&latest.current.spreadCoincident&&!event.shiftKey){
         const at=pointer(event),candidates=hits.map(p=>r.project(latest.current.universe.byId.get(p.id))).filter(Boolean)
         const nearest=nearestVisiblePoint(candidates,at.x,at.y,Math.max(7,latest.current.pointSize*1.5))
@@ -308,9 +319,10 @@ export default forwardRef(function ProjectorCanvas({ products = EMPTY, algorithm
     const onLeave = () => setHover(null)
     const onCancel = () => { down = null; setHover(null) }
     const onKey = event => {
+      if(event.key==='Escape'&&latest.current.selected!=null){event.preventDefault();latest.current.onClear?.();return}
       if(['+','=','-','Home','ArrowLeft','ArrowRight','ArrowUp','ArrowDown'].includes(event.key))r.cancelFocus()
       if (['+', '=', '-', 'Home'].includes(event.key)) {
-        event.preventDefault(); event.key === 'Home' ? r.reset() : r.zoom(event.key === '-' ? 1/1.3 : 1.3); return
+        event.preventDefault(); event.key === 'Home' ? (latest.current.onClear?latest.current.onClear():r.reset()) : r.zoom(event.key === '-' ? 1/1.3 : 1.3); return
       }
       if (!event.key.startsWith('Arrow')) return
       event.preventDefault()

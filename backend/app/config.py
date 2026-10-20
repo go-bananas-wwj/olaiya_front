@@ -27,6 +27,7 @@ class Settings(BaseSettings):
     product_space_layout_path: str = ""
     product_space_layout_sha256: str = ""
     product_space_layout_revision: str = ""
+    product_presentations_path: str = "data/seed/product_presentations.json"
     selection_catalog_path: str = "data/seed/selection_catalog.json"
 
 

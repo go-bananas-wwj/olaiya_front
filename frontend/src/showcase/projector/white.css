@@ -42,3 +42,29 @@ body.projector-body{background:#fff;color:#1d1d1f}
 .projector-header .projector-brand .selection-brand-text{color:#86868b!important}
 .projector-overview .projector-settings .selection-needs button{padding-left:8px;padding-right:8px;gap:6px;white-space:nowrap}
 .projector-overview .projector-settings .selection-needs button>svg{flex:none}
+.projector-overview .projector-toolbar .projector-return{width:auto;min-width:94px;height:36px;padding:0 10px;display:flex;gap:6px;align-items:center;background:#f4f8fd;color:#0071e3;font-size:12px;border:1px solid #deebfa}
+.projector-overview .projector-info.projector-preview{width:320px;max-width:calc(100% - 24px);max-height:calc(100% - 80px);overflow:auto;padding:17px 15px 13px;border-radius:14px;box-sizing:border-box}
+.projector-preview .projector-preview-close{position:absolute;top:8px;right:8px;display:grid;place-items:center;width:28px;height:28px;border:0;border-radius:50%;background:#f5f5f7;color:#6e6e73}
+.projector-preview .projector-preview-hero{display:flex;align-items:flex-start;gap:13px;padding:0!important}
+.projector-preview .projector-preview-photo{width:88px;height:102px;flex:none;display:grid;place-items:center;background:#fff;border:1px solid #f0f0f3;border-radius:10px;overflow:hidden;padding:6px;box-sizing:border-box}
+.projector-preview-photo img{width:100%;height:100%;object-fit:contain}
+.projector-preview-photo>span{display:flex;flex-direction:column;align-items:center;gap:7px;color:#99999f;font-size:10px}
+.projector-preview .projector-preview-identity{min-width:0;padding:3px 18px 0 0!important;flex:1}
+.projector-preview-identity>p{margin:0 0 6px;color:#86868b;font-size:11px}
+.projector-preview .projector-info-heading{padding:0;align-items:flex-start;gap:5px}
+.projector-preview .projector-info-heading strong{font-size:13px;line-height:1.5;font-weight:500;overflow-wrap:anywhere}
+.projector-preview .projector-info-heading svg{flex:none;margin-top:3px}
+.projector-preview-identity>span{display:block;margin-top:7px;color:#86868b;font-size:11px}
+.projector-preview h3{font-size:12px;font-weight:500;color:#515157;margin:13px 0 7px}
+.projector-preview h3 small{font-weight:400;font-size:10px;color:#86868b;margin-left:5px}
+.projector-preview-description p{font-size:12px;line-height:1.55;margin:0;color:#6e6e73;overflow-wrap:anywhere}
+.projector-preview-claims>p,.projector-preview-status{color:#86868b;font-size:12px;line-height:1.6;margin:6px 0}
+.projector-preview-claims>div,.projector-preview-ingredients>div,.projector-preview-ingredients details>div{display:flex;flex-wrap:wrap;gap:5px;padding:0!important}
+.projector-preview-claims span{padding:4px 7px;background:#f0f6fd;color:#3b6a9d;border-radius:6px;font-size:11px}
+.projector-preview-ingredients button{max-width:100%;border:1px solid #e9e9ef;border-radius:7px;background:#fafafb;color:#515157;padding:5px 7px;font-size:11px;overflow-wrap:anywhere;text-align:left}
+.projector-preview-ingredients summary{font-size:11px;color:#0071e3;cursor:pointer;margin:10px 0}
+.projector-preview .projector-info-actions{padding:11px 0 0!important;display:flex;gap:12px;margin-top:11px;border-top:1px solid #ededf0}
+.projector-preview .projector-preview-source{display:flex;gap:5px;align-items:center;font-size:10px;color:#86868b;margin-top:11px;text-decoration:none}
+@media(max-width:1000px){.projector-overview .projector-toolbar .projector-return{height:40px}.projector-overview .projector-info.projector-preview{top:auto;bottom:12px;left:12px;right:12px;width:auto;max-width:none;max-height:49%;padding:12px 13px}.projector-preview .projector-preview-photo{width:62px;height:70px}.projector-preview .projector-preview-hero{gap:11px}.projector-preview .projector-preview-identity{padding-top:0!important}.projector-preview .projector-info-heading strong{font-size:12px}.projector-preview-description:not(.is-expanded) p{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}.projector-preview .projector-preview-claims h3{margin-top:9px}.projector-preview .projector-info-actions{margin-top:8px;padding-top:8px!important}.projector-preview .projector-preview-source{margin-top:7px}}
+@media(max-width:1000px){.projector-preview.is-compact .projector-preview-description h3{display:none}.projector-preview.is-compact .projector-preview-description p{-webkit-line-clamp:1;margin-top:7px;font-size:11px}.projector-preview.is-compact .projector-preview-claims{margin-top:7px}.projector-preview.is-compact .projector-preview-claims h3{display:inline;font-size:11px;margin:0 8px 0 0}.projector-preview.is-compact .projector-preview-claims h3 small{display:none}.projector-preview.is-compact .projector-preview-claims>p{display:inline;font-size:11px;margin:0}.projector-preview.is-compact .projector-preview-ingredients h3{margin:8px 0 5px;font-size:11px}.projector-preview.is-compact .projector-preview-ingredients button{padding:3px 6px;font-size:10px}.projector-preview.is-compact .projector-preview-source{display:none}}
+.projector-preview-claims button{border:0;background:none;color:#0071e3;padding:4px 0;font-size:11px;cursor:pointer}

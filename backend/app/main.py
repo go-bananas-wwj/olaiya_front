@@ -20,6 +20,7 @@ from .db import SessionLocal, init_db
 from .models.evidence import Evidence, EvidenceType
 from .models.ingredient import EfficacyAssertion, Ingredient
 from .models.product import MarketSnapshot, Product, ProductClaim, ProductIngredient
+from .services.product_presentation import product_presentation
 from .services.dosecheck import dose_verdicts
 from .services.efficacy_canon import canonicalize
 from .services.evidence_level import HUMAN_CT, HUMAN_OPEN, HUMAN_RCT, REGULATION
@@ -404,6 +405,7 @@ def product_detail(product_id: int, db: Session = Depends(get_db)):
             "has_evidence": l.ingredient_id in ids_with_evidence,
         } for l in links],
         "claims": [_claim_dict(c) for c in claims],
+        "presentation": product_presentation(p),
     }
 
 
