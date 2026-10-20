@@ -32,7 +32,7 @@ from .services.fingerprint import compute_fingerprint
 from .services.evidence_profile import evidence_profile
 from .services.scorecard import substitute_scorecard
 from .services.similar_levels import level1_jaccard, level2_dose, level3_fingerprint
-from .services.similarity import search_ingredients, search_products
+from .services.similarity import search_ingredients, search_products, product_similarity_space
 from .services.transdermal import get_transdermal_info
 from .services import vision_detect
 from .services.comparison_metadata import enrich_candidates, matching_price_points, price_fields
@@ -575,6 +575,22 @@ def efficacy_ranking(canon: str, limit: int = Query(20, ge=1, le=100),
         "score": hits + 3 * human, "ingredient_hits": hits, "human_evidence": human,
     } for pid, hits, human in page]
     return {"canon": canon, "total": len(ranked), "items": items}
+
+
+@app.get("/api/products/{product_id}/similarity-space")
+def full_similarity_space(product_id: int, basis: str = Query('composition',pattern='^(composition|evidence)$'), db: Session = Depends(get_db)):
+    if db.get(Product,product_id) is None:raise HTTPException(status_code=404,detail='产品不存在')
+    if basis=='evidence':
+        data=evidence_product_space(db)
+        result=evidence_space_neighbors(data,product_id,len(data['products']))
+        return {**result,'complete':True,'source_has_vector':result['available'],'indexed_count':result['candidate_count']+int(result['available']),
+                'index_revision':data['revision'],'items':[{'id':p['id'],'distance':p['distance']} for p in result['items']]}
+    result=product_similarity_space(product_id)
+    if result['available']:
+        known=set(db.scalars(select(Product.id)).all())
+        result['items']=[row for row in result['items'] if row['id'] in known]
+        result['candidate_count']=len(result['items'])
+    return result
 
 
 @app.get("/api/products/{product_id}/similar")

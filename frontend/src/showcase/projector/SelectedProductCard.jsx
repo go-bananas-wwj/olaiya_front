@@ -3,7 +3,7 @@ import {X,CaretDown,CaretUp,ArrowsLeftRight,ArrowSquareOut,ImageSquare} from '@p
 import {productPhotos} from '../ReferencePrimitives'
 import {ingredientName} from '../labels.mjs'
 
-export default function SelectedProductCard({item,state,expanded,onExpand,onClear,onEvidence,onCompare,onIngredient,onLayout,evidenceMode}){
+export default function SelectedProductCard({item,state,expanded,onExpand,onClear,onEvidence,onCompare,onIngredient,onLayout,evidenceMode,need,needStatus,needScore}){
  const card=useRef(null),[imageFailed,setImageFailed]=useState(false)
  const product=state.data?.id===item.id?state.data:null,media=product?.presentation
  const local=productPhotos[String(item.id)],image=product&&local?.source_page===product.source_url?local.src:media?.image_url
@@ -18,6 +18,7 @@ export default function SelectedProductCard({item,state,expanded,onExpand,onClea
    <div className="projector-preview-photo">{image&&!imageFailed?<img key={image} src={image} alt={`${item.brand} ${item.name}参考图`} referrerPolicy="no-referrer" onError={()=>setImageFailed(true)}/>:<span><ImageSquare size={27}/>{state.loading?'读取图片…':imageFailed?'图片暂不可用':'图片未收录'}</span>}</div>
    <div className="projector-preview-identity"><p>{item.brand||'品牌未记录'}</p><button type="button" className="projector-info-heading" aria-expanded={expanded} onClick={onExpand}><strong title={item.name}>{item.name}</strong>{expanded?<CaretUp size={15}/>:<CaretDown size={15}/>}</button>{product?.spec&&<span>{product.spec}{product.price_current!=null?` · 参考价 ¥${product.price_current}`:''}</span>}</div>
   </div>
+  {need&&<p className="projector-preview-need">{need} · {needStatus==='evidence'?`成分证据指数 ${Number(needScore).toFixed(2)}`:needStatus==='declared'?'产品宣称（未核验）':'资料待补'}</p>}
   {state.loading?<p className="projector-preview-status" role="status">正在读取产品介绍与成分…</p>:state.error?<p className="projector-preview-status" role="alert">资料加载失败：{state.error}</p>:<>
    {media?.summary_excerpt&&<section className={`projector-preview-description ${expanded?'is-expanded':''}`}><h3>来源页简介 <small>社区来源</small></h3><p>{media.summary_excerpt}{media.summary_truncated?'…':''}</p></section>}
    <section className="projector-preview-claims" aria-label="产品功效宣称"><h3>功效宣称 <small>来源记录</small></h3>{claims.length?<div>{claims.slice(0,expanded?claims.length:3).map(c=><span key={c}>{c}</span>)}{!expanded&&claims.length>3&&<button type="button" onClick={onExpand}>查看全部 {claims.length} 项</button>}</div>:<p>暂未收录产品功效宣称</p>}</section>

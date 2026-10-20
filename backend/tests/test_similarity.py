@@ -92,3 +92,26 @@ def test_search_ingredients_order_and_structure(index_dir):
 
 def test_search_ingredients_missing_index_returns_none(index_dir):
     assert similarity.search_ingredients(101, k=3) is None
+
+
+def test_full_similarity_space_has_every_indexed_identity_without_top_k_truncation(index_dir):
+    ids=list(range(1,151));vectors=np.tile(_toy_vectors(5),(30,1))
+    _write_index(index_dir,'products',ids,vectors)
+    data=similarity.product_similarity_space(1)
+    assert data['available'] and data['complete']
+    assert data['source_has_vector'] and data['indexed_count']==150
+    assert len(data['items'])==149 and len({p['id'] for p in data['items']})==149
+    assert 1 not in {p['id'] for p in data['items']}
+    assert all('score' in p for p in data['items'])
+    assert similarity.product_similarity_space(999)['source_has_vector'] is False
+
+
+def test_full_similarity_space_missing_index_is_unavailable(index_dir):
+    assert similarity.product_similarity_space(1)['available'] is False
+
+
+def test_full_similarity_space_rejects_nonfinite_or_incomplete_results(index_dir,monkeypatch):
+    _write_index(index_dir,'products',IDS,_toy_vectors(5))
+    monkeypatch.setattr(similarity,'_search',lambda *args:[{'product_id':102,'score':float('nan')}])
+    data=similarity.product_similarity_space(101)
+    assert not data['available'] and not data['complete']

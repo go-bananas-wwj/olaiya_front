@@ -45,6 +45,13 @@ export function screenHits(points, x, y, radius = 9) {
 const BRAND_COLORS = ['#5f6bc4', '#49a197', '#c67c45', '#ac60ad', '#759b41', '#508dbd', '#be6983', '#a18e40']
 export function pointColor(product, { selected = null, neighborIds = new Set(), colorBy = 'none', colorMax = 1 } = {}) {
   if (product.id === selected) return '#96004f'
+  if (colorBy === 'need') {
+    if(!product.need_match)return '#e6e9ee'
+    if(product.need_kind==='declared')return '#d5a45a'
+    if(product.need_kind!=='evidence')return '#c5ccd6'
+    const t=Math.max(0,Math.min(1,(product.need_score||0)/colorMax)),from=[139,184,230],to=[42,102,175]
+    return `rgb(${from.map((v,i)=>Math.round(v+(to[i]-v)*t)).join(',')})`
+  }
   if (colorBy === 'family') return FAMILY_COLORS[product.composition_family] || '#b2b8c8'
   if (neighborIds.has(product.id)) return '#e9a023'
   if (selected != null) return '#c8c8cc'

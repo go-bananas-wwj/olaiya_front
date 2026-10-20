@@ -43,7 +43,9 @@ class ProjectorModesTest(BrowserTestCase):
         chosen=next(p for p in data['products'] if p['eligible'])
         self.choose(chosen['name'],chosen['name'])
         rows=self.page.get_by_test_id('projector-neighbors').locator('[data-neighbor-id]')
-        expect(rows).to_have_count(38)
+        expect(self.page.get_by_role('slider',name='相似度筛选',exact=True)).to_be_enabled()
+        self.page.get_by_role('slider',name='相似度筛选',exact=True).fill('0')
+        self.page.get_by_role('button',name='显示更多',exact=False).click()
         expected=self.page.request.get(f"{BASE_URL}/api/products/{chosen['id']}/evidence-space-neighbors?limit=100").json()['items']
         self.assertEqual(rows.evaluate_all('(es)=>es.map(e=>Number(e.dataset.neighborId))'),[p['id'] for p in expected])
         expect(self.page.get_by_test_id('distance-heading')).to_contain_text('证据画像相似度')
@@ -58,15 +60,17 @@ class ProjectorModesTest(BrowserTestCase):
         data=self.page.request.get(BASE_URL+'/api/product-space/evidence').json()
         chosen=next(p for p in data['products'] if p['eligible'])
         delayed=[]
-        self.page.route(f"**/api/products/{chosen['id']}/similar?*",lambda r:delayed.append(r))
-        with self.page.expect_request(f"**/api/products/{chosen['id']}/similar?*"):
+        self.page.route(f"**/api/products/{chosen['id']}/similarity-space?basis=composition",lambda r:delayed.append(r))
+        with self.page.expect_request(f"**/api/products/{chosen['id']}/similarity-space?basis=composition"):
             self.choose(chosen['name'],chosen['name'])
         self.page.get_by_role('button',name='功效证据相似',exact=True).click()
         rows=self.page.get_by_test_id('projector-neighbors').locator('[data-neighbor-id]')
-        expect(rows).to_have_count(38)
+        expect(self.page.get_by_role('slider',name='相似度筛选',exact=True)).to_be_enabled()
+        self.page.get_by_role('slider',name='相似度筛选',exact=True).fill('0')
+        expect(rows).to_have_count(20)
         ids=rows.evaluate_all('(es)=>es.map(e=>e.dataset.neighborId)')
         for route in delayed:
-            route.fulfill(json={'product_id':chosen['id'],'similar':[{'id':9,'score':1}]})
+            route.fulfill(json={'product_id':chosen['id'],'available':True,'complete':True,'items':[{'id':9,'score':1}]})
         self.page.wait_for_timeout(100)
         self.assertEqual(rows.evaluate_all('(es)=>es.map(e=>e.dataset.neighborId)'),ids)
         expect(self.page.get_by_test_id('distance-heading')).to_contain_text('证据画像相似度')

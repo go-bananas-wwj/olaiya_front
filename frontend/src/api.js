@@ -73,6 +73,7 @@ export const api = {
   productEvidenceProfile: (id) => get(`/api/products/${id}/evidence-profile`),
   productCapabilityProfile: (id) => get(`/api/products/${id}/capability-profile`),
   // 成分表嵌入相似（模型由后端配置）：索引未构建时 similar=null + reason 降级
+  productSimilaritySpace: (id, params) => get(`/api/products/${id}/similarity-space`, params),
   productSimilar: (id, params) => get(`/api/products/${id}/similar`, params), // k
   brands: () => get('/api/brands'),
   // q / has_evidence / limit / offset（带 limit/offset 返回 {total, items}）

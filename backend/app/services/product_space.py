@@ -15,10 +15,11 @@ from sqlalchemy import select
 from sqlalchemy.orm import joinedload
 
 from ..config import settings
-from ..models.product import Product, ProductIngredient
+from ..models.product import Product, ProductIngredient, ProductClaim
 from ..models.ingredient import EfficacyAssertion
 from .capability_profile import DIRECTIONS, METHOD_VERSION, INDEX_NOTE, index_sum, select_index_assertions
 from .selection_catalog import verified_items
+from .efficacy_canon import CANONICAL_RULES
 from .comparison_metadata import matching_price_points, price_fields
 
 _CACHE = {}
@@ -192,7 +193,7 @@ def product_space(session):
         cached = _CACHE.get(key)
         if cached and time.monotonic() - cached[0] < _TTL:
             return cached[1]
-        # Fixed four SELECTs, including latest matching price provenance.
+        # Fixed five SELECTs, including latest matching price provenance.
         products = session.execute(select(Product).order_by(Product.id)).scalars().all()
         links = _links(session)
         assertions = session.query(EfficacyAssertion).options(joinedload(EfficacyAssertion.evidence)).order_by(EfficacyAssertion.id).all()
@@ -208,6 +209,10 @@ def product_space(session):
             ingredients[pid].add(iid)
         items = []
         verified = verified_items(products)
+        declared=defaultdict(set)
+        for pid,claim in session.execute(select(ProductClaim.product_id,ProductClaim.claim)):
+            for family,keywords in CANONICAL_RULES:
+                if family in DIRECTIONS and any(word in claim for word in keywords):declared[pid].add(family)
         for p in products:
             ids = ingredients[p.id]
             families = defaultdict(list)
@@ -224,7 +229,7 @@ def product_space(session):
             items.append({'id': p.id, 'name': p.name, 'brand': p.brand, 'nmpa_id': p.nmpa_id,
                           'category':p.category,'category_verified':p.id in verified,'selection_sample':p.id in verified,
                           'ingredient_list_status':verified.get(p.id,{}).get('ingredient_list_status','existing_record'),
-                          'scores': scores, 'statuses': statuses, 'ingredient_count': len(ids),
+                          'scores': scores, 'statuses': statuses, 'declared_directions':[d for d in DIRECTIONS if d in declared[p.id]], 'ingredient_count': len(ids),
                           'evidence_ingredient_count': len(scored_ids), 'source_count': len(source_ids),
                           'coordinates': coordinates.get(p.id), 'coordinates_3d':coordinates3d.get(p.id),
                           'pca_coordinates':pca_coordinates.get(p.id), **price})

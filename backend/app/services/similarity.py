@@ -74,3 +74,34 @@ def search_ingredients(ingredient_id: int, k: int = 5) -> list[dict] | None:
 def reset_cache() -> None:
     """清空索引缓存（测试改索引目录后调用）。"""
     _cache.clear()
+
+
+def product_similarity_space(product_id: int) -> dict:
+    """Every indexed candidate, with native cosine scores; never a truncated top-k."""
+    import hashlib
+    import math
+    base={'product_id':product_id,'available':False,'complete':False,'source_has_vector':False,
+          'metric':'cosine','indexed_count':0,'items':[],'index_revision':None}
+    try:
+        loaded=_load('products')
+        if loaded is None:return {**base,'reason':'相似索引暂不可用'}
+        index,ids=loaded
+        if len(ids)!=index.ntotal or len(set(ids))!=len(ids):return {**base,'reason':'相似索引映射不一致'}
+        base['indexed_count']=len(ids)
+        if product_id not in ids:return {**base,'reason':'该产品暂无成分向量'}
+        # Same normalized IndexFlatIP vectors as the compatible top-k endpoint.
+        hits=_search('products',product_id,len(ids),'product_id')
+        if hits is None or len(hits)!=len(ids)-1 or any(not math.isfinite(h['score']) for h in hits):
+            return {**base,'source_has_vector':True,'reason':'相似索引分数不完整或无效'}
+        items=[{'id':h['product_id'],'score':h['score']} for h in hits]
+        paths=[_index_dir()/'products.faiss',_index_dir()/'products.json']
+        stamp=tuple((str(p),p.stat().st_mtime_ns,p.stat().st_size) for p in paths)
+        if stamp not in _identity_cache:
+            _identity_cache.clear();_identity_cache[stamp]=hashlib.sha256(b''.join(hashlib.sha256(p.read_bytes()).digest() for p in paths)).hexdigest()
+        return {**base,'available':True,'complete':True,'source_has_vector':True,'index_revision':_identity_cache[stamp],
+                'input_dimensions':index.d,'items':items,'candidate_count':len(items),'reason':None}
+    except (OSError,ValueError,KeyError,TypeError,RuntimeError):
+        return {**base,'reason':'相似索引未通过读取校验'}
+
+
+_identity_cache={}

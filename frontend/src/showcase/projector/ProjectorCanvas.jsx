@@ -1,6 +1,7 @@
 import { forwardRef, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react'
 import * as THREE from 'three'
 import { coincidentDisplayOffsets, paperAxes, nearestVisiblePoint } from './projectorPresentation.mjs'
+import { radialUniverse,needPlane,similarityRadius } from './projectorExplore.mjs'
 import { displayUniverse, depthCue, DISPLAY_AXES } from './projectorDepth.mjs'
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
 import { normalizeUniverse, visibleProducts, screenHits, pointColor, layoutLabels, fitPerspective, groupCoincidentPoints, layoutCoincidentBadges } from './projectorGeometry.mjs'
@@ -33,18 +34,20 @@ function disposeGroup(group) {
 // Each frame is requested by a data/camera/resize event. There is no idle animation loop.
 export default forwardRef(function ProjectorCanvas({ products = EMPTY, algorithm = 'umap', dimensions = 2,
   selected = null, neighbors = EMPTY, isolated = false, pointSize = 6, colorBy = 'none', showLabels = true, labelBy = 'name', axisOrder = DEFAULT_AXES,
-  onSelect, onClear, onCoincident, spreadCoincident = true, overlayExpanded = true }, ref) {
+  onSelect, onClear, onCoincident, spreadCoincident = true, overlayExpanded = true, facet = null, radial = false, similarityRows = EMPTY, threshold = .9, basis = 'composition' }, ref) {
   const root = useRef(null), canvas = useRef(null), runtime = useRef(null)
   const [attempt, setAttempt] = useState(0), [failure, setFailure] = useState(null)
   const [frameInfo, setFrameInfo] = useState({ revision: 0, labels: [], badges: [], coincidentGroups: [], axisLabels: [], spreadLeaders: [] })
   const [hover, setHover] = useState(null)
   const axisKey = JSON.stringify(axisOrder)
-  const universe = useMemo(() => displayUniverse(normalizeUniverse(products, algorithm, dimensions, axisOrder),dimensions), [products, algorithm, dimensions, axisKey])
+  const base = useMemo(() => ({...displayUniverse(normalizeUniverse(products, algorithm, facet?3:dimensions, axisOrder),facet?3:dimensions),catalogProducts:products}), [products, algorithm, dimensions, axisKey,!!facet])
+  const universe=useMemo(()=>radial?radialUniverse(base,selected,similarityRows,basis,dimensions):facet?needPlane(base):base,[base,radial,selected,similarityRows,basis,facet,dimensions])
+  const effectiveSpread=spreadCoincident&&!radial
   const displayOffsets=useMemo(()=>coincidentDisplayOffsets(universe.points),[universe])
   const axisSpec=useMemo(()=>paperAxes(universe,{dimensions,algorithm,axisOrder}),[universe,dimensions,algorithm,axisKey])
   const drawn = useMemo(() => visibleProducts(universe.points, selected, neighbors, isolated), [universe, selected, neighbors, isolated])
   const latest = useRef(null)
-  latest.current = { products, selected, neighbors, isolated, pointSize, colorBy, showLabels, labelBy, onSelect, onClear, onCoincident, universe, drawn, dimensions, displayOffsets, spreadCoincident, axisSpec }
+  latest.current = { products, selected, neighbors, isolated, pointSize, colorBy, showLabels, labelBy, onSelect, onClear, onCoincident, universe, drawn, dimensions, displayOffsets, spreadCoincident:effectiveSpread, axisSpec,radial,facet,threshold,basis }
 
   useImperativeHandle(ref, () => ({
     reset: () => runtime.current?.reset(),
@@ -61,23 +64,25 @@ export default forwardRef(function ProjectorCanvas({ products = EMPTY, algorithm
     setFailure(null)
     renderer.setClearColor(0xffffff, 0)
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2))
-    const scene = new THREE.Scene(), cloud = new THREE.Group(), axes = new THREE.Group(), texture = circleTexture()
+    const scene = new THREE.Scene(), cloud = new THREE.Group(), axes = new THREE.Group(), envelope = new THREE.Group(), texture = circleTexture()
     const labelMeasure = document.createElement('canvas').getContext('2d')
-    scene.add(cloud, axes)
-    const r = { renderer, element:canvas.current, scene, cloud, axes, texture, width: 1, height: 1, camera: null, controls: null,
+    scene.add(cloud, axes, envelope)
+    const r = { renderer, element:canvas.current, scene, cloud, axes, envelope, texture, morphUniform:{value:1}, width: 1, height: 1, camera: null, controls: null,
       viewportUniform:{value:new THREE.Vector2(1,1)}, depthUniform:{value:new THREE.Vector2(1,1)}, dimensions: latest.current.dimensions, request: null, disposed: false, drawn: [], observer: null }
     runtime.current = r
 
+    r.positionFor=point=>{const to=r.targetPositions?.get(point.product.id)||point.position,from=r.startPositions?.get(point.product.id)||to,t=r.morphUniform.value;return from.map((v,i)=>v+(to[i]-v)*t)}
     r.project = point => {
       if (!r.camera || r.disposed) return null
       r.camera.updateMatrixWorld()
-      const vector = new THREE.Vector3(...point.position).project(r.camera)
-      const viewDepth=-new THREE.Vector3(...point.position).applyMatrix4(r.camera.matrixWorldInverse).z
+      const position=r.positionFor(point)
+      const vector = new THREE.Vector3(...position).project(r.camera)
+      const viewDepth=-new THREE.Vector3(...position).applyMatrix4(r.camera.matrixWorldInverse).z
       const cue=depthCue(viewDepth,r.camera.position.distanceTo(r.controls.target),r.dimensions)
       const x = (vector.x + 1) * r.width / 2, y = (1 - vector.y) * r.height / 2
       const offset=latest.current.spreadCoincident?(latest.current.displayOffsets.get(point.product.id)||[0,0]):[0,0]
       const displayX=x+offset[0],displayY=y+offset[1]
-      return { product: point.product, position:point.position, rawX:x,rawY:y, displayOffset:offset,viewDepth,pointScale:cue.scale,x:displayX,y:displayY,depth: vector.z,
+      return { product: point.product, position, rawX:x,rawY:y, displayOffset:offset,viewDepth,pointScale:cue.scale,x:displayX,y:displayY,depth: vector.z,
         visible: Number.isFinite(x) && Number.isFinite(y) && vector.z >= -1 && vector.z <= 1 && displayX >= 0 && displayX <= r.width && displayY >= 0 && displayY <= r.height }
     }
     r.getScreenPoint = id => {
@@ -85,7 +90,7 @@ export default forwardRef(function ProjectorCanvas({ products = EMPTY, algorithm
       if (!point) return null
       const projected = r.project(point), rect = canvas.current.getBoundingClientRect()
       return projected ? { x: projected.x, y: projected.y, clientX: rect.left + projected.x, clientY: rect.top + projected.y,
-        visible: projected.visible, depth: projected.depth,viewDepth:projected.viewDepth,pointScale:projected.pointScale,rawX:projected.rawX,rawY:projected.rawY,displayOffset:projected.displayOffset } : null
+        visible: projected.visible, depth: projected.depth,viewDepth:projected.viewDepth,pointScale:projected.pointScale,rawX:projected.rawX,rawY:projected.rawY,displayOffset:projected.displayOffset,worldPosition:r.positionFor(point),semanticRadius:point.semantic_radius } : null
     }
     r.projectPosition=position=>{
       const v=new THREE.Vector3(...position).project(r.camera)
@@ -98,6 +103,7 @@ export default forwardRef(function ProjectorCanvas({ products = EMPTY, algorithm
         if (r.disposed || !r.camera || renderer.getContext().isContextLost()) return
         r.syncClip()
         r.depthUniform.value.set(r.camera.position.distanceTo(r.controls.target),r.dimensions===3?1:0)
+        r.envelope.visible=latest.current.radial&&r.morphUniform.value>=1
         renderer.render(scene, r.camera)
         root.current?.setAttribute('data-camera-distance',r.camera.position.distanceTo(r.controls.target).toFixed(6))
         const props = latest.current
@@ -122,7 +128,7 @@ export default forwardRef(function ProjectorCanvas({ products = EMPTY, algorithm
         const badges=props.spreadCoincident?[]:layoutCoincidentBadges(groups,{width:r.width,height:r.height,selected:props.selected,neighborIds,reserved:[...primaryLabels,...overlays]})
         const labels=layoutLabels(projected,{...labelOptions,reserved:[...badges,...overlays]})
         setFrameInfo(old => ({ revision: old.revision + 1, labels, badges, coincidentGroups:groups.filter(group=>group.members.length>1),axisLabels,
-          spreadLeaders:props.spreadCoincident?screenPoints.filter(p=>Math.hypot(...p.displayOffset)>.1):[] }))
+          spreadLeaders:props.spreadCoincident?screenPoints.filter(p=>Math.hypot(...p.displayOffset)>.1&&(!props.radial||p.product.id===props.selected||neighborIds.has(p.product.id))):[] }))
     }
     r.invalidate = () => {
       if (r.disposed || r.request != null || renderer.getContext().isContextLost()) return
@@ -136,7 +142,7 @@ export default forwardRef(function ProjectorCanvas({ products = EMPTY, algorithm
     r.updateFrustum = () => {
       if (!r.camera) return
       const aspect = r.width / r.height
-      if (r.dimensions === 2) {
+      if (r.camera.isOrthographicCamera) {
         const bounds=latest.current.axisSpec.bounds
         const halfHeight=bounds.length?Math.max((bounds[1][1]-bounds[1][0])/2,(bounds[0][1]-bounds[0][0])/2/aspect)/.76:1.25*Math.max(1,1/aspect)
         r.camera.left = -halfHeight * aspect; r.camera.right = halfHeight * aspect
@@ -145,7 +151,7 @@ export default forwardRef(function ProjectorCanvas({ products = EMPTY, algorithm
       r.camera.updateProjectionMatrix()
     }
     r.syncClip = () => {
-      if (r.dimensions !== 3 || !r.camera) return
+      if (!r.camera?.isPerspectiveCamera) return
       const distance = r.camera.position.distanceTo(r.controls.target)
       r.camera.near = Math.max(1e-12,distance*1e-5)
       r.camera.far = Math.max(1000,distance*100)
@@ -153,13 +159,14 @@ export default forwardRef(function ProjectorCanvas({ products = EMPTY, algorithm
     }
     r.reset = () => {
       if (!r.camera || r.disposed) return
+      r.finishMorph?.()
       r.cancelFocus?.()
       r.framingPoints = latest.current.universe.points
       r.frameMode = 'universe'; r.axes.visible = false
       r.controls.target.set(0, 0, 0)
-      if (r.dimensions === 2) { r.camera.position.set(0, 0, 5); r.camera.up.set(0, 1, 0); r.camera.zoom = 1 }
+      if (r.camera.isOrthographicCamera) { r.camera.position.set(0, 0, 5); r.camera.up.set(0, 1, 0); r.camera.zoom = 1 }
       else {
-        const fit = fitPerspective(r.framingPoints.map(point=>point.position),{aspect:r.width/r.height,direction:[.9,.32,1],fov:r.camera.fov,padding:r.width<600?.1:.055})
+        const fit = fitPerspective(r.framingPoints.map(point=>point.position),{aspect:r.width/r.height,direction:r.dimensions===2?[0,0,1]:[.9,.32,1],fov:r.camera.fov,padding:r.width<600?.1:.055})
         r.controls.target.fromArray(fit.target);r.camera.position.fromArray(fit.position);r.camera.zoom = 1
       }
       r.updateFrustum();r.syncClip(); r.controls.update(); r.invalidate()
@@ -167,8 +174,7 @@ export default forwardRef(function ProjectorCanvas({ products = EMPTY, algorithm
     r.switchCamera = dims => {
       r.controls?.dispose()
       r.dimensions = dims
-      r.camera = dims === 2 ? new THREE.OrthographicCamera(-2, 2, 2, -2, .01, 1000)
-        : new THREE.PerspectiveCamera(58, r.width / r.height, .01, 1000)
+      r.camera = new THREE.PerspectiveCamera(58, r.width / r.height, .01, 1000)
       r.controls = new OrbitControls(r.camera, canvas.current)
       r.controls.enableDamping = false
       r.controls.enableRotate = dims === 3
@@ -178,13 +184,13 @@ export default forwardRef(function ProjectorCanvas({ products = EMPTY, algorithm
       r.controls.mouseButtons.LEFT = dims === 2 ? THREE.MOUSE.PAN : THREE.MOUSE.ROTATE
       r.controls.touches.ONE = dims === 2 ? THREE.TOUCH.PAN : THREE.TOUCH.ROTATE
       r.controls.addEventListener('change', r.invalidate)
-      r.controls.addEventListener('start',()=>r.cancelFocus?.())
+      r.controls.addEventListener('start',()=>{r.finishMorph?.();r.cancelFocus?.()})
       r.reset()
     }
     r.zoom = factor => {
-      r.cancelFocus?.()
+      r.finishMorph?.();r.cancelFocus?.()
       if (!Number.isFinite(factor) || factor <= 0 || !r.camera || r.disposed) return
-      if (r.dimensions === 2) r.camera.zoom = THREE.MathUtils.clamp(r.camera.zoom * factor, .08, 1e9)
+      if (r.camera.isOrthographicCamera) r.camera.zoom = THREE.MathUtils.clamp(r.camera.zoom * factor, .08, 1e9)
       else {
         const offset = r.camera.position.clone().sub(r.controls.target)
         const length = THREE.MathUtils.clamp(offset.length() / factor, r.controls.minDistance, r.controls.maxDistance)
@@ -193,6 +199,7 @@ export default forwardRef(function ProjectorCanvas({ products = EMPTY, algorithm
       r.camera.updateProjectionMatrix(); r.controls.update(); r.invalidate()
     }
     r.focusSelection = () => {
+      r.finishMorph?.();if(latest.current.radial){r.focusLocal(true);return}
       r.cancelFocus?.()
       if (!r.camera || r.disposed) return
       const props = latest.current, ids = new Set(props.neighbors.map(p => p.id))
@@ -205,7 +212,7 @@ export default forwardRef(function ProjectorCanvas({ products = EMPTY, algorithm
       const center = box.getCenter(new THREE.Vector3()), size = box.getSize(new THREE.Vector3())
       const direction = r.camera.position.clone().sub(r.controls.target).normalize()
       r.controls.target.copy(center)
-      if (r.dimensions === 2) {
+      if (r.camera.isOrthographicCamera) {
         r.camera.position.copy(center).add(new THREE.Vector3(0, 0, 5))
         r.camera.zoom = THREE.MathUtils.clamp(Math.min((r.camera.right-r.camera.left) / Math.max(1e-10, size.x),
           (r.camera.top-r.camera.bottom) / Math.max(1e-10, size.y)) * .8, .08, 1e9)
@@ -220,7 +227,7 @@ export default forwardRef(function ProjectorCanvas({ products = EMPTY, algorithm
       r.motionRequest=null
       root.current?.setAttribute('data-camera-motion','idle')
     }
-    r.focusLocal = () => {
+    r.focusLocal = (immediate=false) => {
       r.cancelFocus()
       const point=latest.current.universe.byId.get(latest.current.selected)
       if(!point||!r.camera)return
@@ -228,24 +235,38 @@ export default forwardRef(function ProjectorCanvas({ products = EMPTY, algorithm
       const nearest=latest.current.universe.points.map(p=>new THREE.Vector3(...p.position).distanceTo(center)).sort((a,b)=>a-b)
       // The camera explores a bounded local region; semantic neighbours and
       // source coordinates stay untouched. A floor handles coincident vectors.
-      const radius=Math.max(.12,Math.min(.42,(nearest[Math.min(16,nearest.length-1)]||0)*1.4))
+      const radius=latest.current.radial?Math.max(.08,(latest.current.basis==='evidence'?1-latest.current.threshold+1e-6:similarityRadius(latest.current.threshold))*1.2):Math.max(.12,Math.min(.42,(nearest[Math.min(16,nearest.length-1)]||0)*1.4))
       const startPosition=r.camera.position.clone(), startTarget=r.controls.target.clone(), startZoom=r.camera.zoom
       const direction=startPosition.clone().sub(startTarget).normalize()
-      const targetPosition=r.dimensions===2?center.clone().add(new THREE.Vector3(0,0,5)):
+      const targetPosition=r.camera.isOrthographicCamera?center.clone().add(new THREE.Vector3(0,0,5)):
         center.clone().add(direction.multiplyScalar(radius/Math.sin(THREE.MathUtils.degToRad(r.camera.fov/2))/Math.min(1,r.width/r.height)))
-      const targetZoom=r.dimensions===2?Math.min(r.camera.right-r.camera.left,r.camera.top-r.camera.bottom)/(radius*2.6):1
+      const targetZoom=r.camera.isOrthographicCamera?Math.min(r.camera.right-r.camera.left,r.camera.top-r.camera.bottom)/(radius*2.6):1
+      if(latest.current.radial&&r.camera.isPerspectiveCamera){
+        const mobile=window.matchMedia('(max-width:1000px)').matches
+        const cardWidth=mobile?0:(root.current.parentElement?.querySelector('.projector-info')?.getBoundingClientRect().width||320)
+        const usableWidth=Math.max(160,r.width-cardWidth-28),usableHeight=mobile?r.height*.48:r.height
+        const pixelRadius=Math.max(40,Math.min(usableWidth,usableHeight)*.43),focal=r.height/(2*Math.tan(THREE.MathUtils.degToRad(r.camera.fov/2)))
+        const distance=radius*Math.sqrt(1+(focal/pixelRadius)**2)
+        targetPosition.copy(center).add(startPosition.clone().sub(startTarget).normalize().multiplyScalar(distance))
+      }
       const targetCenter=center.clone()
       // Keep the selected point above the mobile product sheet. This is a
       // camera pan only; product geometry and retrieval remain untouched.
       if(window.matchMedia('(max-width:1000px)').matches){
-        const height=r.dimensions===2?(r.camera.top-r.camera.bottom)/targetZoom:
+        const height=r.camera.isOrthographicCamera?(r.camera.top-r.camera.bottom)/targetZoom:
           2*targetPosition.distanceTo(center)*Math.tan(THREE.MathUtils.degToRad(r.camera.fov/2))
-        const shift=new THREE.Vector3(0,1,0).applyQuaternion(r.camera.quaternion).multiplyScalar(height*.19)
+        const shift=new THREE.Vector3(0,1,0).applyQuaternion(r.camera.quaternion).multiplyScalar(height*(latest.current.radial ? .26 : .19))
         targetCenter.sub(shift);targetPosition.sub(shift)
+      }
+      if(latest.current.radial&&!window.matchMedia('(max-width:1000px)').matches){
+        const cardWidth=root.current.parentElement?.querySelector('.projector-info')?.getBoundingClientRect().width||320
+        const ndc=(Math.max(160,r.width-cardWidth-28)/r.width)-1
+        const shift=new THREE.Vector3(1,0,0).applyQuaternion(r.camera.quaternion).multiplyScalar(-ndc*targetPosition.distanceTo(center)*Math.tan(THREE.MathUtils.degToRad(r.camera.fov/2))*r.width/r.height)
+        targetCenter.add(shift);targetPosition.add(shift)
       }
       r.frameMode='local'
       r.framingPoints=[{position:center.clone().addScalar(-radius).toArray()},{position:center.clone().addScalar(radius).toArray()}]
-      const duration=window.matchMedia('(prefers-reduced-motion: reduce)').matches?0:640
+      const duration=immediate||window.matchMedia('(prefers-reduced-motion: reduce)').matches?0:640
       const start=performance.now()
       root.current?.setAttribute('data-camera-motion','focusing')
       const step=now=>{
@@ -260,17 +281,39 @@ export default forwardRef(function ProjectorCanvas({ products = EMPTY, algorithm
       }
       if(duration)r.motionRequest=requestAnimationFrame(step);else step(start)
     }
+    r.finishMorph=()=>{
+      if(r.morphRequest!=null)cancelAnimationFrame(r.morphRequest)
+      r.morphRequest=null;r.morphUniform.value=1
+      if(r.morphCamera&&r.camera){r.camera.position.copy(r.morphCamera.position);r.controls.target.copy(r.morphCamera.target);r.camera.zoom=r.morphCamera.zoom;r.camera.updateProjectionMatrix();r.controls.update()}
+      r.morphCamera=null;root.current?.setAttribute('data-transition-state','idle')
+    }
+    r.startMorph=(from,oldCamera)=>{
+      r.finishMorph()
+      r.startPositions=from;r.targetPositions=new Map(latest.current.universe.points.map(p=>[p.product.id,p.position]))
+      if(!from.size){r.morphUniform.value=1;return}
+      const destination={position:r.camera.position.clone(),target:r.controls.target.clone(),zoom:r.camera.zoom}
+      r.morphCamera=destination;r.camera.position.copy(oldCamera.position);r.controls.target.copy(oldCamera.target);r.camera.zoom=oldCamera.zoom;r.controls.update()
+      r.morphUniform.value=0;root.current?.setAttribute('data-transition-state','morphing')
+      const duration=window.matchMedia('(prefers-reduced-motion: reduce)').matches?0:760,start=performance.now()
+      const step=now=>{if(r.disposed)return;const t=duration?Math.min(1,(now-start)/duration):1,e=t*t*(3-2*t);r.morphUniform.value=e
+        r.camera.position.lerpVectors(oldCamera.position,destination.position,e);r.controls.target.lerpVectors(oldCamera.target,destination.target,e);r.camera.zoom=oldCamera.zoom+(destination.zoom-oldCamera.zoom)*e;r.camera.updateProjectionMatrix();r.controls.update();r.invalidate()
+        if(t<1)r.morphRequest=requestAnimationFrame(step);else{r.morphRequest=null;r.morphCamera=null;root.current?.setAttribute('data-transition-state','idle')}
+      }
+      if(duration)r.morphRequest=requestAnimationFrame(step);else step(start)
+    }
     r.switchCamera(latest.current.dimensions)
     let measured = false
     r.observer = new ResizeObserver(entries => {
       const { width, height } = entries[0].contentRect
       if (width <= 0 || height <= 0 || r.disposed) return
       r.cancelFocus?.()
+      const oldWidth=r.width
       const oldAspect = r.width / r.height
       r.width = width; r.height = height;r.viewportUniform.value.set(width,height)
       renderer.setSize(width, height, false); r.updateFrustum()
       if (!measured) { measured = true; r.reset() }
-      else if (r.dimensions === 3) {
+      else if(latest.current.radial&&(oldWidth!==width||r.morphRequest==null)){r.finishMorph();r.focusLocal(true)}
+      else if (r.camera?.isPerspectiveCamera && r.morphRequest==null) {
         // Refit the same true universe/subset while preserving user rotation,
         // pan and zoom relative to its optimal framing at the previous aspect.
         const direction=r.camera.position.clone().sub(r.controls.target).normalize().toArray()
@@ -301,10 +344,12 @@ export default forwardRef(function ProjectorCanvas({ products = EMPTY, algorithm
     }
     const onUp = event => {
       const previous = down; down = null
+      if(r.morphRequest!=null)return
       if (!previous || previous.moved || event.button !== 0) return
       const hits = hit(event); setHover(null)
       if(!hits.length&&latest.current.selected!=null){latest.current.onClear?.();return}
-      if(hits.length&&latest.current.spreadCoincident&&!event.shiftKey){
+      const distinct=hits.map(p=>latest.current.universe.byId.get(p.id)).filter(Boolean)
+      if(hits.length&&(latest.current.spreadCoincident||(latest.current.radial&&groupCoincidentPoints(distinct).length===hits.length))&&!event.shiftKey){
         const at=pointer(event),candidates=hits.map(p=>r.project(latest.current.universe.byId.get(p.id))).filter(Boolean)
         const nearest=nearestVisiblePoint(candidates,at.x,at.y,Math.max(7,latest.current.pointSize*1.5))
         if(nearest)latest.current.onSelect?.(nearest)
@@ -320,7 +365,7 @@ export default forwardRef(function ProjectorCanvas({ products = EMPTY, algorithm
     const onCancel = () => { down = null; setHover(null) }
     const onKey = event => {
       if(event.key==='Escape'&&latest.current.selected!=null){event.preventDefault();latest.current.onClear?.();return}
-      if(['+','=','-','Home','ArrowLeft','ArrowRight','ArrowUp','ArrowDown'].includes(event.key))r.cancelFocus()
+      if(['+','=','-','Home','ArrowLeft','ArrowRight','ArrowUp','ArrowDown'].includes(event.key)){r.finishMorph();r.cancelFocus()}
       if (['+', '=', '-', 'Home'].includes(event.key)) {
         event.preventDefault(); event.key === 'Home' ? (latest.current.onClear?latest.current.onClear():r.reset()) : r.zoom(event.key === '-' ? 1/1.3 : 1.3); return
       }
@@ -346,13 +391,14 @@ export default forwardRef(function ProjectorCanvas({ products = EMPTY, algorithm
     const element = canvas.current
     listeners.forEach(([name, listener]) => element.addEventListener(name, listener))
     return () => {
+      r.finishMorph()
       r.cancelFocus()
       r.disposed = true
       if (r.request != null) cancelAnimationFrame(r.request)
       r.observer.disconnect(); r.controls.dispose()
       listeners.forEach(([name, listener]) => element.removeEventListener(name, listener))
       delete element.getScreenPoint
-      disposeGroup(cloud); disposeGroup(axes); texture.dispose(); renderer.dispose()
+      disposeGroup(cloud); disposeGroup(axes); disposeGroup(envelope);texture.dispose(); renderer.dispose()
       if (runtime.current === r) runtime.current = null
       // StrictMode immediately mounts another renderer on this same canvas. Dispose
       // GPU resources now, but lose the context only after checking it was not reused.
@@ -363,7 +409,11 @@ export default forwardRef(function ProjectorCanvas({ products = EMPTY, algorithm
   useEffect(() => {
     const r = runtime.current
     if (!r || r.disposed) return
-    r.switchCamera(dimensions)
+    const from=new Map(r.drawn.map(p=>[p.product.id,r.positionFor(p)])),oldCamera={position:r.camera.position.clone(),target:r.controls.target.clone(),zoom:r.camera.zoom}
+    r.finishMorph();r.cancelFocus();r.switchCamera(dimensions)
+    if(radial)r.focusLocal(true)
+    r.cancelFocus()
+    r.startMorph(from,oldCamera)
     disposeGroup(r.axes)
     setHover(null); r.invalidate()
   }, [universe, dimensions, algorithm, attempt])
@@ -380,66 +430,80 @@ export default forwardRef(function ProjectorCanvas({ products = EMPTY, algorithm
     r.cloud.position.fromArray(origin)
     const neighborIds = new Set(neighbors.map(p => p.id)), groups = [[], [], []]
     let colorMax = 1
+    if(colorBy==='need')colorMax=Math.max(1,...products.map(p=>Number.isFinite(p.need_score)?p.need_score:0))
     if (Number.isInteger(colorBy)) for (const p of products) colorMax = Math.max(colorMax, Number.isFinite(p.scores?.[colorBy]) ? p.scores[colorBy] : 0)
     for (const point of drawn) groups[point.product.id === selected ? 2 : neighborIds.has(point.product.id) ? 1 : 0].push(point)
     groups.forEach((points, index) => {
       if (!points.length) return
-      const positions = new Float32Array(points.length * 3), colors = new Float32Array(points.length * 3),offsets=new Float32Array(points.length*2),color = new THREE.Color()
+      const positions = new Float32Array(points.length * 3), targets=new Float32Array(points.length*3), colors = new Float32Array(points.length * 3),offsets=new Float32Array(points.length*2),color = new THREE.Color()
       points.forEach((point, i) => {
-        positions.set(point.position.map((v,axis)=>v-origin[axis]), i * 3)
-        offsets.set(spreadCoincident?(displayOffsets.get(point.product.id)||[0,0]):[0,0],i*2)
+        const start=r.startPositions?.get(point.product.id)||point.position
+        positions.set(start.map((v,axis)=>v-origin[axis]), i * 3)
+        targets.set(point.position.map((v,axis)=>v-origin[axis]),i*3)
+        offsets.set(effectiveSpread?(displayOffsets.get(point.product.id)||[0,0]):[0,0],i*2)
         color.set(pointColor(point.product, { selected, neighborIds, colorBy, colorMax })); color.toArray(colors, i * 3)
       })
       const geometry = new THREE.BufferGeometry()
       geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3))
+      geometry.setAttribute('morphTarget',new THREE.BufferAttribute(targets,3))
       geometry.setAttribute('displayOffset',new THREE.BufferAttribute(offsets,2))
       geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3))
-      const material = new THREE.PointsMaterial({ size: Math.max(1, Math.min(24, pointSize)) * [1, 1.3, 1.9][index], sizeAttenuation: false,
-        map: r.texture, vertexColors: true, transparent: true, opacity: index ? 1 : selected != null ? .22 : .85,
+      const material = new THREE.PointsMaterial({ size: Math.max(1, Math.min(24, pointSize)) * [radial?.75:1, 1.3, 1.9][index], sizeAttenuation: false,
+        map: r.texture, vertexColors: true, transparent: true, opacity: index ? 1 : radial ? .045 : selected != null ? .22 : .85,
         alphaTest: .1, depthWrite: false, depthTest: index === 0 })
       material.onBeforeCompile=shader=>{
         shader.uniforms.cfzViewport=r.viewportUniform
         shader.uniforms.cfzDepth=r.depthUniform
-        shader.vertexShader=shader.vertexShader.replace('#include <common>','#include <common>\nattribute vec2 displayOffset;\nuniform vec2 cfzViewport;\nuniform vec2 cfzDepth;\nvarying float cfzDepthOpacity;')
+        shader.uniforms.cfzMorph=r.morphUniform
+        shader.vertexShader=shader.vertexShader.replace('#include <common>','#include <common>\nattribute vec2 displayOffset;\nattribute vec3 morphTarget;\nuniform float cfzMorph;\nuniform vec2 cfzViewport;\nuniform vec2 cfzDepth;\nvarying float cfzDepthOpacity;')
+          .replace('#include <begin_vertex>','vec3 transformed = mix(position, morphTarget, cfzMorph);')
           .replace('#include <project_vertex>','#include <project_vertex>\ngl_Position.xy += vec2(displayOffset.x,-displayOffset.y) * 2.0 / cfzViewport * gl_Position.w;\nfloat cfzScale = cfzDepth.y > .5 ? clamp(cfzDepth.x / max(.000001, -mvPosition.z), .65, 1.55) : 1.0;\ncfzDepthOpacity = cfzDepth.y > .5 ? clamp(.4 + .6 * cfzScale, .55, 1.0) : 1.0;')
         shader.vertexShader=shader.vertexShader.replace('gl_PointSize = size;','gl_PointSize = size * cfzScale;')
         shader.fragmentShader=shader.fragmentShader.replace('#include <common>','#include <common>\nvarying float cfzDepthOpacity;').replace('#include <opaque_fragment>','#include <opaque_fragment>\ngl_FragColor.a *= cfzDepthOpacity;')
       }
-      material.customProgramCacheKey=()=> 'projector-display-depth-v2'
+      material.customProgramCacheKey=()=> 'projector-display-morph-v3'
       const mesh = new THREE.Points(geometry, material); mesh.renderOrder = index + 1;mesh.frustumCulled=false
       r.cloud.add(mesh)
     })
     r.invalidate()
   }, [drawn, products, neighbors, selected, pointSize, colorBy, showLabels, labelBy, spreadCoincident,displayOffsets,attempt])
 
-  useEffect(()=>{const r=runtime.current;if(!r)return;if(selected!=null)r.focusLocal();else r.cancelFocus();return()=>r.cancelFocus()},[selected,universe,attempt])
+  useEffect(()=>{const r=runtime.current;if(!r)return;if(selected!=null&&!radial&&!facet)r.focusLocal();else r.cancelFocus();return()=>r.cancelFocus()},[selected,universe,attempt])
 
   useEffect(()=>{runtime.current?.invalidate()},[overlayExpanded])
+
+  useEffect(()=>{
+    const r=runtime.current;if(!r)return;disposeGroup(r.envelope)
+    if(radial&&selected!=null){const radius=basis==='evidence'?Math.max(0,1-threshold)+1e-6:similarityRadius(threshold)
+      const surface=new THREE.Mesh((dimensions===2?new THREE.CircleGeometry(radius,64):new THREE.SphereGeometry(radius,48,32)),new THREE.MeshBasicMaterial({color:'#70a6e6',transparent:true,opacity:.045,depthWrite:false,side:dimensions===2?THREE.DoubleSide:THREE.BackSide}));r.envelope.add(surface)
+      const wire=new THREE.LineSegments((dimensions===2?new THREE.EdgesGeometry(new THREE.CircleGeometry(radius,64)):new THREE.WireframeGeometry(new THREE.SphereGeometry(radius,20,12))),new THREE.LineBasicMaterial({color:'#7caee6',transparent:true,opacity:.11,depthWrite:false}));r.envelope.add(wire)
+    }r.invalidate()
+  },[radial,selected,threshold,basis,dimensions,attempt])
 
   const currentLabelIds = new Set(selected == null ? [] : [selected,...neighbors.map(p=>p.id)])
   const activeLabels = showLabels ? frameInfo.labels.filter(label=>currentLabelIds.has(label.product.id)) : []
 
   return <div ref={root} className="projector-stage" style={ROOT_STYLE} data-testid="projector-stage"
-    data-display-axes={dimensions===3?DISPLAY_AXES.join(','):'1,1,1'} data-camera-motion="idle" data-spread-coincident={spreadCoincident} data-rendered-count={failure ? 0 : drawn.length} data-unplaced-count={universe.missingIds.length} data-dimensions={dimensions} data-algorithm={algorithm}
+    data-transition-state="idle" data-view-kind={radial?'similarity':facet?'need':'overview'} data-sphere-radius={radial?(basis==='evidence'?1-threshold+1e-6:similarityRadius(threshold)):undefined} data-display-axes={dimensions===3&&!radial?DISPLAY_AXES.join(','):'1,1,1'} data-camera-motion="idle" data-spread-coincident={effectiveSpread} data-rendered-count={failure ? 0 : drawn.length} data-unplaced-count={universe.missingIds.length} data-dimensions={dimensions} data-algorithm={algorithm}
     data-camera-revision={frameInfo.revision} data-renderer-state={failure ? 'unavailable' : frameInfo.revision ? 'ready' : 'starting'}>
     <canvas key={attempt} ref={canvas} data-testid="projector-canvas" tabIndex={failure ? -1 : 0} role="img"
       data-rendered-count={failure ? 0 : drawn.length} data-dimensions={dimensions} data-algorithm={algorithm} data-camera-revision={frameInfo.revision}
-      aria-label={`${dimensions}D ${algorithm.toUpperCase()} 产品投影，${drawn.length} 款有坐标产品。${dimensions === 3 ? '拖动旋转' : '拖动平移'}，滚轮缩放。方向键操作视图，Home 复位。全部产品也可通过搜索和列表选择。`}
+      aria-label={`${radial?'原始相似距离范围':facet?`${facet}需求平面`:`${dimensions}D ${algorithm.toUpperCase()} 产品投影`}，${drawn.length} 款有坐标产品。${dimensions === 3 ? '拖动旋转' : '拖动平移'}，滚轮缩放。方向键操作视图，Home 复位。全部产品也可通过搜索和列表选择。`}
       style={{ display:'block', width:'100%', height:'100%', outlineOffset:-3, touchAction:'none', visibility:failure?'hidden':'visible' }}/>
     {!failure && <svg aria-hidden="true" width="100%" height="100%" style={{position:'absolute',inset:0,pointerEvents:'none',zIndex:2}}>
       {frameInfo.spreadLeaders?.map(p=><line key={`spread-${p.product.id}`} x1={p.rawX} y1={p.rawY} x2={p.x} y2={p.y} stroke="#a4adbc" strokeWidth=".6" opacity=".6"/>)}
       {activeLabels.filter(label=>label.leader).map(label=><line key={label.product.id} {...label.leader} stroke={label.product.id===selected?'#96004f':'#b08b45'} strokeWidth=".7" opacity=".65"/>)}
     </svg>}
-    {!failure && !spreadCoincident && frameInfo.badges.map(badge=><button key={badge.key} type="button" className="projector-coincident-badge"
+    {!failure && !effectiveSpread && frameInfo.badges.filter(badge=>!radial||badge.members.some(p=>currentLabelIds.has(p.product.id))).map(badge=><button key={badge.key} type="button" className="projector-coincident-badge"
       data-coincident-count={badge.count} data-testid="projector-coincident-badge"
-      aria-label={`同一投影位置 ${badge.count} 款，展开产品记录。投影位置相同不代表同一产品、配方或原始向量。`}
-      title={`同一投影位置 ${badge.count} 款，点击展开；不代表同一产品、配方或原始向量。`}
-      onClick={()=>latest.current.onCoincident?.(badge.members.map(p=>p.product),{kind:'projection'})}
+      aria-label={`同一显示位置 ${badge.count} 款，展开产品记录。投影位置相同不代表同一产品、配方或原始向量。`}
+      title={`同一显示位置 ${badge.count} 款，点击展开；不代表同一产品、配方或原始向量。`}
+      onClick={()=>latest.current.onCoincident?.(badge.members.map(p=>p.product),{kind:radial?'similarity-position':'projection'})}
       style={{position:'absolute',left:badge.left,top:badge.top,width:badge.width,height:badge.height,zIndex:5,
         border:0,background:'transparent',color:'#555a75',fontFamily:'inherit',fontSize:10,cursor:'pointer',padding:0,whiteSpace:'nowrap',display:'grid',placeItems:'center'}}
     ><span style={{display:'inline-block',border:'1px solid #d3d7e5',borderRadius:12,background:'#fffffff2',padding:'3px 5px',lineHeight:'14px',whiteSpace:'nowrap'}}>{badge.count}款</span></button>)}
-    {!failure && !spreadCoincident && frameInfo.coincidentGroups.length>0 && <button type="button" className="projector-coincident-summary"
-      title="查看当前画面中位于同一投影位置的产品记录组；不代表同配方或相同原始向量。"
+    {!failure && !effectiveSpread && !radial && frameInfo.coincidentGroups.length>0 && <button type="button" className="projector-coincident-summary"
+      title="查看当前画面中位于同一显示位置的产品记录组；不代表同配方或相同原始向量。"
       onClick={()=>{const groups=frameInfo.coincidentGroups.map(group=>group.members.map(p=>p.product));latest.current.onCoincident?.(groups.flat(),{kind:'projection-groups',groups})}}
       style={{position:'absolute',left:14,bottom:14,zIndex:5,border:'1px solid #e3e5ed',background:'#ffffffed',color:'#777c90',fontFamily:'inherit',fontSize:10,padding:'7px 9px',borderRadius:4,cursor:'pointer'}}
     >同位 {frameInfo.coincidentGroups.length} 组 · 查看记录</button>}

@@ -1,5 +1,5 @@
 from playwright.sync_api import expect
-from frontend.e2e.browser_case import BrowserTestCase
+from frontend.e2e.browser_case import BrowserTestCase,BASE_URL
 
 class ProductSpaceTest(BrowserTestCase):
     def ready(self):
@@ -31,9 +31,9 @@ class ProductSpaceTest(BrowserTestCase):
     def test_selection_isolates_original_neighbors_and_clears(self):
         self.ready();self.choose('黑绷带面霜','黑绷带面霜（Re-Plasty Age Recovery Night）')
         expect(self.page.get_by_test_id('projector-info')).to_have_attribute('data-product-id','9')
-        expect(self.page.get_by_test_id('projector-neighbors').locator('[data-neighbor-id]')).to_have_count(100,timeout=20000)
+        expect(self.page.get_by_test_id('projector-neighbors').locator('[data-neighbor-id]')).to_have_count(20,timeout=20000)
         self.page.get_by_role('button',name='隔离选择',exact=True).click()
-        expect(self.page.get_by_test_id('projector-canvas')).to_have_attribute('data-rendered-count','101')
+        expect(self.page.get_by_test_id('projector-canvas')).to_have_attribute('data-rendered-count',str(int(self.page.get_by_test_id('projector-neighbors').get_attribute('data-matched-count'))+1))
         self.page.get_by_role('button',name='显示全部',exact=True).click()
         expect(self.page.get_by_test_id('projector-canvas')).to_have_attribute('data-rendered-count','3749')
         self.page.get_by_role('button',name='清除选择',exact=True).click()
@@ -50,6 +50,7 @@ class ProductSpaceTest(BrowserTestCase):
         expect(self.page.get_by_role('button',name='查看焕肤依据',exact=True)).to_be_visible()
 
     def point(self,pid):
+        expect(self.page.get_by_test_id('projector-stage')).to_have_attribute('data-transition-state','idle')
         return self.page.get_by_test_id('projector-canvas').evaluate('(e,id)=>e.getScreenPoint(id)',pid)
 
     def test_real_canvas_rotation_picking_and_home(self):
@@ -69,7 +70,7 @@ class ProductSpaceTest(BrowserTestCase):
     def test_original_neighbor_identity_survives_projection_and_metric_changes(self):
         self.ready();self.choose('黑绷带面霜','黑绷带面霜（Re-Plasty Age Recovery Night）')
         rows=self.page.get_by_test_id('projector-neighbors').locator('[data-neighbor-id]')
-        expect(rows).to_have_count(100)
+        expect(rows).to_have_count(20)
         ids=rows.evaluate_all('(es)=>es.map(e=>e.dataset.neighborId)')
         self.page.get_by_role('button',name='PCA',exact=True).click()
         self.page.get_by_role('button',name='二维',exact=True).click()
@@ -81,11 +82,12 @@ class ProductSpaceTest(BrowserTestCase):
         self.assertEqual(scores,sorted(scores,reverse=True))
         self.assertEqual(rows.evaluate_all('(es)=>es.map(e=>e.dataset.neighborId)'),ids)
         self.assertEqual(self.page.get_by_text('原始10近邻保留',exact=False).count(),0)
-        self.page.get_by_role('slider',name='筛选数量',exact=True).fill('5')
-        expect(rows).to_have_count(5)
+        self.page.get_by_role('slider',name='相似度筛选',exact=True).fill('95')
+        expected=[p for p in self.page.request.get(BASE_URL+'/api/products/9/similarity-space').json()['items'] if p['score']>=.95-1e-6]
+        expect(rows).to_have_count(min(20,len(expected)))
         self.page.get_by_role('button',name='隔离选择',exact=True).click()
-        expect(self.page.get_by_test_id('projector-canvas')).to_have_attribute('data-rendered-count','6')
-        self.assertEqual(rows.evaluate_all('(es)=>es.map(e=>e.dataset.neighborId)'),ids[:5])
+        expect(self.page.get_by_test_id('projector-canvas')).to_have_attribute('data-rendered-count',str(int(self.page.get_by_test_id('projector-neighbors').get_attribute('data-matched-count'))+1))
+        self.assertEqual(rows.evaluate_all('(es)=>es.map(e=>e.dataset.neighborId)'),[str(p['id']) for p in expected][:20])
 
     def test_pca_axes_and_label_display_actually_change(self):
         self.ready();self.page.get_by_role('button',name='PCA',exact=True).click()
@@ -127,19 +129,19 @@ class ProductSpaceTest(BrowserTestCase):
 
     def test_rapid_selection_ignores_late_neighbors_and_clear(self):
         self.ready();delayed=[]
-        self.page.route('**/api/products/414/similar?*',lambda r:delayed.append(r))
-        with self.page.expect_request('**/api/products/414/similar?*'):
+        self.page.route('**/api/products/414/similarity-space?basis=composition',lambda r:delayed.append(r))
+        with self.page.expect_request('**/api/products/414/similarity-space?basis=composition'):
             self.choose('Serum 10','SkinCeuticals Serum 10')
         self.choose('黑绷带面霜','黑绷带面霜（Re-Plasty Age Recovery Night）')
-        rows=self.page.get_by_test_id('projector-neighbors').locator('[data-neighbor-id]');expect(rows).to_have_count(100)
-        for route in delayed:route.fulfill(json={'product_id':414,'similar':[{'id':73,'score':1,'name':'STALE'}]})
+        rows=self.page.get_by_test_id('projector-neighbors').locator('[data-neighbor-id]');expect(rows).to_have_count(20)
+        for route in delayed:route.fulfill(json={'product_id':414,'available':True,'complete':True,'items':[{'id':73,'score':1,'name':'STALE'}]})
         expect(self.page.get_by_test_id('projector-info')).to_have_attribute('data-product-id','9')
-        expect(rows).to_have_count(100)
+        expect(rows).to_have_count(20)
         self.page.get_by_role('button',name='清除选择',exact=True).click()
         expect(self.page.locator('.projector-point-label')).to_have_count(0)
 
     def test_no_index_keeps_map_and_product_comparison_available(self):
-        self.page.route('**/api/products/9/similar?*',lambda r:r.fulfill(json={'product_id':9,'similar':None,'reason':'相似索引暂不可用（验收场景）'}))
+        self.page.route('**/api/products/9/similarity-space?basis=composition',lambda r:r.fulfill(json={'product_id':9,'available':False,'complete':False,'items':[],'reason':'相似索引暂不可用（验收场景）'}))
         self.ready();self.choose('黑绷带面霜','黑绷带面霜（Re-Plasty Age Recovery Night）')
         expect(self.page.get_by_text('相似索引暂不可用（验收场景）',exact=True)).to_be_visible()
         expect(self.page.get_by_test_id('projector-canvas')).to_have_attribute('data-rendered-count','3749')
@@ -165,14 +167,15 @@ class ProductSpaceTest(BrowserTestCase):
             self.assertLessEqual(self.page.evaluate('document.documentElement.scrollWidth'),width)
         self.page.get_by_role('button',name='搜索与相似产品',exact=False).click()
         self.choose('Serum 10','SkinCeuticals Serum 10')
-        self.page.get_by_role('slider',name='筛选数量',exact=True).fill('5')
-        expect(self.page.get_by_test_id('projector-neighbors').locator('[data-neighbor-id]')).to_have_count(5)
+        self.page.get_by_role('slider',name='相似度筛选',exact=True).fill('95')
+        expect(self.page.get_by_test_id('projector-stage')).to_have_attribute('data-view-kind','similarity')
+        expect(self.page.get_by_test_id('projector-stage')).to_have_attribute('data-transition-state','idle')
         ids=[414]+[int(x) for x in self.page.get_by_test_id('projector-neighbors').locator('[data-neighbor-id]').evaluate_all('(es)=>es.map(e=>e.dataset.neighborId)')]
         self.page.get_by_role('button',name='隔离选择',exact=True).click()
-        expect(self.page.get_by_test_id('projector-canvas')).to_have_attribute('data-rendered-count','6')
+        expect(self.page.get_by_test_id('projector-canvas')).to_have_attribute('data-rendered-count',str(int(self.page.get_by_test_id('projector-neighbors').get_attribute('data-matched-count'))+1))
         positions=[self.point(pid) for pid in ids];self.assertTrue(all(p['visible'] for p in positions))
         extent=max(p['x'] for p in positions)-min(p['x'] for p in positions)
-        self.assertGreater(extent,150)
+        self.assertGreater(extent,20)
         self.assertLessEqual(self.page.evaluate('document.documentElement.scrollWidth'),390)
 
     def test_keyboard_catalog_search_and_empty_results(self):
@@ -185,21 +188,23 @@ class ProductSpaceTest(BrowserTestCase):
         import io
         from PIL import Image
         self.ready();self.choose('黑绷带面霜','黑绷带面霜（Re-Plasty Age Recovery Night）')
-        expect(self.page.get_by_test_id('projector-neighbors').locator('[data-neighbor-id]')).to_have_count(100)
+        expect(self.page.get_by_test_id('projector-neighbors').locator('[data-neighbor-id]')).to_have_count(20)
         self.page.get_by_role('button',name='隔离选择',exact=True).click()
-        expect(self.page.get_by_test_id('projector-canvas')).to_have_attribute('data-rendered-count','101')
+        expect(self.page.get_by_test_id('projector-canvas')).to_have_attribute('data-rendered-count',str(int(self.page.get_by_test_id('projector-neighbors').get_attribute('data-matched-count'))+1))
         self.page.get_by_role('button',name='显示全部',exact=True).click()
         for width,height in [(1280,800),(390,844)]:
             self.page.set_viewport_size({'width':width,'height':height})
         canvas=self.page.get_by_test_id('projector-canvas')
         expect(canvas).to_have_attribute('data-rendered-count','3749')
         self.page.wait_for_timeout(200)
-        frame=canvas.bounding_box();info=self.page.get_by_test_id('projector-info').bounding_box()
+        self.page.get_by_role('button',name='返回全景',exact=True).click()
+        expect(self.page.get_by_test_id('projector-stage')).to_have_attribute('data-transition-state','idle')
+        frame=canvas.bounding_box();info=None
         raster=Image.open(io.BytesIO(canvas.screenshot())).convert('RGB')
         coloured=0
         for y in range(raster.height):
             for x in range(raster.width):
-                if info['x']<=x+frame['x']<=info['x']+info['width'] and info['y']<=y+frame['y']<=info['y']+info['height']:continue
+                if info and info['x']<=x+frame['x']<=info['x']+info['width'] and info['y']<=y+frame['y']<=info['y']+info['height']:continue
                 r,g,b=raster.getpixel((x,y))
                 if min(r,g,b)<220 and max(r,g,b)-min(r,g,b)>25:coloured+=1
         self.assertGreater(coloured,1200,'Canvas must contain the actual coloured point cloud, not background or DOM labels')

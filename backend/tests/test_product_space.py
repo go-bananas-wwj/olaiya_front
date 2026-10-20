@@ -81,7 +81,7 @@ def test_fixed_query_count_etag_and_commit_invalidation(client,session,data):
     event.listen(engine,'before_cursor_execute',record)
     try:
         r=client.get('/api/product-space');assert r.status_code==200
-        assert len(selects)<=4
+        assert len(selects)<=5
         tag=r.headers['etag'];selects.clear()
         cached=client.get('/api/product-space',headers={'If-None-Match':tag})
         assert cached.status_code==304 and not cached.content
@@ -237,3 +237,23 @@ def test_projection_exposes_index_identity_for_bound_family_colours(client,sessi
     content=projector_bundle(session,data[0]);content['source_index_sha256']='a'*64
     pin_bundle(content,tmp_path,monkeypatch)
     assert client.get('/api/product-space').json()['projection']['source_index_sha256']=='a'*64
+
+
+def test_declared_directions_do_not_create_evidence_scores(client,session,data):
+    from app.models.product import ProductClaim
+    product=data[0][2]
+    session.add(ProductClaim(product_id=product.id,claim='保湿、修护'));session.commit()
+    item=next(p for p in client.get('/api/product-space').json()['products'] if p['id']==product.id)
+    assert set(item['declared_directions'])=={'保湿','修护'}
+    assert all(score is None for score in item['scores'])
+
+
+def test_full_similarity_api_keeps_native_scores_and_filters_orphans(client,monkeypatch,data):
+    import app.main as main
+    ids=[p.id for p in data[0]]
+    monkeypatch.setattr(main,'product_similarity_space',lambda pid:{'product_id':pid,'available':True,'complete':True,'items':[{'id':ids[1],'score':.8754321},{'id':999999,'score':1}],'candidate_count':2})
+    result=client.get(f'/api/products/{ids[0]}/similarity-space').json()
+    assert result['items']==[{'id':ids[1],'score':.8754321}]
+    assert result['candidate_count']==1
+    assert client.get('/api/products/999999/similarity-space').status_code==404
+    assert client.get(f'/api/products/{ids[0]}/similarity-space?basis=bogus').status_code==422
