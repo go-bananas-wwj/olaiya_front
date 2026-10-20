@@ -231,3 +231,9 @@ def test_legacy_layout_cannot_claim_three_dimensional_coordinates(client,session
     assert payload['projection']['umap_3d']['status']==payload['projection']['pca']['status']=='unavailable'
     assert payload['coordinate_count_3d']==payload['pca_coordinate_count']==0
     assert all(p['coordinates_3d'] is None and p['pca_coordinates'] is None for p in payload['products'])
+
+
+def test_projection_exposes_index_identity_for_bound_family_colours(client,session,data,tmp_path,monkeypatch):
+    content=projector_bundle(session,data[0]);content['source_index_sha256']='a'*64
+    pin_bundle(content,tmp_path,monkeypatch)
+    assert client.get('/api/product-space').json()['projection']['source_index_sha256']=='a'*64

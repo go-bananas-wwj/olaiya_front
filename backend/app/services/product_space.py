@@ -177,6 +177,7 @@ def _layout(signature, product_ids):
             'status': 'ready', 'method': 'ingredient-umap-v1',
             'artifact_version':data['version'], 'umap_3d':umap_meta, 'pca':pca_meta,
             'input_dimensions': data.get('input_dimensions'),
+            'source_index_sha256': data.get('source_index_sha256'),
             'parameters': {k: parameters[k] for k in ('n_neighbors', 'min_dist', 'random_state', 'metric') if k in parameters},
             'quality': {k: quality[k] for k in ('neighbor_recall_10', 'sample_size', 'trustworthiness') if k in quality},
             'note': '成分表语义的二维投影，只用于探索；距离、方向与群落大小不代表配比、功效或质量。相似候选按原始向量核验。',

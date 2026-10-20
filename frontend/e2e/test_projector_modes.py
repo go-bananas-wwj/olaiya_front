@@ -22,8 +22,8 @@ class ProjectorModesTest(BrowserTestCase):
         self.ready()
         self.choose('科瑞肤多维智效修护面霜（莹润型）','科瑞肤多维智效修护面霜（莹润型）')
         expect(self.page.get_by_test_id('projector-info')).to_contain_text('莹润型')
-        expect(self.page.get_by_test_id('distance-explanation')).to_contain_text('越小越接近')
-        expect(self.page.get_by_test_id('distance-heading')).to_contain_text('余弦距离')
+        expect(self.page.get_by_test_id('distance-heading')).to_contain_text('由高到低')
+        expect(self.page.get_by_test_id('distance-heading')).to_contain_text('成分相似度')
 
     def test_evidence_missing_directions_do_not_become_zero_or_fake_points(self):
         self.ready()
@@ -46,7 +46,7 @@ class ProjectorModesTest(BrowserTestCase):
         expect(rows).to_have_count(38)
         expected=self.page.request.get(f"{BASE_URL}/api/products/{chosen['id']}/evidence-space-neighbors?limit=100").json()['items']
         self.assertEqual(rows.evaluate_all('(es)=>es.map(e=>Number(e.dataset.neighborId))'),[p['id'] for p in expected])
-        expect(self.page.get_by_test_id('distance-heading')).to_contain_text('八方向证据距离')
+        expect(self.page.get_by_test_id('distance-heading')).to_contain_text('证据画像相似度')
         self.page.get_by_role('button',name='二维',exact=True).click()
         self.assertEqual(rows.evaluate_all('(es)=>es.map(e=>Number(e.dataset.neighborId))'),[p['id'] for p in expected])
         rows.first.get_by_role('button',name='比较这两款',exact=True).click()
@@ -69,7 +69,7 @@ class ProjectorModesTest(BrowserTestCase):
             route.fulfill(json={'product_id':chosen['id'],'similar':[{'id':9,'score':1}]})
         self.page.wait_for_timeout(100)
         self.assertEqual(rows.evaluate_all('(es)=>es.map(e=>e.dataset.neighborId)'),ids)
-        expect(self.page.get_by_test_id('distance-heading')).to_contain_text('八方向证据距离')
+        expect(self.page.get_by_test_id('distance-heading')).to_contain_text('证据画像相似度')
 
     def test_evidence_failure_preserves_semantic_map_and_two_product_comparison(self):
         self.ready()

@@ -21,3 +21,15 @@ export function visibleCount(products, algorithm, dimensions, isolated, selected
   const visible = isolated ? new Set([selected, ...neighbors.map(p => p.id)]) : null
   return products.filter(p => (!visible || visible.has(p.id)) && coordinatesFor(p, algorithm, dimensions, axes)).length
 }
+
+// Native cosine similarity. Evidence RMS distance is bounded to [0, 1] by
+// its shared per-axis scaling; its complement is a separate profile similarity.
+export function modeSimilarity(product, mode) {
+  const value = mode === 'evidence' ? product.distance : product.score
+  if (!Number.isFinite(value)) return null
+  if (mode === 'evidence') return value >= 0 && value <= 1 ? 1 - value : null
+  return Math.max(-1, Math.min(1, value))
+}
+export function similarityOrder(products, mode) {
+  return [...products].sort((a,b)=>(modeSimilarity(b,mode)??-Infinity)-(modeSimilarity(a,mode)??-Infinity))
+}

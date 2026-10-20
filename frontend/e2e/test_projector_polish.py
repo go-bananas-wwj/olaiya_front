@@ -18,8 +18,10 @@ class ProjectorPolishTest(BrowserTestCase):
         self.assertNotIn('绿色突出',side.inner_text())
         color=side.locator('.projector-need-intro').evaluate('e=>getComputedStyle(e).backgroundColor')
         self.assertIn(color,['rgb(255, 255, 255)','rgb(249, 250, 252)'])
-        expect(self.page.get_by_test_id('projector-paper-axes')).to_contain_text('UMAP 1')
-        expect(self.page.get_by_test_id('projector-paper-axes')).to_contain_text('UMAP 3')
+        expect(self.page.get_by_test_id('projector-paper-axes')).to_have_count(0)
+        expect(self.page.locator('.projector-toolbar-stat,.projector-paper-legend,.projector-plot-footer')).to_have_count(0)
+        expect(self.page.get_by_role('region',name='成分群组')).to_be_visible()
+        self.assertNotEqual(self.page.locator('.projector-center').evaluate('e=>getComputedStyle(e).backgroundImage'),'none')
 
     def test_spread_points_are_individually_drawn_at_their_hit_targets_and_source_coords_stay_equal(self):
         self.ready();data=self.page.request.get(BASE_URL+'/api/product-space').json();groups={}
@@ -58,3 +60,49 @@ class ProjectorPolishTest(BrowserTestCase):
         self.page.mouse.click(point['clientX'],point['clientY'])
         expect(self.page.get_by_test_id('projector-info')).to_be_visible()
         expect(self.page.get_by_role('dialog',name='重叠位置的产品')).to_have_count(0)
+
+    def test_selection_smoothly_focuses_and_caps_visible_names(self):
+        self.ready();stage=self.page.get_by_test_id('projector-stage')
+        before=float(stage.get_attribute('data-camera-distance'))
+        self.page.get_by_role('combobox',name='搜索全部产品').fill('黑绷带面霜')
+        self.page.get_by_role('option',name='选择 黑绷带面霜（Re-Plasty Age Recovery Night）',exact=True).click()
+        expect(stage).to_have_attribute('data-camera-motion','focusing')
+        expect(stage).to_have_attribute('data-camera-motion','idle')
+        self.assertLess(float(stage.get_attribute('data-camera-distance')),before*.7)
+        point=self.page.get_by_test_id('projector-canvas').evaluate('e=>e.getScreenPoint(9)')
+        self.assertTrue(point['visible'])
+        expect(self.page.locator('.projector-point-label.is-selected')).to_be_visible()
+        self.assertLessEqual(self.page.locator('.projector-point-label').count(),4)
+        self.page.get_by_role('button',name='重置视角',exact=True).click()
+        self.page.wait_for_function("(expected)=>Math.abs(Number(document.querySelector('[data-testid=projector-stage]').dataset.cameraDistance)-expected)<.001",arg=before)
+
+    def test_reduced_motion_and_drag_cancel_focus(self):
+        self.ready();stage=self.page.get_by_test_id('projector-stage')
+        self.page.emulate_media(reduced_motion='reduce')
+        search=self.page.get_by_role('combobox',name='搜索全部产品');search.fill('Serum 10')
+        self.page.get_by_role('option',name='选择 SkinCeuticals Serum 10',exact=True).click()
+        expect(stage).to_have_attribute('data-camera-motion','idle')
+        self.page.emulate_media(reduced_motion='no-preference');search.fill('黑绷带面霜')
+        self.page.get_by_role('option',name='选择 黑绷带面霜（Re-Plasty Age Recovery Night）',exact=True).click()
+        expect(stage).to_have_attribute('data-camera-motion','focusing')
+        canvas=self.page.get_by_test_id('projector-canvas');box=canvas.bounding_box()
+        self.page.mouse.move(box['x']+60,box['y']+box['height']-80);self.page.mouse.down()
+        self.page.mouse.move(box['x']+100,box['y']+box['height']-90);self.page.mouse.up()
+        expect(stage).to_have_attribute('data-camera-motion','idle')
+
+    def test_mobile_card_starts_compact_and_can_expand_details_without_covering_labels(self):
+        self.page.set_viewport_size({'width':390,'height':844});self.ready()
+        self.page.get_by_role('button',name='搜索与相似产品',exact=False).click()
+        self.page.get_by_role('combobox',name='搜索全部产品').fill('黑绷带面霜')
+        self.page.get_by_role('option',name='选择 黑绷带面霜（Re-Plasty Age Recovery Night）',exact=True).click()
+        self.page.get_by_role('button',name='关闭搜索与相似产品',exact=True).click()
+        card=self.page.get_by_test_id('projector-info');heading=card.locator('.projector-info-heading')
+        expect(heading).to_have_attribute('aria-expanded','false')
+        self.assertLess(card.bounding_box()['height'],80)
+        expect(self.page.get_by_test_id('projector-stage')).to_have_attribute('data-camera-motion','idle')
+        heading.click();expect(heading).to_have_attribute('aria-expanded','true')
+        expect(card.get_by_role('button',name='成分与证据',exact=True)).to_be_visible()
+        self.page.wait_for_timeout(100)
+        for rect in self.page.locator('.projector-point-label').evaluate_all('(es)=>es.map(e=>{const r=e.getBoundingClientRect();return {left:r.left,top:r.top,right:r.right,bottom:r.bottom}})'):
+            c=card.bounding_box()
+            self.assertTrue(rect['right']<=c['x'] or rect['left']>=c['x']+c['width'] or rect['bottom']<=c['y'] or rect['top']>=c['y']+c['height'])

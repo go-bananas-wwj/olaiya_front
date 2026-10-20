@@ -1,3 +1,4 @@
+import { FAMILY_COLORS } from './compositionFamilies.mjs'
 // Projection geometry only. Evidence indices are metadata, never replacement coordinates.
 export function coordinatesFor(product, algorithm = 'umap', dimensions = 2, axisOrder = [0, 1, 2]) {
   if (![2, 3].includes(dimensions) || !['umap', 'pca'].includes(algorithm)) return null
@@ -44,6 +45,7 @@ export function screenHits(points, x, y, radius = 9) {
 const BRAND_COLORS = ['#5f6bc4', '#49a197', '#c67c45', '#ac60ad', '#759b41', '#508dbd', '#be6983', '#a18e40']
 export function pointColor(product, { selected = null, neighborIds = new Set(), colorBy = 'none', colorMax = 1 } = {}) {
   if (product.id === selected) return '#96004f'
+  if (colorBy === 'family') return FAMILY_COLORS[product.composition_family] || '#b2b8c8'
   if (neighborIds.has(product.id)) return '#e9a023'
   if (selected != null) return '#c8c8cc'
   if(colorBy==='sample'&&product.id!==selected&&!neighborIds.has(product.id))return product.selection_sample&&product.category==='面霜'?'#596bb0':'#9da5b4'

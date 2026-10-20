@@ -75,10 +75,13 @@ class ProductSpaceTest(BrowserTestCase):
         self.page.get_by_role('button',name='二维',exact=True).click()
         expect(self.page.get_by_test_id('projector-canvas')).to_have_attribute('data-algorithm','pca')
         self.assertEqual(rows.evaluate_all('(es)=>es.map(e=>e.dataset.neighborId)'),ids)
-        self.page.get_by_role('button',name='EUCLIDEAN',exact=True).click()
+        expect(self.page.get_by_test_id('distance-heading')).to_contain_text('成分相似度')
+        values=rows.locator('.projector-neighbor-main>span').all_text_contents()
+        scores=[float(v.rstrip('%')) for v in values]
+        self.assertEqual(scores,sorted(scores,reverse=True))
         self.assertEqual(rows.evaluate_all('(es)=>es.map(e=>e.dataset.neighborId)'),ids)
         self.assertEqual(self.page.get_by_text('原始10近邻保留',exact=False).count(),0)
-        self.page.get_by_role('slider',name='近邻数量',exact=True).fill('5')
+        self.page.get_by_role('slider',name='筛选数量',exact=True).fill('5')
         expect(rows).to_have_count(5)
         self.page.get_by_role('button',name='隔离选择',exact=True).click()
         expect(self.page.get_by_test_id('projector-canvas')).to_have_attribute('data-rendered-count','6')
@@ -160,9 +163,9 @@ class ProductSpaceTest(BrowserTestCase):
         for width,height in [(834,900),(390,844)]:
             self.page.set_viewport_size({'width':width,'height':height})
             self.assertLessEqual(self.page.evaluate('document.documentElement.scrollWidth'),width)
-        self.page.get_by_role('button',name='搜索与近邻',exact=False).click()
+        self.page.get_by_role('button',name='搜索与相似产品',exact=False).click()
         self.choose('Serum 10','SkinCeuticals Serum 10')
-        self.page.get_by_role('slider',name='近邻数量',exact=True).fill('5')
+        self.page.get_by_role('slider',name='筛选数量',exact=True).fill('5')
         expect(self.page.get_by_test_id('projector-neighbors').locator('[data-neighbor-id]')).to_have_count(5)
         ids=[414]+[int(x) for x in self.page.get_by_test_id('projector-neighbors').locator('[data-neighbor-id]').evaluate_all('(es)=>es.map(e=>e.dataset.neighborId)')]
         self.page.get_by_role('button',name='隔离选择',exact=True).click()

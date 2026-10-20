@@ -1,12 +1,12 @@
 import { forwardRef, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react'
 import * as THREE from 'three'
-import { coincidentDisplayOffsets, paperAxes, axisNumber, nearestVisiblePoint } from './projectorPresentation.mjs'
+import { coincidentDisplayOffsets, paperAxes, nearestVisiblePoint } from './projectorPresentation.mjs'
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
 import { normalizeUniverse, visibleProducts, screenHits, pointColor, layoutLabels, fitPerspective, groupCoincidentPoints, layoutCoincidentBadges } from './projectorGeometry.mjs'
 
 const EMPTY = []
 const DEFAULT_AXES = [0, 1, 2]
-const ROOT_STYLE = { position: 'relative', width: '100%', height: '100%', minHeight: 220, overflow: 'hidden', background: '#fff' }
+const ROOT_STYLE = { position: 'relative', width: '100%', height: '100%', minHeight: 220, overflow: 'hidden', background: 'transparent' }
 const OVERLAY_STYLE = { position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', padding: 28, gap: 12, textAlign: 'center', background: '#fff', color: '#555', fontSize: 13 }
 
 function circleTexture() {
@@ -32,7 +32,7 @@ function disposeGroup(group) {
 // Each frame is requested by a data/camera/resize event. There is no idle animation loop.
 export default forwardRef(function ProjectorCanvas({ products = EMPTY, algorithm = 'umap', dimensions = 2,
   selected = null, neighbors = EMPTY, isolated = false, pointSize = 6, colorBy = 'none', showLabels = true, labelBy = 'name', axisOrder = DEFAULT_AXES,
-  onSelect, onCoincident, spreadCoincident = true }, ref) {
+  onSelect, onCoincident, spreadCoincident = true, overlayExpanded = true }, ref) {
   const root = useRef(null), canvas = useRef(null), runtime = useRef(null)
   const [attempt, setAttempt] = useState(0), [failure, setFailure] = useState(null)
   const [frameInfo, setFrameInfo] = useState({ revision: 0, labels: [], badges: [], coincidentGroups: [], axisLabels: [], spreadLeaders: [] })
@@ -54,10 +54,10 @@ export default forwardRef(function ProjectorCanvas({ products = EMPTY, algorithm
 
   useEffect(() => {
     let renderer
-    try { renderer = new THREE.WebGLRenderer({ canvas: canvas.current, antialias: true, alpha: false, powerPreference: 'low-power', preserveDrawingBuffer:true }) }
+    try { renderer = new THREE.WebGLRenderer({ canvas: canvas.current, antialias: true, alpha: true, powerPreference: 'low-power', preserveDrawingBuffer:true }) }
     catch { setFailure('当前浏览器无法启用 WebGL 图形渲染。'); return }
     setFailure(null)
-    renderer.setClearColor(0xffffff, 1)
+    renderer.setClearColor(0xffffff, 0)
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2))
     const scene = new THREE.Scene(), cloud = new THREE.Group(), axes = new THREE.Group(), texture = circleTexture()
     const labelMeasure = document.createElement('canvas').getContext('2d')
@@ -87,28 +87,6 @@ export default forwardRef(function ProjectorCanvas({ products = EMPTY, algorithm
       const v=new THREE.Vector3(...position).project(r.camera)
       return {x:(v.x+1)*r.width/2,y:(1-v.y)*r.height/2,depth:v.z}
     }
-    r.axisAnnotations=()=>{
-      if(!r.axes.visible)return []
-      const spec=latest.current.axisSpec
-      if(!spec.edges.length)return []
-      const center=r.projectPosition(spec.bounds.map(b=>(b[0]+b[1])/2)),labels=[]
-      for(const edge of spec.edges){
-        const a=r.projectPosition(edge.start),b=r.projectPosition(edge.end),dx=b.x-a.x,dy=b.y-a.y,length=Math.hypot(dx,dy)
-        if(length<26)continue
-        const mid={x:(a.x+b.x)/2,y:(a.y+b.y)/2},perp=[-dy/length,dx/length]
-        if((mid.x-center.x)*perp[0]+(mid.y-center.y)*perp[1]<0){perp[0]*=-1;perp[1]*=-1}
-        let angle=Math.atan2(dy,dx)*180/Math.PI
-        if(angle>90)angle-=180;if(angle< -90)angle+=180
-        labels.push({key:`axis-${edge.axis}`,kind:'name',text:edge.label,x:mid.x+perp[0]*36,y:mid.y+perp[1]*36,angle})
-        for(const [i,tick] of edge.ticks.entries()){
-          const p=r.projectPosition(tick.position)
-          if(p.depth< -1||p.depth>1)continue
-          labels.push({key:`tick-${edge.axis}-${i}`,kind:'tick',text:axisNumber(tick.value),x:p.x+perp[0]*13,y:p.y+perp[1]*13,
-            mark:{x1:p.x,y1:p.y,x2:p.x+perp[0]*4,y2:p.y+perp[1]*4}})
-        }
-      }
-      return labels.filter(l=>Number.isFinite(l.x)&&Number.isFinite(l.y)&&l.x>5&&l.y>5&&l.x<r.width-5&&l.y<r.height-5)
-    }
     // This DOM method exposes the same actual projection as the React ref for browser acceptance tests.
     canvas.current.getScreenPoint = r.getScreenPoint
     r.paint = () => {
@@ -116,25 +94,28 @@ export default forwardRef(function ProjectorCanvas({ products = EMPTY, algorithm
         if (r.disposed || !r.camera || renderer.getContext().isContextLost()) return
         r.syncClip()
         renderer.render(scene, r.camera)
+        root.current?.setAttribute('data-camera-distance',r.camera.position.distanceTo(r.controls.target).toFixed(6))
         const props = latest.current
         const neighborIds = new Set(props.neighbors.map(p => p.id))
         const rank = new Map(props.neighbors.map((p,i)=>[p.id,i]))
         const screenPoints=r.drawn.map(r.project).filter(p=>p?.visible)
         const groups = props.spreadCoincident?screenPoints.map(p=>({key:String(p.product.id),members:[p]})):groupCoincidentPoints(screenPoints)
-        const axisLabels=r.axisAnnotations()
+        const axisLabels=[]
         const projected = props.showLabels && props.selected != null ? groups.map(group=>{
           const members=[...group.members].sort((a,b)=>Number(b.product.id===props.selected)-Number(a.product.id===props.selected)
             || (rank.get(a.product.id)??Infinity)-(rank.get(b.product.id)??Infinity))
           return {...members[0],members:group.members,coincidentCount:group.members.length}
         }).filter(p=>p.product.id===props.selected||neighborIds.has(p.product.id))
           .sort((a,b)=>Number(b.product.id===props.selected)-Number(a.product.id===props.selected)
-            || (rank.get(a.product.id)??Infinity)-(rank.get(b.product.id)??Infinity)).slice(0,101) : []
+            || (rank.get(a.product.id)??Infinity)-(rank.get(b.product.id)??Infinity)).slice(0,4) : []
         const fontFamily = getComputedStyle(root.current).fontFamily
         const labelOptions={width:r.width,height:r.height,selected:props.selected,pointSize:props.pointSize,labelBy:props.labelBy,
           separateIdentities:props.spreadCoincident,measure:labelMeasure?(text,fontSize,primary)=>{labelMeasure.font=`${primary?600:400} ${fontSize}px ${fontFamily}`;return labelMeasure.measureText(text).width}:undefined}
-        const primaryLabels=layoutLabels(projected,{...labelOptions,onlySelected:true})
-        const badges=props.spreadCoincident?[]:layoutCoincidentBadges(groups,{width:r.width,height:r.height,selected:props.selected,neighborIds,reserved:primaryLabels})
-        const labels=layoutLabels(projected,{...labelOptions,reserved:badges})
+        const card=root.current.parentElement?.querySelector('.projector-info')?.getBoundingClientRect(),area=root.current.getBoundingClientRect()
+        const overlays=card?[{left:card.left-area.left,top:card.top-area.top,width:card.width,height:card.height}]:[]
+        const primaryLabels=layoutLabels(projected,{...labelOptions,onlySelected:true,reserved:overlays})
+        const badges=props.spreadCoincident?[]:layoutCoincidentBadges(groups,{width:r.width,height:r.height,selected:props.selected,neighborIds,reserved:[...primaryLabels,...overlays]})
+        const labels=layoutLabels(projected,{...labelOptions,reserved:[...badges,...overlays]})
         setFrameInfo(old => ({ revision: old.revision + 1, labels, badges, coincidentGroups:groups.filter(group=>group.members.length>1),axisLabels,
           spreadLeaders:props.spreadCoincident?screenPoints.filter(p=>Math.hypot(...p.displayOffset)>.1):[] }))
     }
@@ -167,8 +148,9 @@ export default forwardRef(function ProjectorCanvas({ products = EMPTY, algorithm
     }
     r.reset = () => {
       if (!r.camera || r.disposed) return
-      r.framingPoints = [...latest.current.universe.points,...latest.current.axisSpec.corners.map(position=>({position}))]
-      r.frameMode = 'universe'; r.axes.visible = !latest.current.isolated
+      r.cancelFocus?.()
+      r.framingPoints = latest.current.universe.points
+      r.frameMode = 'universe'; r.axes.visible = false
       r.controls.target.set(0, 0, 0)
       if (r.dimensions === 2) { r.camera.position.set(0, 0, 5); r.camera.up.set(0, 1, 0); r.camera.zoom = 1 }
       else {
@@ -191,9 +173,11 @@ export default forwardRef(function ProjectorCanvas({ products = EMPTY, algorithm
       r.controls.mouseButtons.LEFT = dims === 2 ? THREE.MOUSE.PAN : THREE.MOUSE.ROTATE
       r.controls.touches.ONE = dims === 2 ? THREE.TOUCH.PAN : THREE.TOUCH.ROTATE
       r.controls.addEventListener('change', r.invalidate)
+      r.controls.addEventListener('start',()=>r.cancelFocus?.())
       r.reset()
     }
     r.zoom = factor => {
+      r.cancelFocus?.()
       if (!Number.isFinite(factor) || factor <= 0 || !r.camera || r.disposed) return
       if (r.dimensions === 2) r.camera.zoom = THREE.MathUtils.clamp(r.camera.zoom * factor, .08, 1e9)
       else {
@@ -204,6 +188,7 @@ export default forwardRef(function ProjectorCanvas({ products = EMPTY, algorithm
       r.camera.updateProjectionMatrix(); r.controls.update(); r.invalidate()
     }
     r.focusSelection = () => {
+      r.cancelFocus?.()
       if (!r.camera || r.disposed) return
       const props = latest.current, ids = new Set(props.neighbors.map(p => p.id))
       if (props.selected != null) ids.add(props.selected)
@@ -225,11 +210,48 @@ export default forwardRef(function ProjectorCanvas({ products = EMPTY, algorithm
       }
       r.syncClip();r.camera.updateProjectionMatrix(); r.controls.update(); r.invalidate()
     }
+    r.cancelFocus = () => {
+      if(r.motionRequest!=null)cancelAnimationFrame(r.motionRequest)
+      r.motionRequest=null
+      root.current?.setAttribute('data-camera-motion','idle')
+    }
+    r.focusLocal = () => {
+      r.cancelFocus()
+      const point=latest.current.universe.byId.get(latest.current.selected)
+      if(!point||!r.camera)return
+      const center=new THREE.Vector3(...point.position)
+      const nearest=latest.current.universe.points.map(p=>new THREE.Vector3(...p.position).distanceTo(center)).sort((a,b)=>a-b)
+      // The camera explores a bounded local region; semantic neighbours and
+      // source coordinates stay untouched. A floor handles coincident vectors.
+      const radius=Math.max(.12,Math.min(.42,(nearest[Math.min(16,nearest.length-1)]||0)*1.4))
+      const startPosition=r.camera.position.clone(), startTarget=r.controls.target.clone(), startZoom=r.camera.zoom
+      const direction=startPosition.clone().sub(startTarget).normalize()
+      const targetPosition=r.dimensions===2?center.clone().add(new THREE.Vector3(0,0,5)):
+        center.clone().add(direction.multiplyScalar(radius/Math.sin(THREE.MathUtils.degToRad(r.camera.fov/2))/Math.min(1,r.width/r.height)))
+      const targetZoom=r.dimensions===2?Math.min(r.camera.right-r.camera.left,r.camera.top-r.camera.bottom)/(radius*2.6):1
+      r.frameMode='local'
+      r.framingPoints=[{position:center.clone().addScalar(-radius).toArray()},{position:center.clone().addScalar(radius).toArray()}]
+      const duration=window.matchMedia('(prefers-reduced-motion: reduce)').matches?0:640
+      const start=performance.now()
+      root.current?.setAttribute('data-camera-motion','focusing')
+      const step=now=>{
+        if(r.disposed)return
+        const t=duration?Math.min(1,(now-start)/duration):1, eased=t*t*(3-2*t)
+        r.camera.position.lerpVectors(startPosition,targetPosition,eased)
+        r.controls.target.lerpVectors(startTarget,center,eased)
+        r.camera.zoom=startZoom+(targetZoom-startZoom)*eased
+        r.camera.updateProjectionMatrix();r.controls.update();r.invalidate()
+        if(t<1)r.motionRequest=requestAnimationFrame(step)
+        else {r.motionRequest=null;root.current?.setAttribute('data-camera-motion','idle')}
+      }
+      if(duration)r.motionRequest=requestAnimationFrame(step);else step(start)
+    }
     r.switchCamera(latest.current.dimensions)
     let measured = false
     r.observer = new ResizeObserver(entries => {
       const { width, height } = entries[0].contentRect
       if (width <= 0 || height <= 0 || r.disposed) return
+      r.cancelFocus?.()
       const oldAspect = r.width / r.height
       r.width = width; r.height = height;r.viewportUniform.value.set(width,height)
       renderer.setSize(width, height, false); r.updateFrustum()
@@ -282,6 +304,7 @@ export default forwardRef(function ProjectorCanvas({ products = EMPTY, algorithm
     const onLeave = () => setHover(null)
     const onCancel = () => { down = null; setHover(null) }
     const onKey = event => {
+      if(['+','=','-','Home','ArrowLeft','ArrowRight','ArrowUp','ArrowDown'].includes(event.key))r.cancelFocus()
       if (['+', '=', '-', 'Home'].includes(event.key)) {
         event.preventDefault(); event.key === 'Home' ? r.reset() : r.zoom(event.key === '-' ? 1/1.3 : 1.3); return
       }
@@ -307,6 +330,7 @@ export default forwardRef(function ProjectorCanvas({ products = EMPTY, algorithm
     const element = canvas.current
     listeners.forEach(([name, listener]) => element.addEventListener(name, listener))
     return () => {
+      r.cancelFocus()
       r.disposed = true
       if (r.request != null) cancelAnimationFrame(r.request)
       r.observer.disconnect(); r.controls.dispose()
@@ -325,13 +349,6 @@ export default forwardRef(function ProjectorCanvas({ products = EMPTY, algorithm
     if (!r || r.disposed) return
     r.switchCamera(dimensions)
     disposeGroup(r.axes)
-    for(const kind of ['grid','frame']){
-      const segments=axisSpec.segments.filter(line=>line.kind===kind)
-      if(!segments.length)continue
-      const geometry=new THREE.BufferGeometry().setFromPoints(segments.flatMap(line=>[new THREE.Vector3(...line.a),new THREE.Vector3(...line.b)]))
-      const material=new THREE.LineBasicMaterial({color:kind==='grid'?'#e1e5eb':'#909baa',transparent:true,opacity:kind==='grid'?.6:.8,depthWrite:false})
-      const lines=new THREE.LineSegments(geometry,material);lines.renderOrder=0;r.axes.add(lines)
-    }
     setHover(null); r.invalidate()
   }, [universe, dimensions, algorithm, attempt])
 
@@ -340,7 +357,7 @@ export default forwardRef(function ProjectorCanvas({ products = EMPTY, algorithm
     if (!r || r.disposed) return
     disposeGroup(r.cloud)
     r.drawn = drawn
-    r.axes.visible = !isolated && r.frameMode !== 'selection'
+    r.axes.visible = false
     // Keeping tight selected neighborhoods near a local origin prevents GPU
     // Float32 cancellation at high zoom without altering any world coordinate.
     const origin=universe.byId.get(selected)?.position||[0,0,0]
@@ -362,7 +379,7 @@ export default forwardRef(function ProjectorCanvas({ products = EMPTY, algorithm
       geometry.setAttribute('displayOffset',new THREE.BufferAttribute(offsets,2))
       geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3))
       const material = new THREE.PointsMaterial({ size: Math.max(1, Math.min(24, pointSize)) * [1, 1.3, 1.9][index], sizeAttenuation: false,
-        map: r.texture, vertexColors: true, transparent: true, opacity: index ? .95 : selected != null ? .5 : .65,
+        map: r.texture, vertexColors: true, transparent: true, opacity: index ? 1 : selected != null ? .22 : .85,
         alphaTest: .1, depthWrite: false, depthTest: index === 0 })
       material.onBeforeCompile=shader=>{
         shader.uniforms.cfzViewport=r.viewportUniform
@@ -376,11 +393,15 @@ export default forwardRef(function ProjectorCanvas({ products = EMPTY, algorithm
     r.invalidate()
   }, [drawn, products, neighbors, selected, pointSize, colorBy, showLabels, labelBy, spreadCoincident,displayOffsets,attempt])
 
+  useEffect(()=>{const r=runtime.current;if(!r)return;if(selected!=null)r.focusLocal();else r.cancelFocus();return()=>r.cancelFocus()},[selected,universe,attempt])
+
+  useEffect(()=>{runtime.current?.invalidate()},[overlayExpanded])
+
   const currentLabelIds = new Set(selected == null ? [] : [selected,...neighbors.map(p=>p.id)])
   const activeLabels = showLabels ? frameInfo.labels.filter(label=>currentLabelIds.has(label.product.id)) : []
 
   return <div ref={root} className="projector-stage" style={ROOT_STYLE} data-testid="projector-stage"
-    data-spread-coincident={spreadCoincident} data-rendered-count={failure ? 0 : drawn.length} data-unplaced-count={universe.missingIds.length} data-dimensions={dimensions} data-algorithm={algorithm}
+    data-camera-motion="idle" data-spread-coincident={spreadCoincident} data-rendered-count={failure ? 0 : drawn.length} data-unplaced-count={universe.missingIds.length} data-dimensions={dimensions} data-algorithm={algorithm}
     data-camera-revision={frameInfo.revision} data-renderer-state={failure ? 'unavailable' : frameInfo.revision ? 'ready' : 'starting'}>
     <canvas key={attempt} ref={canvas} data-testid="projector-canvas" tabIndex={failure ? -1 : 0} role="img"
       data-rendered-count={failure ? 0 : drawn.length} data-dimensions={dimensions} data-algorithm={algorithm} data-camera-revision={frameInfo.revision}
@@ -389,10 +410,6 @@ export default forwardRef(function ProjectorCanvas({ products = EMPTY, algorithm
     {!failure && <svg aria-hidden="true" width="100%" height="100%" style={{position:'absolute',inset:0,pointerEvents:'none',zIndex:2}}>
       {frameInfo.spreadLeaders?.map(p=><line key={`spread-${p.product.id}`} x1={p.rawX} y1={p.rawY} x2={p.x} y2={p.y} stroke="#a4adbc" strokeWidth=".6" opacity=".6"/>)}
       {activeLabels.filter(label=>label.leader).map(label=><line key={label.product.id} {...label.leader} stroke={label.product.id===selected?'#96004f':'#b08b45'} strokeWidth=".7" opacity=".65"/>)}
-    </svg>}
-    {!failure&&(selected!=null||colorBy==='sample')&&<div className="projector-paper-legend" aria-label="点颜色图例">{(selected!=null?[['#96004f','选中产品'],['#e9a023','近邻'],['#c8c8cc','其他']]:[['#596bb0','核验面霜'],['#9da5b4','其他记录']]).map(([color,label])=><span key={label}><i style={{background:color}}/>{label}</span>)}</div>}
-    {!failure&&<svg className="projector-paper-axes" data-testid="projector-paper-axes" aria-hidden="true" width="100%" height="100%">
-      {(frameInfo.axisLabels||[]).map(label=><g key={label.key}>{label.mark&&<line {...label.mark} stroke="#8b95a5" strokeWidth=".8"/>}<text x={label.x} y={label.y} textAnchor="middle" dominantBaseline="middle" className={`is-${label.kind}`} transform={label.kind==='name'?`rotate(${label.angle} ${label.x} ${label.y})`:undefined}>{label.text}</text></g>)}
     </svg>}
     {!failure && !spreadCoincident && frameInfo.badges.map(badge=><button key={badge.key} type="button" className="projector-coincident-badge"
       data-coincident-count={badge.count} data-testid="projector-coincident-badge"
