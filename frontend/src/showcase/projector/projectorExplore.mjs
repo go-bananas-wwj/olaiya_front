@@ -17,6 +17,17 @@ export function radialUniverse(source,selected,rows,mode='composition',dimension
  const present=new Set(points.map(p=>p.product.id))
  return {...source,points,missingIds:source.missingIds.filter(id=>!present.has(id)),byId:new Map(points.map(p=>[p.product.id,p]))}
 }
-export function needPlane(source){const points=source.points.map(p=>({...p,position:[p.position[0],p.position[1],0]}));return {...source,points,byId:new Map(points.map(p=>[p.product.id,p]))}}
+// Explicit attribute projection, separate from the semantic UMAP/PCA overview.
+// Every need shares the same count/index scale; missing evidence has its own rail.
+export function needPlane(source,need='需求'){
+ const products=source.catalogProducts||source.points.map(p=>p.product)
+ const maxCount=Math.max(1,...products.map(p=>Number.isFinite(p.ingredient_count)?p.ingredient_count:0))
+ const maxScore=Math.max(1,...products.flatMap(p=>(p.scores||[]).filter(Number.isFinite)))
+ const needAxes={need,xLabel:'已收录成分数（项）',yLabel:`${need}成分证据指数`,xMax:Math.max(20,Math.ceil(maxCount/20)*20),yMax:Math.max(1,Math.ceil(maxScore/4)*4),x0:-1.8,x1:1.8,y0:-1.3,y1:1.3,missingY:-2.15}
+ const a=needAxes,points=source.points.map(p=>{const score=p.product.need_score,count=Number.isFinite(p.product.ingredient_count)?p.product.ingredient_count:0,missing=!Number.isFinite(score)
+  return {...p,need_missing:missing,position:[a.x0+count/a.xMax*(a.x1-a.x0),missing?a.missingY:a.y0+score/a.yMax*(a.y1-a.y0),0]}
+ })
+ return {...source,needAxes,points,byId:new Map(points.map(p=>[p.product.id,p]))}
+}
 export function needStatus(product,index,need){return Number.isFinite(product.scores?.[index])?'evidence':product.declared_directions?.includes(need)?'declared':'unknown'}
 export function needCounts(products,index,need){const counts={evidence:0,declared:0,unknown:0};for(const p of products)counts[needStatus(p,index,need)]++;return counts}

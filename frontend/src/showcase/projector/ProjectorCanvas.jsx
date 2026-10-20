@@ -2,6 +2,7 @@ import { forwardRef, useEffect, useImperativeHandle, useMemo, useRef, useState }
 import * as THREE from 'three'
 import { coincidentDisplayOffsets, paperAxes, nearestVisiblePoint } from './projectorPresentation.mjs'
 import { radialUniverse,needPlane,similarityRadius } from './projectorExplore.mjs'
+import { boundedBallOffset, BALL_OFFSET_GLSL } from './projectorBallDisplay.mjs'
 import { displayUniverse, depthCue, DISPLAY_AXES } from './projectorDepth.mjs'
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
 import { normalizeUniverse, visibleProducts, screenHits, pointColor, layoutLabels, fitPerspective, groupCoincidentPoints, layoutCoincidentBadges } from './projectorGeometry.mjs'
@@ -37,13 +38,17 @@ export default forwardRef(function ProjectorCanvas({ products = EMPTY, algorithm
   onSelect, onClear, onCoincident, spreadCoincident = true, overlayExpanded = true, facet = null, radial = false, similarityRows = EMPTY, threshold = .9, basis = 'composition' }, ref) {
   const root = useRef(null), canvas = useRef(null), runtime = useRef(null)
   const [attempt, setAttempt] = useState(0), [failure, setFailure] = useState(null)
-  const [frameInfo, setFrameInfo] = useState({ revision: 0, labels: [], badges: [], coincidentGroups: [], axisLabels: [], spreadLeaders: [] })
+  const [frameInfo, setFrameInfo] = useState({ revision: 0, labels: [], badges: [], coincidentGroups: [], axisLabels: [], spreadLeaders: [], needAxes:null })
   const [hover, setHover] = useState(null)
   const axisKey = JSON.stringify(axisOrder)
   const base = useMemo(() => ({...displayUniverse(normalizeUniverse(products, algorithm, facet?3:dimensions, axisOrder),facet?3:dimensions),catalogProducts:products}), [products, algorithm, dimensions, axisKey,!!facet])
-  const universe=useMemo(()=>radial?radialUniverse(base,selected,similarityRows,basis,dimensions):facet?needPlane(base):base,[base,radial,selected,similarityRows,basis,facet,dimensions])
-  const effectiveSpread=spreadCoincident&&!radial
-  const displayOffsets=useMemo(()=>coincidentDisplayOffsets(universe.points),[universe])
+  const universe=useMemo(()=>radial?radialUniverse(base,selected,similarityRows,basis,dimensions):facet?needPlane(base,facet):base,[base,radial,selected,similarityRows,basis,facet,dimensions])
+  const effectiveSpread=spreadCoincident||radial
+  const displayOffsets=useMemo(()=>{
+    const offsets=coincidentDisplayOffsets(universe.points,facet&&!radial?10:18)
+    if(facet&&!radial)for(const point of universe.points){const offset=offsets.get(point.product.id)||[0,0],length=Math.hypot(...offset),scale=Math.min(1,16/Math.max(1,length));offsets.set(point.product.id,[offset[0]*scale,offset[1]*scale*(point.need_missing?.3:1)])}
+    return offsets
+  },[universe,facet,radial])
   const axisSpec=useMemo(()=>paperAxes(universe,{dimensions,algorithm,axisOrder}),[universe,dimensions,algorithm,axisKey])
   const drawn = useMemo(() => visibleProducts(universe.points, selected, neighbors, isolated), [universe, selected, neighbors, isolated])
   const latest = useRef(null)
@@ -67,7 +72,7 @@ export default forwardRef(function ProjectorCanvas({ products = EMPTY, algorithm
     const scene = new THREE.Scene(), cloud = new THREE.Group(), axes = new THREE.Group(), envelope = new THREE.Group(), texture = circleTexture()
     const labelMeasure = document.createElement('canvas').getContext('2d')
     scene.add(cloud, axes, envelope)
-    const r = { renderer, element:canvas.current, scene, cloud, axes, envelope, texture, morphUniform:{value:1}, width: 1, height: 1, camera: null, controls: null,
+    const r = { renderer, element:canvas.current, scene, cloud, axes, envelope, texture, morphUniform:{value:1}, ballCamera:{value:new THREE.Vector4()}, ballProjection:{value:new THREE.Vector2(1,1)}, ballOffsetLimit:{value:0}, radialUniform:{value:0}, width: 1, height: 1, camera: null, controls: null,
       viewportUniform:{value:new THREE.Vector2(1,1)}, depthUniform:{value:new THREE.Vector2(1,1)}, dimensions: latest.current.dimensions, request: null, disposed: false, drawn: [], observer: null }
     runtime.current = r
 
@@ -80,7 +85,8 @@ export default forwardRef(function ProjectorCanvas({ products = EMPTY, algorithm
       const viewDepth=-new THREE.Vector3(...position).applyMatrix4(r.camera.matrixWorldInverse).z
       const cue=depthCue(viewDepth,r.camera.position.distanceTo(r.controls.target),r.dimensions)
       const x = (vector.x + 1) * r.width / 2, y = (1 - vector.y) * r.height / 2
-      const offset=latest.current.spreadCoincident?(latest.current.displayOffsets.get(point.product.id)||[0,0]):[0,0]
+      const requested=latest.current.spreadCoincident?(latest.current.displayOffsets.get(point.product.id)||[0,0]):[0,0]
+      const offset=latest.current.radial?boundedBallOffset([x,y],requested,[r.width,r.height],r.ballCamera.value.toArray(),r.ballProjection.value.toArray(),r.ballOffsetLimit.value,r.dimensions===2):requested
       const displayX=x+offset[0],displayY=y+offset[1]
       return { product: point.product, position, rawX:x,rawY:y, displayOffset:offset,viewDepth,pointScale:cue.scale,x:displayX,y:displayY,depth: vector.z,
         visible: Number.isFinite(x) && Number.isFinite(y) && vector.z >= -1 && vector.z <= 1 && displayX >= 0 && displayX <= r.width && displayY >= 0 && displayY <= r.height }
@@ -90,7 +96,7 @@ export default forwardRef(function ProjectorCanvas({ products = EMPTY, algorithm
       if (!point) return null
       const projected = r.project(point), rect = canvas.current.getBoundingClientRect()
       return projected ? { x: projected.x, y: projected.y, clientX: rect.left + projected.x, clientY: rect.top + projected.y,
-        visible: projected.visible, depth: projected.depth,viewDepth:projected.viewDepth,pointScale:projected.pointScale,rawX:projected.rawX,rawY:projected.rawY,displayOffset:projected.displayOffset,worldPosition:r.positionFor(point),semanticRadius:point.semantic_radius } : null
+        visible: projected.visible, depth: projected.depth,viewDepth:projected.viewDepth,pointScale:projected.pointScale,rawX:projected.rawX,rawY:projected.rawY,displayOffset:projected.displayOffset,worldPosition:r.positionFor(point),semanticRadius:point.semantic_radius,needMissing:point.need_missing } : null
     }
     r.projectPosition=position=>{
       const v=new THREE.Vector3(...position).project(r.camera)
@@ -102,8 +108,27 @@ export default forwardRef(function ProjectorCanvas({ products = EMPTY, algorithm
         r.request = null
         if (r.disposed || !r.camera || renderer.getContext().isContextLost()) return
         r.syncClip()
+        r.camera.updateMatrixWorld()
+        const nativeRadius=latest.current.radial?(latest.current.basis==='evidence'?Math.max(0,1-latest.current.threshold)+1e-6:similarityRadius(latest.current.threshold)):0
+        const cameraCenter=new THREE.Vector3(0,0,0).applyMatrix4(r.camera.matrixWorldInverse)
+        r.ballCamera.value.set(cameraCenter.x,cameraCenter.y,cameraCenter.z,nativeRadius)
+        r.ballProjection.value.set(r.camera.projectionMatrix.elements[0],r.camera.projectionMatrix.elements[5])
+        const focal=r.height/(2*Math.tan(THREE.MathUtils.degToRad(r.camera.fov/2))),screenRadius=nativeRadius*focal/Math.max(1e-9,-cameraCenter.z)
+        r.ballOffsetLimit.value=Math.min(18,screenRadius*.17)
+        r.radialUniform.value=latest.current.radial?(r.dimensions===2?2:1):0
+        root.current?.setAttribute('data-sphere-screen-diameter',String(screenRadius*2))
         r.depthUniform.value.set(r.camera.position.distanceTo(r.controls.target),r.dimensions===3?1:0)
         r.envelope.visible=latest.current.radial&&r.morphUniform.value>=1
+        if(r.silhouette&&latest.current.dimensions===3){
+          const distance=r.camera.position.length(),radius=nativeRadius
+          r.silhouette.visible=distance>radius
+          if(distance>radius){
+            const direction=r.camera.position.clone().normalize()
+            r.silhouette.position.copy(direction).multiplyScalar(radius*radius/distance)
+            r.silhouette.quaternion.setFromUnitVectors(new THREE.Vector3(0,0,1),direction)
+            r.silhouette.scale.setScalar(Math.sqrt(Math.max(0,1-radius*radius/(distance*distance))))
+          }
+        }
         renderer.render(scene, r.camera)
         root.current?.setAttribute('data-camera-distance',r.camera.position.distanceTo(r.controls.target).toFixed(6))
         const props = latest.current
@@ -112,6 +137,13 @@ export default forwardRef(function ProjectorCanvas({ products = EMPTY, algorithm
         const screenPoints=r.drawn.map(r.project).filter(p=>p?.visible)
         const groups = props.spreadCoincident?screenPoints.map(p=>({key:String(p.product.id),members:[p]})):groupCoincidentPoints(screenPoints)
         const axisLabels=[]
+        let needAxes=null
+        if(props.universe.needAxes&&!props.radial){
+          const spec=props.universe.needAxes,project=(x,y)=>r.projectPosition([x,y,0])
+          needAxes={...spec,opacity:Math.max(0,(r.morphUniform.value-.4)/.6),origin:project(spec.x0,spec.y0),topLeft:project(spec.x0,spec.y1),bottomRight:project(spec.x1,spec.y0),corner:project(spec.x1,spec.y1),missing:project(spec.x0,spec.missingY),missingEnd:project(spec.x1,spec.missingY),
+            xTicks:Array.from({length:5},(_,i)=>({value:spec.xMax*i/4,...project(spec.x0+(spec.x1-spec.x0)*i/4,spec.y0),end:project(spec.x0+(spec.x1-spec.x0)*i/4,spec.y1)})),
+            yTicks:Array.from({length:5},(_,i)=>({value:spec.yMax*i/4,...project(spec.x0,spec.y0+(spec.y1-spec.y0)*i/4),end:project(spec.x1,spec.y0+(spec.y1-spec.y0)*i/4)}))}
+        }
         const projected = props.showLabels && props.selected != null ? groups.map(group=>{
           const members=[...group.members].sort((a,b)=>Number(b.product.id===props.selected)-Number(a.product.id===props.selected)
             || (rank.get(a.product.id)??Infinity)-(rank.get(b.product.id)??Infinity))
@@ -127,8 +159,8 @@ export default forwardRef(function ProjectorCanvas({ products = EMPTY, algorithm
         const primaryLabels=layoutLabels(projected,{...labelOptions,onlySelected:true,reserved:overlays})
         const badges=props.spreadCoincident?[]:layoutCoincidentBadges(groups,{width:r.width,height:r.height,selected:props.selected,neighborIds,reserved:[...primaryLabels,...overlays]})
         const labels=layoutLabels(projected,{...labelOptions,reserved:[...badges,...overlays]})
-        setFrameInfo(old => ({ revision: old.revision + 1, labels, badges, coincidentGroups:groups.filter(group=>group.members.length>1),axisLabels,
-          spreadLeaders:props.spreadCoincident?screenPoints.filter(p=>Math.hypot(...p.displayOffset)>.1&&(!props.radial||p.product.id===props.selected||neighborIds.has(p.product.id))):[] }))
+        setFrameInfo(old => ({ revision: old.revision + 1, labels, badges, coincidentGroups:groups.filter(group=>group.members.length>1),axisLabels,needAxes,
+          spreadLeaders:props.spreadCoincident&&!props.facet?screenPoints.filter(p=>Math.hypot(...p.displayOffset)>.1&&(!props.radial||p.product.id===props.selected||neighborIds.has(p.product.id))):[] }))
     }
     r.invalidate = () => {
       if (r.disposed || r.request != null || renderer.getContext().isContextLost()) return
@@ -162,6 +194,10 @@ export default forwardRef(function ProjectorCanvas({ products = EMPTY, algorithm
       r.finishMorph?.()
       r.cancelFocus?.()
       r.framingPoints = latest.current.universe.points
+      if(latest.current.universe.needAxes&&!latest.current.radial){
+        const a=latest.current.universe.needAxes
+        r.framingPoints=[{position:[a.x0-.32,a.missingY-.25,0]},{position:[a.x1+.15,a.y1+.35,0]}]
+      }
       r.frameMode = 'universe'; r.axes.visible = false
       r.controls.target.set(0, 0, 0)
       if (r.camera.isOrthographicCamera) { r.camera.position.set(0, 0, 5); r.camera.up.set(0, 1, 0); r.camera.zoom = 1 }
@@ -245,7 +281,7 @@ export default forwardRef(function ProjectorCanvas({ products = EMPTY, algorithm
         const mobile=window.matchMedia('(max-width:1000px)').matches
         const cardWidth=mobile?0:(root.current.parentElement?.querySelector('.projector-info')?.getBoundingClientRect().width||320)
         const usableWidth=Math.max(160,r.width-cardWidth-28),usableHeight=mobile?r.height*.48:r.height
-        const pixelRadius=Math.max(40,Math.min(usableWidth,usableHeight)*.43),focal=r.height/(2*Math.tan(THREE.MathUtils.degToRad(r.camera.fov/2)))
+        const pixelRadius=Math.max(32,Math.min(usableWidth,usableHeight)*.275),focal=r.height/(2*Math.tan(THREE.MathUtils.degToRad(r.camera.fov/2)))
         const distance=radius*Math.sqrt(1+(focal/pixelRadius)**2)
         targetPosition.copy(center).add(startPosition.clone().sub(startTarget).normalize().multiplyScalar(distance))
       }
@@ -435,12 +471,13 @@ export default forwardRef(function ProjectorCanvas({ products = EMPTY, algorithm
     for (const point of drawn) groups[point.product.id === selected ? 2 : neighborIds.has(point.product.id) ? 1 : 0].push(point)
     groups.forEach((points, index) => {
       if (!points.length) return
-      const positions = new Float32Array(points.length * 3), targets=new Float32Array(points.length*3), colors = new Float32Array(points.length * 3),offsets=new Float32Array(points.length*2),color = new THREE.Color()
+      const positions = new Float32Array(points.length * 3), targets=new Float32Array(points.length*3), colors = new Float32Array(points.length * 3),alphas=new Float32Array(points.length),offsets=new Float32Array(points.length*2),color = new THREE.Color()
       points.forEach((point, i) => {
         const start=r.startPositions?.get(point.product.id)||point.position
         positions.set(start.map((v,axis)=>v-origin[axis]), i * 3)
         targets.set(point.position.map((v,axis)=>v-origin[axis]),i*3)
         offsets.set(effectiveSpread?(displayOffsets.get(point.product.id)||[0,0]):[0,0],i*2)
+        alphas[i]=facet&&!radial&&point.need_missing?.38:1
         color.set(pointColor(point.product, { selected, neighborIds, colorBy, colorMax })); color.toArray(colors, i * 3)
       })
       const geometry = new THREE.BufferGeometry()
@@ -448,20 +485,25 @@ export default forwardRef(function ProjectorCanvas({ products = EMPTY, algorithm
       geometry.setAttribute('morphTarget',new THREE.BufferAttribute(targets,3))
       geometry.setAttribute('displayOffset',new THREE.BufferAttribute(offsets,2))
       geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3))
-      const material = new THREE.PointsMaterial({ size: Math.max(1, Math.min(24, pointSize)) * [radial?.75:1, 1.3, 1.9][index], sizeAttenuation: false,
-        map: r.texture, vertexColors: true, transparent: true, opacity: index ? 1 : radial ? .045 : selected != null ? .22 : .85,
+      geometry.setAttribute('displayAlpha',new THREE.BufferAttribute(alphas,1))
+      const material = new THREE.PointsMaterial({ size: Math.max(1, Math.min(24, pointSize)) * [radial?.75:facet?.7:1, 1.3, 1.9][index], sizeAttenuation: false,
+        map: r.texture, vertexColors: true, transparent: true, opacity: index ? 1 : radial ? .36 : facet ? .8 : selected != null ? .22 : .85,
         alphaTest: .1, depthWrite: false, depthTest: index === 0 })
       material.onBeforeCompile=shader=>{
         shader.uniforms.cfzViewport=r.viewportUniform
         shader.uniforms.cfzDepth=r.depthUniform
         shader.uniforms.cfzMorph=r.morphUniform
-        shader.vertexShader=shader.vertexShader.replace('#include <common>','#include <common>\nattribute vec2 displayOffset;\nattribute vec3 morphTarget;\nuniform float cfzMorph;\nuniform vec2 cfzViewport;\nuniform vec2 cfzDepth;\nvarying float cfzDepthOpacity;')
-          .replace('#include <begin_vertex>','vec3 transformed = mix(position, morphTarget, cfzMorph);')
-          .replace('#include <project_vertex>','#include <project_vertex>\ngl_Position.xy += vec2(displayOffset.x,-displayOffset.y) * 2.0 / cfzViewport * gl_Position.w;\nfloat cfzScale = cfzDepth.y > .5 ? clamp(cfzDepth.x / max(.000001, -mvPosition.z), .65, 1.55) : 1.0;\ncfzDepthOpacity = cfzDepth.y > .5 ? clamp(.4 + .6 * cfzScale, .55, 1.0) : 1.0;')
+        shader.uniforms.cfzBallCamera=r.ballCamera
+        shader.uniforms.cfzProjection=r.ballProjection
+        shader.uniforms.cfzBallOffsetLimit=r.ballOffsetLimit
+        shader.uniforms.cfzRadial=r.radialUniform
+        shader.vertexShader=shader.vertexShader.replace('#include <common>','#include <common>\nattribute vec2 displayOffset;\nattribute float displayAlpha;\nvarying float cfzDisplayAlpha;\nattribute vec3 morphTarget;\nuniform float cfzMorph;\nuniform vec2 cfzViewport;\nuniform vec2 cfzDepth;\nvarying float cfzDepthOpacity;'+BALL_OFFSET_GLSL)
+          .replace('#include <begin_vertex>','vec3 transformed = mix(position, morphTarget, cfzMorph); cfzDisplayAlpha = displayAlpha;')
+          .replace('#include <project_vertex>','#include <project_vertex>\nvec2 cfzPixel=vec2((gl_Position.x/gl_Position.w+1.0)*cfzViewport.x*.5,(1.0-gl_Position.y/gl_Position.w)*cfzViewport.y*.5);\nvec2 cfzOffset=cfzRadial>.5 ? cfzBoundOffset(cfzPixel,displayOffset) : displayOffset;\ngl_Position.xy += vec2(cfzOffset.x,-cfzOffset.y) * 2.0 / cfzViewport * gl_Position.w;\nfloat cfzScale = cfzDepth.y > .5 ? clamp(cfzDepth.x / max(.000001, -mvPosition.z), .65, 1.55) : 1.0;\ncfzDepthOpacity = cfzDepth.y > .5 ? clamp(.4 + .6 * cfzScale, .55, 1.0) : 1.0;')
         shader.vertexShader=shader.vertexShader.replace('gl_PointSize = size;','gl_PointSize = size * cfzScale;')
-        shader.fragmentShader=shader.fragmentShader.replace('#include <common>','#include <common>\nvarying float cfzDepthOpacity;').replace('#include <opaque_fragment>','#include <opaque_fragment>\ngl_FragColor.a *= cfzDepthOpacity;')
+        shader.fragmentShader=shader.fragmentShader.replace('#include <common>','#include <common>\nvarying float cfzDepthOpacity;\nvarying float cfzDisplayAlpha;').replace('#include <opaque_fragment>','#include <opaque_fragment>\ngl_FragColor.a *= cfzDepthOpacity * cfzDisplayAlpha;')
       }
-      material.customProgramCacheKey=()=> 'projector-display-morph-v3'
+      material.customProgramCacheKey=()=> 'projector-display-morph-ball-v4'
       const mesh = new THREE.Points(geometry, material); mesh.renderOrder = index + 1;mesh.frustumCulled=false
       r.cloud.add(mesh)
     })
@@ -473,10 +515,12 @@ export default forwardRef(function ProjectorCanvas({ products = EMPTY, algorithm
   useEffect(()=>{runtime.current?.invalidate()},[overlayExpanded])
 
   useEffect(()=>{
-    const r=runtime.current;if(!r)return;disposeGroup(r.envelope)
+    const r=runtime.current;if(!r)return;disposeGroup(r.envelope);r.silhouette=null
     if(radial&&selected!=null){const radius=basis==='evidence'?Math.max(0,1-threshold)+1e-6:similarityRadius(threshold)
-      const surface=new THREE.Mesh((dimensions===2?new THREE.CircleGeometry(radius,64):new THREE.SphereGeometry(radius,48,32)),new THREE.MeshBasicMaterial({color:'#70a6e6',transparent:true,opacity:.045,depthWrite:false,side:dimensions===2?THREE.DoubleSide:THREE.BackSide}));r.envelope.add(surface)
-      const wire=new THREE.LineSegments((dimensions===2?new THREE.EdgesGeometry(new THREE.CircleGeometry(radius,64)):new THREE.WireframeGeometry(new THREE.SphereGeometry(radius,20,12))),new THREE.LineBasicMaterial({color:'#7caee6',transparent:true,opacity:.11,depthWrite:false}));r.envelope.add(wire)
+      const surface=new THREE.Mesh((dimensions===2?new THREE.CircleGeometry(radius,64):new THREE.SphereGeometry(radius,48,32)),new THREE.MeshBasicMaterial({color:'#70a6e6',transparent:true,opacity:.065,depthWrite:false,side:dimensions===2?THREE.DoubleSide:THREE.BackSide}));r.envelope.add(surface)
+      const rimPoints=Array.from({length:96},(_,i)=>new THREE.Vector3(Math.cos(i/96*Math.PI*2)*radius,Math.sin(i/96*Math.PI*2)*radius,0))
+      r.silhouette=new THREE.LineLoop(new THREE.BufferGeometry().setFromPoints(rimPoints),new THREE.LineBasicMaterial({color:'#85ade0',transparent:true,opacity:.35,depthWrite:false,depthTest:false}))
+      r.silhouette.renderOrder=0;r.envelope.add(r.silhouette)
     }r.invalidate()
   },[radial,selected,threshold,basis,dimensions,attempt])
 
@@ -484,12 +528,25 @@ export default forwardRef(function ProjectorCanvas({ products = EMPTY, algorithm
   const activeLabels = showLabels ? frameInfo.labels.filter(label=>currentLabelIds.has(label.product.id)) : []
 
   return <div ref={root} className="projector-stage" style={ROOT_STYLE} data-testid="projector-stage"
-    data-transition-state="idle" data-view-kind={radial?'similarity':facet?'need':'overview'} data-sphere-radius={radial?(basis==='evidence'?1-threshold+1e-6:similarityRadius(threshold)):undefined} data-display-axes={dimensions===3&&!radial?DISPLAY_AXES.join(','):'1,1,1'} data-camera-motion="idle" data-spread-coincident={effectiveSpread} data-rendered-count={failure ? 0 : drawn.length} data-unplaced-count={universe.missingIds.length} data-dimensions={dimensions} data-algorithm={algorithm}
+    data-envelope-style="surface" data-context-opacity={radial?.36:undefined} data-transition-state="idle" data-view-kind={radial?'similarity':facet?'need':'overview'} data-sphere-radius={radial?(basis==='evidence'?1-threshold+1e-6:similarityRadius(threshold)):undefined} data-display-axes={dimensions===3&&!radial?DISPLAY_AXES.join(','):'1,1,1'} data-camera-motion="idle" data-spread-coincident={effectiveSpread} data-rendered-count={failure ? 0 : drawn.length} data-unplaced-count={universe.missingIds.length} data-dimensions={dimensions} data-algorithm={algorithm}
     data-camera-revision={frameInfo.revision} data-renderer-state={failure ? 'unavailable' : frameInfo.revision ? 'ready' : 'starting'}>
     <canvas key={attempt} ref={canvas} data-testid="projector-canvas" tabIndex={failure ? -1 : 0} role="img"
       data-rendered-count={failure ? 0 : drawn.length} data-dimensions={dimensions} data-algorithm={algorithm} data-camera-revision={frameInfo.revision}
       aria-label={`${radial?'原始相似距离范围':facet?`${facet}需求平面`:`${dimensions}D ${algorithm.toUpperCase()} 产品投影`}，${drawn.length} 款有坐标产品。${dimensions === 3 ? '拖动旋转' : '拖动平移'}，滚轮缩放。方向键操作视图，Home 复位。全部产品也可通过搜索和列表选择。`}
       style={{ display:'block', width:'100%', height:'100%', outlineOffset:-3, touchAction:'none', visibility:failure?'hidden':'visible' }}/>
+    {!failure && frameInfo.needAxes && <svg data-testid="projector-need-axes" data-scale={`${frameInfo.needAxes.xMax},${frameInfo.needAxes.yMax}`} role="img" aria-label={`${facet}成分证据指数与已收录成分数`} width="100%" height="100%" style={{position:'absolute',inset:0,pointerEvents:'none',zIndex:1,opacity:frameInfo.needAxes.opacity,fontFamily:'inherit',fontSize:10,overflow:'hidden'}}>
+      <g fill="#687080" stroke="#e9edf3" strokeWidth=".7">
+        {frameInfo.needAxes.yTicks.map(t=><g key={`y-${t.value}`}><line x1={t.x} y1={t.y} x2={t.end.x} y2={t.end.y}/><text x={t.x-10} y={t.y+3} textAnchor="end" stroke="none">{Number(t.value.toFixed(2))}</text></g>)}
+        {frameInfo.needAxes.xTicks.map(t=><g key={`x-${t.value}`}><line x1={t.x} y1={t.y} x2={t.end.x} y2={t.end.y}/><text x={t.x} y={t.y+18} textAnchor="middle" stroke="none">{Number(t.value.toFixed(1))}</text></g>)}
+      </g>
+      <path d={`M${frameInfo.needAxes.topLeft.x},${frameInfo.needAxes.topLeft.y}L${frameInfo.needAxes.origin.x},${frameInfo.needAxes.origin.y}L${frameInfo.needAxes.bottomRight.x},${frameInfo.needAxes.bottomRight.y}`} stroke="#a9b3c3" strokeWidth="1" fill="none"/>
+      <g fill="#4c5564" fontSize="11" fontWeight="500">
+        <text x={frameInfo.needAxes.origin.x} y={frameInfo.needAxes.corner.y-17}>{frameInfo.needAxes.yLabel||`${facet}成分证据指数`}</text>
+        <text x={(frameInfo.needAxes.origin.x+frameInfo.needAxes.corner.x)/2} y={frameInfo.needAxes.origin.y+37} textAnchor="middle">{frameInfo.needAxes.xLabel||'已收录成分数（项）'}</text>
+      </g>
+      <line data-testid="projector-need-missing-rail" x1={frameInfo.needAxes.missing.x} y1={frameInfo.needAxes.missing.y} x2={frameInfo.needAxes.missingEnd.x} y2={frameInfo.needAxes.missingEnd.y} stroke="#cbd2df" strokeDasharray="3 4"/>
+      <text x={frameInfo.needAxes.missing.x} y={frameInfo.needAxes.missing.y+18} fill="#8991a0">资料待补 · 未赋指数</text>
+    </svg>}
     {!failure && <svg aria-hidden="true" width="100%" height="100%" style={{position:'absolute',inset:0,pointerEvents:'none',zIndex:2}}>
       {frameInfo.spreadLeaders?.map(p=><line key={`spread-${p.product.id}`} x1={p.rawX} y1={p.rawY} x2={p.x} y2={p.y} stroke="#a4adbc" strokeWidth=".6" opacity=".6"/>)}
       {activeLabels.filter(label=>label.leader).map(label=><line key={label.product.id} {...label.leader} stroke={label.product.id===selected?'#96004f':'#b08b45'} strokeWidth=".7" opacity=".65"/>)}
@@ -515,7 +572,7 @@ export default forwardRef(function ProjectorCanvas({ products = EMPTY, algorithm
         whiteSpace:'nowrap', textOverflow:'ellipsis', overflow:'hidden', zIndex:label.product.id===selected?4:3, cursor:'pointer' }}>{label.text}</button>)}
     {!failure && hover && <div role="status" className="projector-hover" style={{ position:'absolute', left:Math.max(4,Math.min(hover.x+12,(root.current?.clientWidth||300)-238)), top:Math.max(4,hover.y-55),
       pointerEvents:'none', zIndex:5, maxWidth:230, padding:'7px 10px', color:'#555', background:'#fffffff2', boxShadow:'0 1px 5px #0002', fontSize:11 }}>
-      <span>{hover.product.name}</span>{hover.count>1&&<small style={{display:'block'}}>点击范围内 {hover.count} 款记录，点击展开</small>}</div>}
+      <span>{hover.product.name}</span>{facet&&!radial&&<small style={{display:'block'}}>已收录成分 {Number.isFinite(hover.product.ingredient_count)?hover.product.ingredient_count:'未知'} 项 · {facet}证据指数 {Number.isFinite(hover.product.need_score)?hover.product.need_score:'资料不足'}</small>}{hover.count>1&&<small style={{display:'block'}}>点击范围内 {hover.count} 款记录，点击展开</small>}</div>}
     {!failure && drawn.length === 0 && <p role="status" style={{ ...OVERLAY_STYLE, pointerEvents:'none' }}>当前投影暂无可用坐标。仍可通过搜索或产品列表选择产品。</p>}
     {failure && <div role="alert" style={OVERLAY_STYLE}><strong>{failure}</strong><p>可继续通过搜索和产品列表查看资料、加入对比。</p>
       <button type="button" onClick={() => { setFrameInfo({ revision:0,labels:[],badges:[],coincidentGroups:[] }); setAttempt(n=>n+1) }} style={{border:'1px solid #aaa',borderRadius:3,padding:'8px 14px',background:'#fff',cursor:'pointer'}}>重试图形渲染</button></div>}

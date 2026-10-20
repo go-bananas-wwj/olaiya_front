@@ -7,13 +7,14 @@ class ProjectorExploreTest(BrowserTestCase):
         expect(self.page.get_by_test_id('projector-stage')).to_have_attribute('data-renderer-state','ready',timeout=30000)
     def idle(self):
         expect(self.page.get_by_test_id('projector-stage')).to_have_attribute('data-transition-state','idle',timeout=10000)
-    def test_first_entry_guides_need_and_projects_same_products_without_price_gate(self):
+    def test_first_entry_guides_need_and_maps_real_metrics_without_price_gate(self):
         self.ready();canvas=self.page.get_by_test_id('projector-canvas');before=canvas.evaluate('e=>[9,73,414].map(id=>e.getScreenPoint(id).worldPosition)')
         self.page.get_by_role('button',name='怎么操作',exact=True).click();expect(self.page.get_by_role('region',name='操作指南')).to_contain_text('点一个产品')
         self.page.get_by_role('button',name='从保湿开始',exact=True).click();self.idle();stage=self.page.get_by_test_id('projector-stage')
         expect(stage).to_have_attribute('data-view-kind','need');expect(stage).to_have_attribute('data-rendered-count','3749')
         after=canvas.evaluate('e=>[9,73,414].map(id=>e.getScreenPoint(id).worldPosition)')
-        for a,b in zip(before,after):self.assertAlmostEqual(a[0],b[0]);self.assertAlmostEqual(a[1],b[1]);self.assertEqual(b[2],0)
+        self.assertTrue(all(b[2]==0 for b in after));self.assertNotEqual(before,after)
+        axes=self.page.get_by_test_id('projector-need-axes');expect(axes).to_contain_text('已收录成分数（项）');expect(axes).to_contain_text('保湿成分证据指数')
         self.assertIn('plane=need',self.page.url)
         counts=self.page.request.get(BASE_URL+'/api/product-space').json();n=sum(p['scores'][0] is not None for p in counts['products']);self.assertGreater(n,200)
         expect(self.page.get_by_role('button',name=f'成分证据 {n}',exact=True)).to_be_visible()
@@ -27,13 +28,13 @@ class ProjectorExploreTest(BrowserTestCase):
             expect(self.page.get_by_test_id('projector-neighbors')).to_have_attribute('data-matched-count',str(len(expected)))
             radius=float(stage.get_attribute('data-sphere-radius'))
             rows=canvas.evaluate('(e,ids)=>ids.map(id=>e.getScreenPoint(id))',[p['id'] for p in expected])
-            self.assertTrue(all(p and p['semanticRadius']<=radius+1e-8 and math.hypot(*p['worldPosition'])<=radius+1e-8 and p['displayOffset']==[0,0] for p in rows))
+            self.assertTrue(all(p and p['semanticRadius']<=radius+1e-8 and math.hypot(*p['worldPosition'])<=radius+1e-8 for p in rows))
             self.assertEqual(canvas.evaluate('e=>e.getScreenPoint(73).worldPosition'),before)
         self.page.get_by_role('button',name='返回全景',exact=True).click();self.idle();expect(stage).to_have_attribute('data-view-kind','overview')
     def test_quick_need_switches_keep_latest_plane_and_coverage(self):
         self.ready();side=self.page.get_by_role('complementary',name='数据与投影设置')
         for need in ['保湿','修护','舒缓']:side.get_by_role('button',name=need,exact=True).click()
-        self.idle();expect(self.page.get_by_role('heading',name='舒缓 · 需求视图')).to_be_visible();expect(self.page.get_by_test_id('projector-stage')).to_have_attribute('data-dimensions','2')
+        self.idle();expect(self.page.get_by_role('heading',name='舒缓 · 需求指标视图')).to_be_visible();expect(self.page.get_by_test_id('projector-stage')).to_have_attribute('data-dimensions','2')
         self.page.get_by_role('button',name='返回三维全景',exact=True).click();self.idle();expect(self.page.get_by_test_id('projector-stage')).to_have_attribute('data-dimensions','3')
     def test_white_surfaces_and_legacy_price_comparison_remain_available(self):
         self.ready();self.page.get_by_role('button',name='从保湿开始',exact=True).click();self.idle();self.page.get_by_role('button',name='比较参考价格',exact=False).click()

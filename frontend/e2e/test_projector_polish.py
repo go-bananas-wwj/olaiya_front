@@ -69,7 +69,9 @@ class ProjectorPolishTest(BrowserTestCase):
         self.page.get_by_role('option',name='选择 黑绷带面霜（Re-Plasty Age Recovery Night）',exact=True).click()
         expect(stage).to_have_attribute('data-transition-state','morphing')
         expect(stage).to_have_attribute('data-transition-state','idle')
-        self.assertLess(float(stage.get_attribute('data-camera-distance')),before*.7)
+        # Context framing deliberately keeps more of the surrounding space visible.
+        expect(stage).to_have_attribute('data-envelope-style','surface')
+        self.assertGreaterEqual(float(stage.get_attribute('data-context-opacity')),.25)
         point=self.page.get_by_test_id('projector-canvas').evaluate('e=>e.getScreenPoint(9)')
         self.assertTrue(point['visible'])
         expect(self.page.locator('.projector-point-label.is-selected')).to_be_visible()

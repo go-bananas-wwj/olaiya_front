@@ -103,3 +103,35 @@ body.reference-compare,body.product-space-body{background:#fff}
 .projector-fit-range{color:#0071e3;border:0;background:none;font:inherit;cursor:pointer;padding:0 0 0 5px}
 
 @media(max-width:1000px){.projector-overview .projector-inspector.is-open,.projector-overview .projector-settings.is-open{background:#fff}}
+
+/* Product comparison: neutral reading colours, with colour reserved for A/B. */
+.comparison-page{--compare-ink:#30343c;--compare-muted:#6e7480;--compare-a:#2768ce;--compare-a-tint:#edf3fc;--compare-b:#8053c4;--compare-b-tint:#f3eefb;--compare-line:#e6e9ee;--ss-purple:var(--compare-a);color:var(--compare-ink)}
+.comparison-page :focus-visible{outline-color:var(--compare-a)}
+.comparison-page .ss-product.is-compact{border-color:var(--compare-line);border-top-color:var(--compare-a)}
+.comparison-page .ss-product.is-compact.compact-B{border-top-color:var(--compare-b)}
+.comparison-page .ss-product-name,.comparison-page .comparison-direction,.comparison-page .comparison-value strong,.comparison-page .comparison-formula-summary b,.comparison-page .ss-section-heading h2,.comparison-page .ss-ingredient strong,.comparison-page .ss-unit-price>strong,.comparison-page .ss-explained-list h3{color:var(--compare-ink)}
+.comparison-page .ss-product-brand,.comparison-page .ss-product-price,.comparison-page .ss-product-price span,.comparison-page .ss-product-details,.comparison-page .comparison-intro nav>span,.comparison-page .comparison-chart-heading>span,.comparison-page .comparison-coverage,.comparison-page .comparison-index-note,.comparison-page .ss-method,.comparison-page .comparison-section-nav,.comparison-page .comparison-formula-summary,.comparison-page .comparison-subtitle>span,.comparison-page .cap-contribution-heading strong,.comparison-page .cap-contributor-product>h4,.comparison-page .cap-concentration,.comparison-page .cap-evidence-kind,.comparison-page .cap-source-actions,.comparison-page .cap-dose-coverage,.comparison-page .cap-exclusions,.comparison-page .cap-more,.comparison-page .ss-section-note,.comparison-page .ss-price-columns .text-sm,.comparison-page .ss-ingredient small,.comparison-page .ss-price-columns .text-xs,.comparison-page .ss-highlight-controls,.comparison-page .ss-view-switch button,.comparison-page .ss-explained-list p,.comparison-page .comparison-footer{color:var(--compare-muted)}
+.comparison-page .comparison-intro nav button,.comparison-page .ss-change-product,.comparison-page .comparison-versus,.comparison-page .comparison-alternatives button{background:#fff;color:var(--compare-ink);border-color:var(--compare-line)}
+.comparison-page .comparison-intro nav button[aria-pressed=true]{background:#f5f7fb;color:var(--compare-ink);border-color:#bac9dd}
+.comparison-page .ss-change-product{background:#f5f6f8}
+.comparison-page .compact-side,.comparison-page .comparison-letter,.comparison-page .comparison-side-letter{color:var(--compare-a)}
+.comparison-page .compact-side{background:var(--compare-a-tint)}
+.comparison-page .compact-B .compact-side,.comparison-page .comparison-letter.B,.comparison-page .comparison-value.B .comparison-side-letter{color:var(--compare-b)}
+.comparison-page .compact-B .compact-side{background:var(--compare-b-tint)}
+.comparison-page .comparison-track,.comparison-page .ss-score-track{background:var(--compare-a-tint)}
+.comparison-page .comparison-track>span,.comparison-page .ss-price-columns>div:first-child .ss-score-track>span{background:var(--compare-a)}
+.comparison-page .comparison-value.B .comparison-track{background:var(--compare-b-tint)}
+.comparison-page .comparison-value.B .comparison-track>span,.comparison-page .ss-price-columns>div:nth-child(2) .ss-score-track>span{background:var(--compare-b)}
+.comparison-page .comparison-direction svg,.comparison-page .ss-ingredient>svg,.comparison-page .ss-explained-list h3 svg{color:#8b91a0}
+.comparison-page .comparison-chart,.comparison-page .comparison-contributions,.comparison-page .ss-block,.comparison-page .ss-product-details[open],.comparison-page .ss-sticky-products{border-color:var(--compare-line)}
+.comparison-page .ss-product-details[open]{box-shadow:0 8px 25px #24324f12}
+.comparison-page .ss-product-search{color:var(--compare-ink)}
+.comparison-page .comparison-row,.comparison-page .comparison-index-note{border-top-color:#edf0f4}
+.comparison-page .comparison-row:hover{background:#fafbfd}
+.comparison-page .comparison-row.is-selected{background:#f6f8fc}
+.comparison-page .comparison-formula-summary{background:#f7f8fa}
+.comparison-page .ss-ingredient.is-shared{color:var(--compare-ink);background:#f3f5fa}
+.comparison-page .ss-highlight-controls [aria-pressed=true]{background:var(--compare-a);color:#fff}
+.comparison-page .ss-product-details a,.comparison-page .cap-text-button,.comparison-page .cap-source-actions a,.comparison-page .comparison-section-nav a:hover,.comparison-page .comparison-footer button{color:var(--compare-a)}
+.comparison-page .ss-photo-label{background:var(--compare-a-tint);color:var(--compare-a)}
+.comparison-page .compact-B .ss-photo-label{background:var(--compare-b-tint);color:var(--compare-b)}
