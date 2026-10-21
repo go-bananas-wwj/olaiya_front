@@ -1,0 +1,14 @@
+{
+  "studio": "https://modelscope.cn/studios/WeijieWu/yanjian-ingredient-compare",
+  "cover_image": "https://resources.modelscope.cn/race/image/c81b34bc-0162-4fa2-aa34-8bd570e9ebc1.png",
+  "previous_cover_image": "https://img.alicdn.com/imgextra/i1/O1CN01jaxszG1pyzR8i9fSP_!!6000000005430-2-tps-820-400.png",
+  "generated_with": "imagegen built-in",
+  "saved_asset": "docs/assets/studio-cover-bricks-20261021.png",
+  "updated_on": "2026-10-21",
+  "timezone": "Asia/Shanghai",
+  "image_sha256": "ad45691aac27a20f49c891ac94d0646c9e17d969136128b167eaf500cf34fcd2",
+  "verified": {
+    "anonymous_image_download": true,
+    "studio_cover_readback": true
+  }
+}
